@@ -1,0 +1,11 @@
+---
+description: Project rules for The Calling (Godot 4 pixel-art RPG)
+alwaysApply: true
+---
+
+Before doing any work in this repository, read `AGENTS.md` at the project root and follow it.
+Key points: Godot 4.7 + typed GDScript, 2D only, 32x32 tiles, nearest-neighbor filtering,
+use the `beckett` (Godot) and `libresprite` (pixel art) MCP servers, never commit tokens
+(`.beckett/`, `.cursor/mcp.json`, `.mcp.json`), and never claim something works without running it.
+Design references: `docs/GAME_DESIGN.md`, `docs/ART_BIBLE.md`, `docs/DEVELOPMENT_ROADMAP.md`,
+and the original brief `docs/The_Calling_Godot_Codex_Project_Brief.md`.

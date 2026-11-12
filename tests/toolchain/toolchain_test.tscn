@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://bjowh7fsipsha"]
+
+[ext_resource type="Script" uid="uid://dl5220eifesu7" path="res://tests/toolchain/toolchain_test.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://ciimkxi6xq43m" path="res://tests/toolchain/test_tile_32.png" id="2_tile"]
+
+[node name="ToolchainTest" type="Node2D" unique_id=1525218082]
+script = ExtResource("1_script")
+
+[node name="TestTile" type="Sprite2D" parent="." unique_id=1808783789]
+position = Vector2(320, 180)
+scale = Vector2(4, 4)
+texture = ExtResource("2_tile")

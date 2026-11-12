@@ -1,0 +1,35 @@
+# --- Godot 4 ---
+# Editor/import cache (regenerated). Keep *.import and *.uid files TRACKED.
+.godot/
+# Exported builds and export credentials
+/build/
+/export/
+/exports/
+*.pck
+*.zip
+export_credentials.cfg
+# Mono/C# (not used now, harmless)
+.mono/
+data_*/
+mono_crash.*.json
+
+# --- Beckett MCP (contains per-project auth token) ---
+.beckett/
+# MCP client configs written by Beckett embed the token in the URL. Never commit.
+# A token-free template is tracked at .cursor/mcp.example.json
+.mcp.json
+.cursor/mcp.json
+.vscode/mcp.json
+*.bak-*
+
+# --- Pixel-art editor backups ---
+*.ase~
+*.aseprite~
+
+# --- OS / editor junk ---
+Thumbs.db
+desktop.ini
+ehthumbs.db
+.DS_Store
+*.tmp
+*.log
