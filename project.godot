@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="The Calling"
-config/description="Story-driven top-down pixel-art RPG. Milestone 4.5: a living town, wayfinding, and optional days between Thursday and Sunday."
+config/description="Story-driven top-down pixel-art RPG. Milestone 5A: a parsonage, Maple Lane, shop interiors, and optional work in a town you can wander."
 run/main_scene="res://scenes/main.tscn"
 config/features=PackedStringArray("4.7", "Forward Plus")
 

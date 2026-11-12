@@ -24,12 +24,29 @@ func _ready() -> void:
 	_show_location()
 	_refresh_living()
 	_bind_clock()
+	_bind_story()
 
 
 func _exit_tree() -> void:
 	var clock := get_node_or_null("/root/DayClock")
 	if clock != null and clock.time_changed.is_connected(_on_time_changed):
 		clock.time_changed.disconnect(_on_time_changed)
+	var story := get_node_or_null("/root/NarrativeState")
+	if story != null and story.story_changed.is_connected(_on_story_changed):
+		story.story_changed.disconnect(_on_story_changed)
+
+
+func _bind_story() -> void:
+	var story := get_node_or_null("/root/NarrativeState")
+	if story == null:
+		return
+	if not story.story_changed.is_connected(_on_story_changed):
+		story.story_changed.connect(_on_story_changed)
+
+
+func _on_story_changed() -> void:
+	if is_inside_tree():
+		_refresh_living()
 
 
 func _bind_clock() -> void:
@@ -189,6 +206,12 @@ func _refresh_living() -> void:
 		if is_ancestor_of(node) and node.has_method("apply_clock"):
 			node.call("apply_clock")
 	for node in tree.get_nodes_in_group("ambient_townsfolk"):
+		if is_ancestor_of(node) and node.has_method("apply_clock"):
+			node.call("apply_clock")
+	for node in tree.get_nodes_in_group("shop_clerk"):
+		if is_ancestor_of(node) and node.has_method("apply_clock"):
+			node.call("apply_clock")
+	for node in tree.get_nodes_in_group("day_world"):
 		if is_ancestor_of(node) and node.has_method("apply_clock"):
 			node.call("apply_clock")
 

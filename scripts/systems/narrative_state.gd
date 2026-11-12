@@ -2,6 +2,8 @@ extends Node
 ## Flags, quests, and relationship values that outlive a room change.
 ## SaveGame writes to_dictionary() into the versioned user:// file.
 
+signal story_changed
+
 const SAVE_VERSION := 1
 
 const OAK_HINT := "The lane east of the church grounds leads to Oak Street."
@@ -10,12 +12,21 @@ var dialogue_open: bool = false
 var journal_open: bool = false
 var ending_open: bool = false
 var map_open: bool = false
+var day_card_open: bool = false
 
 var _flags: Dictionary = {}
 var _quests: Dictionary = {}
 var _relationships: Dictionary = {}
 var _notes: Array[String] = []
 var _catalog: Dictionary = {}
+## Soft church measures. Attendance is kept as a signal and is not a score.
+var _growth: Dictionary = {
+	"congregation_health": 0,
+	"community_trust": 0,
+	"community_impact": 0,
+	"facility_condition": 0,
+	"attendance": 17,
+}
 
 
 func _ready() -> void:
@@ -23,7 +34,7 @@ func _ready() -> void:
 
 
 func movement_locked() -> bool:
-	return dialogue_open or journal_open or ending_open or map_open
+	return dialogue_open or journal_open or ending_open or map_open or day_card_open
 
 
 func set_dialogue_open(is_open: bool) -> void:
@@ -43,14 +54,27 @@ func reset() -> void:
 	_quests.clear()
 	_relationships.clear()
 	_notes.clear()
+	_growth = _fresh_growth()
 	dialogue_open = false
 	journal_open = false
 	ending_open = false
 	map_open = false
+	day_card_open = false
 
 
 func set_flag(key: String, value: Variant) -> void:
 	_flags[key] = value
+	if key != "garden_planted" or not (value is bool) or not bool(value):
+		return
+	if _flags.has("garden_planted_on"):
+		return
+	var day := 4
+	var clock := get_node_or_null("/root/DayClock")
+	if clock != null:
+		day = int(clock.get("weekday"))
+	_flags["garden_planted_on"] = day
+	if key.begins_with("garden_") or key.begins_with("grounds_"):
+		story_changed.emit()
 
 
 func get_flag(key: String, fallback: Variant = null) -> Variant:
@@ -78,6 +102,79 @@ func set_relationship(npc_id: String, value: int) -> void:
 
 func add_relationship(npc_id: String, delta: int) -> void:
 	_relationships[npc_id] = relationship(npc_id) + delta
+
+
+func add_growth(key: String, delta: int) -> void:
+	# Attendance stays a rough signal. Chores and choices do not pump it.
+	if key == "attendance" or not _growth.has(key) or delta == 0:
+		return
+	_growth[key] = int(_growth[key]) + delta
+
+
+func growth_value(key: String) -> int:
+	return int(_growth.get(key, 0))
+
+
+func growth_word(key: String) -> String:
+	if key == "attendance":
+		return "a small gathering"
+	var value := growth_value(key)
+	if value <= 0:
+		return "Strained"
+	if value == 1:
+		return "Steady"
+	return "Growing"
+
+
+func growth_lines() -> PackedStringArray:
+	var lines: PackedStringArray = PackedStringArray()
+	lines.append("Congregation: %s" % growth_word("congregation_health"))
+	lines.append("Trust: %s" % growth_word("community_trust"))
+	lines.append("Impact: %s" % growth_word("community_impact"))
+	lines.append("Building: %s" % growth_word("facility_condition"))
+	lines.append("Pews: %s" % growth_word("attendance"))
+	return lines
+
+
+func garden_stage() -> int:
+	if not flag_is_true("garden_planted"):
+		if flag_is_true("garden_cleared"):
+			return 1
+		return 0
+	var planted := int(get_flag("garden_planted_on", 0))
+	var day := planted
+	var clock := get_node_or_null("/root/DayClock")
+	if clock != null:
+		day = int(clock.get("weekday"))
+	return mini(2 + maxi(0, day - planted), 4)
+
+
+func day_suggestions() -> PackedStringArray:
+	var lines: PackedStringArray = PackedStringArray()
+	if not flag_is_true("grounds_tidy"):
+		lines.append("The church walk could use a few minutes, if you want them.")
+	if not flag_is_true("garden_planted"):
+		lines.append("The community garden on Maple Lane is still overgrown.")
+	if lines.size() < 3 and not flag_is_true("frank_arc_heard"):
+		if flag_is_true("frank_listened") or flag_is_true("frank_invited"):
+			lines.append("Frank is at the bay during the day, if you feel like stopping.")
+	if lines.size() < 3 and not flag_is_true("sunday_ready"):
+		var clock := get_node_or_null("/root/DayClock")
+		var day := 4
+		if clock != null:
+			day = int(clock.get("weekday"))
+		if day < 7:
+			lines.append("Sunday is at ten, when the week gets there.")
+	if lines.is_empty():
+		lines.append("The town is quiet. Walk if you like.")
+	var capped: PackedStringArray = PackedStringArray()
+	var count := 0
+	for line in lines:
+		if count >= 3:
+			break
+		capped.append(line)
+		count += 1
+	return capped
 
 
 func add_note(text: String) -> void:
@@ -170,6 +267,7 @@ func to_dictionary() -> Dictionary:
 		"quests": _quests.duplicate(true),
 		"relationships": _relationships.duplicate(true),
 		"notes": _notes.duplicate(),
+		"growth": _growth.duplicate(true),
 	}
 
 
@@ -179,6 +277,7 @@ func from_dictionary(data: Dictionary) -> void:
 	journal_open = false
 	ending_open = false
 	map_open = false
+	day_card_open = false
 	var flags_v: Variant = data.get("flags", {})
 	_flags = (flags_v as Dictionary).duplicate(true) if flags_v is Dictionary else {}
 	_quests.clear()
@@ -200,6 +299,22 @@ func from_dictionary(data: Dictionary) -> void:
 			var text := str(item)
 			if not text.is_empty() and not _notes.has(text):
 				_notes.append(text)
+	_growth = _fresh_growth()
+	var growth_v: Variant = data.get("growth", {})
+	if growth_v is Dictionary:
+		for key in _growth.keys():
+			if (growth_v as Dictionary).has(key):
+				_growth[key] = int((growth_v as Dictionary)[key])
+
+
+func _fresh_growth() -> Dictionary:
+	return {
+		"congregation_health": 0,
+		"community_trust": 0,
+		"community_impact": 0,
+		"facility_condition": 0,
+		"attendance": 17,
+	}
 
 
 func _load_catalog(path: String) -> void:

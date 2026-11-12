@@ -5,14 +5,93 @@
     "start": {
       "router": [
         {"if": {"quest_step": ["oak_street", "frank"]}, "next": "ask"},
+        {"if": {"flag": "frank_arc_heard"}, "next": "arc_settled"},
+        {"if": {"flag": "frank_arc_pushed"}, "next": "arc_pushed_later"},
+        {"if": {"flag": "frank_arc_wait"}, "next": "arc_ready"},
+        {"if": {"flag": "frank_listened"}, "next": "arc_open"},
+        {"if": {"flag": "frank_invited"}, "next": "arc_open_invited"},
         {"if": {"relationship_at_least": ["frank", 1]}, "next": "later_listened"},
-        {"if": {"flag": "frank_invited"}, "next": "later_invited"},
         {"next": "closed"}
       ]
     },
+    "arc_open": {
+      "router": [
+        {"if": {"weekday": "Friday"}, "next": "arc_friday"},
+        {"next": "later_listened"}
+      ]
+    },
+    "arc_open_invited": {
+      "router": [
+        {"if": {"weekday": "Friday"}, "next": "arc_friday"},
+        {"next": "later_invited"}
+      ]
+    },
+    "arc_friday": {
+      "router": [
+        {"if": {"hour_before": 12}, "next": "arc_morning"},
+        {"next": "arc_choice"}
+      ]
+    },
+    "arc_ready": {
+      "router": [
+        {"if": {"weekday": "Friday"}, "next": "arc_friday_return"},
+        {"if": {"weekday": "Saturday"}, "next": "arc_saturday"},
+        {"next": "later_listened"}
+      ]
+    },
+    "arc_friday_return": {
+      "router": [
+        {"if": {"hour_before": 12}, "next": "arc_morning"},
+        {"next": "arc_choice"}
+      ]
+    },
+    "arc_saturday": {
+      "router": [
+        {"if": {"hour_before": 14}, "next": "arc_choice"},
+        {"next": "later_listened"}
+      ]
+    },
+    "arc_morning": {
+      "speaker": "Frank",
+      "text": "I'm under the car. If this isn't a pitch, come by when the bay is quieter.",
+      "set_flags": {"frank_arc_wait": true},
+      "end": true
+    },
+    "arc_choice": {
+      "speaker": "Frank",
+      "text": "You came back. Say what you came to say.",
+      "choices": [
+        {"text": "Only if you want to talk. I'll listen.", "next": "arc_heard"},
+        {"text": "Sunday could still be a place for you.", "next": "arc_pushed"}
+      ]
+    },
+    "arc_heard": {
+      "speaker": "Frank",
+      "text": "My wife was in the county hospital. He asked me to chair a work day that same week. I said I couldn't. The calls stopped. I stopped coming. I'm not asking you to fix it.",
+      "set_flags": {"frank_arc_heard": true},
+      "add_relationships": {"frank": 1},
+      "add_growth": {"community_trust": 1},
+      "end": true
+    },
+    "arc_pushed": {
+      "speaker": "Frank",
+      "text": "That's the pitch again. The bay is still mine. Come by for parts, not for Sunday.",
+      "set_flags": {"frank_arc_pushed": true},
+      "end": true
+    },
+    "arc_settled": {
+      "speaker": "Frank",
+      "text": "You already heard it. Don't make a project out of it.",
+      "end": true
+    },
+    "arc_pushed_later": {
+      "speaker": "Frank",
+      "text": "I said the bay isn't a pulpit.",
+      "end": true
+    },
     "closed": {
       "speaker": "Frank",
-      "text": "Bay's open for parts. I'm in the middle of a brake job.",
+      "text": "Bay's open for parts. I'm in the middle of a brake job. The bridge is back up, if you're headed that way.",
       "end": true
     },
     "ask": {
@@ -23,7 +102,8 @@
           "text": "What happened, if you want to say.",
           "next": "listened",
           "set_flags": {"frank_listened": true},
-          "add_relationships": {"frank": 1}
+          "add_relationships": {"frank": 1},
+          "add_growth": {"community_trust": 1}
         },
         {
           "text": "We could use you on Sunday.",

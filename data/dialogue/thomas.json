@@ -6,12 +6,14 @@
       "router": [
         {"if": {"quest_step": ["oak_street", "hardware"]}, "next": "errand"},
         {"if": {"quest_active": "oak_street"}, "next": "open"},
+        {"if": {"flag": "garden_planted"}, "next": "garden_note"},
+        {"if": {"flag": "grounds_tidy"}, "next": "grounds_note"},
         {"next": "browse"}
       ]
     },
     "browse": {
       "speaker": "Thomas",
-      "text": "Oak Street Hardware. If I don't stock it, Frank has a bin of almost.",
+      "text": "Oak Street Hardware. The bridge onto Maple Lane is open again. If I don't stock it, Frank has a bin of almost.",
       "end": true
     },
     "errand": {
@@ -23,6 +25,16 @@
     "open": {
       "speaker": "Thomas",
       "text": "Store's open. The step screw is still a number eight, if you lost the bag.",
+      "end": true
+    },
+    "grounds_note": {
+      "speaker": "Thomas",
+      "text": "I walked past the church. The walk looks better. Somebody knelt down.",
+      "end": true
+    },
+    "garden_note": {
+      "speaker": "Thomas",
+      "text": "Heard the garden on Maple Lane is actually in the ground. That's a better story than a committee.",
       "end": true
     }
   }

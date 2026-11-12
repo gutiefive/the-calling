@@ -28,9 +28,12 @@ func _build() -> void:
 	_assign_art()
 	_place_props()
 	_add_wayfinding()
+	_add_home()
+	_add_grounds_work()
 	_paint_ground()
 	_clear_solids()
 	_add_church_collision()
+	_add_parsonage_block()
 	_add_prop_blocks()
 	_add_map_border(MAP_SIZE)
 	_place_occluder()
@@ -39,6 +42,7 @@ func _build() -> void:
 func rebuild_collision() -> void:
 	_clear_solids()
 	_add_church_collision()
+	_add_parsonage_block()
 	_add_prop_blocks()
 	_add_map_border(MAP_SIZE)
 	_place_occluder()
@@ -53,7 +57,7 @@ func _assign_art() -> void:
 	_set_sprite("Props/Tree4", PlaceholderArt.tree(0))
 	_set_sprite("Props/Tree5", PlaceholderArt.tree(1))
 	_set_sprite("Props/Bench", PlaceholderArt.bench())
-	_set_sprite("Props/Flowers", PlaceholderArt.flowers())
+	_set_sprite("Props/Flowers", PlaceholderArt.overgrown_bed())
 	_set_sprite("Props/Lamp", PlaceholderArt.lamp_post())
 	_set_light_texture("Props/Lamp/Glow")
 	_set_light_texture("Lighting/WindowL")
@@ -97,6 +101,103 @@ func _place_props() -> void:
 		from_street.set_meta("facing", &"left")
 	_place("Lighting/WindowL", POS_WIN_L)
 	_place("Lighting/WindowR", POS_WIN_R)
+
+
+func _refresh_living() -> void:
+	super._refresh_living()
+	_apply_grounds_look()
+
+
+func _apply_grounds_look() -> void:
+	var flowers := get_node_or_null("Props/Flowers") as Sprite2D
+	if flowers != null:
+		var tidy := NarrativeState.flag_is_true("grounds_bed") or NarrativeState.flag_is_true("grounds_tidy")
+		flowers.texture = PlaceholderArt.flowers() if tidy else PlaceholderArt.overgrown_bed()
+		_feet_offset("Props/Flowers")
+	for node in get_tree().get_nodes_in_group("day_world"):
+		if is_ancestor_of(node) and node.has_method("apply_clock"):
+			node.call("apply_clock")
+
+
+func _add_home() -> void:
+	var props := get_node_or_null("Props")
+	if props == null or props.get_node_or_null("Parsonage") != null:
+		return
+	var house := Sprite2D.new()
+	house.name = "Parsonage"
+	house.texture = PlaceholderArt.parsonage()
+	house.centered = true
+	house.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	house.position = Vector2(200, 430)
+	if house.texture != null:
+		house.offset = Vector2(0, -house.texture.get_height() * 0.5)
+	props.add_child(house)
+	var door := Door.new()
+	door.name = "HomeDoor"
+	door.position = Vector2(200, 500)
+	door.prompt_text = "Go home"
+	door.radius = 42.0
+	door.destination_scene = "res://scenes/world/parsonage.tscn"
+	door.destination_spawn = &"from_grounds"
+	props.add_child(door)
+	_place_marker("from_parsonage", Vector2(200, 580), &"down")
+
+
+func _add_parsonage_block() -> void:
+	var house := get_node_or_null("Props/Parsonage") as Sprite2D
+	if house == null or house.texture == null:
+		return
+	var size := house.texture.get_size()
+	var body_h := size.y - 20.0
+	if body_h <= 0.0:
+		return
+	_add_rect(house.position + Vector2(0.0, -20.0 - body_h * 0.5), Vector2(size.x - 12.0, body_h))
+
+
+func _add_grounds_work() -> void:
+	var props := get_node_or_null("Props")
+	if props == null:
+		return
+	_add_chore(props, "LitterA", "litter_a", Vector2(760, 520), "Pick up the scrap", "A torn paper and a bottle cap. You pocket them.")
+	_add_chore(props, "LitterB", "litter_b", Vector2(980, 600), "Pick up the scrap", "A cup and a bit of wire. The walk is clearer.")
+	_add_chore(props, "FlowerBed", "bed", Vector2(900, 380), "Trim the bed", "You cut the weeds back. The flowers can breathe.")
+
+
+func _add_chore(props: Node, node_name: String, chore_id: String, pos: Vector2, prompt: String, line: String) -> void:
+	if props.get_node_or_null(node_name) != null:
+		return
+	var chore := GroundsChore.new()
+	chore.name = node_name
+	chore.chore_id = chore_id
+	chore.position = pos
+	chore.prompt_text = prompt
+	chore.work_line = line
+	chore.done_line = "That part is done."
+	chore.radius = 40.0
+	if chore_id.begins_with("litter"):
+		var sprite := Sprite2D.new()
+		sprite.name = "Sprite"
+		sprite.texture = PlaceholderArt.litter()
+		sprite.centered = true
+		sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		if sprite.texture != null:
+			sprite.offset = Vector2(0, -sprite.texture.get_height() * 0.5)
+		chore.add_child(sprite)
+	props.add_child(chore)
+
+
+func _place_marker(id: String, pos: Vector2, facing: StringName) -> void:
+	var spawns := get_node_or_null("Spawns")
+	if spawns == null:
+		return
+	var marker := spawns.get_node_or_null(id) as Node2D
+	if marker == null:
+		var created := Marker2D.new()
+		created.name = id
+		spawns.add_child(created)
+		marker = created
+	marker.position = pos
+	marker.set_meta("facing", facing)
 
 
 func _paint_ground() -> void:

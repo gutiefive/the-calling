@@ -155,6 +155,9 @@ func _matches(condition: Dictionary) -> bool:
 	if condition.has("hour_at_least"):
 		var clock := _clock()
 		return clock != null and int(clock.get("hour")) >= int(condition["hour_at_least"])
+	if condition.has("hour_before"):
+		var clock := _clock()
+		return clock != null and int(clock.get("hour")) < int(condition["hour_before"])
 	return false
 
 
@@ -182,6 +185,10 @@ func _apply(data: Dictionary) -> void:
 	if notes_v is Array:
 		for item in notes_v as Array:
 			NarrativeState.add_note(str(item))
+	var growth_v: Variant = data.get("add_growth", null)
+	if growth_v is Dictionary:
+		for key in (growth_v as Dictionary).keys():
+			NarrativeState.add_growth(str(key), int((growth_v as Dictionary)[key]))
 	var quest_v: Variant = data.get("quest", null)
 	if not quest_v is Dictionary:
 		return

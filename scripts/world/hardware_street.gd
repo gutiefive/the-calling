@@ -183,6 +183,7 @@ func _add_living_town() -> void:
 	_add_window("CottageWindow", Vector2(300, 250))
 	_add_window("ParkWindow", Vector2(1100, 820))
 	_add_gate(props)
+	_add_shop_doors(props)
 	_add_happening(
 		props,
 		"FridayDelivery",
@@ -265,14 +266,73 @@ func _add_gate(props: Node) -> void:
 	gate.frame_count = 1
 	gate.speaker_name = "Sign"
 	gate.prompt_text = "Read the sign"
-	gate.line = "Maple Lane stops here. The bridge past the creek isn't up yet, so Oak Street is the way through."
-	gate.blocks_movement = true
-	gate.block_size = Vector2(160, 18)
+	gate.line = "The bridge is open. Frank said the boards went in this week. Maple Lane is past the sign."
+	gate.blocks_movement = false
 	gate.radius = 40.0
+	gate.position = Vector2(1400, 980)
 	var sprite := AnimatedSprite2D.new()
 	sprite.name = "Sprite"
 	gate.add_child(sprite)
 	props.add_child(gate)
+
+
+func _add_shop_doors(props: Node) -> void:
+	_add_scheduled_door(
+		props,
+		"StoreDoor",
+		Vector2(540, 530),
+		"Enter the store",
+		"thomas",
+		"res://scenes/world/hardware_interior.tscn"
+	)
+	_add_scheduled_door(
+		props,
+		"BayDoor",
+		Vector2(1160, 480),
+		"Enter the bay",
+		"frank",
+		"res://scenes/world/bay_interior.tscn"
+	)
+	var lane := Door.new()
+	lane.name = "MapleDoor"
+	lane.position = Vector2(1536, 1104)
+	lane.prompt_text = "Walk to Maple Lane"
+	lane.radius = 42.0
+	lane.destination_scene = "res://scenes/world/maple_lane.tscn"
+	lane.destination_spawn = &"from_oak"
+	if props.get_node_or_null("MapleDoor") == null:
+		props.add_child(lane)
+	_place_marker("from_store", Vector2(540, 610), &"down")
+	_place_marker("from_bay", Vector2(1160, 570), &"down")
+	_place_marker("from_maple", Vector2(1536, 1008), &"up")
+
+
+func _add_scheduled_door(props: Node, node_name: String, pos: Vector2, prompt: String, hours_id: String, scene_path: String) -> void:
+	if props.get_node_or_null(node_name) != null:
+		return
+	var door := ScheduledDoor.new()
+	door.name = node_name
+	door.position = pos
+	door.prompt_text = prompt
+	door.radius = 40.0
+	door.hours_id = hours_id
+	door.destination_scene = scene_path
+	door.destination_spawn = &"from_street"
+	props.add_child(door)
+
+
+func _place_marker(id: String, pos: Vector2, facing: StringName) -> void:
+	var spawns := get_node_or_null("Spawns")
+	if spawns == null:
+		return
+	var marker := spawns.get_node_or_null(id) as Node2D
+	if marker == null:
+		var created := Marker2D.new()
+		created.name = id
+		spawns.add_child(created)
+		marker = created
+	marker.position = pos
+	marker.set_meta("facing", facing)
 
 
 func _add_neighbor(props: Node, node_name: String, person_id: String, index: int, variant: int, pos: Vector2) -> void:

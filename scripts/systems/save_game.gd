@@ -2,7 +2,7 @@ class_name SaveGame
 extends RefCounted
 ## One save slot. Versioned JSON in user://. The migration stub is where older files will step forward.
 
-const SAVE_VERSION := 2
+const SAVE_VERSION := 3
 const SAVE_PATH := "user://the_calling_save.json"
 
 
@@ -127,6 +127,8 @@ static func delete_save() -> void:
 
 
 static func _migrate_step(data: Dictionary, from_version: int) -> Dictionary:
+	if from_version == 2:
+		return _migrate_growth(data)
 	if from_version != 1:
 		push_error("No migration step from version %s" % from_version)
 		return data
@@ -146,6 +148,37 @@ static func _migrate_step(data: Dictionary, from_version: int) -> Dictionary:
 		narrative["quests"] = {}
 	if not narrative.has("relationships"):
 		narrative["relationships"] = {}
+	data["narrative"] = narrative
+	return data
+
+
+static func _migrate_growth(data: Dictionary) -> Dictionary:
+	# Version 3 adds the soft church measures. Older files have not moved them.
+	var narrative: Dictionary = {}
+	var narrative_v: Variant = data.get("narrative", {})
+	if narrative_v is Dictionary:
+		narrative = (narrative_v as Dictionary).duplicate(true)
+	var growth := {
+		"congregation_health": 0,
+		"community_trust": 0,
+		"community_impact": 0,
+		"facility_condition": 0,
+		"attendance": 17,
+	}
+	var growth_v: Variant = narrative.get("growth", {})
+	if growth_v is Dictionary:
+		for key in growth.keys():
+			if (growth_v as Dictionary).has(key):
+				growth[key] = int((growth_v as Dictionary)[key])
+	narrative["growth"] = growth
+	if not narrative.has("flags"):
+		narrative["flags"] = {}
+	if not narrative.has("quests"):
+		narrative["quests"] = {}
+	if not narrative.has("relationships"):
+		narrative["relationships"] = {}
+	if not narrative.has("notes"):
+		narrative["notes"] = []
 	data["narrative"] = narrative
 	return data
 

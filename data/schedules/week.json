@@ -31,6 +31,7 @@
         {"days": ["Thursday"], "from": "09:00", "until": "18:00", "scene": "hardware_street", "position": [640, 430]},
         {"days": ["Friday"], "from": "09:00", "until": "18:00", "scene": "hardware_street", "position": [640, 430]},
         {"days": ["Saturday"], "from": "09:00", "until": "15:00", "scene": "hardware_street", "position": [640, 430]},
+        {"days": ["Saturday"], "from": "15:00", "until": "17:00", "scene": "maple_lane", "position": [400, 420]},
         {"days": ["Sunday"], "from": "10:00", "until": "24:00", "scene": "sanctuary", "position": [560, 520]}
       ]
     },
@@ -48,7 +49,20 @@
       "entries": [
         {"days": ["Friday"], "from": "09:00", "until": "12:00", "scene": "hardware_street", "position": [480, 520]},
         {"days": ["Saturday"], "from": "10:00", "until": "13:00", "scene": "hardware_street", "position": [480, 520]},
+        {"days": ["Friday"], "from": "13:00", "until": "17:00", "scene": "maple_lane", "position": [400, 560]},
         {"days": ["Sunday"], "from": "10:00", "until": "24:00", "scene": "sanctuary", "position": [400, 500]}
+      ]
+    },
+    {
+      "id": "dale",
+      "entries": [
+        {"days": ["Thursday", "Friday", "Saturday"], "from": "08:00", "until": "17:00", "scene": "maple_lane", "position": [420, 680]}
+      ]
+    },
+    {
+      "id": "ruth",
+      "entries": [
+        {"days": ["Thursday", "Friday", "Saturday"], "from": "09:00", "until": "17:00", "scene": "maple_lane", "position": [520, 760]}
       ]
     }
   ]

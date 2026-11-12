@@ -86,6 +86,18 @@ func set_time(day: int, h: int, m: int) -> void:
 	_commit(true)
 
 
+func sleep_until_morning() -> void:
+	# The chapter has no Monday. Sunday after dawn stays put; the day card still shows.
+	if weekday >= LAST_WEEKDAY and hour >= 6:
+		return
+	var day := weekday
+	if hour >= 6:
+		day += 1
+	if day > LAST_WEEKDAY:
+		day = LAST_WEEKDAY
+	set_time(day, 6, 0)
+
+
 func skip_ahead() -> void:
 	if at_cap():
 		return

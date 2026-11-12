@@ -10,7 +10,8 @@ Status date: 2026-11-12. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md
 | M3 Clock, consequences, town block | Implemented. Weekday clock, Oak Street, schedules, relationships, and one save slot. |
 | M4 First Sunday vertical slice | Implemented. Sunday service, sermon theme, follow-ups, the ledger, and a title screen. |
 | M4.5 Living town | Implemented. Wayfinding to Oak Street, a wider street, people who move, and one optional moment each on Thursday, Friday, and Saturday. |
-| M5+ | Only after prototype feedback. Do not start until Nathan asks. |
+| M5A A town to come home to | Implemented. Parsonage and sleep, Maple Lane, shop interiors, soft church growth, two optional tasks, and the first step of Frank's arc. |
+| M5B+ | Not started. Do not add another chapter, inventory, or audio until Nathan asks. |
 
 ## M1 includes
 
@@ -34,7 +35,7 @@ A weekday clock from Thursday 2:00 p.m. through Saturday night. It drives the ex
 
 ## M3 does not include
 
-Sunday service, a sermon theme, the financial reveal, shop interiors, inventory, or audio. M4 adds the service, the theme, and the ledger. Shop interiors, inventory, and audio are still out.
+Sunday service, a sermon theme, the financial reveal, shop interiors, inventory, or audio. M4 adds the service, the theme, and the ledger. M5A adds the shop interiors. Inventory and audio are still out.
 
 ## M4 includes
 
@@ -42,7 +43,7 @@ A title screen (New Game, Continue when a save exists, Quit). The week continues
 
 ## M4 does not include
 
-Another chapter, shop interiors, inventory, audio, or a second Sunday.
+Another chapter, shop interiors, inventory, audio, or a second Sunday. M5A adds the store and the bay.
 
 ## M4.5 includes
 
@@ -50,4 +51,12 @@ A sign, arrows, and a path on the east side of the church lot. An area name when
 
 ## M4.5 does not include
 
-Another chapter, shop interiors, inventory, audio, or a second town block you can enter. Maple Lane stops at the gate.
+Another chapter, shop interiors, inventory, audio, or a second town block you can enter. Maple Lane stops at the gate. M5A opens the lane and the shops.
+
+## M5A includes
+
+A parsonage on the church grounds. The bed sleeps until the next morning, with a short fade and a card that names the weekday and up to three things you might do. None of them are required. T still skips the clock, and walking still advances it. The Maple Lane bridge is open. The lane has houses, fences, a bus stop, an overgrown community garden, and people on a schedule. The hardware store and Frank's bay have interiors that open during their existing hours and say when they are shut. The journal's church page uses words (Strained, Steady, Growing) for congregation health, trust, impact, and the building. Attendance stays a phrase. Two optional jobs change the town: tidy the church walk, and clear and replant the garden so it grows over later mornings. Frank can be visited at the bay on Friday and again on Saturday. Listening learns why he stopped coming. Pressing him for Sunday does not. The ledger still ends the chapter if you skip the new work. Saves are version 3. A version 2 file still loads.
+
+## M5A does not include
+
+Another chapter, inventory, money, audio, a second Sunday, or a Monday past this week's cap.

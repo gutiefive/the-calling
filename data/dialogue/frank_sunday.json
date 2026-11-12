@@ -4,11 +4,23 @@
   "nodes": {
     "start": {
       "router": [
+        {"if": {"flag": "frank_arc_heard"}, "next": "arc_sunday"},
+        {"if": {"flag": "frank_arc_pushed"}, "next": "arc_sunday_pushed"},
         {"if": {"flag_equals": ["sermon_theme", "forgiveness"]}, "next": "forgive_gate"},
         {"if": {"flag": "frank_listened"}, "next": "listened"},
         {"if": {"flag": "frank_invited"}, "next": "invited"},
         {"next": "back"}
       ]
+    },
+    "arc_sunday": {
+      "speaker": "Frank",
+      "text": "You let me finish at the bay. I'll sit in the back. That is not a yes for next week.",
+      "end": true
+    },
+    "arc_sunday_pushed": {
+      "speaker": "Frank",
+      "text": "You brought Sunday into the bay again. I came anyway. Don't spend it.",
+      "end": true
     },
     "forgive_gate": {
       "router": [

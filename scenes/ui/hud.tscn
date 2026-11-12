@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=8 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/interaction_prompt.gd" id="1_prompt"]
 [ext_resource type="Script" path="res://scripts/ui/dialogue_box.gd" id="2_banner"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scripts/ui/journal_panel.gd" id="4_journal"]
 [ext_resource type="Script" path="res://scripts/ui/location_banner.gd" id="5_place"]
 [ext_resource type="Script" path="res://scripts/ui/town_map.gd" id="6_map"]
+[ext_resource type="Script" path="res://scripts/ui/day_card.gd" id="7_day"]
 
 [node name="HUD" type="CanvasLayer"]
 layer = 10
@@ -89,12 +90,12 @@ visible = false
 offset_left = 8.0
 offset_top = 28.0
 offset_right = 300.0
-offset_bottom = 250.0
+offset_bottom = 348.0
 mouse_filter = 2
 script = ExtResource("4_journal")
 
 [node name="Body" type="Label" parent="Journal"]
-custom_minimum_size = Vector2(276, 200)
+custom_minimum_size = Vector2(276, 300)
 theme_override_colors/font_color = Color(0.93, 0.88, 0.78, 1)
 theme_override_font_sizes/font_size = 14
 autowrap_mode = 3
@@ -163,3 +164,14 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("6_map")
+
+[node name="DayCard" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("7_day")

@@ -23,7 +23,7 @@ func _ready() -> void:
 
 func _physics_process(_delta: float) -> void:
 	var down := Input.is_action_pressed("journal")
-	if NarrativeState.ending_open:
+	if NarrativeState.ending_open or NarrativeState.day_card_open:
 		_was_down = down
 		return
 	if down and not _was_down:
@@ -75,6 +75,10 @@ func _body_text() -> String:
 			var objective := str(quest.get("objective", ""))
 			if not objective.is_empty():
 				lines.append(objective)
+	lines.append("")
+	lines.append("The church")
+	for measure in NarrativeState.growth_lines():
+		lines.append(measure)
 	lines.append("")
 	lines.append("Notes")
 	var notes := NarrativeState.journal_notes()

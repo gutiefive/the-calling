@@ -195,3 +195,42 @@ Launch with `godot --path .` from the repo, or press F5 in the editor.
 ## M4.5 results
 
 On 2026-11-12, `Godot_v4.7.2-stable_win64_console.exe --headless --path . res://tests/m4_5/m4_5_validation.tscn` printed 90 `CHECK OK` lines and `M4_5_OK`, and exited 0. The same binary then printed `M1_OK` (74 checks), `M2_OK`, `M3_OK`, and `M4_OK` (90 checks), each exiting 0. T34–T38 were not played in a window.
+
+# Milestone 5A test plan
+
+The earlier lists still apply. These checks cover sleep, Maple Lane, the shop interiors, church growth, the two optional jobs, and Frank's first longer conversation.
+
+## Automated
+
+```powershell
+godot --headless --path . --import
+godot --headless --path . res://tests/m1/m1_validation.tscn
+godot --headless --path . res://tests/m2/m2_validation.tscn
+godot --headless --path . res://tests/m3/m3_validation.tscn
+godot --headless --path . res://tests/m4/m4_validation.tscn
+godot --headless --path . res://tests/m4_5/m4_5_validation.tscn
+godot --headless --path . res://tests/m5a/m5a_validation.tscn
+```
+
+`m5a_validation.tscn` prints `CHECK OK` / `CHECK FAIL` lines and exits with `M5A_OK` or `M5A_FAIL`.
+It checks sleep and the morning card, Maple Lane both ways and on the map, open and shut shops, the soft church words, the grounds and the garden, a chapter ending that skipped both jobs, Frank across Friday and Saturday, a version 3 round trip, and a version 2 file migrating forward.
+The M3 run still prints `Save is missing a version` before the check that rejects it. The M5A run prints `Save version 4 is not supported` before the check that rejects a newer file. Both suites then exit 0.
+
+## Manual
+
+Launch with `godot --path .` from the repo, or press F5 in the editor.
+
+| ID | Do this | Expect |
+|---|---|---|
+| T39 | From the church grounds, enter the parsonage and press E on the bed. Close the card with E | The screen fades. It is 6:00 a.m. the next morning, or this morning if you were already up. A card names the weekday and a few things you might do. Nothing on it is required. |
+| T40 | On Sunday after the service, sleep again | The clock stays on Sunday. It does not invent a Monday. |
+| T41 | Walk east on Oak Street to the bridge sign, then past it. Come back | The sign says the bridge is open. Maple Lane has houses, fences, a bus stop, and a garden. The banner names the lane. The return door puts you back on Oak Street. M shows the lane. |
+| T42 | On Friday morning, enter the hardware store and the bay. Press T until night and try the doors again | Thomas is at the counter in the morning, and the shelves can be read. Frank is in the bay. At night both doors stay shut and say when they open. |
+| T43 | Press J after a sermon, and again after tidying the church walk | The church section uses words such as Strained, Steady, or Growing. It does not show a score. |
+| T44 | Pick up the litter and tend the flower bed. On Maple Lane, clear the garden and talk to the neighbor about planting. Sleep to another morning | The walk looks tidier. The garden changes, then looks further along the next day. Skip both on another run and the ledger still ends the chapter. |
+| T45 | After Thursday with Frank, visit the bay Friday morning, then again Friday afternoon or Saturday before 2:00. Choose to listen. On another run, press him about Sunday | The morning visit asks you to come back. Listening hears why he stopped. Sunday mentions that. Pressing him does not raise the relationship, and Sunday says so. |
+| T46 | Save from the pause menu, quit, and Continue. Also load an older slot if you have one | Continue restores the room, the clock, and the work you did. A version 2 save still loads. |
+
+## M5A results
+
+On 2026-11-12, `Godot_v4.7.2-stable_win64_console.exe --headless --path . res://tests/m5a/m5a_validation.tscn` printed 103 `CHECK OK` lines and `M5A_OK`, and exited 0. The same binary printed `M1_OK` (74), `M2_OK` (113), `M3_OK` (108), `M4_OK` (90), and `M4_5_OK` (90), each exiting 0. T39–T46 were not played in a window.

@@ -1,0 +1,44 @@
+{
+  "id": "garden_help",
+  "start": "start",
+  "nodes": {
+    "start": {
+      "router": [
+        {"if": {"flag": "garden_planted"}, "next": "growing"},
+        {"if": {"flag": "garden_cleared"}, "next": "offer"},
+        {"next": "weeds"}
+      ]
+    },
+    "weeds": {
+      "speaker": "A neighbor",
+      "text": "That plot's been weeds since spring. Clear it if you want. I won't start it for you.",
+      "end": true
+    },
+    "offer": {
+      "speaker": "A neighbor",
+      "text": "You got the weeds out. I've got seed in the shed, if you want a second pair of hands.",
+      "choices": [
+        {"text": "I'll take the other end.", "next": "planted"},
+        {"text": "Not today.", "next": "later"}
+      ]
+    },
+    "planted": {
+      "speaker": "A neighbor",
+      "text": "It's in the ground. Give it a couple of mornings. Don't hover.",
+      "set_flags": {"garden_planted": true, "garden_helped": true},
+      "add_growth": {"community_impact": 1},
+      "add_notes": ["The community garden on Maple Lane is planted."],
+      "end": true
+    },
+    "later": {
+      "speaker": "A neighbor",
+      "text": "Seed keeps. The soil doesn't mind waiting a day.",
+      "end": true
+    },
+    "growing": {
+      "speaker": "A neighbor",
+      "text": "The garden's started. I'll water if I'm out this way. You don't have to schedule me.",
+      "end": true
+    }
+  }
+}

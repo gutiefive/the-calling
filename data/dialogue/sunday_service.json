@@ -25,19 +25,22 @@
           "text": "Hope. The tiredness is real, and so is the next morning.",
           "next": "preach_hope",
           "set_flags": {"sermon_theme": "hope"},
-          "add_relationships": {"sarah": 1}
+          "add_relationships": {"sarah": 1},
+          "add_growth": {"congregation_health": 1}
         },
         {
           "text": "Forgiveness. No names. The hurt in the room is still allowed.",
           "next": "preach_forgiveness",
           "set_flags": {"sermon_theme": "forgiveness"},
-          "add_relationships": {"frank": 1}
+          "add_relationships": {"frank": 1},
+          "add_growth": {"community_trust": 1}
         },
         {
           "text": "Service. Faith that picks up a screwdriver.",
           "next": "preach_service",
           "set_flags": {"sermon_theme": "service"},
-          "add_relationships": {"harold": 1, "thomas": 1}
+          "add_relationships": {"harold": 1, "thomas": 1},
+          "add_growth": {"community_impact": 1}
         }
       ]
     },

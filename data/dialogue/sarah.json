@@ -23,7 +23,8 @@
           "text": "What does the week actually need?",
           "next": "heard",
           "set_flags": {"sarah_heard": true},
-          "add_relationships": {"sarah": 1}
+          "add_relationships": {"sarah": 1},
+          "add_growth": {"community_impact": 1}
         },
         {
           "text": "Sunday is at ten, if you want it.",

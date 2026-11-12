@@ -107,7 +107,7 @@ After the service the five named people stand in the sanctuary until midnight. T
 
 ## D23 — Save version 2
 
-The file version is 2. A version 1 file is copied forward: its flags, quests, relationships, clock, scene, and position stay, and `sermon_theme` is set to an empty string when it is missing. A missing version is still rejected. Newer versions are still rejected. `SaveGame.migrate` is what load uses, so an old file does not need to be rewritten before it can be read.
+The file version was 2. A version 1 file is copied forward: its flags, quests, relationships, clock, scene, and position stay, and `sermon_theme` is set to an empty string when it is missing. A missing version is still rejected. Newer versions are still rejected. `SaveGame.migrate` is what load uses, so an old file does not need to be rewritten before it can be read. D33 moves the file version to 3.
 
 ## D24 — The title screen is the launch scene
 
@@ -133,7 +133,35 @@ Oak Street is 64 by 40 tiles. East of the shops are a park, a creek bank, and Ma
 
 ## D28 — Notes in the same save
 
-The file version stays 2. Journal notes are an extra list inside the narrative dictionary. A file that has no list loads with an empty one. The Oak Street hint is derived from `seen_oak_street`, so it does not need its own version.
+Journal notes are an extra list inside the narrative dictionary. A file that has no list loads with an empty one. The Oak Street hint is derived from `seen_oak_street`, so it does not need its own version. The file version itself moved in D33.
+
+## D29 — Sleep and the morning card (M5A)
+
+The parsonage is a small house on the church grounds, with a bed inside. E on the bed fades out, sets the clock to 6:00 a.m., and fades in. If it is already morning, that is this morning. Otherwise it is the next morning. Sunday after 6:00 a.m. does not invent a Monday. The week still ends Sunday night. The card names the weekday and up to three things you might do. It never says you must. E, Space, or Enter closes it. The clock holds while the card is up, the same way it holds for dialogue. T is still the debug skip. No new input action was added.
+
+## D30 — Maple Lane is open (M5A)
+
+The bridge sign stays on Oak Street, and it still says the bridge was repaired. The lane past it is now a room: houses, fences, a bus stop, a bench, and the community garden. The door both ways uses the same spawn rules as the church gate. The town map adds the parsonage, Maple Lane, the hardware store, and Frank's bay. Sarah is on the lane Friday afternoon, after her Oak Street morning. Thomas is there Saturday from 3:00 to 5:00, after the store closes. Two neighbors, Dale and Ruth, keep weekday hours on the lane.
+
+## D31 — Shops, without moving the sidewalk posts (M5A)
+
+Thomas and Frank still stand where the M3 checks look for them during shop hours. The interiors are extra. A clerk inside is not on the week schedule, so the sidewalk post is the one the presence checks see. The store door sits west of Thomas's post. Standing on him and pressing E talks to him. It does not walk into the shop. Hours come from the existing schedule: Thomas 9:00, Frank 8:00, and both are shut when that post is not on Oak Street. A shut door says when it opens. During open hours you can see the same person on the sidewalk and behind the counter. That duplicate is the cost of leaving the old posts where they are.
+
+## D32 — Church growth is words (M5A)
+
+Four measures start at Strained: congregation health, community trust, community impact, and the building. One step is Steady. Two is Growing. The journal prints those words. It does not print the numbers. Attendance stays the phrase "a small gathering." Hope, forgiveness, and service each move one measure, along with the relationship they already moved. Listening to Frank on Thursday, hearing Sarah on Friday, tidying the church walk, and planting the garden each move one measure once.
+
+## D33 — Save version 3 (M5A)
+
+The file version is 3. Version 2 gains the four measures at Strained and the attendance phrase, and it keeps its story. Version 1 still gains an empty sermon theme, then the same measures. A missing version is still rejected. A newer version is still rejected. Load does not rewrite the file, so a version 2 slot stays version 2 until something saves over it. The M4 check that a migrated file "is version 2" now compares against the current version. The M4.5 check that a fresh save "stays version 2" does the same. The M4 check that Continue leaves a version 2 file on disk is unchanged, because Continue does not save.
+
+## D34 — Two jobs you can skip (M5A)
+
+Litter and the flower bed on the church walk, then the Maple Lane garden. Clearing all three grounds pieces tidies the walk and moves the building once. The garden is cleared by hand, then planted with a neighbor. After that it grows on later mornings. Thomas and a neighbor mention the work if you did it. The ledger still ends the chapter if both jobs are untouched.
+
+## D35 — Frank, listening first (M5A)
+
+After Thursday, a Friday morning visit only asks you to come back. The bay is quieter Friday afternoon or Saturday before 2:00. Listening learns about the hospital week and raises Frank and community trust. Pressing him toward Sunday does neither. Sunday says a different line for each. If you never start this, his old Sunday lines stay. The new condition is `hour_before`. It does not replace `hour_at_least`.
 
 ## Still open
 

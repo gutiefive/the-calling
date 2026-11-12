@@ -171,7 +171,7 @@ func _title_and_save() -> void:
 	var clock_day := -1
 	if clock_v is Dictionary:
 		clock_day = int((clock_v as Dictionary).get("weekday", -1))
-	_check(int(migrated.get("version", 0)) == 2 and str(flags.get("sermon_theme", "missing")) == "" and bool(flags.get("sunday_ready", false)), "a version 1 file migrates to version 2")
+	_check(int(migrated.get("version", 0)) == SaveGame.SAVE_VERSION and str(flags.get("sermon_theme", "missing")) == "" and bool(flags.get("sunday_ready", false)), "a version 1 file migrates to the current save")
 	_check(clock_day == 6, "migration keeps a Saturday clock")
 	_write_and_read({
 		"version": 2,

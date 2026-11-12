@@ -304,7 +304,7 @@ func _save_roundtrip() -> void:
 	var hint := room.get_node("HUD/Pause/Center/Hint") as Label
 	_check(hint != null and hint.text == "Saved.", "the pause menu still saves (%s)" % (hint.text if hint != null else ""))
 	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(SaveGame.SAVE_PATH))
-	_check(parsed is Dictionary and int((parsed as Dictionary).get("version", -1)) == 2, "the save stays version 2")
+	_check(parsed is Dictionary and int((parsed as Dictionary).get("version", -1)) == SaveGame.SAVE_VERSION, "the save stays on the current version")
 	pause.toggle_pause()
 	NarrativeState.reset()
 	DayClock.set_time(4, 14, 0)

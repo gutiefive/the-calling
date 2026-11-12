@@ -3,8 +3,8 @@
 A story-driven, top-down pixel-art RPG made in **Godot 4.7**. You play a young pastor who arrives in
 the fictional town of **Oakridge** to lead **Grace Community Church**.
 
-> **Status (2026-11-12):** Milestone 4.5 is playable. The demo still runs from the title screen through the
-> first Sunday. Oak Street is easier to find, and the town has more to wander through between Thursday and Sunday.
+> **Status (2026-11-12):** Milestone 5A is playable. The demo still runs from the title screen through the
+> first Sunday. You can sleep at the parsonage, walk Maple Lane, and step into the hardware store and Frank's bay.
 > A suggested path is in `docs/PLAYTEST.md`.
 
 ## Play (Windows)
@@ -27,23 +27,25 @@ Continue appears when `user://the_calling_save.json` exists. In the editor, open
 | Advance dialogue / confirm a choice | E, Space, or Enter. The first press finishes a line that is still revealing. |
 | Move the dialogue selection | Up / Down, or W / S, while choices are on screen. |
 | Journal | J. Early on, a note names the lane east to Oak Street. |
-| Town map | M. Also the Map row on the pause menu. It shows the church grounds, the sanctuary, Oak Street, and where you are. |
+| Town map | M. Also the Map row on the pause menu. It shows the church grounds, the sanctuary, Oak Street, the parsonage, Maple Lane, the hardware store, Frank's bay, and where you are. |
 | Pause | Esc. Up / Down or W / S choose. E, Space, or Enter confirms Resume, Save, Load, or Map. |
 | Skip to the next part of the day | T (debug). Day starts at 6:00, evening at 5:00, night at 8:00. On Sunday before 10:00 a.m., T lands on 10:00. |
+| Sleep | E on the bed in the parsonage. The morning card closes with E, Space, or Enter. |
 | Title, sermon choice, and chapter ending | Up / Down or W / S choose. E, Space, or Enter confirms. |
 
 The clock in the top right advances while you walk: four in-game minutes each real second.
-It holds still during dialogue, the journal, pause, and the chapter ending. It starts Thursday at 2:00 p.m.
-and runs through Sunday night.
+It holds still during dialogue, the journal, the morning card, pause, and the chapter ending. It starts Thursday at 2:00 p.m.
+and runs through Sunday night. Sleeping sets it to 6:00 a.m. Sunday after 6:00 a.m. does not add a Monday.
 
 Walk up the path to the church. Stand near Margaret or the notice board and press E.
-You cannot walk while a conversation, the journal, the town map, the Sunday service, or the chapter ending is open.
+You cannot walk while a conversation, the journal, the morning card, the town map, the Sunday service, or the chapter ending is open.
 
 Margaret's spare key ring is the first quest. Harold is in the sanctuary on Thursday.
-The east side of the lot walks to Oak Street. A sign and a path point that way. The street has the hardware store, Frank's bay, a cottage, a park, a creek bank, and a short lane that stops at a gate. A few neighbors wander the sidewalk. Thursday, Friday, and Saturday each have one small moment you can find by looking around. None of them is required for Sunday.
-J lists the current objective. Save and Load are on the pause menu. There is one slot, version 2.
-A version 1 save still loads. On Sunday at 10:00 a.m., go into the sanctuary for the service.
-After it, talk to Margaret. The ledger is on the west table and ends the chapter.
+The east side of the lot walks to Oak Street. A sign and a path point that way. The street has the hardware store, Frank's bay, a cottage, a park, and a creek bank. The bridge sign past the shops opens onto Maple Lane. The store and the bay have doors. They are open during Thomas's and Frank's existing hours, and a shut door says when to come back. A few neighbors wander the sidewalks. Thursday, Friday, and Saturday each have one small moment you can find by looking around. The church walk can be tidied, and the Maple Lane garden can be cleared and replanted. None of that is required for Sunday.
+The parsonage is on the church grounds. The bed sleeps until morning and shows a short card of things you might do.
+J lists the current objective and, under The church, a few words for how the week feels. Save and Load are on the pause menu. There is one slot, version 3.
+A version 1 or version 2 save still loads. On Sunday at 10:00 a.m., go into the sanctuary for the service.
+After it, talk to Margaret. The ledger is on the west table and ends the chapter. Frank's longer story is at the bay on Friday and again before Saturday afternoon. You can skip it.
 
 ## Checks
 
@@ -54,6 +56,7 @@ godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m2/m2_va
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m3/m3_validation.tscn
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m4/m4_validation.tscn
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m4_5/m4_5_validation.tscn
+godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m5a/m5a_validation.tscn
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/toolchain/toolchain_test.tscn --quit-after 5
 ```
 
@@ -65,7 +68,11 @@ The manual list is `docs/PLAYTEST.md`. Placeholder sprites are drawn in code by 
 scenes/main.tscn                     title screen (New Game / Continue / Quit)
 scenes/world/church_exterior.tscn    grounds, with the walk to Oak Street
 scenes/world/sanctuary.tscn          interior, Sunday service, ledger
-scenes/world/hardware_street.tscn    Oak Street: shops, park, creek, gated lane
+scenes/world/hardware_street.tscn    Oak Street: shops, park, creek, the bridge
+scenes/world/parsonage.tscn          the pastor's house
+scenes/world/maple_lane.tscn         houses, the bus stop, the community garden
+scenes/world/hardware_interior.tscn  Thomas's counter
+scenes/world/bay_interior.tscn       Frank's bay
 scenes/actors/player.tscn
 scenes/ui/hud.tscn
 scripts/actors/                      player, prop collision
@@ -77,8 +84,8 @@ scripts/interactions/                interactable, door, one-line speech, dialog
 scripts/dialogue/                    conversation runner
 scripts/systems/                     scene router, narrative state, day clock, schedules, save, time of day
 scripts/services/                    Sunday gathering in the sanctuary
-scripts/world/                       room bootstrap and the three layouts
-scripts/ui/                          prompt, dialogue box, journal, pause, town map, title, chapter ending
+scripts/world/                       room bootstrap, the church, Oak Street, Maple Lane, and the interiors
+scripts/ui/                          prompt, dialogue box, journal, pause, town map, morning card, title, chapter ending
 assets/                              png placeholders and the master palette
 tools/generate_placeholders.py       draws those pngs
 tests/toolchain/                     environment smoke test (leave it)
@@ -87,6 +94,7 @@ tests/m2/                            milestone 2 checks
 tests/m3/                            milestone 3 checks
 tests/m4/                            milestone 4 checks
 tests/m4_5/                          milestone 4.5 checks
+tests/m5a/                           milestone 5A checks
 ```
 
 ## Documents
@@ -99,7 +107,7 @@ tests/m4_5/                          milestone 4.5 checks
 | `docs/DEVELOPMENT_ROADMAP.md` | Milestones M0–M5 |
 | `docs/ROADMAP.md` | Current cut line |
 | `docs/DECISIONS.md` | Choices and open questions |
-| `docs/PLAYTEST.md` | Automated commands, the T01–T38 checklist, and a path through the demo |
+| `docs/PLAYTEST.md` | Automated commands, the T01–T46 checklist, and a path through the demo |
 | `docs/ENVIRONMENT_SETUP.md` | Tools, MCP, troubleshooting |
 | `docs/The_Calling_Godot_Codex_Project_Brief.md` | Original brief (reference) |
 
@@ -112,13 +120,15 @@ tests/m4_5/                          milestone 4.5 checks
 
 ## Limitations
 
-- Art is an original blockout drawn in code when the scene starts, not final illustration. There are no `.ase` sources yet. The Oak Street buildings and Thomas, Frank, and Sarah are the same kind of placeholder.
-- The notice board is still one line. There is no inventory or audio. The hardware store and the bay are exteriors only.
-- One save slot, `user://the_calling_save.json`, version 2. A version 1 file loads and gains an empty sermon theme. Esc, then Save or Load. New Game does not delete the slot. Restart on the chapter screen does.
+- Art is an original blockout drawn in code when the scene starts, not final illustration. There are no `.ase` sources yet. The new rooms, the garden, and the shop props are the same kind of placeholder.
+- The notice board is still one line. There is no inventory or audio.
+- One save slot, `user://the_calling_save.json`, version 3. A version 1 or version 2 file loads. Esc, then Save or Load. New Game does not delete the slot. Restart on the chapter screen does.
 - The clock enters Sunday and stops at Sunday 11:59 p.m. T is a debug skip. Before 10:00 a.m. on Sunday it stops at 10:00. A single frame never moves the clock more than one minute.
 - The Sunday service and the chapter ending use the same confirm keys as dialogue. There is no settings menu, no text-speed slider, and no controller bindings.
 - Unnamed congregants are placeholders. They do not speak. Named people use a seated bust during the service and their standing sheet afterward.
-- The maps are painted when the scene starts, from `scripts/world/church_exterior.gd`, `scripts/world/sanctuary.gd`, and `scripts/world/hardware_street.gd`.
+- The maps are painted when the scene starts, from the room scripts under `scripts/world/`.
 - Named people walk between posts in the room you are in. Entering a room places them where the schedule already says. If the way is blocked, they are placed at the post.
-- The town map is a sketch of three places. Maple Lane does not open onto another scene yet.
-- The Thursday flowers, Friday delivery, and Saturday park are optional. The chapter still ends from the ledger if you never find them.
+- During open hours Thomas and Frank can stand on the Oak Street sidewalk and also appear behind the counter. The sidewalk post is the one their schedule uses.
+- The town map is a sketch. It now includes the parsonage, Maple Lane, and the two shops.
+- The Thursday flowers, Friday delivery, Saturday park, church-walk cleanup, and Maple Lane garden are optional. The chapter still ends from the ledger if you never find them.
+- Sleep does not continue past this Sunday.

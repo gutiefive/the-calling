@@ -219,6 +219,51 @@ static func ledger() -> Texture2D:
 	return _cached("ledger", _ledger())
 
 
+static func parsonage() -> Texture2D:
+	return _cached("parsonage", _parsonage())
+
+
+static func fence() -> Texture2D:
+	return _cached("fence", _fence())
+
+
+static func bus_stop() -> Texture2D:
+	return _cached("bus_stop", _bus_stop())
+
+
+static func garden_plot(stage: int) -> Texture2D:
+	var clamped := clampi(stage, 0, 4)
+	return _cached("garden%d" % clamped, _garden_plot(clamped))
+
+
+static func overgrown_bed() -> Texture2D:
+	return _cached("overgrown_bed", _overgrown_bed())
+
+
+static func litter() -> Texture2D:
+	return _cached("litter", _litter())
+
+
+static func bed() -> Texture2D:
+	return _cached("bed", _bed())
+
+
+static func shelf() -> Texture2D:
+	return _cached("shelf", _shelf())
+
+
+static func counter() -> Texture2D:
+	return _cached("counter", _counter())
+
+
+static func car() -> Texture2D:
+	return _cached("car", _car())
+
+
+static func tools() -> Texture2D:
+	return _cached("tools", _tools())
+
+
 static func congregant(variant: int) -> Texture2D:
 	return _cached("congregant%d" % variant, _seated_body(variant, false))
 
@@ -905,6 +950,143 @@ static func _ledger() -> Image:
 	_rect(image, 18, 13, 4, 1, GREY_D)
 	_rect(image, 18, 16, 3, 1, GREY)
 	_rect(image, 8, 22, 16, 2, GOLD)
+	return _outline(image)
+
+
+static func _parsonage() -> Image:
+	var image := _new(128, 96)
+	for y in range(8, 40):
+		var inset := (40 - y) / 3
+		_rect(image, inset, y, 128 - inset * 2, 1, ROOF if (y / 3) % 2 == 0 else ROOF_D)
+	_rect(image, 16, 40, 96, 44, CREAM)
+	_rect(image, 16, 76, 96, 10, BRICK)
+	_rect(image, 24, 50, 22, 16, WOOD_D)
+	_rect(image, 27, 53, 16, 10, GLASS)
+	_rect(image, 82, 50, 22, 16, WOOD_D)
+	_rect(image, 85, 53, 16, 10, GLASS)
+	_rect(image, 52, 58, 24, 28, WOOD_D)
+	_rect(image, 56, 62, 16, 20, WOOD)
+	_rect(image, 18, 84, 12, 3, MOSS)
+	return _outline(image)
+
+
+static func _fence() -> Image:
+	var image := _new(64, 32)
+	_rect(image, 4, 22, 4, 8, WOOD_D)
+	_rect(image, 56, 22, 4, 8, WOOD_D)
+	_rect(image, 30, 20, 4, 10, WOOD_D)
+	_rect(image, 4, 10, 56, 4, WOOD)
+	_rect(image, 4, 16, 56, 3, WOOD_L)
+	return _outline(image)
+
+
+static func _bus_stop() -> Image:
+	var image := _new(32, 48)
+	_rect(image, 14, 20, 4, 24, GREY_D)
+	_rect(image, 4, 8, 24, 6, ROOF)
+	_rect(image, 6, 14, 20, 10, CREAM)
+	_rect(image, 8, 16, 16, 6, GLASS_D)
+	return _outline(image)
+
+
+static func _garden_plot(stage: int) -> Image:
+	var image := _new(64, 48)
+	_rect(image, 4, 16, 56, 26, SOIL)
+	_rect(image, 4, 16, 56, 4, WOOD_D)
+	if stage == 0:
+		_rect(image, 8, 10, 48, 18, LEAF_D)
+		_rect(image, 12, 8, 10, 12, LEAF)
+		_rect(image, 30, 6, 14, 16, LEAF_DRY)
+		_rect(image, 44, 12, 8, 10, MOSS)
+	elif stage == 1:
+		_rect(image, 10, 24, 40, 8, SOIL)
+	elif stage == 2:
+		_rect(image, 12, 28, 4, 4, LEAF_L)
+		_rect(image, 28, 26, 4, 4, LEAF_L)
+		_rect(image, 44, 28, 4, 4, LEAF)
+	elif stage == 3:
+		_rect(image, 12, 22, 6, 12, LEAF)
+		_rect(image, 28, 18, 6, 16, LEAF_L)
+		_rect(image, 44, 22, 6, 12, LEAF)
+	else:
+		_rect(image, 10, 16, 8, 18, LEAF)
+		_rect(image, 26, 12, 10, 22, LEAF_L)
+		_rect(image, 44, 16, 8, 18, LEAF)
+		_px(image, 30, 14, FLOWER)
+		_px(image, 48, 18, FLOWER2)
+		_px(image, 14, 18, FLOWER2)
+	return _outline(image)
+
+
+static func _overgrown_bed() -> Image:
+	var image := _new(48, 32)
+	_rect(image, 4, 16, 40, 12, SOIL)
+	_rect(image, 6, 8, 36, 14, LEAF_D)
+	_rect(image, 10, 6, 8, 10, LEAF_DRY)
+	_rect(image, 24, 4, 12, 12, MOSS)
+	_rect(image, 16, 12, 6, 6, LEAF)
+	return _outline(image)
+
+
+static func _litter() -> Image:
+	var image := _new(16, 16)
+	_rect(image, 3, 8, 10, 4, PAPER)
+	_rect(image, 5, 6, 4, 3, GREY)
+	_px(image, 11, 9, BRICK)
+	return _outline(image)
+
+
+static func _bed() -> Image:
+	var image := _new(48, 64)
+	_rect(image, 6, 10, 36, 8, WOOD_D)
+	_rect(image, 6, 18, 36, 36, CREAM_D)
+	_rect(image, 8, 20, 32, 14, CREAM)
+	_rect(image, 8, 36, 32, 14, SHIRT_D)
+	_rect(image, 6, 50, 36, 6, WOOD)
+	return _outline(image)
+
+
+static func _shelf() -> Image:
+	var image := _new(64, 48)
+	_rect(image, 6, 10, 52, 6, WOOD)
+	_rect(image, 6, 24, 52, 6, WOOD_D)
+	_rect(image, 6, 38, 52, 6, WOOD)
+	_rect(image, 8, 6, 6, 6, BRICK)
+	_rect(image, 20, 4, 8, 8, CREAM)
+	_rect(image, 36, 18, 10, 8, GREY)
+	_rect(image, 14, 32, 8, 8, GLASS_D)
+	return _outline(image)
+
+
+static func _counter() -> Image:
+	var image := _new(80, 32)
+	_rect(image, 4, 10, 72, 14, WOOD)
+	_rect(image, 4, 10, 72, 3, WOOD_L)
+	_rect(image, 8, 22, 6, 8, WOOD_D)
+	_rect(image, 66, 22, 6, 8, WOOD_D)
+	_rect(image, 20, 14, 16, 4, PAPER)
+	return _outline(image)
+
+
+static func _car() -> Image:
+	var image := _new(96, 48)
+	_rect(image, 10, 18, 76, 18, GREY_D)
+	_rect(image, 22, 10, 40, 12, GLASS_D)
+	_rect(image, 24, 12, 16, 8, GLASS)
+	_rect(image, 44, 12, 16, 8, GLASS_H)
+	_rect(image, 16, 32, 14, 8, OUTLINE)
+	_rect(image, 66, 32, 14, 8, OUTLINE)
+	_rect(image, 18, 34, 10, 4, GREY)
+	_rect(image, 68, 34, 10, 4, GREY)
+	return _outline(image)
+
+
+static func _tools() -> Image:
+	var image := _new(32, 32)
+	_rect(image, 6, 8, 4, 18, GREY)
+	_rect(image, 4, 6, 8, 4, GREY_D)
+	_rect(image, 16, 14, 12, 4, WOOD)
+	_rect(image, 22, 8, 4, 16, WOOD_L)
 	return _outline(image)
 
 

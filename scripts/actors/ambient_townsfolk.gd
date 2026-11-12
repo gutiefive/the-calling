@@ -43,6 +43,10 @@ func apply_clock() -> void:
 
 
 func bark_text() -> String:
+	if person_id == "ruth" and NarrativeState.flag_is_true("garden_planted"):
+		return "The garden's actually in the ground. I'll water if I'm walking by."
+	if person_id == "dale" and NarrativeState.flag_is_true("grounds_tidy"):
+		return "I walked past the church. The front looks looked-after."
 	var clock := get_node_or_null("/root/DayClock")
 	var day := "Thursday"
 	if clock != null:

@@ -33,6 +33,22 @@
         {"phases": ["Night"], "text": "Even the creek sounds closer when the street is empty."},
         {"text": "Nice enough day to be outside."}
       ]
+    },
+    {
+      "id": "dale",
+      "lines": [
+        {"days": ["Thursday", "Friday", "Saturday"], "phases": ["Day"], "text": "Frank said the bridge boards went in. Maple Lane's a walk again."},
+        {"phases": ["Evening"], "text": "I'm heading in. The lane gets dark past the bus stop."},
+        {"text": "Just cutting through."}
+      ]
+    },
+    {
+      "id": "ruth",
+      "lines": [
+        {"days": ["Thursday", "Friday", "Saturday"], "phases": ["Day"], "text": "The garden plot's gone to weeds. Somebody could still put seed in it."},
+        {"phases": ["Evening"], "text": "The bench is wet with dew already. I'm done for the day."},
+        {"text": "Morning's the quiet end of the lane."}
+      ]
     }
   ]
 }

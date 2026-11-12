@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/building_interior.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/actors/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="Script" path="res://scripts/systems/time_of_day_view.gd" id="4_time"]
+
+[node name="HardwareInterior" type="Node2D"]
+script = ExtResource("1_script")
+
+[node name="Ground" type="TileMapLayer" parent="."]
+z_index = -10
+
+[node name="Solids" type="StaticBody2D" parent="."]
+collision_layer = 1
+collision_mask = 0
+
+[node name="Props" type="Node2D" parent="."]
+
+[node name="Player" parent="Props" instance=ExtResource("2_player")]
+
+[node name="Lighting" type="Node2D" parent="."]
+script = ExtResource("4_time")
+interior = true
+
+[node name="CanvasModulate" type="CanvasModulate" parent="Lighting"]
+color = Color(1, 0.96, 0.9, 1)
+
+[node name="Sun" type="DirectionalLight2D" parent="Lighting"]
+shadow_enabled = false
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="default" type="Marker2D" parent="Spawns"]
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]

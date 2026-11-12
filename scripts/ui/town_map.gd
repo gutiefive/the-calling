@@ -2,9 +2,13 @@ class_name TownMap
 extends Control
 ## A sketch of the places you can walk: church grounds, sanctuary, and Oak Street.
 
-const CHURCH := Rect2(48, 96, 200, 170)
-const SANCTUARY := Rect2(88, 52, 120, 36)
-const STREET := Rect2(280, 96, 300, 170)
+const CHURCH := Rect2(48, 96, 200, 160)
+const SANCTUARY := Rect2(88, 48, 120, 36)
+const STREET := Rect2(268, 96, 250, 150)
+const PARSONAGE := Rect2(16, 268, 110, 64)
+const MAPLE := Rect2(400, 262, 210, 72)
+const STORE := Rect2(268, 16, 110, 36)
+const BAY := Rect2(388, 16, 110, 36)
 
 var _open: bool = false
 var _was_down: bool = false
@@ -26,9 +30,13 @@ func _ready() -> void:
 	_add_region(CHURCH, Color(0.36, 0.48, 0.32, 1.0), "Church grounds")
 	_add_region(SANCTUARY, Color(0.45, 0.38, 0.32, 1.0), "Sanctuary")
 	_add_region(STREET, Color(0.48, 0.42, 0.34, 1.0), "Oak Street")
+	_add_region(PARSONAGE, Color(0.55, 0.42, 0.32, 1.0), "Parsonage")
+	_add_region(MAPLE, Color(0.40, 0.50, 0.34, 1.0), "Maple Lane")
+	_add_region(STORE, Color(0.52, 0.40, 0.30, 1.0), "Hardware store")
+	_add_region(BAY, Color(0.42, 0.40, 0.38, 1.0), "Frank's bay")
 	var hint := Label.new()
 	hint.text = "M  close"
-	hint.position = Vector2(280, 280)
+	hint.position = Vector2(16, 338)
 	hint.add_theme_font_size_override("font_size", 14)
 	hint.add_theme_color_override("font_color", Color(0.78, 0.72, 0.62))
 	hint.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -52,7 +60,7 @@ func _physics_process(_delta: float) -> void:
 	# Polled, like the journal, so a test can press the action without a window event.
 	var down := Input.is_action_pressed("town_map")
 	if down and not _was_down:
-		if not NarrativeState.ending_open and not NarrativeState.dialogue_open and not NarrativeState.journal_open:
+		if not NarrativeState.ending_open and not NarrativeState.dialogue_open and not NarrativeState.journal_open and not NarrativeState.day_card_open:
 			toggle()
 	_was_down = down
 	if _open:
@@ -103,6 +111,14 @@ func region_rect(region_id: String) -> Rect2:
 			return SANCTUARY
 		"street":
 			return STREET
+		"parsonage":
+			return PARSONAGE
+		"maple":
+			return MAPLE
+		"store":
+			return STORE
+		"bay":
+			return BAY
 		_:
 			return Rect2()
 
@@ -161,6 +177,14 @@ func _region_id(room: WorldRoom) -> String:
 		return "street"
 	if base == "church_exterior":
 		return "church"
+	if base == "parsonage":
+		return "parsonage"
+	if base == "maple_lane":
+		return "maple"
+	if base == "hardware_interior":
+		return "store"
+	if base == "bay_interior":
+		return "bay"
 	return ""
 
 
