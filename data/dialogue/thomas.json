@@ -1,0 +1,29 @@
+{
+  "id": "thomas",
+  "start": "start",
+  "nodes": {
+    "start": {
+      "router": [
+        {"if": {"quest_step": ["oak_street", "hardware"]}, "next": "errand"},
+        {"if": {"quest_active": "oak_street"}, "next": "open"},
+        {"next": "browse"}
+      ]
+    },
+    "browse": {
+      "speaker": "Thomas",
+      "text": "Oak Street Hardware. If I don't stock it, Frank has a bin of almost.",
+      "end": true
+    },
+    "errand": {
+      "speaker": "Thomas",
+      "text": "Margaret's step. Number eight screws, in the bag. Frank's the next bay. He'll think you came to recruit him. Let him talk.",
+      "quest": {"id": "oak_street", "step": "frank"},
+      "end": true
+    },
+    "open": {
+      "speaker": "Thomas",
+      "text": "Store's open. The step screw is still a number eight, if you lost the bag.",
+      "end": true
+    }
+  }
+}

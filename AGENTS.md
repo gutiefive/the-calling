@@ -9,7 +9,7 @@ The primary agent is Claude (Opus) inside Cursor. These rules persist across ses
 3. `docs/ENVIRONMENT_SETUP.md` if a tool or MCP server misbehaves.
 
 ## 2. Scope discipline
-- Work only on the milestone Nathan has approved. As of 2026-11-12 **M2 is implemented** (dialogue, the spare-key quest, and a journal on the church grounds). Do not start M3 until Nathan says go.
+- Work only on the milestone Nathan has approved. As of 2026-11-12 **M3 is implemented** (weekday clock, Oak Street, schedules, relationships, and a save file). Do not start M4 until Nathan says go.
 - Do not silently add dialogue frameworks, quest systems, inventory, economy, saving, combat, multiplayer,
   procedural generation, or weather before their milestone.
 - Not a church tycoon/finance sim. People before numbers (see GAME_DESIGN pillars).

@@ -10,6 +10,17 @@
         "return": "Bring the spare key ring back to Margaret.",
         "done": "The spare keys are back on Margaret's hook."
       }
+    },
+    {
+      "id": "oak_street",
+      "title": "Oak Street",
+      "steps": {
+        "hardware": "Ask Thomas at the hardware store about the church step.",
+        "frank": "Frank Miller is at the auto shop. Hear him out.",
+        "friday": "On Friday morning, find Sarah on Oak Street.",
+        "saturday": "Saturday evening, meet Margaret on the church walk.",
+        "done": "Sunday is at ten. The week held together."
+      }
     }
   ]
 }

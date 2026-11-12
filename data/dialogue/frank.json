@@ -1,0 +1,58 @@
+{
+  "id": "frank",
+  "start": "start",
+  "nodes": {
+    "start": {
+      "router": [
+        {"if": {"relationship_at_least": ["frank", 1]}, "next": "later_listened"},
+        {"if": {"flag": "frank_invited"}, "next": "later_invited"},
+        {"if": {"quest_step": ["oak_street", "frank"]}, "next": "ask"},
+        {"next": "closed"}
+      ]
+    },
+    "closed": {
+      "speaker": "Frank",
+      "text": "Bay's open for parts. I'm in the middle of a brake job.",
+      "end": true
+    },
+    "ask": {
+      "speaker": "Frank",
+      "text": "Margaret sent you for a screw, and I expect a sermon after it. The bay's open. The sermon can wait.",
+      "choices": [
+        {
+          "text": "What happened, if you want to say.",
+          "next": "listened",
+          "set_flags": {"frank_listened": true},
+          "add_relationships": {"frank": 1}
+        },
+        {
+          "text": "We could use you on Sunday.",
+          "next": "pitched",
+          "set_flags": {"frank_invited": true}
+        }
+      ]
+    },
+    "listened": {
+      "speaker": "Frank",
+      "text": "The last pastor stopped returning calls. I'm not angry at the building. I'm tired of being useful and unheard.",
+      "quest": {"id": "oak_street", "step": "friday"},
+      "end": true
+    },
+    "pitched": {
+      "speaker": "Frank",
+      "text": "Sunday's your work. This bay is mine. The screw's a number eight. It's on the bench.",
+      "quest": {"id": "oak_street", "step": "friday"},
+      "end": true
+    },
+    "later_listened": {
+      "speaker": "Frank",
+      "text": "You came back without a flyer. Don't make a project out of me.",
+      "end": true
+    },
+    "later_invited": {
+      "speaker": "Frank",
+      "text": "If this is another Sunday pitch, I've got brake work. The screw's already on the bench.",
+      "end": true
+    }
+  }
+}

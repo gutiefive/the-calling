@@ -50,8 +50,25 @@ art_id = "harold"
 frame_count = 2
 fps = 1.5
 dialogue_id = "harold"
+npc_id = "harold"
 
 [node name="Sprite" type="AnimatedSprite2D" parent="Props/Harold"]
+
+[node name="Margaret" type="Node2D" parent="Props"]
+position = Vector2(150, 480)
+script = ExtResource("7_talk")
+prompt_text = "Speak with Margaret"
+radius = 40.0
+blocks_movement = true
+block_size = Vector2(12, 8)
+speaker_name = "Margaret"
+art_id = "margaret"
+frame_count = 2
+fps = 1.5
+dialogue_id = "margaret"
+npc_id = "margaret"
+
+[node name="Sprite" type="AnimatedSprite2D" parent="Props/Margaret"]
 
 [node name="KeyRing" type="Node2D" parent="Props"]
 position = Vector2(168, 292)

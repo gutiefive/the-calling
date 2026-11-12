@@ -14,6 +14,9 @@ const POS_LAMP := Vector2(500, 340)
 const POS_FLOWERS := Vector2(860, 340)
 const POS_WIN_L := Vector2(456, 256)
 const POS_WIN_R := Vector2(696, 256)
+const POS_STREET_DOOR := Vector2(1040, 640)
+const POS_FROM_STREET := Vector2(920, 640)
+const POS_HAROLD := Vector2(640, 420)
 
 
 func _build() -> void:
@@ -21,6 +24,14 @@ func _build() -> void:
 	_assign_art()
 	_place_props()
 	_paint_ground()
+	_clear_solids()
+	_add_church_collision()
+	_add_prop_blocks()
+	_add_map_border(MAP_SIZE)
+	_place_occluder()
+
+
+func rebuild_collision() -> void:
 	_clear_solids()
 	_add_church_collision()
 	_add_prop_blocks()
@@ -48,9 +59,11 @@ func _place_props() -> void:
 	_place("Props/Church", POS_CHURCH)
 	_feet_offset("Props/Church")
 	_place("Props/Door", POS_DOOR)
+	_place("Props/StreetDoor", POS_STREET_DOOR)
 	_place("Props/Mat", POS_MAT)
 	_feet_offset("Props/Mat")
 	_place("Props/Margaret", POS_MARGARET)
+	_place("Props/Harold", POS_HAROLD)
 	_place("Props/Notice", POS_NOTICE)
 	_place("Props/Bench", POS_BENCH)
 	_feet_offset("Props/Bench")
@@ -67,12 +80,16 @@ func _place_props() -> void:
 		_feet_offset(path)
 	_place("Spawns/default", POS_SPAWN)
 	_place("Spawns/from_sanctuary", POS_RETURN)
+	_place("Spawns/from_street", POS_FROM_STREET)
 	var default_spawn := get_node_or_null("Spawns/default")
 	var returned := get_node_or_null("Spawns/from_sanctuary")
+	var from_street := get_node_or_null("Spawns/from_street")
 	if default_spawn != null:
 		default_spawn.set_meta("facing", &"up")
 	if returned != null:
 		returned.set_meta("facing", &"down")
+	if from_street != null:
+		from_street.set_meta("facing", &"left")
 	_place("Lighting/WindowL", POS_WIN_L)
 	_place("Lighting/WindowR", POS_WIN_R)
 

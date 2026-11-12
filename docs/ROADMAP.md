@@ -7,8 +7,8 @@ Status date: 2026-11-12. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md
 | M0 Environment | Done (2026-11-11) |
 | M1 Playable world foundation | Implemented. See `docs/PLAYTEST.md` for what was run. |
 | M2 Conversation and quest slice | Implemented. Dialogue, the spare-key quest, and a journal. |
-| M3 Clock, consequences, town block | Not started. Do not begin until Nathan asks. |
-| M4 First Sunday vertical slice | Not started |
+| M3 Clock, consequences, town block | Implemented. Weekday clock, Oak Street, schedules, relationships, and one save slot. |
+| M4 First Sunday vertical slice | Not started. Do not begin until Nathan asks. |
 | M5+ | Only after prototype feedback |
 
 ## M1 includes
@@ -26,3 +26,11 @@ Branching dialogue for Margaret and for Harold, the deacon, who waits in the san
 ## M2 does not include
 
 A clock, NPC schedules, the hardware store, Frank, save/load, inventory, sermons, or audio.
+
+## M3 includes
+
+A weekday clock from Thursday 2:00 p.m. through Saturday night. It drives the existing day, evening, and night lights. T skips ahead. Oak Street sits east of the church lot: a hardware store, Frank Miller's bay, and a cottage. Margaret, Harold, Thomas, Frank, and Sarah keep simple schedules. Dialogue can raise a relationship, and later lines change because of it. The pause menu saves and loads one versioned JSON file. The opening chain runs from the spare keys through Saturday evening and stops short of Sunday.
+
+## M3 does not include
+
+Sunday service, a sermon theme, the financial reveal, shop interiors, inventory, or audio.

@@ -102,8 +102,25 @@ art_id = "margaret"
 frame_count = 2
 fps = 1.5
 dialogue_id = "margaret"
+npc_id = "margaret"
 
 [node name="Sprite" type="AnimatedSprite2D" parent="Props/Margaret"]
+
+[node name="Harold" type="Node2D" parent="Props"]
+position = Vector2(640, 420)
+script = ExtResource("8_talk")
+prompt_text = "Speak with Harold"
+radius = 40.0
+blocks_movement = true
+block_size = Vector2(12, 8)
+speaker_name = "Harold"
+art_id = "harold"
+frame_count = 2
+fps = 1.5
+dialogue_id = "harold"
+npc_id = "harold"
+
+[node name="Sprite" type="AnimatedSprite2D" parent="Props/Harold"]
 
 [node name="Door" type="Node2D" parent="Props"]
 position = Vector2(576, 286)
@@ -112,6 +129,14 @@ prompt_text = "Enter the sanctuary"
 radius = 42.0
 destination_scene = "res://scenes/world/sanctuary.tscn"
 destination_spawn = &"from_exterior"
+
+[node name="StreetDoor" type="Node2D" parent="Props"]
+position = Vector2(1040, 640)
+script = ExtResource("6_door")
+prompt_text = "Walk to Oak Street"
+radius = 42.0
+destination_scene = "res://scenes/world/hardware_street.tscn"
+destination_spawn = &"from_church"
 
 [node name="Player" parent="Props" instance=ExtResource("2_player")]
 position = Vector2(560, 430)
@@ -153,5 +178,8 @@ position = Vector2(560, 430)
 
 [node name="from_sanctuary" type="Marker2D" parent="Spawns"]
 position = Vector2(560, 360)
+
+[node name="from_street" type="Marker2D" parent="Spawns"]
+position = Vector2(920, 640)
 
 [node name="HUD" parent="." instance=ExtResource("3_hud")]

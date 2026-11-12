@@ -3,6 +3,13 @@ extends SpeechProp
 ## Opens a JSON conversation. The lines live in data/dialogue, not on the node.
 
 @export var dialogue_id: String = ""
+@export var npc_id: String = ""
+
+
+func _enter_tree() -> void:
+	super._enter_tree()
+	if not npc_id.is_empty():
+		add_to_group("scheduled_npc")
 
 
 func interact(_actor: Node) -> void:

@@ -1,6 +1,6 @@
 extends Node
-## Flags and quests that must outlive a room change.
-## M3 can write to_dictionary() to disk. This milestone keeps it in memory only.
+## Flags, quests, and relationship values that outlive a room change.
+## SaveGame writes to_dictionary() into the versioned user:// file.
 
 const SAVE_VERSION := 1
 
@@ -9,6 +9,7 @@ var journal_open: bool = false
 
 var _flags: Dictionary = {}
 var _quests: Dictionary = {}
+var _relationships: Dictionary = {}
 var _catalog: Dictionary = {}
 
 
@@ -31,6 +32,7 @@ func set_journal_open(is_open: bool) -> void:
 func reset() -> void:
 	_flags.clear()
 	_quests.clear()
+	_relationships.clear()
 	dialogue_open = false
 	journal_open = false
 
@@ -52,6 +54,18 @@ func flag_is_true(key: String) -> bool:
 
 func flag_equals(key: String, expected: Variant) -> bool:
 	return _flags.get(key, null) == expected
+
+
+func relationship(npc_id: String) -> int:
+	return int(_relationships.get(npc_id, 0))
+
+
+func set_relationship(npc_id: String, value: int) -> void:
+	_relationships[npc_id] = value
+
+
+func add_relationship(npc_id: String, delta: int) -> void:
+	_relationships[npc_id] = relationship(npc_id) + delta
 
 
 func quest_title(quest_id: String) -> String:
@@ -126,6 +140,7 @@ func to_dictionary() -> Dictionary:
 		"version": SAVE_VERSION,
 		"flags": _flags.duplicate(true),
 		"quests": _quests.duplicate(true),
+		"relationships": _relationships.duplicate(true),
 	}
 
 
@@ -139,6 +154,11 @@ func from_dictionary(data: Dictionary) -> void:
 			var record_v: Variant = (quests_v as Dictionary)[key]
 			if record_v is Dictionary:
 				_quests[str(key)] = (record_v as Dictionary).duplicate(true)
+	_relationships.clear()
+	var rel_v: Variant = data.get("relationships", {})
+	if rel_v is Dictionary:
+		for key in (rel_v as Dictionary).keys():
+			_relationships[str(key)] = int((rel_v as Dictionary)[key])
 
 
 func _load_catalog(path: String) -> void:

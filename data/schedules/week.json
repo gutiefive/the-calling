@@ -1,0 +1,47 @@
+{
+  "npcs": [
+    {
+      "id": "margaret",
+      "entries": [
+        {"days": ["Thursday"], "from": "00:00", "until": "24:00", "scene": "church_exterior", "position": [700, 360]},
+        {"days": ["Friday"], "from": "08:00", "until": "12:00", "scene": "church_exterior", "position": [700, 360]},
+        {"days": ["Friday"], "from": "12:00", "until": "17:00", "scene": "sanctuary", "position": [150, 480]},
+        {"days": ["Saturday"], "from": "09:00", "until": "17:00", "scene": "sanctuary", "position": [150, 480]},
+        {"days": ["Saturday"], "from": "17:00", "until": "21:00", "scene": "church_exterior", "position": [700, 360]}
+      ]
+    },
+    {
+      "id": "harold",
+      "entries": [
+        {"days": ["Thursday"], "from": "00:00", "until": "24:00", "scene": "sanctuary", "position": [220, 420]},
+        {"days": ["Friday"], "from": "09:00", "until": "12:00", "scene": "church_exterior", "position": [640, 420]},
+        {"days": ["Friday"], "from": "13:00", "until": "18:00", "scene": "sanctuary", "position": [220, 420]},
+        {"days": ["Saturday"], "from": "09:00", "until": "17:00", "scene": "sanctuary", "position": [220, 420]},
+        {"days": ["Saturday"], "from": "17:00", "until": "21:00", "scene": "church_exterior", "position": [620, 400]}
+      ]
+    },
+    {
+      "id": "thomas",
+      "entries": [
+        {"days": ["Thursday"], "from": "09:00", "until": "18:00", "scene": "hardware_street", "position": [640, 430]},
+        {"days": ["Friday"], "from": "09:00", "until": "18:00", "scene": "hardware_street", "position": [640, 430]},
+        {"days": ["Saturday"], "from": "09:00", "until": "15:00", "scene": "hardware_street", "position": [640, 430]}
+      ]
+    },
+    {
+      "id": "frank",
+      "entries": [
+        {"days": ["Thursday"], "from": "08:00", "until": "17:00", "scene": "hardware_street", "position": [1000, 440]},
+        {"days": ["Friday"], "from": "08:00", "until": "17:00", "scene": "hardware_street", "position": [1000, 440]},
+        {"days": ["Saturday"], "from": "09:00", "until": "14:00", "scene": "hardware_street", "position": [1000, 440]}
+      ]
+    },
+    {
+      "id": "sarah",
+      "entries": [
+        {"days": ["Friday"], "from": "09:00", "until": "12:00", "scene": "hardware_street", "position": [480, 520]},
+        {"days": ["Saturday"], "from": "10:00", "until": "13:00", "scene": "hardware_street", "position": [480, 520]}
+      ]
+    }
+  ]
+}

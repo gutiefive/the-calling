@@ -4,7 +4,10 @@
   "nodes": {
     "start": {
       "router": [
-        {"if": {"quest_status": ["spare_keys", "completed"]}, "next": "after"},
+        {"if": {"quest_status": ["oak_street", "completed"]}, "next": "week_done"},
+        {"if": {"quest_step": ["oak_street", "saturday"]}, "next": "saturday_gate"},
+        {"if": {"quest_active": "oak_street"}, "next": "week_busy"},
+        {"if": {"quest_status": ["spare_keys", "completed"]}, "next": "send_town"},
         {"if": {"quest_step": ["spare_keys", "return"]}, "next": "return_router"},
         {"if": {"quest_active": "spare_keys"}, "next": "busy"},
         {"next": "greet"}
@@ -62,9 +65,80 @@
       "quest": {"id": "spare_keys", "complete": true},
       "end": true
     },
-    "after": {
+    "send_town": {
       "speaker": "Margaret",
-      "text": "Keys are on the hook. The step still rocks. One problem at a time.",
+      "text": "Keys are on the hook. The front step still rocks. Thomas, at the hardware store on Oak Street, keeps the screws that fit it.",
+      "quest": {"id": "oak_street", "start": true, "step": "hardware"},
+      "end": true
+    },
+    "week_busy": {
+      "router": [
+        {"if": {"quest_step": ["oak_street", "hardware"]}, "next": "remind_hardware"},
+        {"if": {"quest_step": ["oak_street", "frank"]}, "next": "remind_frank"},
+        {"if": {"quest_step": ["oak_street", "friday"]}, "next": "remind_friday"},
+        {"next": "remind_saturday"}
+      ]
+    },
+    "remind_hardware": {
+      "speaker": "Margaret",
+      "text": "Oak Street is east, past the lot. Ask Thomas about the step.",
+      "end": true
+    },
+    "remind_frank": {
+      "speaker": "Margaret",
+      "text": "Frank's bay is the next door down from the hardware store. Hear him out.",
+      "end": true
+    },
+    "remind_friday": {
+      "speaker": "Margaret",
+      "text": "Friday morning, Sarah is usually on Oak Street. She has about an hour before the kids.",
+      "end": true
+    },
+    "remind_saturday": {
+      "speaker": "Margaret",
+      "text": "Come back Saturday evening. I'll be on the front walk.",
+      "end": true
+    },
+    "saturday_gate": {
+      "router": [
+        {"if": {"weekday": "Saturday"}, "next": "saturday_hour"},
+        {"next": "saturday_wait"}
+      ]
+    },
+    "saturday_hour": {
+      "router": [
+        {"if": {"hour_at_least": 17}, "next": "saturday_bond"},
+        {"next": "saturday_wait"}
+      ]
+    },
+    "saturday_bond": {
+      "router": [
+        {"if": {"relationship_at_least": ["frank", 1]}, "next": "saturday_listened"},
+        {"next": "saturday_closed"}
+      ]
+    },
+    "saturday_wait": {
+      "speaker": "Margaret",
+      "text": "Not yet. Saturday evening, on the walk. I want the week in one piece before Sunday.",
+      "end": true
+    },
+    "saturday_listened": {
+      "speaker": "Margaret",
+      "text": "Frank didn't promise Sunday. He stayed and talked. I'll take that. Tomorrow, ten o'clock.",
+      "set_flags": {"sunday_ready": true},
+      "quest": {"id": "oak_street", "complete": true},
+      "end": true
+    },
+    "saturday_closed": {
+      "speaker": "Margaret",
+      "text": "Frank kept the bay door half down. He has his reasons. Tomorrow is Sunday, ten o'clock.",
+      "set_flags": {"sunday_ready": true},
+      "quest": {"id": "oak_street", "complete": true},
+      "end": true
+    },
+    "week_done": {
+      "speaker": "Margaret",
+      "text": "Sunday's at ten. I'm not asking for a crowd. I'm asking us to show up.",
       "end": true
     }
   }

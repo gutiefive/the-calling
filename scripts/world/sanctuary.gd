@@ -27,6 +27,13 @@ func _build() -> void:
 	_add_rect(Vector2(480, 698), Vector2(72, 12))
 
 
+func rebuild_collision() -> void:
+	_clear_solids()
+	_add_walls()
+	_add_prop_blocks()
+	_add_rect(Vector2(480, 698), Vector2(72, 12))
+
+
 func _assign_art() -> void:
 	_set_sprite("Props/Window", PlaceholderArt.sanctuary_window())
 	_set_sprite("Props/Cross", PlaceholderArt.cross())

@@ -44,7 +44,7 @@ practical tasks, complete quests → make choices with consequences → return h
   bulletin boards); contextual prompt; y-sort occlusion; buildings as separate scenes via doors.
 - **Dialogue (M2):** speaker name, branching choices, and flags kept on `NarrativeState`. Portrait and a text-speed
   setting come later. Lines live in `data/dialogue/`.
-- **Quests (M2):** one Chapter 1 task, the spare key ring, tracked in a journal. Schedules and saving are M3.
+- **Quests (M3):** the spare key ring, then a short Thursday-to-Saturday chain on Oak Street. Schedules and one save slot are in. Sunday is M4.
 - **Sundays (future):** weekly checkpoint; choose a sermon *theme* (hope, forgiveness, service, perseverance); outcomes
   reflect prior actions; no guaranteed optimal choice.
 - **Church growth as narrative (future):** congregation health, community trust, community impact, attendance (rough
@@ -93,7 +93,7 @@ keyboard + mouse (controller later).
 | D4 | Exact pixel scale / internal resolution | 640×360 provisional, integer scaling. |
 | D5 | Optional driveable vehicle | Open. |
 | D6 | Denomination / theological specificity | Open. |
-| D7 | Full NPC daily schedules | Open (M3 introduces simple schedules). |
+| D7 | Full NPC daily schedules | Simple windows shipped in M3. A full simulated day is still open. See `docs/DECISIONS.md`. |
 | D8 | Lightweight minigames for church activities | Open. |
 | D9 | Controller / Steam Deck requirements | Later. |
 | D10 | Renderer: Forward+ vs Compatibility | Forward+ chosen for setup; revisit for low-end laptops. |

@@ -79,6 +79,16 @@ static func by_id(art_id: String) -> Texture2D:
 			return key_ring()
 		"notice":
 			return notice_board()
+		"frank":
+			return frank()
+		"thomas":
+			return thomas()
+		"sarah":
+			return sarah()
+		"crate":
+			return crate()
+		"mailbox":
+			return mailbox()
 		_:
 			return null
 
@@ -153,6 +163,38 @@ static func sanctuary_window() -> Texture2D:
 
 static func glow() -> Texture2D:
 	return _cached("glow", _glow())
+
+
+static func frank() -> Texture2D:
+	return _cached("frank", _npc_sheet(GREY, GREY_D, HAIR, SHIRT_D, true, false))
+
+
+static func thomas() -> Texture2D:
+	return _cached("thomas", _npc_sheet(WOOD, WOOD_D, HAIR_L, PANTS, false, true))
+
+
+static func sarah() -> Texture2D:
+	return _cached("sarah", _npc_sheet(FLOWER, BRICK_D, BUN, PANTS, false, false))
+
+
+static func hardware_store() -> Texture2D:
+	return _cached("hardware", _hardware())
+
+
+static func auto_shop() -> Texture2D:
+	return _cached("garage", _garage())
+
+
+static func cottage() -> Texture2D:
+	return _cached("cottage", _cottage())
+
+
+static func crate() -> Texture2D:
+	return _cached("crate", _crate())
+
+
+static func mailbox() -> Texture2D:
+	return _cached("mailbox", _mailbox())
 
 
 static func _cached(key: String, image: Image) -> Texture2D:
@@ -652,3 +694,113 @@ static func _glow() -> Image:
 				band = 55.0
 			image.set_pixel(x, y, Color(LAMP.r, LAMP.g, LAMP.b, band / 255.0))
 	return image
+
+
+static func _npc_sheet(shirt: Color, shirt_d: Color, hair: Color, legs: Color, hat: bool, apron: bool) -> Image:
+	var sheet := _new(64, 48)
+	_blit(sheet, _npc_frame(shirt, shirt_d, hair, legs, hat, apron, 0), 0, 0)
+	_blit(sheet, _npc_frame(shirt, shirt_d, hair, legs, hat, apron, 1), 32, 0)
+	return sheet
+
+
+static func _npc_frame(shirt: Color, shirt_d: Color, hair: Color, legs: Color, hat: bool, apron: bool, frame: int) -> Image:
+	var image := _new(32, 48)
+	var bob := 1 if frame == 1 else 0
+	_rect(image, 11, bob + 22, 10, 11, shirt)
+	_rect(image, 11, bob + 22, 10, 2, shirt_d)
+	_rect(image, 8, bob + 24, 3, 8, shirt_d)
+	_rect(image, 21, bob + 24, 3, 8, shirt_d)
+	if apron:
+		_rect(image, 13, bob + 24, 6, 8, CREAM)
+	_rect(image, 12, bob + 33, 4, 8, legs)
+	_rect(image, 17, bob + 33, 4, 8, legs)
+	_rect(image, 12, bob + 40, 4, 3, SHOE)
+	_rect(image, 17, bob + 40, 4, 3, SHOE)
+	_rect(image, 11, bob + 11, 10, 11, SKIN)
+	_rect(image, 11, bob + 19, 10, 2, SKIN_D)
+	_rect(image, 10, bob + 8, 12, 6, hair)
+	if hat:
+		_rect(image, 8, bob + 6, 16, 4, GREY_D)
+		_rect(image, 6, bob + 9, 20, 2, GREY)
+	_px(image, 14, bob + 15, OUTLINE)
+	_px(image, 18, bob + 15, OUTLINE)
+	var framed := _outline(image)
+	_ellipse(framed, 16, 45, 6, 2, Color(OUTLINE.r, OUTLINE.g, OUTLINE.b, 90.0 / 255.0))
+	return framed
+
+
+static func _hardware() -> Image:
+	var image := _new(224, 128)
+	_rect(image, 8, 28, 208, 18, ROOF_D)
+	_rect(image, 16, 18, 192, 14, ROOF)
+	_rect(image, 12, 46, 200, 70, WOOD)
+	_rect(image, 12, 46, 200, 6, WOOD_L)
+	_rect(image, 12, 104, 200, 16, WOOD_D)
+	_rect(image, 28, 58, 36, 28, GLASS_D)
+	_rect(image, 31, 61, 30, 22, GLASS)
+	_rect(image, 160, 58, 36, 28, GLASS_D)
+	_rect(image, 163, 61, 30, 22, GLASS)
+	_rect(image, 86, 78, 52, 42, WOOD_D)
+	_rect(image, 90, 82, 20, 34, WOOD_L)
+	_rect(image, 114, 82, 20, 34, WOOD)
+	_rect(image, 70, 36, 84, 16, CREAM_D)
+	_rect(image, 74, 39, 76, 10, CREAM)
+	_rect(image, 96, 41, 10, 6, GREY_D)
+	_rect(image, 104, 43, 18, 2, GREY)
+	_rect(image, 18, 118, 14, 4, MOSS)
+	return _outline(image)
+
+
+static func _garage() -> Image:
+	var image := _new(256, 128)
+	_rect(image, 6, 22, 244, 16, GREY_D)
+	_rect(image, 10, 38, 236, 78, CREAM_D)
+	_rect(image, 10, 38, 236, 8, CREAM)
+	_rect(image, 24, 58, 140, 58, GREY_D)
+	_rect(image, 30, 64, 128, 46, GREY)
+	for y in range(70, 104, 8):
+		_rect(image, 30, y, 128, 2, GREY_D)
+	_rect(image, 178, 56, 48, 28, GLASS_D)
+	_rect(image, 182, 60, 40, 20, GLASS)
+	_rect(image, 186, 88, 40, 28, WOOD_D)
+	_rect(image, 48, 78, 36, 14, SHIRT_D)
+	_rect(image, 84, 82, 28, 12, BRICK_D)
+	_rect(image, 58, 74, 16, 8, GLASS_H)
+	return _outline(image)
+
+
+static func _cottage() -> Image:
+	var image := _new(160, 112)
+	for y in range(8, 48):
+		var inset := (48 - y) / 2
+		_rect(image, inset, y, 160 - inset * 2, 1, ROOF if (y / 4) % 2 == 0 else ROOF_D)
+	_rect(image, 16, 48, 128, 52, CREAM)
+	_rect(image, 16, 90, 128, 12, BRICK)
+	_rect(image, 28, 60, 28, 22, WOOD_D)
+	_rect(image, 31, 63, 22, 16, GLASS)
+	_rect(image, 104, 60, 28, 22, WOOD_D)
+	_rect(image, 107, 63, 22, 16, GLASS)
+	_rect(image, 66, 72, 28, 30, WOOD_D)
+	_rect(image, 70, 76, 20, 22, WOOD)
+	_rect(image, 20, 98, 10, 3, MOSS)
+	return _outline(image)
+
+
+static func _crate() -> Image:
+	var image := _new(32, 32)
+	_rect(image, 4, 8, 24, 20, WOOD)
+	_rect(image, 4, 8, 24, 3, WOOD_L)
+	_rect(image, 4, 25, 24, 3, WOOD_D)
+	_rect(image, 6, 12, 20, 2, WOOD_D)
+	_rect(image, 15, 10, 2, 14, WOOD_D)
+	return _outline(image)
+
+
+static func _mailbox() -> Image:
+	var image := _new(32, 40)
+	_rect(image, 14, 18, 4, 18, GREY_D)
+	_rect(image, 6, 8, 20, 12, GREY)
+	_rect(image, 6, 8, 20, 3, GREY_D)
+	_rect(image, 8, 12, 10, 5, CREAM)
+	_px(image, 22, 13, BRICK)
+	return _outline(image)

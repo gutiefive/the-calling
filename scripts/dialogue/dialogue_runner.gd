@@ -143,7 +143,26 @@ func _matches(condition: Dictionary) -> bool:
 			var pair: Array = flag_pair
 			return NarrativeState.flag_equals(str(pair[0]), pair[1])
 		return false
+	if condition.has("relationship_at_least"):
+		var rel_pair: Variant = condition["relationship_at_least"]
+		if rel_pair is Array and (rel_pair as Array).size() >= 2:
+			var pair: Array = rel_pair
+			return NarrativeState.relationship(str(pair[0])) >= int(pair[1])
+		return false
+	if condition.has("weekday"):
+		var clock := _clock()
+		return clock != null and str(clock.call("weekday_name")) == str(condition["weekday"])
+	if condition.has("hour_at_least"):
+		var clock := _clock()
+		return clock != null and int(clock.get("hour")) >= int(condition["hour_at_least"])
 	return false
+
+
+func _clock() -> Node:
+	var tree := Engine.get_main_loop() as SceneTree
+	if tree == null:
+		return null
+	return tree.root.get_node_or_null("DayClock")
 
 
 func _apply(data: Dictionary) -> void:
@@ -151,6 +170,14 @@ func _apply(data: Dictionary) -> void:
 	if flags_v is Dictionary:
 		for key in (flags_v as Dictionary).keys():
 			NarrativeState.set_flag(str(key), (flags_v as Dictionary)[key])
+	var add_v: Variant = data.get("add_relationships", null)
+	if add_v is Dictionary:
+		for key in (add_v as Dictionary).keys():
+			NarrativeState.add_relationship(str(key), int((add_v as Dictionary)[key]))
+	var set_rel_v: Variant = data.get("set_relationships", null)
+	if set_rel_v is Dictionary:
+		for key in (set_rel_v as Dictionary).keys():
+			NarrativeState.set_relationship(str(key), int((set_rel_v as Dictionary)[key]))
 	var quest_v: Variant = data.get("quest", null)
 	if not quest_v is Dictionary:
 		return

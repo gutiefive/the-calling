@@ -1,0 +1,56 @@
+{
+  "id": "sarah",
+  "start": "start",
+  "nodes": {
+    "start": {
+      "router": [
+        {"if": {"quest_status": ["oak_street", "completed"]}, "next": "after"},
+        {"if": {"quest_step": ["oak_street", "saturday"]}, "next": "thinking"},
+        {"if": {"quest_step": ["oak_street", "friday"]}, "next": "choice_line"},
+        {"next": "busy"}
+      ]
+    },
+    "busy": {
+      "speaker": "Sarah",
+      "text": "I've got a pickup line in my head already. Walk with me another day.",
+      "end": true
+    },
+    "choice_line": {
+      "speaker": "Sarah",
+      "text": "Friday. I've got twenty minutes before the school pickup.",
+      "choices": [
+        {
+          "text": "What does the week actually need?",
+          "next": "heard",
+          "add_relationships": {"sarah": 1}
+        },
+        {
+          "text": "Sunday is at ten, if you want it.",
+          "next": "invited"
+        }
+      ]
+    },
+    "heard": {
+      "speaker": "Sarah",
+      "text": "The side door sticks, and the nursery smells like a closet. I'll think about Sunday. No promise.",
+      "quest": {"id": "oak_street", "step": "saturday"},
+      "end": true
+    },
+    "invited": {
+      "speaker": "Sarah",
+      "text": "Ten o'clock. I'll write it down. That's a note, not a yes.",
+      "quest": {"id": "oak_street", "step": "saturday"},
+      "end": true
+    },
+    "thinking": {
+      "speaker": "Sarah",
+      "text": "I'm still thinking. Don't count chairs on my account.",
+      "end": true
+    },
+    "after": {
+      "speaker": "Sarah",
+      "text": "Sunday's tomorrow. I haven't decided. The kids know where the church is.",
+      "end": true
+    }
+  }
+}

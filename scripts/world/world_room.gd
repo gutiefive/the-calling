@@ -4,12 +4,43 @@ extends Node2D
 
 @export var bounds: Rect2 = Rect2(0, 0, 1152, 832)
 
+var _presence: String = ""
+
 
 func _ready() -> void:
 	_build()
+	_presence = NpcSchedule.signature(self)
 	_spawn_player()
 	_apply_camera()
 	_apply_time()
+	_bind_clock()
+
+
+func _exit_tree() -> void:
+	var clock := get_node_or_null("/root/DayClock")
+	if clock != null and clock.time_changed.is_connected(_on_time_changed):
+		clock.time_changed.disconnect(_on_time_changed)
+
+
+func _bind_clock() -> void:
+	var clock := get_node_or_null("/root/DayClock")
+	if clock == null:
+		return
+	if not clock.time_changed.is_connected(_on_time_changed):
+		clock.time_changed.connect(_on_time_changed)
+
+
+func _on_time_changed() -> void:
+	if not is_inside_tree():
+		return
+	var next := NpcSchedule.signature(self)
+	if next == _presence:
+		return
+	_presence = next
+	if has_method("rebuild_collision"):
+		call("rebuild_collision")
+	else:
+		NpcSchedule.apply_room(self)
 
 
 func _build() -> void:
@@ -43,8 +74,11 @@ func _add_prop_blocks() -> void:
 	var solids := get_node_or_null("Solids") as StaticBody2D
 	if solids == null:
 		return
+	NpcSchedule.apply_room(self)
 	for node in get_tree().get_nodes_in_group("solid_prop"):
 		if not node is Node2D or not is_ancestor_of(node):
+			continue
+		if bool(node.get_meta("scheduled_away", false)):
 			continue
 		var body := node as Node2D
 		var size: Vector2 = body.get("block_size")
@@ -100,6 +134,8 @@ func _spawn_player() -> void:
 	var player := get_node_or_null("Props/Player") as Node2D
 	if player == null:
 		push_error("%s is missing Props/Player" % name)
+		return
+	if SceneRouter.apply_exact(player):
 		return
 	var spawn_id := SceneRouter.consume_spawn()
 	var marker := get_node_or_null("Spawns/" + String(spawn_id)) as Node2D
