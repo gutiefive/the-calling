@@ -11,6 +11,7 @@ const CHOICE_OFF := "a89880"
 var _runner: DialogueRunner
 var _source: Node2D
 var _conversation: bool = false
+var _pinned: bool = false
 var _reveal: int = 0
 var _selected: int = 0
 var _advance_was: bool = false
@@ -71,7 +72,7 @@ func closed_this_frame() -> bool:
 	return _closed_physics_frame == Engine.get_physics_frames()
 
 
-func open_conversation(conversation_id: String, source: Node2D) -> bool:
+func open_conversation(conversation_id: String, source: Node2D, pinned: bool = false) -> bool:
 	if _conversation:
 		return true
 	var data := DialogueRunner.load_conversation(conversation_id)
@@ -82,6 +83,7 @@ func open_conversation(conversation_id: String, source: Node2D) -> bool:
 		return false
 	_runner = runner
 	_source = source
+	_pinned = pinned
 	_conversation = true
 	_reveal = 0
 	_selected = 0
@@ -98,6 +100,7 @@ func close_conversation() -> void:
 	if not _conversation and _runner == null:
 		return
 	_conversation = false
+	_pinned = false
 	_runner = null
 	_source = null
 	_closed_physics_frame = Engine.get_physics_frames()
@@ -188,7 +191,7 @@ func _refresh_text() -> void:
 
 
 func _watch_distance() -> void:
-	if not _conversation:
+	if not _conversation or _pinned:
 		return
 	if Engine.get_physics_frames() == _opened_physics_frame:
 		return

@@ -23,6 +23,9 @@ func _ready() -> void:
 
 func _physics_process(_delta: float) -> void:
 	var down := Input.is_action_pressed("journal")
+	if NarrativeState.ending_open:
+		_was_down = down
+		return
 	if down and not _was_down:
 		_set_open(not _open)
 	_was_down = down

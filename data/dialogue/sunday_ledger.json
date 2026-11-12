@@ -1,0 +1,23 @@
+{
+  "id": "sunday_ledger",
+  "start": "open",
+  "nodes": {
+    "open": {
+      "speaker": "Margaret",
+      "text": "I kept this in the desk until the benediction. The plate from this morning will not cover the oil bill. The account was already short before you arrived.",
+      "next": "harold"
+    },
+    "harold": {
+      "speaker": "Harold",
+      "text": "I knew we were thin. I did not know the year had been papered over. We tell them when we have a true sentence, not a panic.",
+      "next": "close"
+    },
+    "close": {
+      "speaker": "Margaret",
+      "text": "That is the end of the first week. Not the end of the church. We will need a plan, and we will need it said out loud.",
+      "set_flags": {"ledger_revealed": true, "chapter_one_complete": true},
+      "quest": {"id": "first_sunday", "complete": true},
+      "end": true
+    }
+  }
+}

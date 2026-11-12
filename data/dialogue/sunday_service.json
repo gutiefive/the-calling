@@ -1,0 +1,81 @@
+{
+  "id": "sunday_service",
+  "start": "gathering",
+  "nodes": {
+    "gathering": {
+      "speaker": "Margaret",
+      "text": "Coats on the back pews. Seventeen, counting you. Take the front. We will start when you do.",
+      "next": "welcome"
+    },
+    "welcome": {
+      "speaker": "You",
+      "text": "Good morning. Thank you for coming. One hymn the room already knows, then a short word.",
+      "next": "hymn"
+    },
+    "hymn": {
+      "speaker": "",
+      "text": "They sing. Frank stays in the pew. Sarah stands for the second verse. Harold knows every word.",
+      "next": "sermon"
+    },
+    "sermon": {
+      "speaker": "You",
+      "text": "One theme for a first Sunday. The room can hold one honest thing.",
+      "choices": [
+        {
+          "text": "Hope. The tiredness is real, and so is the next morning.",
+          "next": "preach_hope",
+          "set_flags": {"sermon_theme": "hope"},
+          "add_relationships": {"sarah": 1}
+        },
+        {
+          "text": "Forgiveness. No names. The hurt in the room is still allowed.",
+          "next": "preach_forgiveness",
+          "set_flags": {"sermon_theme": "forgiveness"},
+          "add_relationships": {"frank": 1}
+        },
+        {
+          "text": "Service. Faith that picks up a screwdriver.",
+          "next": "preach_service",
+          "set_flags": {"sermon_theme": "service"},
+          "add_relationships": {"harold": 1, "thomas": 1}
+        }
+      ]
+    },
+    "preach_hope": {
+      "speaker": "You",
+      "text": "You talk about a small church that is still worth opening. You do not promise a crowd.",
+      "next": "closing_hope"
+    },
+    "closing_hope": {
+      "speaker": "You",
+      "text": "Go in peace. Hope is something you practice on Monday, not a feeling you owe me.",
+      "set_flags": {"service_complete": true},
+      "quest": {"id": "first_sunday", "start": true, "step": "followups"},
+      "end": true
+    },
+    "preach_forgiveness": {
+      "speaker": "You",
+      "text": "You talk about forgiveness without naming the last pastor. You do not ask anyone to be finished.",
+      "next": "closing_forgiveness"
+    },
+    "closing_forgiveness": {
+      "speaker": "You",
+      "text": "Go in peace. Forgiveness can take longer than a Sunday. That is allowed.",
+      "set_flags": {"service_complete": true},
+      "quest": {"id": "first_sunday", "start": true, "step": "followups"},
+      "end": true
+    },
+    "preach_service": {
+      "speaker": "You",
+      "text": "You name the nursery, the side door, and the front step. Work the room can see.",
+      "next": "closing_service"
+    },
+    "closing_service": {
+      "speaker": "You",
+      "text": "Go in peace. If faith means anything here this week, it picks something up.",
+      "set_flags": {"service_complete": true},
+      "quest": {"id": "first_sunday", "start": true, "step": "followups"},
+      "end": true
+    }
+  }
+}

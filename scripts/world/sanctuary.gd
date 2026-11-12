@@ -10,9 +10,17 @@ const POS_WINDOW := Vector2(480, 168)
 const POS_CHAIRS := Vector2(110, 230)
 const POS_HAROLD := Vector2(220, 420)
 const POS_KEYS := Vector2(168, 292)
+const POS_LEDGER := Vector2(160, 400)
 const POS_SCONCE_L := Vector2(200, 360)
 const POS_SCONCE_R := Vector2(760, 360)
 const POS_SCONCE_N := Vector2(480, 240)
+
+
+func _on_time_changed() -> void:
+	super._on_time_changed()
+	var service := get_node_or_null("SundayService")
+	if service != null and service.has_method("on_clock"):
+		service.call("on_clock")
 
 
 func _build() -> void:
@@ -59,6 +67,10 @@ func _place_props() -> void:
 	_feet_offset("Props/Chairs")
 	_place("Props/Harold", POS_HAROLD)
 	_place("Props/KeyRing", POS_KEYS)
+	_place("Props/Ledger", POS_LEDGER)
+	_place("Props/Thomas", Vector2(560, 520))
+	_place("Props/Frank", Vector2(400, 600))
+	_place("Props/Sarah", Vector2(400, 500))
 	var pew_ys: Array[float] = [360.0, 440.0, 520.0, 600.0]
 	for i in pew_ys.size():
 		var left := _place("Props/PewL%d" % (i + 1), Vector2(330, pew_ys[i]))

@@ -44,9 +44,9 @@ practical tasks, complete quests → make choices with consequences → return h
   bulletin boards); contextual prompt; y-sort occlusion; buildings as separate scenes via doors.
 - **Dialogue (M2):** speaker name, branching choices, and flags kept on `NarrativeState`. Portrait and a text-speed
   setting come later. Lines live in `data/dialogue/`.
-- **Quests (M3):** the spare key ring, then a short Thursday-to-Saturday chain on Oak Street. Schedules and one save slot are in. Sunday is M4.
-- **Sundays (future):** weekly checkpoint; choose a sermon *theme* (hope, forgiveness, service, perseverance); outcomes
-  reflect prior actions; no guaranteed optimal choice.
+- **Quests (M4):** the spare key ring, Oak Street through Saturday, then First Sunday. Schedules and one save slot are in.
+- **Sundays (M4):** one narrative service. The sermon theme is hope, forgiveness, or service. Outcomes change a few
+  lines and relationships. None of the three is a best choice. Perseverance is not in this chapter.
 - **Church growth as narrative (future):** congregation health, community trust, community impact, attendance (rough
   signal only), facility condition — shown through visible world changes (cleaned grounds, reopened classroom,
   community garden, busier Sundays), not dashboards.

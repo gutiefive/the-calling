@@ -69,7 +69,7 @@ There is no text-speed setting and no portrait yet. Esc opens the pause menu (D1
 
 ## D15 — The clock (M3)
 
-`DayClock` is an autoload. The opening week starts Thursday at 2:00 p.m. and stops at Saturday 11:59 p.m. Sunday is Milestone 4, so a skip or a load that asks for Sunday stays on Saturday night.
+`DayClock` is an autoload. The opening week starts Thursday at 2:00 p.m. M4 continues it through Sunday. See D20.
 
 While the player is walking, four in-game minutes pass each real second. Dialogue, the journal, and pause hold the clock. One frame moves it at most one minute, so a hitch cannot skip a visit. Hours map to the M1 lights: day is 6:00 a.m. to 4:59 p.m., evening is 5:00 p.m. to 7:59 p.m., night is 8:00 p.m. to 5:59 a.m. T skips to the next of those boundaries. The phase label still says Day, Evening, or Night. The clock itself is the top-right HUD label.
 
@@ -85,11 +85,33 @@ Each NPC has an integer on `NarrativeState`, starting at 0. Dialogue can add to 
 
 ## D18 — The save file
 
-One slot, `user://the_calling_save.json`. The file's `version` is 1. It holds the narrative dictionary (flags, quests, relationships), the clock, the scene path, and the player's position and facing. `SaveGame.migrate` returns a versioned file unchanged. A missing or newer version is rejected. The step function is the stub for the next version. Load applies the autoloads, then changes scene on the next frame so the pause menu is not freed mid-callback. Esc opens Resume, Save, and Load. No new input actions were required.
+One slot, `user://the_calling_save.json`. It holds the narrative dictionary (flags, quests, relationships), the clock, the scene path, and the player's position and facing. Load applies the autoloads, then changes scene on the next frame so the pause menu is not freed mid-callback. Esc opens Resume, Save, and Load. No new input actions were required. M4 sets the file version to 2 and migrates version 1. See D23.
 
 ## D19 — Oak Street and the week
 
-The church lot's east side walks to `hardware_street.tscn` and back. Spawns stand outside the door radius. The store, the bay, and the cottage are exteriors. The story chain is the spare keys, then Oak Street: Thomas, Frank, Sarah on Friday morning, and Margaret on the church walk Saturday evening. That last line names Sunday at ten and does not play a service.
+The church lot's east side walks to `hardware_street.tscn` and back. Spawns stand outside the door radius. The store, the bay, and the cottage are exteriors. The story chain is the spare keys, then Oak Street: Thomas, Frank, Sarah on Friday morning, and Margaret on the church walk Saturday evening. That last line names Sunday at ten. The service itself is D21.
+
+## D20 — Sunday on the clock (M4)
+
+The opening week no longer stops at Saturday 11:59 p.m. Saturday night rolls into Sunday morning, and the clock stops at this Sunday 11:59 p.m. Calendar weekday 0 would sort before Thursday, so this Sunday is stored as weekday 7. `set_time(0, …)` means that same Sunday. T still skips to the next light, except on Sunday before 10:00 a.m., where it lands on 10:00 so the service is not skipped. The M3 checks that expected a Saturday cap now expect Sunday morning. The check count is unchanged.
+
+## D21 — The three sermon themes
+
+The brief lists hope, forgiveness, service, and perseverance. This chapter uses the first three. Perseverance can wait. Each theme sets `sermon_theme` and moves one relationship, not all of them. Hope raises Sarah. Forgiveness raises Frank. Service raises Harold and Thomas. Margaret and Harold say different things for each theme. Frank's Sunday line also depends on whether Thursday was listening or an invitation. Sarah's line depends on whether Friday asked what the week needs (`sarah_heard`). None of the three is the correct sermon.
+
+The service is data in `data/dialogue/sunday_service.json`. It is pinned, so walking away cannot close it. E, Space, or Enter advances. If it closes before a theme, it reopens once. If a theme was already chosen, it does not play again, so the relationship is not added twice.
+
+## D22 — Follow-ups, then the ledger
+
+After the service the five named people stand in the sanctuary until midnight. Twelve unnamed congregants sit in the pews from 10:00 on. They are not characters and cannot be talked to. Speaking with Margaret after the service opens the ledger on the west table. The other conversations can happen before or after hers. The chapter ending appears when the ledger dialogue closes. It summarizes the spare-key approach, Frank, Sarah, the sermon, and the oil bill. Restart deletes the one save and returns to Thursday 2:00 p.m. with flags, quests, and relationships cleared. New Game from the title does not delete a save, so Continue still works.
+
+## D23 — Save version 2
+
+The file version is 2. A version 1 file is copied forward: its flags, quests, relationships, clock, scene, and position stay, and `sermon_theme` is set to an empty string when it is missing. A missing version is still rejected. Newer versions are still rejected. `SaveGame.migrate` is what load uses, so an old file does not need to be rewritten before it can be read.
+
+## D24 — The title screen is the launch scene
+
+`scenes/main.tscn` is the title. New Game loads the church grounds at Thursday 2:00 p.m. Continue calls the same load as the pause menu. The title holds `DayClock` until a room starts. No new input actions were added. Up and Down choose. E, Space, or Enter confirms.
 
 ## Still open
 

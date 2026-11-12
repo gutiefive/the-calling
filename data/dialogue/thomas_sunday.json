@@ -1,0 +1,22 @@
+{
+  "id": "thomas_sunday",
+  "start": "start",
+  "nodes": {
+    "start": {
+      "router": [
+        {"if": {"flag_equals": ["sermon_theme", "service"]}, "next": "service"},
+        {"next": "other"}
+      ]
+    },
+    "service": {
+      "speaker": "Thomas",
+      "text": "You preached a hardware list. I will leave the screws on Margaret's desk. No invoice until you ask.",
+      "end": true
+    },
+    "other": {
+      "speaker": "Thomas",
+      "text": "Seventeen, and Frank in the back. For this town, that is a crowd. The store is closed today. Do not tell my brother.",
+      "end": true
+    }
+  }
+}

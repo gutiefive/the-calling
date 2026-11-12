@@ -44,6 +44,9 @@ func _ready() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_echo() or not event.is_action_pressed("pause"):
 		return
+	if NarrativeState.ending_open:
+		get_viewport().set_input_as_handled()
+		return
 	toggle_pause()
 	get_viewport().set_input_as_handled()
 

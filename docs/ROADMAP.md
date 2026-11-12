@@ -8,8 +8,8 @@ Status date: 2026-11-12. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md
 | M1 Playable world foundation | Implemented. See `docs/PLAYTEST.md` for what was run. |
 | M2 Conversation and quest slice | Implemented. Dialogue, the spare-key quest, and a journal. |
 | M3 Clock, consequences, town block | Implemented. Weekday clock, Oak Street, schedules, relationships, and one save slot. |
-| M4 First Sunday vertical slice | Not started. Do not begin until Nathan asks. |
-| M5+ | Only after prototype feedback |
+| M4 First Sunday vertical slice | Implemented. Sunday service, sermon theme, follow-ups, the ledger, and a title screen. |
+| M5+ | Only after prototype feedback. Do not start until Nathan asks. |
 
 ## M1 includes
 
@@ -33,4 +33,12 @@ A weekday clock from Thursday 2:00 p.m. through Saturday night. It drives the ex
 
 ## M3 does not include
 
-Sunday service, a sermon theme, the financial reveal, shop interiors, inventory, or audio.
+Sunday service, a sermon theme, the financial reveal, shop interiors, inventory, or audio. M4 adds the service, the theme, and the ledger. Shop interiors, inventory, and audio are still out.
+
+## M4 includes
+
+A title screen (New Game, Continue when a save exists, Quit). The week continues from Saturday night into Sunday. At 10:00 a.m. the sanctuary holds the five named people and twelve unnamed congregants. A short service (gathering, welcome, hymn, sermon, closing) advances on E, Space, or Enter. The sermon is hope, forgiveness, or service. Afterward Margaret, Harold, Thomas, Frank, and Sarah have lines that follow that choice and, where it matters, Thursday and Friday. Margaret's line opens the ledger. The ledger ends Chapter 1. Restart returns to Thursday and clears the story. Quit leaves.
+
+## M4 does not include
+
+Another chapter, shop interiors, inventory, audio, or a second Sunday.

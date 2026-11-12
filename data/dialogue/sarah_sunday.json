@@ -1,0 +1,56 @@
+{
+  "id": "sarah_sunday",
+  "start": "start",
+  "nodes": {
+    "start": {
+      "router": [
+        {"if": {"flag": "sarah_heard"}, "next": "heard_gate"},
+        {"next": "invited_gate"}
+      ]
+    },
+    "heard_gate": {
+      "router": [
+        {"if": {"flag_equals": ["sermon_theme", "hope"]}, "next": "heard_hope"},
+        {"if": {"flag_equals": ["sermon_theme", "service"]}, "next": "heard_service"},
+        {"next": "heard_forgive"}
+      ]
+    },
+    "invited_gate": {
+      "router": [
+        {"if": {"flag_equals": ["sermon_theme", "hope"]}, "next": "invite_hope"},
+        {"if": {"flag_equals": ["sermon_theme", "service"]}, "next": "invite_service"},
+        {"next": "invite_forgive"}
+      ]
+    },
+    "heard_hope": {
+      "speaker": "Sarah",
+      "text": "Hope I can say at the pickup line. You still owe the nursery a real look, not only a sentence.",
+      "end": true
+    },
+    "heard_service": {
+      "speaker": "Sarah",
+      "text": "You named the nursery. I will believe it when the side door opens without a shoulder.",
+      "end": true
+    },
+    "heard_forgive": {
+      "speaker": "Sarah",
+      "text": "Forgiveness is a long word for a twenty-minute Friday. I stayed. The kids colored on the bulletin.",
+      "end": true
+    },
+    "invite_hope": {
+      "speaker": "Sarah",
+      "text": "You invited me, then preached hope. I will take the coloring pages. I am not joining a committee.",
+      "end": true
+    },
+    "invite_service": {
+      "speaker": "Sarah",
+      "text": "A work list. That I understand. Sunday is still a maybe.",
+      "end": true
+    },
+    "invite_forgive": {
+      "speaker": "Sarah",
+      "text": "I do not have a feud to forgive. I have a sticky door and a Tuesday that is already full.",
+      "end": true
+    }
+  }
+}

@@ -50,8 +50,28 @@ func _static_checks() -> void:
 	var sarah_thu := NpcSchedule.placement("sarah", "Thursday", 14, 0)
 	_check(str(margaret_thu.get("scene", "")) == "church_exterior", "Margaret's Thursday post is the church grounds")
 	_check(sarah_thu.is_empty(), "Sarah has no Thursday afternoon post")
-	var kept := SaveGame.migrate({"version": 1, "scene": "res://scenes/world/church_exterior.tscn"})
-	_check(int(kept.get("version", 0)) == SaveGame.SAVE_VERSION, "version 1 passes through the migration stub")
+	var kept := SaveGame.migrate({
+		"version": 1,
+		"scene": "res://scenes/world/church_exterior.tscn",
+		"narrative": {"flags": {"sunday_ready": true}, "quests": {}, "relationships": {"frank": 1}},
+	})
+	var migrated_flags: Dictionary = {}
+	var narrative_v: Variant = kept.get("narrative", {})
+	var rel_ok := false
+	if narrative_v is Dictionary:
+		var flags_v: Variant = (narrative_v as Dictionary).get("flags", {})
+		if flags_v is Dictionary:
+			migrated_flags = flags_v
+		var rel_v: Variant = (narrative_v as Dictionary).get("relationships", {})
+		if rel_v is Dictionary:
+			rel_ok = int((rel_v as Dictionary).get("frank", 0)) == 1
+	_check(
+		int(kept.get("version", 0)) == SaveGame.SAVE_VERSION
+		and str(migrated_flags.get("sermon_theme", "missing")) == ""
+		and bool(migrated_flags.get("sunday_ready", false))
+		and rel_ok,
+		"version 1 migrates forward and keeps its story"
+	)
 	_check(SaveGame.migrate({}).is_empty(), "a save without a version is rejected")
 	_check(DayClock.weekday_name() == "Thursday" and DayClock.hour == 14, "the week starts Thursday at 2 p.m.")
 	_check(TimeOfDay.phase == TimeOfDay.Phase.DAY, "Thursday afternoon is still day")
@@ -140,9 +160,9 @@ func _clock_and_light() -> void:
 	get_tree().paused = false
 	DayClock.set_time(6, 23, 50)
 	DayClock.advance_minutes(80)
-	_check(DayClock.weekday_name() == "Saturday" and DayClock.at_cap(), "the week stops on Saturday night")
+	_check(DayClock.weekday_name() == "Sunday" and DayClock.hour == 1 and DayClock.minute == 10, "Saturday night continues into Sunday morning")
 	DayClock.set_time(0, 10, 0)
-	_check(DayClock.weekday_name() == "Saturday" and DayClock.at_cap(), "Sunday is clamped back to Saturday night")
+	_check(DayClock.weekday_name() == "Sunday" and DayClock.hour == 10 and DayClock.minute == 0, "a Sunday time stays on Sunday morning")
 	DayClock.reset()
 	room.free()
 
@@ -271,7 +291,7 @@ func _save_roundtrip() -> void:
 	var hint := room.get_node("HUD/Pause/Center/Hint") as Label
 	_check(hint != null and hint.text == "Saved.", "the pause menu saves (%s)" % (hint.text if hint != null else ""))
 	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(SaveGame.SAVE_PATH))
-	_check(parsed is Dictionary and int((parsed as Dictionary).get("version", -1)) == 1, "the save file has version 1")
+	_check(parsed is Dictionary and int((parsed as Dictionary).get("version", -1)) == SaveGame.SAVE_VERSION, "the save file is the current version")
 	pause.toggle_pause()
 	_check(not get_tree().paused, "pause closes after save")
 

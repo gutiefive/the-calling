@@ -8,6 +8,7 @@ var _presence: String = ""
 
 
 func _ready() -> void:
+	DayClock.held = false
 	_build()
 	_presence = NpcSchedule.signature(self)
 	_spawn_player()

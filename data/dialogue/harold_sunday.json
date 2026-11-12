@@ -1,0 +1,34 @@
+{
+  "id": "harold_sunday",
+  "start": "start",
+  "nodes": {
+    "start": {
+      "router": [
+        {"if": {"flag_equals": ["sermon_theme", "hope"]}, "next": "hope"},
+        {"if": {"flag_equals": ["sermon_theme", "forgiveness"]}, "next": "forgiveness"},
+        {"if": {"flag_equals": ["sermon_theme", "service"]}, "next": "service"},
+        {"next": "plain"}
+      ]
+    },
+    "hope": {
+      "speaker": "Harold",
+      "text": "Hope is a good word for a first Sunday. The east window still weeps when it rains. I counted sixteen besides you.",
+      "end": true
+    },
+    "forgiveness": {
+      "speaker": "Harold",
+      "text": "You were careful. Some of us heard the name anyway. Give the room time before you give it a conclusion.",
+      "end": true
+    },
+    "service": {
+      "speaker": "Harold",
+      "text": "Work, I trust. You talked about the door and the nursery, not a campaign. I will bring my own screwdriver next week.",
+      "end": true
+    },
+    "plain": {
+      "speaker": "Harold",
+      "text": "They stayed through the hymn. I will take attendance as a fact, not a trophy.",
+      "end": true
+    }
+  }
+}

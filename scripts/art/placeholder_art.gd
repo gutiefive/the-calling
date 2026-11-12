@@ -89,6 +89,8 @@ static func by_id(art_id: String) -> Texture2D:
 			return crate()
 		"mailbox":
 			return mailbox()
+		"ledger":
+			return ledger()
 		_:
 			return null
 
@@ -195,6 +197,18 @@ static func crate() -> Texture2D:
 
 static func mailbox() -> Texture2D:
 	return _cached("mailbox", _mailbox())
+
+
+static func ledger() -> Texture2D:
+	return _cached("ledger", _ledger())
+
+
+static func congregant(variant: int) -> Texture2D:
+	return _cached("congregant%d" % variant, _seated_body(variant, false))
+
+
+static func seated(who: String) -> Texture2D:
+	return _cached("seated_%s" % who, _seated_named(who))
 
 
 static func _cached(key: String, image: Image) -> Texture2D:
@@ -803,4 +817,62 @@ static func _mailbox() -> Image:
 	_rect(image, 6, 8, 20, 3, GREY_D)
 	_rect(image, 8, 12, 10, 5, CREAM)
 	_px(image, 22, 13, BRICK)
+	return _outline(image)
+
+
+static func _ledger() -> Image:
+	var image := _new(32, 32)
+	_rect(image, 6, 8, 20, 18, WOOD_D)
+	_rect(image, 8, 6, 16, 20, CREAM)
+	_rect(image, 15, 6, 2, 20, WOOD)
+	_rect(image, 10, 10, 4, 1, GREY_D)
+	_rect(image, 10, 13, 4, 1, GREY_D)
+	_rect(image, 10, 16, 3, 1, GREY)
+	_rect(image, 18, 10, 4, 1, GREY_D)
+	_rect(image, 18, 13, 4, 1, GREY_D)
+	_rect(image, 18, 16, 3, 1, GREY)
+	_rect(image, 8, 22, 16, 2, GOLD)
+	return _outline(image)
+
+
+static func _seated_named(who: String) -> Image:
+	match who:
+		"margaret":
+			return _seated_person(CARDIGAN, CARDIGAN_D, BUN, false)
+		"harold":
+			return _seated_person(SHIRT, SHIRT_D, HAIR, false)
+		"frank":
+			return _seated_person(GREY, GREY_D, HAIR, true)
+		"thomas":
+			return _seated_person(WOOD, WOOD_D, HAIR_L, false)
+		"sarah":
+			return _seated_person(FLOWER, BRICK_D, BUN, false)
+		_:
+			return _seated_body(0, false)
+
+
+static func _seated_body(variant: int, hat: bool) -> Image:
+	var shirts: Array[Color] = [SHIRT, CARDIGAN, BRICK, WOOD, ROOF, FLOWER, GLASS_D, CREAM_D, GOLD, LEAF, GREY, SHIRT_L]
+	var shirts_d: Array[Color] = [SHIRT_D, CARDIGAN_D, BRICK_D, WOOD_D, ROOF_D, BRICK_D, GLASS, CREAM_S, WOOD_D, LEAF_D, GREY_D, SHIRT_D]
+	var hairs: Array[Color] = [HAIR, HAIR_L, BUN, GREY_D]
+	var index: int = posmod(variant, shirts.size())
+	return _seated_person(shirts[index], shirts_d[index], hairs[posmod(variant, hairs.size())], hat or posmod(variant, 2) == 0)
+
+
+static func _seated_person(shirt: Color, shirt_d: Color, hair: Color, hat: bool) -> Image:
+	var image := _new(32, 32)
+	_rect(image, 4, 24, 24, 4, WOOD)
+	_rect(image, 4, 24, 24, 1, WOOD_L)
+	_rect(image, 10, 16, 12, 8, shirt)
+	_rect(image, 10, 16, 12, 2, shirt_d)
+	_rect(image, 7, 18, 3, 6, shirt_d)
+	_rect(image, 22, 18, 3, 6, shirt_d)
+	_rect(image, 11, 8, 10, 9, SKIN)
+	_rect(image, 11, 15, 10, 2, SKIN_D)
+	_rect(image, 10, 5, 12, 5, hair)
+	if hat:
+		_rect(image, 8, 4, 16, 3, GREY_D)
+		_rect(image, 6, 6, 20, 2, GREY)
+	_px(image, 14, 12, OUTLINE)
+	_px(image, 18, 12, OUTLINE)
 	return _outline(image)

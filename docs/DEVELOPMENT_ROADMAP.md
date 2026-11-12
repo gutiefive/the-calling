@@ -1,6 +1,6 @@
 # Development Roadmap
 
-Source: brief Sections 8–10. **Status 2026-11-12: M0 complete; M1, M2, and M3 implemented (see `docs/ROADMAP.md` and `docs/PLAYTEST.md`). M4 not started.**
+Source: brief Sections 8–10. **Status 2026-11-12: M0 complete; M1 through M4 implemented (see `docs/ROADMAP.md` and `docs/PLAYTEST.md`). M5 not started.**
 
 ## M0 — Environment (done 2026-11-11)
 Godot 4.7.2, Cursor, Beckett Lite MCP, LibreSprite + LibreSprite-MCP, git repo, docs, toolchain smoke test.
@@ -42,11 +42,11 @@ and a journal; narrative flags kept across the sanctuary door. No clock, schedul
 ## M3 — Clock, Story Consequences & Town Block
 Implemented. Day clock; simple schedules for Margaret, Harold, Thomas, Frank, and Sarah; the Oak Street block;
 relationship values with dialogue consequences; one versioned save; opening story chain through Saturday evening.
-No Sunday service.
+Sunday service is M4.
 
 ## M4 — First Sunday Vertical Slice
-Sunday service sequence; sermon theme choice with modest narrative impact; follow-up interactions; end-of-chapter
-financial discovery; 15–20 minute replayable demo with start and ending.
+Implemented. Sunday service in the sanctuary; sermon theme (hope, forgiveness, or service); follow-up conversations;
+Margaret's ledger and a chapter ending; title screen with New Game and Continue. No further chapters.
 
 ## M5+ — Only after prototype feedback
 More town blocks, deeper arcs, community tasks, restoration, events, church progression, more chapters, improved

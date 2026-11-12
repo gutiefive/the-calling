@@ -1,0 +1,48 @@
+{
+  "id": "margaret_sunday",
+  "start": "start",
+  "nodes": {
+    "start": {
+      "router": [
+        {"if": {"flag": "margaret_sunday"}, "next": "again"},
+        {"if": {"flag_equals": ["sermon_theme", "hope"]}, "next": "hope"},
+        {"if": {"flag_equals": ["sermon_theme", "forgiveness"]}, "next": "forgiveness"},
+        {"if": {"flag_equals": ["sermon_theme", "service"]}, "next": "service"},
+        {"next": "plain"}
+      ]
+    },
+    "hope": {
+      "speaker": "Margaret",
+      "text": "You gave Sarah something she can repeat to the kids. Harold will want numbers before supper. The ledger is on the west table when you are ready.",
+      "set_flags": {"margaret_sunday": true},
+      "quest": {"id": "first_sunday", "step": "ledger"},
+      "end": true
+    },
+    "forgiveness": {
+      "speaker": "Margaret",
+      "text": "Frank stayed through it. He did not clap. That is new. The ledger is on the west table. I did not want it before the hymn.",
+      "set_flags": {"margaret_sunday": true},
+      "quest": {"id": "first_sunday", "step": "ledger"},
+      "end": true
+    },
+    "service": {
+      "speaker": "Margaret",
+      "text": "Thomas heard a list, and Harold heard permission to fix things. The ledger is on the west table. Lists do not pay the oil bill.",
+      "set_flags": {"margaret_sunday": true},
+      "quest": {"id": "first_sunday", "step": "ledger"},
+      "end": true
+    },
+    "plain": {
+      "speaker": "Margaret",
+      "text": "The room stayed. That is the whole victory. The ledger is on the west table when you want the rest of it.",
+      "set_flags": {"margaret_sunday": true},
+      "quest": {"id": "first_sunday", "step": "ledger"},
+      "end": true
+    },
+    "again": {
+      "speaker": "Margaret",
+      "text": "The ledger is on the west table. I will not read it out loud in the aisle.",
+      "end": true
+    }
+  }
+}

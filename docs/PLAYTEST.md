@@ -100,10 +100,64 @@ Launch with `godot --path .` from the repo, or press F5 in the editor.
 | T20 | Finish the spare keys, then take the east side of the lot | You arrive on Oak Street, facing the street. Thomas is at the hardware store. The return puts you back on the church lot, facing into the grounds. |
 | T21 | Talk to Frank. Choose to listen, then talk to him again. Load a different choice in a new game if you want the other line | His later line is different if you listened than if you invited him to Sunday. |
 | T22 | Skip to Friday morning on Oak Street | Sarah is there. She is not there Thursday afternoon. |
-| T23 | Skip to Saturday evening and talk to Margaret on the church walk | She names Sunday at ten. The week quest completes. T will not roll the clock into Sunday. |
+| T23 | Skip to Saturday evening and talk to Margaret on the church walk. Press T from Saturday night | She names Sunday at ten. The week quest completes. Another T enters Sunday morning. |
 | T24 | Esc, Save, walk into the sanctuary, Esc, Load | You are back where you saved, with the same quest, clock, and conversation flags. |
 | T25 | Read `README.md` | Controls, the clock rate, and the one save slot match the build. |
 
 ## M3 results
 
-On 2026-11-12, `Godot_v4.7.2-stable_win64_console.exe --headless --path . res://tests/m3/m3_validation.tscn` printed 108 `CHECK OK` lines and `M3_OK`, and exited 0. The same binary then printed `M1_OK` and `M2_OK`, each exiting 0. T18–T25 were not played in a window.
+On 2026-11-12, `Godot_v4.7.2-stable_win64_console.exe --headless --path . res://tests/m3/m3_validation.tscn` printed `M3_OK` and exited 0. The Saturday-cap checks now expect Sunday morning (see `docs/DECISIONS.md` D20). The check count was not increased. The same binary then printed `M1_OK` and `M2_OK`, each exiting 0. T18–T25 were not played in a window.
+
+# Milestone 4 test plan
+
+The M1–M3 lists still apply. These checks cover Sunday, the service, the sermon, the ledger, the ending, and the title screen.
+
+## A short way through the demo
+
+Launch the project. Choose New Game.
+
+1. Talk to Margaret. Either ask Harold or search. Bring her the spare key ring.
+2. She sends you to Oak Street. Talk to Thomas, then Frank. Listen, or invite him. Both finish the errand.
+3. Press T until Friday morning. Talk to Sarah on Oak Street.
+4. Press T until Saturday evening. Talk to Margaret on the church walk. She names Sunday at ten.
+5. Press T once for Sunday 6:00 a.m., and again for Sunday 10:00 a.m. Walk into the sanctuary.
+6. Advance the service with E, Space, or Enter. Choose hope, forgiveness, or service.
+7. Talk to Margaret, Harold, and whoever is still in the room. Their lines follow the sermon and, for Frank and Sarah, the earlier choice.
+8. After Margaret, the ledger is on the west table. Read it.
+9. The chapter screen summarizes the week. Restart from the beginning, or Quit.
+
+Reading every line and using T for the long nights is the 15–20 minute path. Walking the clock without T takes longer than that. There is no audio.
+
+## Automated
+
+```powershell
+godot --headless --path . --import
+godot --headless --path . res://tests/m1/m1_validation.tscn
+godot --headless --path . res://tests/m2/m2_validation.tscn
+godot --headless --path . res://tests/m3/m3_validation.tscn
+godot --headless --path . res://tests/m4/m4_validation.tscn
+```
+
+`m4_validation.tscn` prints `CHECK OK` / `CHECK FAIL` lines and exits with `M4_OK` or `M4_FAIL`.
+It reaches Sunday 10:00, plays each sermon through the sanctuary UI, checks follow-up lines, reads the ledger through the chapter ending, restarts, and checks New Game, Continue, a version 2 save, and a version 1 migration.
+
+M3 still prints one engine error on purpose when a versionless save is rejected.
+
+## Manual
+
+Launch with `godot --path .` from the repo, or press F5 in the editor. The first screen is the title.
+
+| ID | Do this | Expect |
+|---|---|---|
+| T26 | Launch | Title: New Game, Quit, and Continue only if a save exists. No script errors. |
+| T27 | New Game. Press T from Saturday night, then again | Sunday 6:00 a.m., then Sunday 10:00 a.m. The grounds are morning light. |
+| T28 | Enter the sanctuary at 10:00 | The service starts. E, Space, or Enter moves it. You cannot walk out of it. It ends on its own after the closing. |
+| T29 | Count the room during the service | Margaret, Harold, Thomas, Frank, Sarah, and unnamed people in the pews. About seventeen, plus you at the front. |
+| T30 | Replay, or load, and choose each sermon once | Hope, forgiveness, and service each change what Margaret and Harold say afterward. Frank and Sarah also change if Thursday or Friday went differently. |
+| T31 | Talk to Margaret, then read the ledger on the west table | She names the oil bill. Harold answers. The chapter screen lists your choices and offers Restart or Quit. |
+| T32 | Restart | Thursday 2:00 p.m. on the church grounds. No sermon, no quest, no relationships. Continue on a later launch does not restore the ending. |
+| T33 | Save on Sunday, quit, launch, Continue | Same place, clock, sermon, and quests. The file is version 2. |
+
+## M4 results
+
+On 2026-11-12, `Godot_v4.7.2-stable_win64_console.exe --headless --path . res://tests/m4/m4_validation.tscn` printed 90 `CHECK OK` lines and `M4_OK`, and exited 0. The same binary then printed `M1_OK`, `M2_OK`, and `M3_OK`, each exiting 0. A 30-frame boot of the title scene exited 0. T26–T33 were not played in a window.

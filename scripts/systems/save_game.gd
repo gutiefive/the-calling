@@ -2,7 +2,7 @@ class_name SaveGame
 extends RefCounted
 ## One save slot. Versioned JSON in user://. The migration stub is where older files will step forward.
 
-const SAVE_VERSION := 1
+const SAVE_VERSION := 2
 const SAVE_PATH := "user://the_calling_save.json"
 
 
@@ -109,9 +109,44 @@ static func migrate(data: Dictionary) -> Dictionary:
 	return copy
 
 
+static func begin_new_game(tree: SceneTree) -> void:
+	NarrativeState.reset()
+	DayClock.reset()
+	DayClock.held = false
+	if tree != null and tree.paused:
+		tree.paused = false
+	SceneRouter.travel(tree, "res://scenes/world/church_exterior.tscn", &"default")
+
+
+static func delete_save() -> void:
+	if not FileAccess.file_exists(SAVE_PATH):
+		return
+	var dir := DirAccess.open("user://")
+	if dir != null:
+		dir.remove("the_calling_save.json")
+
+
 static func _migrate_step(data: Dictionary, from_version: int) -> Dictionary:
-	# No older save exists yet. Each future version gets a branch here.
-	push_error("No migration step from version %s" % from_version)
+	if from_version != 1:
+		push_error("No migration step from version %s" % from_version)
+		return data
+	# Version 2 adds the sermon theme. Older files have not chosen one.
+	var narrative: Dictionary = {}
+	var narrative_v: Variant = data.get("narrative", {})
+	if narrative_v is Dictionary:
+		narrative = (narrative_v as Dictionary).duplicate(true)
+	var flags: Dictionary = {}
+	var flags_v: Variant = narrative.get("flags", {})
+	if flags_v is Dictionary:
+		flags = (flags_v as Dictionary).duplicate(true)
+	if not flags.has("sermon_theme"):
+		flags["sermon_theme"] = ""
+	narrative["flags"] = flags
+	if not narrative.has("quests"):
+		narrative["quests"] = {}
+	if not narrative.has("relationships"):
+		narrative["relationships"] = {}
+	data["narrative"] = narrative
 	return data
 
 

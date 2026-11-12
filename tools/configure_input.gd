@@ -18,7 +18,7 @@ func _init() -> void:
 	ProjectSettings.set_setting("application/run/main_scene", "res://scenes/main.tscn")
 	ProjectSettings.set_setting(
 		"application/config/description",
-		"Story-driven top-down pixel-art RPG. Milestone 3: a weekday clock, Oak Street, schedules, relationships, and a save file."
+		"Story-driven top-down pixel-art RPG. Milestone 4: a first Sunday, a sermon theme, and the end of chapter one."
 	)
 	var err := ProjectSettings.save()
 	print("PROJECT_SETTINGS_SAVE ", err)

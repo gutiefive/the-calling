@@ -1,0 +1,51 @@
+{
+  "id": "frank_sunday",
+  "start": "start",
+  "nodes": {
+    "start": {
+      "router": [
+        {"if": {"flag_equals": ["sermon_theme", "forgiveness"]}, "next": "forgive_gate"},
+        {"if": {"flag": "frank_listened"}, "next": "listened"},
+        {"if": {"flag": "frank_invited"}, "next": "invited"},
+        {"next": "back"}
+      ]
+    },
+    "forgive_gate": {
+      "router": [
+        {"if": {"flag": "frank_listened"}, "next": "forgive_heard"},
+        {"if": {"flag": "frank_invited"}, "next": "forgive_invited"},
+        {"next": "forgive_sat"}
+      ]
+    },
+    "forgive_heard": {
+      "speaker": "Frank",
+      "text": "You did not say his name. I noticed. I will think about next week. That is not a yes.",
+      "end": true
+    },
+    "forgive_invited": {
+      "speaker": "Frank",
+      "text": "You asked me here, then preached forgiveness. I can sit with one of those. Not both in the same morning.",
+      "end": true
+    },
+    "forgive_sat": {
+      "speaker": "Frank",
+      "text": "Forgiveness is a long word for a back pew. I stayed to the end. That is the whole report.",
+      "end": true
+    },
+    "listened": {
+      "speaker": "Frank",
+      "text": "I came because you listened on Thursday, not because of the sermon. Do not spend that.",
+      "end": true
+    },
+    "invited": {
+      "speaker": "Frank",
+      "text": "You asked for Sunday. I came. The bay opens at eight tomorrow.",
+      "end": true
+    },
+    "back": {
+      "speaker": "Frank",
+      "text": "I took a seat in the back. Do not put me on a committee.",
+      "end": true
+    }
+  }
+}

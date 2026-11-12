@@ -6,6 +6,7 @@ const SAVE_VERSION := 1
 
 var dialogue_open: bool = false
 var journal_open: bool = false
+var ending_open: bool = false
 
 var _flags: Dictionary = {}
 var _quests: Dictionary = {}
@@ -18,7 +19,7 @@ func _ready() -> void:
 
 
 func movement_locked() -> bool:
-	return dialogue_open or journal_open
+	return dialogue_open or journal_open or ending_open
 
 
 func set_dialogue_open(is_open: bool) -> void:
@@ -35,6 +36,7 @@ func reset() -> void:
 	_relationships.clear()
 	dialogue_open = false
 	journal_open = false
+	ending_open = false
 
 
 func set_flag(key: String, value: Variant) -> void:
@@ -145,6 +147,10 @@ func to_dictionary() -> Dictionary:
 
 
 func from_dictionary(data: Dictionary) -> void:
+	# A load replaces the story. The menu and the dialogue box belong to the old scene.
+	dialogue_open = false
+	journal_open = false
+	ending_open = false
 	var flags_v: Variant = data.get("flags", {})
 	_flags = (flags_v as Dictionary).duplicate(true) if flags_v is Dictionary else {}
 	_quests.clear()

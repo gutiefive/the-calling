@@ -1,8 +1,8 @@
 extends Node
-## Weekday clock for the opening week. Thursday 2:00 p.m. through Saturday night.
-## Exploring advances time at MINUTES_PER_REAL_SECOND. Dialogue, the journal, and pause hold it.
+## Opening week: Thursday 2:00 p.m. through this Sunday night.
+## Exploring advances time at MINUTES_PER_REAL_SECOND. Dialogue, the journal, pause, and the ending hold it.
 ## One frame never moves more than one in-game minute, so a hitch cannot skip a schedule.
-## Sunday services are Milestone 4. The clock stops at Saturday 11:59 p.m.
+## This Sunday is stored as weekday 7. Calendar weekday 0 is the same morning, accepted by set_time.
 
 signal time_changed
 
@@ -14,13 +14,15 @@ const WEEKDAYS: PackedStringArray = [
 const START_WEEKDAY := 4
 const START_HOUR := 14
 const START_MINUTE := 0
-const LAST_WEEKDAY := 6
+const LAST_WEEKDAY := 7
 const LAST_HOUR := 23
 const LAST_MINUTE := 59
 
 var weekday: int = START_WEEKDAY
 var hour: int = START_HOUR
 var minute: int = START_MINUTE
+## Title screen holds the clock. Gameplay rooms clear it.
+var held: bool = false
 
 var _carry: float = 0.0
 
@@ -36,6 +38,8 @@ func _process(delta: float) -> void:
 
 
 func is_exploring() -> bool:
+	if held:
+		return false
 	var tree := get_tree()
 	if tree == null or tree.paused:
 		return false
@@ -71,19 +75,24 @@ func advance_minutes(amount: int) -> void:
 
 
 func set_time(day: int, h: int, m: int) -> void:
-	weekday = clampi(day, 0, 6)
+	var resolved: int = day
+	# Callers say Sunday as 0. The opening week stores that morning as the day after Saturday.
+	if resolved == 0:
+		resolved = 7
+	weekday = clampi(resolved, 1, LAST_WEEKDAY)
 	hour = clampi(h, 0, 23)
 	minute = clampi(m, 0, 59)
-	# Sunday is not playable yet. A set or a load that asks for it stays on Saturday night.
-	if weekday == 0 or weekday > LAST_WEEKDAY:
-		weekday = LAST_WEEKDAY
-		hour = LAST_HOUR
-		minute = LAST_MINUTE
 	_carry = 0.0
 	_commit(true)
 
 
 func skip_ahead() -> void:
+	if at_cap():
+		return
+	# Land on the service instead of jumping from Sunday morning to evening.
+	if weekday_name() == "Sunday" and hour < 10:
+		set_time(7, 10, 0)
+		return
 	var phase := phase_for_hour(hour)
 	var day := weekday
 	var h := 6
@@ -104,9 +113,10 @@ func at_cap() -> bool:
 
 
 func weekday_name() -> String:
-	if weekday < 0 or weekday >= WEEKDAYS.size():
+	var index: int = weekday % 7
+	if index < 0 or index >= WEEKDAYS.size():
 		return ""
-	return WEEKDAYS[weekday]
+	return WEEKDAYS[index]
 
 
 func clock_text() -> String:

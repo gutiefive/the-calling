@@ -21,6 +21,15 @@
         "saturday": "Saturday evening, meet Margaret on the church walk.",
         "done": "Sunday is at ten. The week held together."
       }
+    },
+    {
+      "id": "first_sunday",
+      "title": "First Sunday",
+      "steps": {
+        "followups": "Stay after the service. Speak with Margaret.",
+        "ledger": "The ledger is on the west table.",
+        "done": "The oil bill is larger than the plate."
+      }
     }
   ]
 }
