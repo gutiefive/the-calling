@@ -1,7 +1,7 @@
 extends Control
 ## Esc pauses. Up and Down choose. E, Space, or Enter confirms Save or Load.
 
-const OPTIONS: PackedStringArray = ["Resume", "Save", "Load"]
+const OPTIONS: PackedStringArray = ["Resume", "Save", "Load", "Map"]
 
 @onready var _title: Label = $Center/Title
 @onready var _hint: Label = $Center/Hint
@@ -23,8 +23,8 @@ func _ready() -> void:
 	if center != null:
 		center.offset_left = -160.0
 		center.offset_right = 160.0
-		center.offset_top = -72.0
-		center.offset_bottom = 72.0
+		center.offset_top = -110.0
+		center.offset_bottom = 110.0
 	for option in OPTIONS:
 		var label := Label.new()
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -46,6 +46,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if NarrativeState.ending_open:
 		get_viewport().set_input_as_handled()
+		return
+	var tree := get_tree()
+	if tree == null:
+		return
+	var map := tree.get_first_node_in_group("town_map")
+	if map != null and map.has_method("is_open") and bool(map.call("is_open")):
 		return
 	toggle_pause()
 	get_viewport().set_input_as_handled()
@@ -91,8 +97,10 @@ func _confirm() -> void:
 			toggle_pause()
 		1:
 			_do_save()
-		_:
+		2:
 			_do_load()
+		_:
+			_open_map()
 
 
 func _do_save() -> void:
@@ -101,6 +109,12 @@ func _do_save() -> void:
 		_set_status("Saved.")
 	else:
 		_set_status("Couldn't save.")
+
+
+func _open_map() -> void:
+	var map := get_tree().get_first_node_in_group("town_map")
+	if map != null and map.has_method("open"):
+		map.call("open")
 
 
 func _do_load() -> void:

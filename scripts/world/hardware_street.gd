@@ -1,7 +1,7 @@
 extends WorldRoom
 ## Oak Street block: hardware store, Frank's bay, and a cottage. The west edge returns to the church.
 
-const MAP_SIZE := Vector2i(42, 24)
+const MAP_SIZE := Vector2i(64, 40)
 const POS_COTTAGE := Vector2(340, 300)
 const POS_HARDWARE := Vector2(680, 320)
 const POS_GARAGE := Vector2(1080, 320)
@@ -19,16 +19,23 @@ const POS_WIN_H := Vector2(620, 260)
 const POS_WIN_G := Vector2(1120, 270)
 
 
+func area_name() -> String:
+	return "Oak Street"
+
+
 func _build() -> void:
 	bounds = Rect2(0, 0, MAP_SIZE.x * 32, MAP_SIZE.y * 32)
 	_assign_art()
 	_place_props()
+	_add_living_town()
 	_paint_ground()
 	_clear_solids()
 	_add_buildings()
 	_add_prop_blocks()
 	_add_map_border(MAP_SIZE)
+	_add_creek_block()
 	_place_occluders()
+	NarrativeState.set_flag("seen_oak_street", true)
 
 
 func rebuild_collision() -> void:
@@ -36,6 +43,7 @@ func rebuild_collision() -> void:
 	_add_buildings()
 	_add_prop_blocks()
 	_add_map_border(MAP_SIZE)
+	_add_creek_block()
 	_place_occluders()
 
 
@@ -95,13 +103,25 @@ func _paint_ground() -> void:
 		for x in MAP_SIZE.x:
 			var alt := (x * 13 + y * 7) % 11 == 0
 			layer.set_cell(Vector2i(x, y), 0, Vector2i(1 if alt else 0, 0))
-	# The street runs east from the church gate.
+	# The street runs east from the church gate and stops at the creek bank.
 	for y in range(13, 18):
-		for x in range(1, MAP_SIZE.x - 1):
+		for x in range(1, 57):
 			layer.set_cell(Vector2i(x, y), 0, Vector2i(2, 0))
-	for y in range(18, 21):
-		for x in range(8, 36):
+	for y in range(18, 22):
+		for x in range(8, 56):
 			layer.set_cell(Vector2i(x, y), 0, Vector2i(3, 0))
+	# Maple Lane, a short stub south of the street. The gate sits on it.
+	for y in range(17, 36):
+		for x in range(46, 50):
+			layer.set_cell(Vector2i(x, y), 0, Vector2i(2, 0))
+	# A park path south of the shops.
+	for x in range(16, 42):
+		layer.set_cell(Vector2i(x, 28), 0, Vector2i(2, 0))
+	for y in range(24, 34):
+		layer.set_cell(Vector2i(28, y), 0, Vector2i(2, 0))
+	for y in range(4, 38):
+		for x in range(58, 64):
+			layer.set_cell(Vector2i(x, y), 0, Vector2i(7, 0))
 
 
 func _add_buildings() -> void:
@@ -143,11 +163,186 @@ func _occlude(occluder_path: String, sprite_path: String) -> void:
 	occluder.occluder = poly
 
 
+func _add_creek_block() -> void:
+	# The creek is a bank you can walk up to. The water itself is solid.
+	_add_rect(Vector2(1952, 672), Vector2(192, 1088))
+
+
+func _add_living_town() -> void:
+	var props := get_node_or_null("Props")
+	if props == null:
+		return
+	_add_solid_sprite(props, "YardFlowers", PlaceholderArt.flowers(), Vector2(480, 230), Vector2(26, 10))
+	_add_solid_sprite(props, "ParkTree1", PlaceholderArt.tree(0), Vector2(880, 900), Vector2(14, 8))
+	_add_solid_sprite(props, "ParkTree2", PlaceholderArt.tree(1), Vector2(1400, 1120), Vector2(14, 8))
+	_add_solid_sprite(props, "ParkTree3", PlaceholderArt.tree(2), Vector2(620, 1040), Vector2(14, 8))
+	_add_solid_sprite(props, "ParkBench", PlaceholderArt.bench(), Vector2(1000, 940), Vector2(36, 10))
+	_add_solid_sprite(props, "ParkBench2", PlaceholderArt.bench(), Vector2(1240, 1020), Vector2(36, 10))
+	_add_solid_sprite(props, "ParkMailbox", PlaceholderArt.mailbox(), Vector2(720, 880), Vector2(12, 8))
+	_add_park_lamp(props)
+	_add_window("CottageWindow", Vector2(300, 250))
+	_add_window("ParkWindow", Vector2(1100, 820))
+	_add_gate(props)
+	_add_happening(
+		props,
+		"FridayDelivery",
+		"friday_delivery",
+		Vector2(760, 500),
+		PlaceholderArt.crate(),
+		Vector2i(32, 32),
+		1,
+		"Frank",
+		"Look at the delivery",
+		"happening_friday",
+		"Frank sets a box down outside the store."
+	)
+	_add_happening(
+		props,
+		"SaturdayPark",
+		"saturday_park",
+		Vector2(1100, 980),
+		PlaceholderArt.townsfolk(1),
+		Vector2i(32, 48),
+		2,
+		"A neighbor",
+		"Say hello",
+		"happening_saturday",
+		"The kids wanted the park before the day got away."
+	)
+	_add_neighbor(props, "NeighborA", "ada", 0, 0, Vector2(420, 620))
+	_add_neighbor(props, "NeighborB", "ben", 1, 1, Vector2(860, 620))
+	_add_neighbor(props, "NeighborC", "cleo", 2, 2, Vector2(1280, 620))
+
+
+func _add_park_lamp(props: Node) -> void:
+	if props.get_node_or_null("ParkLamp") != null:
+		return
+	var lamp := SolidProp.new()
+	lamp.name = "ParkLamp"
+	lamp.texture = PlaceholderArt.lamp_post()
+	lamp.centered = true
+	lamp.offset = Vector2(0, -lamp.texture.get_height() * 0.5)
+	lamp.position = Vector2(1100, 860)
+	lamp.block_size = Vector2(10, 8)
+	lamp.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	var glow := PointLight2D.new()
+	glow.name = "Glow"
+	glow.position = Vector2(0, -44)
+	glow.color = Color(1, 0.84, 0.58)
+	glow.energy = 0.8
+	glow.texture = PlaceholderArt.glow()
+	glow.texture_scale = 4.0
+	glow.shadow_enabled = false
+	glow.add_to_group("tod_lamp")
+	lamp.add_child(glow)
+	props.add_child(lamp)
+
+
+func _add_window(light_name: String, pos: Vector2) -> void:
+	var lighting := get_node_or_null("Lighting")
+	if lighting == null or lighting.get_node_or_null(light_name) != null:
+		return
+	var light := PointLight2D.new()
+	light.name = light_name
+	light.position = pos
+	light.color = Color(1, 0.86, 0.62)
+	light.energy = 0.0
+	light.texture = PlaceholderArt.glow()
+	light.texture_scale = 2.2
+	light.shadow_enabled = false
+	light.add_to_group("tod_window")
+	lighting.add_child(light)
+
+
+func _add_gate(props: Node) -> void:
+	if props.get_node_or_null("MapleGate") != null:
+		return
+	var gate := SpeechProp.new()
+	gate.name = "MapleGate"
+	gate.position = Vector2(1520, 1024)
+	gate.sheet = PlaceholderArt.lane_gate()
+	gate.frame_size = Vector2i(64, 32)
+	gate.frame_count = 1
+	gate.speaker_name = "Sign"
+	gate.prompt_text = "Read the sign"
+	gate.line = "Maple Lane stops here. The bridge past the creek isn't up yet, so Oak Street is the way through."
+	gate.blocks_movement = true
+	gate.block_size = Vector2(160, 18)
+	gate.radius = 40.0
+	var sprite := AnimatedSprite2D.new()
+	sprite.name = "Sprite"
+	gate.add_child(sprite)
+	props.add_child(gate)
+
+
+func _add_neighbor(props: Node, node_name: String, person_id: String, index: int, variant: int, pos: Vector2) -> void:
+	if props.get_node_or_null(node_name) != null:
+		return
+	var person := AmbientTownsfolk.new()
+	person.name = node_name
+	person.person_id = person_id
+	person.crowd_index = index
+	person.art_variant = variant
+	person.position = pos
+	person.prompt_text = "Say hello"
+	person.radius = 40.0
+	var route: Array[Vector2] = [pos, pos + Vector2(160, 0), pos + Vector2(160, 36), pos + Vector2(0, 36)]
+	person.set_route(route)
+	props.add_child(person)
+
+
+func _add_solid_sprite(props: Node, node_name: String, texture: Texture2D, pos: Vector2, block: Vector2) -> void:
+	if props.get_node_or_null(node_name) != null or texture == null:
+		return
+	var sprite := SolidProp.new()
+	sprite.name = node_name
+	sprite.texture = texture
+	sprite.centered = true
+	sprite.offset = Vector2(0, -texture.get_height() * 0.5)
+	sprite.position = pos
+	sprite.block_size = block
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	props.add_child(sprite)
+
+
+func _add_happening(
+	props: Node,
+	node_name: String,
+	happening_id: String,
+	pos: Vector2,
+	sheet: Texture2D,
+	frame: Vector2i,
+	frames: int,
+	speaker: String,
+	prompt: String,
+	dialogue_id: String,
+	fallback: String
+) -> void:
+	if props.get_node_or_null(node_name) != null or sheet == null:
+		return
+	var spot := HappeningSpot.new()
+	spot.name = node_name
+	spot.happening_id = happening_id
+	spot.position = pos
+	spot.sheet = sheet
+	spot.frame_size = frame
+	spot.frame_count = frames
+	spot.speaker_name = speaker
+	spot.prompt_text = prompt
+	spot.dialogue_id = dialogue_id
+	spot.line = fallback
+	spot.radius = 42.0
+	var sprite := AnimatedSprite2D.new()
+	sprite.name = "Sprite"
+	spot.add_child(sprite)
+	props.add_child(spot)
+
+
 func _make_tileset(tex: Texture2D) -> TileSet:
 	var atlas := TileSetAtlasSource.new()
 	atlas.texture = tex
 	atlas.texture_region_size = Vector2i(32, 32)
-	for i in 7:
+	for i in 8:
 		atlas.create_tile(Vector2i(i, 0))
 	var tileset := TileSet.new()
 	tileset.tile_size = Vector2i(32, 32)

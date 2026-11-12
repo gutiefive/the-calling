@@ -178,6 +178,10 @@ func _apply(data: Dictionary) -> void:
 	if set_rel_v is Dictionary:
 		for key in (set_rel_v as Dictionary).keys():
 			NarrativeState.set_relationship(str(key), int((set_rel_v as Dictionary)[key]))
+	var notes_v: Variant = data.get("add_notes", null)
+	if notes_v is Array:
+		for item in notes_v as Array:
+			NarrativeState.add_note(str(item))
 	var quest_v: Variant = data.get("quest", null)
 	if not quest_v is Dictionary:
 		return

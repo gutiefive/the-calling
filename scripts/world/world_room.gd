@@ -5,15 +5,24 @@ extends Node2D
 @export var bounds: Rect2 = Rect2(0, 0, 1152, 832)
 
 var _presence: String = ""
+var _snap_schedule: bool = true
+
+
+func area_name() -> String:
+	return "Town"
 
 
 func _ready() -> void:
 	DayClock.held = false
+	_snap_schedule = true
 	_build()
+	_snap_schedule = false
 	_presence = NpcSchedule.signature(self)
 	_spawn_player()
 	_apply_camera()
 	_apply_time()
+	_show_location()
+	_refresh_living()
 	_bind_clock()
 
 
@@ -35,13 +44,14 @@ func _on_time_changed() -> void:
 	if not is_inside_tree():
 		return
 	var next := NpcSchedule.signature(self)
-	if next == _presence:
-		return
-	_presence = next
-	if has_method("rebuild_collision"):
-		call("rebuild_collision")
-	else:
-		NpcSchedule.apply_room(self)
+	if next != _presence:
+		_presence = next
+		if has_method("rebuild_collision"):
+			call("rebuild_collision")
+		else:
+			NpcSchedule.apply_room(self, _snap_schedule)
+	# Happenings and neighbors follow the hour even when nobody's post changed.
+	_refresh_living()
 
 
 func _build() -> void:
@@ -75,11 +85,13 @@ func _add_prop_blocks() -> void:
 	var solids := get_node_or_null("Solids") as StaticBody2D
 	if solids == null:
 		return
-	NpcSchedule.apply_room(self)
+	NpcSchedule.apply_room(self, _snap_schedule)
 	for node in get_tree().get_nodes_in_group("solid_prop"):
 		if not node is Node2D or not is_ancestor_of(node):
 			continue
 		if bool(node.get_meta("scheduled_away", false)):
+			continue
+		if bool(node.get_meta("schedule_walking", false)):
 			continue
 		var body := node as Node2D
 		var size: Vector2 = body.get("block_size")
@@ -161,6 +173,24 @@ func _apply_camera() -> void:
 	camera.limit_bottom = int(bounds.end.y)
 	camera.limit_smoothed = false
 	camera.position_smoothing_enabled = false
+
+
+func _show_location() -> void:
+	var banner := find_child("LocationBanner", true, false)
+	if banner != null and banner.has_method("show_place"):
+		banner.call("show_place", area_name())
+
+
+func _refresh_living() -> void:
+	var tree := get_tree()
+	if tree == null:
+		return
+	for node in tree.get_nodes_in_group("ambient_happening"):
+		if is_ancestor_of(node) and node.has_method("apply_clock"):
+			node.call("apply_clock")
+	for node in tree.get_nodes_in_group("ambient_townsfolk"):
+		if is_ancestor_of(node) and node.has_method("apply_clock"):
+			node.call("apply_clock")
 
 
 func _apply_time() -> void:

@@ -1,0 +1,14 @@
+{
+  "id": "happening_friday",
+  "start": "boxes",
+  "nodes": {
+    "boxes": {
+      "speaker": "Frank",
+      "text": "Thomas's order came early. I'm only the back. The screw for the step is still at the bay, if that's why you wandered over.",
+      "set_flags": {"happening_friday": true},
+      "add_relationships": {"frank": 1},
+      "add_notes": ["Frank was unloading a delivery outside the hardware store."],
+      "end": true
+    }
+  }
+}

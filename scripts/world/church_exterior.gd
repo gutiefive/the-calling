@@ -19,10 +19,15 @@ const POS_FROM_STREET := Vector2(920, 640)
 const POS_HAROLD := Vector2(640, 420)
 
 
+func area_name() -> String:
+	return "Church grounds"
+
+
 func _build() -> void:
 	bounds = Rect2(0, 0, MAP_SIZE.x * 32, MAP_SIZE.y * 32)
 	_assign_art()
 	_place_props()
+	_add_wayfinding()
 	_paint_ground()
 	_clear_solids()
 	_add_church_collision()
@@ -112,6 +117,10 @@ func _paint_ground() -> void:
 	for y in range(16, 24):
 		for x in range(20, 33):
 			layer.set_cell(Vector2i(x, y), 0, Vector2i(3, 0))
+	# A lighter strip so the east lane reads as the way out to Oak Street.
+	for y in range(19, 21):
+		for x in range(20, 35):
+			layer.set_cell(Vector2i(x, y), 0, Vector2i(2, 0))
 
 
 func _add_church_collision() -> void:
@@ -145,6 +154,112 @@ func _place_occluder() -> void:
 		top_left + Vector2(0.0, size.y),
 	])
 	occluder.occluder = poly
+
+
+func _add_wayfinding() -> void:
+	var props := get_node_or_null("Props")
+	if props == null:
+		return
+	_add_sign(props)
+	_add_ground_arrow(props, "ArrowEast1", Vector2(736, 656))
+	_add_ground_arrow(props, "ArrowEast2", Vector2(944, 656))
+	_add_ground_arrow(props, "ArrowEast3", Vector2(1008, 656))
+	_add_solid_sprite(props, "Mailbox", PlaceholderArt.mailbox(), Vector2(280, 560), Vector2(12, 8))
+	_add_happening(
+		props,
+		"ThursdayFlowers",
+		"thursday_flowers",
+		Vector2(860, 430),
+		PlaceholderArt.flowers(),
+		Vector2i(48, 32),
+		1,
+		"Margaret",
+		"Look at the flowers",
+		"happening_thursday",
+		"Margaret looks up from the watering can."
+	)
+
+
+func _add_sign(props: Node) -> void:
+	if props.get_node_or_null("Signpost") != null:
+		return
+	var sign := SpeechProp.new()
+	sign.name = "Signpost"
+	sign.position = Vector2(860, 600)
+	sign.sheet = PlaceholderArt.signpost()
+	sign.frame_size = Vector2i(32, 48)
+	sign.frame_count = 1
+	sign.speaker_name = "Sign"
+	sign.prompt_text = "Read the sign"
+	sign.line = "Oak Street is east, past this lane. Hardware, the bay, and the cottages."
+	sign.blocks_movement = true
+	sign.block_size = Vector2(14, 8)
+	sign.radius = 36.0
+	sign.add_to_group("wayfinding")
+	var sprite := AnimatedSprite2D.new()
+	sprite.name = "Sprite"
+	sign.add_child(sprite)
+	props.add_child(sign)
+
+
+func _add_ground_arrow(props: Node, node_name: String, pos: Vector2) -> void:
+	if props.get_node_or_null(node_name) != null:
+		return
+	var arrow := Sprite2D.new()
+	arrow.name = node_name
+	arrow.texture = PlaceholderArt.arrow_east()
+	arrow.position = pos
+	arrow.centered = true
+	arrow.z_index = -5
+	arrow.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	props.add_child(arrow)
+
+
+func _add_solid_sprite(props: Node, node_name: String, texture: Texture2D, pos: Vector2, block: Vector2) -> void:
+	if props.get_node_or_null(node_name) != null or texture == null:
+		return
+	var sprite := SolidProp.new()
+	sprite.name = node_name
+	sprite.texture = texture
+	sprite.centered = true
+	sprite.offset = Vector2(0, -texture.get_height() * 0.5)
+	sprite.position = pos
+	sprite.block_size = block
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	props.add_child(sprite)
+
+
+func _add_happening(
+	props: Node,
+	node_name: String,
+	happening_id: String,
+	pos: Vector2,
+	sheet: Texture2D,
+	frame: Vector2i,
+	frames: int,
+	speaker: String,
+	prompt: String,
+	dialogue_id: String,
+	fallback: String
+) -> void:
+	if props.get_node_or_null(node_name) != null or sheet == null:
+		return
+	var spot := HappeningSpot.new()
+	spot.name = node_name
+	spot.happening_id = happening_id
+	spot.position = pos
+	spot.sheet = sheet
+	spot.frame_size = frame
+	spot.frame_count = frames
+	spot.speaker_name = speaker
+	spot.prompt_text = prompt
+	spot.dialogue_id = dialogue_id
+	spot.line = fallback
+	spot.radius = 42.0
+	var sprite := AnimatedSprite2D.new()
+	sprite.name = "Sprite"
+	spot.add_child(sprite)
+	props.add_child(spot)
 
 
 func _make_tileset(tex: Texture2D) -> TileSet:

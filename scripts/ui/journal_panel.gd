@@ -76,5 +76,13 @@ func _body_text() -> String:
 			if not objective.is_empty():
 				lines.append(objective)
 	lines.append("")
+	lines.append("Notes")
+	var notes := NarrativeState.journal_notes()
+	if notes.is_empty():
+		lines.append("Nothing written down.")
+	else:
+		for note in notes:
+			lines.append(note)
+	lines.append("")
 	lines.append("J  close")
 	return "\n".join(lines)

@@ -1,0 +1,25 @@
+{
+  "happenings": [
+    {
+      "id": "thursday_flowers",
+      "days": ["Thursday"],
+      "from": "06:00",
+      "until": "17:00",
+      "scene": "church_exterior"
+    },
+    {
+      "id": "friday_delivery",
+      "days": ["Friday"],
+      "from": "08:00",
+      "until": "17:00",
+      "scene": "hardware_street"
+    },
+    {
+      "id": "saturday_park",
+      "days": ["Saturday"],
+      "from": "08:00",
+      "until": "13:00",
+      "scene": "hardware_street"
+    }
+  ]
+}

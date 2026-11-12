@@ -179,6 +179,22 @@ static func sarah() -> Texture2D:
 	return _cached("sarah", _npc_sheet(FLOWER, BRICK_D, BUN, PANTS, false, false))
 
 
+static func townsfolk(variant: int) -> Texture2D:
+	return _cached("townsfolk%d" % variant, _townsfolk(variant))
+
+
+static func signpost() -> Texture2D:
+	return _cached("signpost", _signpost())
+
+
+static func arrow_east() -> Texture2D:
+	return _cached("arrow_east", _arrow_east())
+
+
+static func lane_gate() -> Texture2D:
+	return _cached("lane_gate", _lane_gate())
+
+
 static func hardware_store() -> Texture2D:
 	return _cached("hardware", _hardware())
 
@@ -291,7 +307,7 @@ static func _noise(x: int, y: int) -> int:
 
 
 static func _grounds_atlas() -> Image:
-	var atlas := _new(32 * 7, 32)
+	var atlas := _new(32 * 8, 32)
 	_blit(atlas, _grass(false), 0, 0)
 	_blit(atlas, _grass(true), 32, 0)
 	_blit(atlas, _path_tile(), 64, 0)
@@ -299,7 +315,64 @@ static func _grounds_atlas() -> Image:
 	_blit(atlas, _wood_tile(), 128, 0)
 	_blit(atlas, _carpet_tile(), 160, 0)
 	_blit(atlas, _plaster_tile(), 192, 0)
+	_blit(atlas, _water_tile(), 224, 0)
 	return atlas
+
+
+static func _water_tile() -> Image:
+	var image := _new(32, 32)
+	_rect(image, 0, 0, 32, 32, GLASS_D)
+	for y in 32:
+		for x in 32:
+			var n := _noise(x + 11, y + 5)
+			if n > 200:
+				_px(image, x, y, GLASS)
+			elif n < 36:
+				_px(image, x, y, GLASS_H)
+	_rect(image, 0, 10, 32, 2, GLASS)
+	_rect(image, 0, 22, 32, 2, GLASS_H)
+	return image
+
+
+static func _signpost() -> Image:
+	var image := _new(32, 48)
+	_rect(image, 14, 16, 4, 28, WOOD_D)
+	_rect(image, 4, 8, 24, 12, WOOD)
+	_rect(image, 4, 8, 24, 2, WOOD_L)
+	_rect(image, 18, 12, 8, 2, CREAM)
+	_rect(image, 22, 11, 4, 4, CREAM)
+	_rect(image, 12, 40, 8, 3, SOIL)
+	return _outline(image)
+
+
+static func _arrow_east() -> Image:
+	var image := _new(32, 32)
+	_rect(image, 4, 14, 16, 4, CREAM_D)
+	_rect(image, 16, 8, 4, 16, CREAM)
+	_rect(image, 20, 12, 4, 8, CREAM)
+	_rect(image, 24, 14, 4, 4, CREAM)
+	return _outline(image)
+
+
+static func _lane_gate() -> Image:
+	var image := _new(64, 32)
+	_rect(image, 4, 6, 4, 22, WOOD_D)
+	_rect(image, 56, 6, 4, 22, WOOD_D)
+	_rect(image, 6, 8, 52, 4, WOOD)
+	_rect(image, 6, 16, 52, 4, WOOD_L)
+	_rect(image, 6, 24, 52, 3, WOOD_D)
+	_rect(image, 28, 10, 8, 14, CREAM_D)
+	return _outline(image)
+
+
+static func _townsfolk(variant: int) -> Image:
+	match posmod(variant, 3):
+		0:
+			return _npc_sheet(SHIRT, SHIRT_D, HAIR, PANTS, false, false)
+		1:
+			return _npc_sheet(CARDIGAN, CARDIGAN_D, BUN, PANTS, true, false)
+		_:
+			return _npc_sheet(BRICK, BRICK_D, HAIR_L, PANTS, false, false)
 
 
 static func _grass(alt: bool) -> Image:

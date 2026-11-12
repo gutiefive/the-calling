@@ -161,3 +161,37 @@ Launch with `godot --path .` from the repo, or press F5 in the editor. The first
 ## M4 results
 
 On 2026-11-12, `Godot_v4.7.2-stable_win64_console.exe --headless --path . res://tests/m4/m4_validation.tscn` printed 90 `CHECK OK` lines and `M4_OK`, and exited 0. The same binary then printed `M1_OK`, `M2_OK`, and `M3_OK`, each exiting 0. A 30-frame boot of the title scene exited 0. T26–T33 were not played in a window.
+
+# Milestone 4.5 test plan
+
+The M1–M4 lists still apply. These checks cover the way to Oak Street, the wider street, people who move, and the optional days.
+
+## Automated
+
+```powershell
+godot --headless --path . --import
+godot --headless --path . res://tests/m1/m1_validation.tscn
+godot --headless --path . res://tests/m2/m2_validation.tscn
+godot --headless --path . res://tests/m3/m3_validation.tscn
+godot --headless --path . res://tests/m4/m4_validation.tscn
+godot --headless --path . res://tests/m4_5/m4_5_validation.tscn
+```
+
+`m4_5_validation.tscn` prints `CHECK OK` / `CHECK FAIL` lines and exits with `M4_5_OK` or `M4_5_FAIL`.
+It checks the sign and the east path, the area name, the town map and the player marker, Margaret's walk and a blocked-path fallback, neighbor barks, each day's optional moment, a chapter ending that never found those moments, and a save that still round-trips at version 2.
+
+## Manual
+
+Launch with `godot --path .` from the repo, or press F5 in the editor.
+
+| ID | Do this | Expect |
+|---|---|---|
+| T34 | New Game. Look east of the church, and press J | A path, arrows, and a sign toward Oak Street. The journal names that lane. The top of the screen says Church grounds when you arrive. |
+| T35 | Press M. Walk. Press M again. Esc, then Map | A sketch of the church grounds, the sanctuary, and Oak Street, with a marker that moves with you. Esc or M closes it. |
+| T36 | Walk the east path to Oak Street. Continue past the shops | You arrive facing the street. Farther east are a park, a creek bank, and a short lane with a sign about the bridge. |
+| T37 | On Thursday, press T once while Margaret is on the grounds. Talk to a neighbor on Oak Street. Press T into evening, then night | Margaret walks to a new spot instead of vanishing on the spot. The neighbor has one line. Evening lights windows and leaves fewer people out. Night is quieter. |
+| T38 | Find the flowers Thursday afternoon, the crates outside the store on Friday, and the park on Saturday morning. Skip all three on another run and still read the ledger | Each moment is a short conversation. Sunday still ends from the ledger if you never found them. |
+
+## M4.5 results
+
+On 2026-11-12, `Godot_v4.7.2-stable_win64_console.exe --headless --path . res://tests/m4_5/m4_5_validation.tscn` printed 90 `CHECK OK` lines and `M4_5_OK`, and exited 0. The same binary then printed `M1_OK` (74 checks), `M2_OK`, `M3_OK`, and `M4_OK` (90 checks), each exiting 0. T34–T38 were not played in a window.

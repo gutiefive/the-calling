@@ -4,9 +4,9 @@
   "nodes": {
     "start": {
       "router": [
+        {"if": {"quest_step": ["oak_street", "frank"]}, "next": "ask"},
         {"if": {"relationship_at_least": ["frank", 1]}, "next": "later_listened"},
         {"if": {"flag": "frank_invited"}, "next": "later_invited"},
-        {"if": {"quest_step": ["oak_street", "frank"]}, "next": "ask"},
         {"next": "closed"}
       ]
     },

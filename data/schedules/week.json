@@ -3,7 +3,8 @@
     {
       "id": "margaret",
       "entries": [
-        {"days": ["Thursday"], "from": "00:00", "until": "24:00", "scene": "church_exterior", "position": [700, 360]},
+        {"days": ["Thursday"], "from": "00:00", "until": "17:00", "scene": "church_exterior", "position": [700, 360]},
+        {"days": ["Thursday"], "from": "17:00", "until": "20:00", "scene": "church_exterior", "position": [700, 520]},
         {"days": ["Friday"], "from": "08:00", "until": "12:00", "scene": "church_exterior", "position": [700, 360]},
         {"days": ["Friday"], "from": "12:00", "until": "17:00", "scene": "sanctuary", "position": [150, 480]},
         {"days": ["Saturday"], "from": "09:00", "until": "17:00", "scene": "sanctuary", "position": [150, 480]},

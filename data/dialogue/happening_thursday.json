@@ -1,0 +1,14 @@
+{
+  "id": "happening_thursday",
+  "start": "water",
+  "nodes": {
+    "water": {
+      "speaker": "Margaret",
+      "text": "The petunias get a drink before the heat sits on them. You don't have to help. I just like the company.",
+      "set_flags": {"happening_thursday": true},
+      "add_relationships": {"margaret": 1},
+      "add_notes": ["Margaret was watering the flowers by the east wall."],
+      "end": true
+    }
+  }
+}

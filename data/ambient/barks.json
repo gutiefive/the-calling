@@ -1,0 +1,38 @@
+{
+  "people": [
+    {
+      "id": "ada",
+      "lines": [
+        {"days": ["Thursday"], "phases": ["Day"], "text": "The hardware door sticks if you shove it. Thomas says that's character."},
+        {"days": ["Friday"], "phases": ["Day"], "text": "Frank's got boxes on the walk. I'm stepping around them."},
+        {"days": ["Saturday"], "phases": ["Day"], "text": "The park's the noisy end of the street this morning."},
+        {"days": ["Sunday"], "phases": ["Day"], "text": "Quiet street. Most folks are up at the church or still in bed."},
+        {"phases": ["Evening"], "text": "Porch lights are on. I'm heading in after this block."},
+        {"phases": ["Night"], "text": "Didn't expect anyone out. The windows are the company."},
+        {"text": "Morning. Or what's left of it."}
+      ]
+    },
+    {
+      "id": "ben",
+      "lines": [
+        {"days": ["Thursday"], "phases": ["Day"], "text": "New to the block? The lane west of here finds the church."},
+        {"days": ["Friday"], "phases": ["Day"], "text": "Delivery day. Don't trip on the crates by the store."},
+        {"days": ["Saturday"], "phases": ["Day"], "text": "If you want quiet, the park is the wrong way until lunch."},
+        {"phases": ["Evening"], "text": "Shop's shut. The lamps do the talking now."},
+        {"phases": ["Night"], "text": "Street's empty. That's how I like the late hours."},
+        {"text": "Just out for the air."}
+      ]
+    },
+    {
+      "id": "cleo",
+      "lines": [
+        {"days": ["Thursday"], "phases": ["Day"], "text": "Margaret's flowers are the bright spot on that church wall."},
+        {"days": ["Friday"], "phases": ["Day"], "text": "Frank's been at those boxes since the truck left."},
+        {"days": ["Saturday"], "phases": ["Day"], "text": "The kids claimed the park. I'm only the lookout."},
+        {"phases": ["Evening"], "text": "I'm walking home while I can still see the curb."},
+        {"phases": ["Night"], "text": "Even the creek sounds closer when the street is empty."},
+        {"text": "Nice enough day to be outside."}
+      ]
+    }
+  ]
+}

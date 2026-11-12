@@ -113,6 +113,28 @@ The file version is 2. A version 1 file is copied forward: its flags, quests, re
 
 `scenes/main.tscn` is the title. New Game loads the church grounds at Thursday 2:00 p.m. Continue calls the same load as the pause menu. The title holds `DayClock` until a room starts. No new input actions were added. Up and Down choose. E, Space, or Enter confirms.
 
+## D25 — Finding Oak Street (M4.5)
+
+The church lot stays 36 by 26 tiles, so the M1 camera limits stay put. The east exit was hard to see, so the gravel there is now a path, with arrows and a sign you can read. Entering a room shows its name for a moment: Church grounds, Sanctuary, or Oak Street. M, and the Map row on the pause menu, open a sketch of those three places and a marker for the player. The new input action is `town_map`. Until you have been on Oak Street, the journal keeps one line about the lane east of the church. Resume, Save, and Load stay the first three pause rows, so the older save checks still land on the same choices.
+
+## D26 — Walking between posts (M4.5)
+
+A schedule change inside the room you are in starts a short walk: straight, or one corner, around the solid rectangles already in the room. Entering a room still places people on the post for that hour, which is what the older presence checks measure. If the segment is blocked, the person is placed on the post and marked as a fallback, so a bench cannot trap them. Leaving the schedule hides them. Thursday evening Margaret walks south on the grounds; after 8:00 p.m. she is indoors. `NpcSchedule.debug_blocks` is only there so a test can wall off that walk.
+
+Frank's conversation checks the Oak Street step before his relationship. The Friday delivery can raise that relationship without skipping the Thursday choice.
+
+## D27 — Optional days (M4.5)
+
+Thursday afternoon, the flowers by the east wall. Friday, crates outside the hardware store. Saturday morning, neighbors at the park. Each is a short conversation, a relationship of 1, and a journal note. The hours live in `data/happenings/week.json`. They are absent on the other days. The ledger still ends the chapter if none of them happened.
+
+Three unnamed neighbors walk the Oak Street sidewalk. Their one line depends on the day and on Day, Evening, or Night. Evening keeps one of them out. Night keeps none, and the windows are lit. They are not characters and they are not on the week schedule.
+
+Oak Street is 64 by 40 tiles. East of the shops are a park, a creek bank, and Maple Lane, which stops at a sign. The bridge is not a scene.
+
+## D28 — Notes in the same save
+
+The file version stays 2. Journal notes are an extra list inside the narrative dictionary. A file that has no list loads with an empty one. The Oak Street hint is derived from `seen_oak_street`, so it does not need its own version.
+
 ## Still open
 
 | # | Question | Notes |
@@ -122,7 +144,7 @@ The file version is 2. A version 1 file is copied forward: its flags, quests, re
 | D4 | Exact pixel scale | 640×360, integer scale, still the working choice. |
 | D5 | Optional driveable vehicle | Open. |
 | D6 | Denomination / theological specificity | Open. |
-| D7 | Full NPC daily schedules | Simple windows are in (D16). A full simulated day is still open. |
+| D7 | Full NPC daily schedules | Simple windows are in (D16). M4.5 walks between posts in the current room (D26). A full simulated day is still open. |
 | D8 | Lightweight minigames | Open. |
 | D9 | Controller / Steam Deck | Later. |
 | D10 | Forward+ vs Compatibility | Forward+ remains. Revisit for low-end laptops. |

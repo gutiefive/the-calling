@@ -16,6 +16,10 @@ const POS_SCONCE_R := Vector2(760, 360)
 const POS_SCONCE_N := Vector2(480, 240)
 
 
+func area_name() -> String:
+	return "Sanctuary"
+
+
 func _on_time_changed() -> void:
 	super._on_time_changed()
 	var service := get_node_or_null("SundayService")

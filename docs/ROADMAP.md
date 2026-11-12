@@ -9,6 +9,7 @@ Status date: 2026-11-12. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md
 | M2 Conversation and quest slice | Implemented. Dialogue, the spare-key quest, and a journal. |
 | M3 Clock, consequences, town block | Implemented. Weekday clock, Oak Street, schedules, relationships, and one save slot. |
 | M4 First Sunday vertical slice | Implemented. Sunday service, sermon theme, follow-ups, the ledger, and a title screen. |
+| M4.5 Living town | Implemented. Wayfinding to Oak Street, a wider street, people who move, and one optional moment each on Thursday, Friday, and Saturday. |
 | M5+ | Only after prototype feedback. Do not start until Nathan asks. |
 
 ## M1 includes
@@ -42,3 +43,11 @@ A title screen (New Game, Continue when a save exists, Quit). The week continues
 ## M4 does not include
 
 Another chapter, shop interiors, inventory, audio, or a second Sunday.
+
+## M4.5 includes
+
+A sign, arrows, and a path on the east side of the church lot. An area name when you enter a room. A town map on M and on the pause menu. A journal note that names Oak Street until you have been there. Oak Street continues east into a park and a creek, with a gated stub of Maple Lane. Named people walk to a new post in the room you are standing in. A few unnamed neighbors wander the sidewalk and say one line that changes with the day and the light. Evening lights the windows and thins the sidewalk. Night clears it. Thursday has Margaret's flowers, Friday has Frank's delivery, and Saturday morning has neighbors at the park. Each can add a short conversation, a small relationship change, and a journal note. The Sunday chain does not require them.
+
+## M4.5 does not include
+
+Another chapter, shop interiors, inventory, audio, or a second town block you can enter. Maple Lane stops at the gate.

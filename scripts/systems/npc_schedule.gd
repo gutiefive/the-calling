@@ -8,6 +8,8 @@ const PATH := "res://data/schedules/week.json"
 static var _npcs: Dictionary = {}
 static var _loaded: bool = false
 static var _ok: bool = false
+## Extra rectangles for the blocked-path check. Tests set this, then clear it.
+static var debug_blocks: Array[Rect2] = []
 
 
 static func placement(npc_id: String, day_name: String, hour: int, minute: int) -> Dictionary:
@@ -38,7 +40,7 @@ static func placement(npc_id: String, day_name: String, hour: int, minute: int) 
 	return {}
 
 
-static func apply_room(room: Node) -> void:
+static func apply_room(room: Node, snap: bool = true) -> void:
 	if room == null:
 		return
 	var clock := _clock(room)
@@ -49,16 +51,47 @@ static func apply_room(room: Node) -> void:
 	var hour := int(clock.get("hour"))
 	var minute := int(clock.get("minute"))
 	var here_id := scene_id(room)
+	var blocks := _blockers(room)
+	for extra in debug_blocks:
+		blocks.append(extra)
 	for node in _npcs_in(room):
 		var npc_id := str(node.get("npc_id"))
 		var place := placement(npc_id, day, hour, minute)
 		var here := not place.is_empty() and str(place.get("scene", "")) == here_id
-		node.set_meta("scheduled_away", not here)
-		node.visible = here
+		var agent := _agent(node)
+		if not here:
+			agent.stop()
+			node.set_meta("schedule_walking", false)
+			node.set_meta("scheduled_away", true)
+			node.visible = false
+			if node is Interactable:
+				(node as Interactable).enabled = false
+			continue
+		var target: Vector2 = place["position"]
+		node.set_meta("scheduled_away", false)
+		node.visible = true
 		if node is Interactable:
-			(node as Interactable).enabled = here
-		if here:
-			node.position = place["position"]
+			(node as Interactable).enabled = true
+		var dist := node.position.distance_to(target)
+		if snap or dist <= 1.0:
+			agent.stop()
+			node.position = target
+			node.set_meta("schedule_walking", false)
+			node.set_meta("schedule_fallback", false)
+			continue
+		var route := NpcRoute.plan(node.position, target, blocks)
+		var raw_points: Variant = route.get("points", [])
+		var points: Array = raw_points if raw_points is Array else []
+		if bool(route.get("ok", false)) and not points.is_empty():
+			node.set_meta("schedule_walking", true)
+			node.set_meta("schedule_fallback", false)
+			agent.begin(points)
+			continue
+		# No clear path. Teleport so a chair or a test wall cannot trap them.
+		agent.stop()
+		node.position = target
+		node.set_meta("schedule_walking", false)
+		node.set_meta("schedule_fallback", true)
 
 
 static func signature(room: Node) -> String:
@@ -115,6 +148,34 @@ static func _ensure() -> bool:
 		_npcs[npc_id] = entries if entries is Array else []
 	_ok = true
 	return true
+
+
+static func _agent(body: Node2D) -> ScheduleAgent:
+	var found := body.get_node_or_null("ScheduleAgent") as ScheduleAgent
+	if found != null:
+		return found
+	var agent := ScheduleAgent.new()
+	agent.name = "ScheduleAgent"
+	body.add_child(agent)
+	return agent
+
+
+static func _blockers(room: Node) -> Array[Rect2]:
+	var rects: Array[Rect2] = []
+	var solids := room.get_node_or_null("Solids") as StaticBody2D
+	if solids == null:
+		return rects
+	for child in solids.get_children():
+		if not child is CollisionShape2D:
+			continue
+		var shape_node := child as CollisionShape2D
+		if not shape_node.shape is RectangleShape2D:
+			continue
+		var rect_shape := shape_node.shape as RectangleShape2D
+		var size := rect_shape.size
+		var center := shape_node.position
+		rects.append(Rect2(center - size * 0.5, size))
+	return rects
 
 
 static func _npcs_in(room: Node) -> Array[Node2D]:

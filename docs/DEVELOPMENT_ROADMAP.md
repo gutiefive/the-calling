@@ -1,6 +1,6 @@
 # Development Roadmap
 
-Source: brief Sections 8–10. **Status 2026-11-12: M0 complete; M1 through M4 implemented (see `docs/ROADMAP.md` and `docs/PLAYTEST.md`). M5 not started.**
+Source: brief Sections 8–10. **Status 2026-11-12: M0 complete; M1 through M4.5 implemented (see `docs/ROADMAP.md` and `docs/PLAYTEST.md`). M5 not started.**
 
 ## M0 — Environment (done 2026-11-11)
 Godot 4.7.2, Cursor, Beckett Lite MCP, LibreSprite + LibreSprite-MCP, git repo, docs, toolchain smoke test.
@@ -47,6 +47,10 @@ Sunday service is M4.
 ## M4 — First Sunday Vertical Slice
 Implemented. Sunday service in the sanctuary; sermon theme (hope, forgiveness, or service); follow-up conversations;
 Margaret's ledger and a chapter ending; title screen with New Game and Continue. No further chapters.
+
+## M4.5 — Living town
+Implemented. Wayfinding to Oak Street, a wider street with a park and a gated lane, people who walk their posts,
+unnamed neighbors, and one optional moment on Thursday, Friday, and Saturday. No new chapter.
 
 ## M5+ — Only after prototype feedback
 More town blocks, deeper arcs, community tasks, restoration, events, church progression, more chapters, improved

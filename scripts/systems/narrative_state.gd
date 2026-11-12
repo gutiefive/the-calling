@@ -4,13 +4,17 @@ extends Node
 
 const SAVE_VERSION := 1
 
+const OAK_HINT := "The lane east of the church grounds leads to Oak Street."
+
 var dialogue_open: bool = false
 var journal_open: bool = false
 var ending_open: bool = false
+var map_open: bool = false
 
 var _flags: Dictionary = {}
 var _quests: Dictionary = {}
 var _relationships: Dictionary = {}
+var _notes: Array[String] = []
 var _catalog: Dictionary = {}
 
 
@@ -19,7 +23,7 @@ func _ready() -> void:
 
 
 func movement_locked() -> bool:
-	return dialogue_open or journal_open or ending_open
+	return dialogue_open or journal_open or ending_open or map_open
 
 
 func set_dialogue_open(is_open: bool) -> void:
@@ -30,13 +34,19 @@ func set_journal_open(is_open: bool) -> void:
 	journal_open = is_open
 
 
+func set_map_open(is_open: bool) -> void:
+	map_open = is_open
+
+
 func reset() -> void:
 	_flags.clear()
 	_quests.clear()
 	_relationships.clear()
+	_notes.clear()
 	dialogue_open = false
 	journal_open = false
 	ending_open = false
+	map_open = false
 
 
 func set_flag(key: String, value: Variant) -> void:
@@ -68,6 +78,22 @@ func set_relationship(npc_id: String, value: int) -> void:
 
 func add_relationship(npc_id: String, delta: int) -> void:
 	_relationships[npc_id] = relationship(npc_id) + delta
+
+
+func add_note(text: String) -> void:
+	if text.is_empty() or _notes.has(text):
+		return
+	_notes.append(text)
+
+
+func journal_notes() -> PackedStringArray:
+	var lines := PackedStringArray()
+	if not flag_is_true("seen_oak_street"):
+		lines.append(OAK_HINT)
+	for note in _notes:
+		if not lines.has(note):
+			lines.append(note)
+	return lines
 
 
 func quest_title(quest_id: String) -> String:
@@ -143,6 +169,7 @@ func to_dictionary() -> Dictionary:
 		"flags": _flags.duplicate(true),
 		"quests": _quests.duplicate(true),
 		"relationships": _relationships.duplicate(true),
+		"notes": _notes.duplicate(),
 	}
 
 
@@ -151,6 +178,7 @@ func from_dictionary(data: Dictionary) -> void:
 	dialogue_open = false
 	journal_open = false
 	ending_open = false
+	map_open = false
 	var flags_v: Variant = data.get("flags", {})
 	_flags = (flags_v as Dictionary).duplicate(true) if flags_v is Dictionary else {}
 	_quests.clear()
@@ -165,6 +193,13 @@ func from_dictionary(data: Dictionary) -> void:
 	if rel_v is Dictionary:
 		for key in (rel_v as Dictionary).keys():
 			_relationships[str(key)] = int((rel_v as Dictionary)[key])
+	_notes.clear()
+	var notes_v: Variant = data.get("notes", [])
+	if notes_v is Array:
+		for item in notes_v as Array:
+			var text := str(item)
+			if not text.is_empty() and not _notes.has(text):
+				_notes.append(text)
 
 
 func _load_catalog(path: String) -> void:

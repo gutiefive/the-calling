@@ -12,13 +12,14 @@ func _init() -> void:
 	_bind("pause", [KEY_ESCAPE])
 	_bind("cycle_time", [KEY_T])
 	_bind("journal", [KEY_J])
+	_bind("town_map", [KEY_M])
 	_bind("advance_dialogue", [KEY_SPACE, KEY_ENTER])
 	_bind("dialogue_up", [KEY_W, KEY_UP])
 	_bind("dialogue_down", [KEY_S, KEY_DOWN])
 	ProjectSettings.set_setting("application/run/main_scene", "res://scenes/main.tscn")
 	ProjectSettings.set_setting(
 		"application/config/description",
-		"Story-driven top-down pixel-art RPG. Milestone 4: a first Sunday, a sermon theme, and the end of chapter one."
+		"Story-driven top-down pixel-art RPG. Milestone 4.5: a living town, wayfinding, and optional days between Thursday and Sunday."
 	)
 	var err := ProjectSettings.save()
 	print("PROJECT_SETTINGS_SAVE ", err)
