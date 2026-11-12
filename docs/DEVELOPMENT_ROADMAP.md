@@ -1,6 +1,6 @@
 # Development Roadmap
 
-Source: brief Sections 8–10. **Status 2026-11-11: M0 (environment) complete; M1 not started.**
+Source: brief Sections 8–10. **Status 2026-11-12: M0 complete; M1 implemented (see `docs/ROADMAP.md` and `docs/PLAYTEST.md`). M2 not started.**
 
 ## M0 — Environment (done 2026-11-11)
 Godot 4.7.2, Cursor, Beckett Lite MCP, LibreSprite + LibreSprite-MCP, git repo, docs, toolchain smoke test.

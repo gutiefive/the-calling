@@ -1,0 +1,156 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/church_exterior.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/actors/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="Script" path="res://scripts/actors/solid_prop.gd" id="4_solid"]
+[ext_resource type="Script" path="res://scripts/interactions/speech_prop.gd" id="5_speech"]
+[ext_resource type="Script" path="res://scripts/interactions/door.gd" id="6_door"]
+[ext_resource type="Script" path="res://scripts/systems/time_of_day_view.gd" id="7_time"]
+
+[node name="ChurchExterior" type="Node2D"]
+script = ExtResource("1_script")
+
+[node name="Ground" type="TileMapLayer" parent="."]
+z_index = -10
+
+[node name="Solids" type="StaticBody2D" parent="."]
+collision_layer = 1
+collision_mask = 0
+
+[node name="Props" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="Church" type="Sprite2D" parent="Props"]
+position = Vector2(576, 300)
+
+[node name="Mat" type="Sprite2D" parent="Props"]
+position = Vector2(576, 316)
+
+[node name="Tree1" type="Sprite2D" parent="Props"]
+position = Vector2(260, 220)
+script = ExtResource("4_solid")
+block_size = Vector2(14, 8)
+
+[node name="Tree2" type="Sprite2D" parent="Props"]
+position = Vector2(1000, 200)
+script = ExtResource("4_solid")
+block_size = Vector2(14, 8)
+
+[node name="Tree3" type="Sprite2D" parent="Props"]
+position = Vector2(180, 680)
+script = ExtResource("4_solid")
+block_size = Vector2(14, 8)
+
+[node name="Tree4" type="Sprite2D" parent="Props"]
+position = Vector2(980, 700)
+script = ExtResource("4_solid")
+block_size = Vector2(14, 8)
+
+[node name="Tree5" type="Sprite2D" parent="Props"]
+position = Vector2(820, 560)
+script = ExtResource("4_solid")
+block_size = Vector2(14, 8)
+
+[node name="Bench" type="Sprite2D" parent="Props"]
+position = Vector2(340, 470)
+script = ExtResource("4_solid")
+block_size = Vector2(36, 10)
+
+[node name="Flowers" type="Sprite2D" parent="Props"]
+position = Vector2(860, 340)
+script = ExtResource("4_solid")
+block_size = Vector2(26, 10)
+
+[node name="Lamp" type="Sprite2D" parent="Props"]
+position = Vector2(500, 340)
+script = ExtResource("4_solid")
+block_size = Vector2(10, 8)
+
+[node name="Glow" type="PointLight2D" parent="Props/Lamp" groups=["tod_lamp"]]
+position = Vector2(0, -44)
+color = Color(1, 0.84, 0.58, 1)
+energy = 0.8
+shadow_enabled = true
+shadow_color = Color(0.16, 0.12, 0.2, 0.55)
+shadow_filter = 0
+texture_scale = 4.5
+
+[node name="Notice" type="Node2D" parent="Props"]
+position = Vector2(430, 400)
+script = ExtResource("5_speech")
+prompt_text = "Read the notice"
+radius = 36.0
+blocks_movement = true
+block_size = Vector2(14, 8)
+art_id = "notice"
+frame_count = 1
+line = "Sunday worship, 10:00 a.m. Heater's doubtful. Seventeen chairs are out. Coffee if the pot cooperates."
+
+[node name="Sprite" type="AnimatedSprite2D" parent="Props/Notice"]
+
+[node name="Margaret" type="Node2D" parent="Props"]
+position = Vector2(700, 360)
+script = ExtResource("5_speech")
+prompt_text = "Speak with Margaret"
+radius = 40.0
+blocks_movement = true
+block_size = Vector2(12, 8)
+speaker_name = "Margaret"
+art_id = "margaret"
+frame_count = 2
+fps = 1.5
+line = "Thursday already. I swept the walk, but that front step still rocks if you catch it wrong."
+
+[node name="Sprite" type="AnimatedSprite2D" parent="Props/Margaret"]
+
+[node name="Door" type="Node2D" parent="Props"]
+position = Vector2(576, 286)
+script = ExtResource("6_door")
+prompt_text = "Enter the sanctuary"
+radius = 42.0
+destination_scene = "res://scenes/world/sanctuary.tscn"
+destination_spawn = &"from_exterior"
+
+[node name="Player" parent="Props" instance=ExtResource("2_player")]
+position = Vector2(560, 430)
+
+[node name="Lighting" type="Node2D" parent="."]
+script = ExtResource("7_time")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="Lighting"]
+color = Color(1, 0.97, 0.92, 1)
+
+[node name="Sun" type="DirectionalLight2D" parent="Lighting"]
+rotation = 0.9
+color = Color(1, 0.96, 0.88, 1)
+energy = 0.1
+shadow_enabled = false
+height = 40.0
+max_distance = 400.0
+
+[node name="WindowL" type="PointLight2D" parent="Lighting" groups=["tod_window"]]
+position = Vector2(456, 256)
+color = Color(1, 0.86, 0.62, 1)
+energy = 0.0
+shadow_enabled = false
+texture_scale = 2.4
+
+[node name="WindowR" type="PointLight2D" parent="Lighting" groups=["tod_window"]]
+position = Vector2(696, 256)
+color = Color(1, 0.86, 0.62, 1)
+energy = 0.0
+shadow_enabled = false
+texture_scale = 2.4
+
+[node name="ChurchOccluder" type="LightOccluder2D" parent="Lighting"]
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="default" type="Marker2D" parent="Spawns"]
+position = Vector2(560, 430)
+
+[node name="from_sanctuary" type="Marker2D" parent="Spawns"]
+position = Vector2(560, 360)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]

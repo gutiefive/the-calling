@@ -88,7 +88,7 @@ keyboard + mouse (controller later).
 ## Open decisions
 | # | Question | Notes |
 |---|---|---|
-| D1 | **Movement: 8-direction vs 4-direction animation** | The brief specifies smooth, normalized **8-direction movement**; Nathan's setup brief specifies **4-directional character animations initially**. These are compatible: 8-way movement input with 4-direction facing/animation sets. Confirm before M1. |
+| D1 | **Movement: 8-direction vs 4-direction animation** | Resolved for M1. 8-direction movement, 4-direction facing. See `docs/DECISIONS.md`. |
 | D2 | Final game title | Brief lists as open. |
 | D3 | Protagonist gender/name customization | Neutral default for now. |
 | D4 | Exact pixel scale / internal resolution | 640×360 provisional, integer scaling. |
