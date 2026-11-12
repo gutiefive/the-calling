@@ -1,0 +1,50 @@
+{
+  "id": "harold",
+  "start": "start",
+  "nodes": {
+    "start": {
+      "router": [
+        {"if": {"quest_status": ["spare_keys", "completed"]}, "next": "after"},
+        {"if": {"flag": "has_spare_keys"}, "next": "already_holding"},
+        {"if": {"quest_step": ["spare_keys", "talk_harold"]}, "next": "directed"},
+        {"if": {"quest_step": ["spare_keys", "search"]}, "next": "hint"},
+        {"if": {"quest_step": ["spare_keys", "pickup"]}, "next": "hint"},
+        {"next": "intro"}
+      ]
+    },
+    "intro": {
+      "speaker": "Harold",
+      "text": "You must be the new pastor. I'm Harold. I've had a key to this room since the carpet was another red.",
+      "next": "intro_lock"
+    },
+    "intro_lock": {
+      "speaker": "Harold",
+      "text": "I don't hand keys out on a first afternoon. The office lock sticks. It needs patience, not replacing.",
+      "end": true
+    },
+    "directed": {
+      "speaker": "Harold",
+      "text": "Margaret sent you. The spare ring is on the stacked chairs. I was checking the lock, not hiding them.",
+      "set_flags": {"harold_told": true},
+      "quest": {"id": "spare_keys", "step": "pickup"},
+      "end": true
+    },
+    "hint": {
+      "speaker": "Harold",
+      "text": "Looking for the spare ring? I set it on the stacked chairs. The lock sticks. That's a repair, not a new lock.",
+      "set_flags": {"harold_told": true},
+      "quest": {"id": "spare_keys", "step": "pickup"},
+      "end": true
+    },
+    "already_holding": {
+      "speaker": "Harold",
+      "text": "You have the ring. Take it back to Margaret. She trusts the hook more than she trusts my pockets.",
+      "end": true
+    },
+    "after": {
+      "speaker": "Harold",
+      "text": "The ring is back with Margaret. Leave the office lock alone until it fails twice, not once.",
+      "end": true
+    }
+  }
+}

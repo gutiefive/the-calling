@@ -1,0 +1,71 @@
+{
+  "id": "margaret",
+  "start": "start",
+  "nodes": {
+    "start": {
+      "router": [
+        {"if": {"quest_status": ["spare_keys", "completed"]}, "next": "after"},
+        {"if": {"quest_step": ["spare_keys", "return"]}, "next": "return_router"},
+        {"if": {"quest_active": "spare_keys"}, "next": "busy"},
+        {"next": "greet"}
+      ]
+    },
+    "greet": {
+      "speaker": "Margaret",
+      "text": "Thursday already. I swept the walk, but that front step still rocks if you catch it wrong.",
+      "next": "problem"
+    },
+    "problem": {
+      "speaker": "Margaret",
+      "text": "The spare key ring is off its hook. I won't lock the office over a missing ring.",
+      "choices": [
+        {"text": "I'll ask Harold.", "next": "sent_harold"},
+        {"text": "I'll look around first.", "next": "sent_search"}
+      ]
+    },
+    "sent_harold": {
+      "speaker": "Margaret",
+      "text": "He's in the sanctuary, fretting the office lock. Ask him before he orders new hardware.",
+      "set_flags": {"keys_approach": "harold"},
+      "quest": {"id": "spare_keys", "start": true, "step": "talk_harold"},
+      "end": true
+    },
+    "sent_search": {
+      "speaker": "Margaret",
+      "text": "Try the stacked chairs along the west wall. Harold sets things down and calls it sorted.",
+      "set_flags": {"keys_approach": "search"},
+      "quest": {"id": "spare_keys", "start": true, "step": "search"},
+      "end": true
+    },
+    "busy": {
+      "speaker": "Margaret",
+      "text": "The ring is still missing. Sanctuary first. I have bulletins to fold.",
+      "end": true
+    },
+    "return_router": {
+      "router": [
+        {"if": {"flag_equals": ["keys_approach", "harold"]}, "next": "return_harold"},
+        {"next": "return_search"}
+      ]
+    },
+    "return_harold": {
+      "speaker": "Margaret",
+      "text": "He told you where they were. Good. I'll put them on the hook, not where Harold calls orderly.",
+      "set_flags": {"spare_keys_returned": true},
+      "quest": {"id": "spare_keys", "complete": true},
+      "end": true
+    },
+    "return_search": {
+      "speaker": "Margaret",
+      "text": "You found them without a committee. I'll take that. Harold will say he knew all along.",
+      "set_flags": {"spare_keys_returned": true},
+      "quest": {"id": "spare_keys", "complete": true},
+      "end": true
+    },
+    "after": {
+      "speaker": "Margaret",
+      "text": "Keys are on the hook. The step still rocks. One problem at a time.",
+      "end": true
+    }
+  }
+}

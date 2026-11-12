@@ -3,8 +3,8 @@
 A story-driven, top-down pixel-art RPG made in **Godot 4.7**. You play a young pastor who arrives in
 the fictional town of **Oakridge** to lead **Grace Community Church**.
 
-> **Status (2026-11-12):** Milestone 1 is playable. Walk the church grounds, talk to Margaret, read the
-> notice, enter the sanctuary, and cycle day / evening / night. Milestone 2 has not started.
+> **Status (2026-11-12):** Milestone 2 is playable. Walk the church grounds, talk to Margaret and Harold,
+> finish the spare-key quest, and open the journal. There is still no clock and no save file.
 
 ## Play (Windows)
 
@@ -23,17 +23,24 @@ In the editor, open the project and press F5.
 |---|---|
 | Move | W A S D or arrow keys. Diagonals are normalized. |
 | Interact | E |
+| Advance dialogue / confirm a choice | E, Space, or Enter. The first press finishes a line that is still revealing. |
+| Move the dialogue selection | Up / Down, or W / S, while choices are on screen. |
+| Journal | J |
 | Pause | Esc |
-| Cycle day / evening / night | T (debug, this milestone only) |
+| Cycle day / evening / night | T (debug) |
 
 Walk up the path to the church. Stand near Margaret or the notice board and press E.
-Stand in the doorway and press E to enter. The sanctuary's south door returns you outside.
+You cannot walk while a conversation or the journal is open. Esc still pauses.
+
+Margaret's spare key ring is the first quest. Harold is in the sanctuary, by the west side of the pews.
+The ring is on the stacked chairs. J lists the current objective. The sanctuary door still opens either way.
 
 ## Checks
 
 ```powershell
 godot --headless --path C:\Users\natha\Projects\the-calling --import
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m1/m1_validation.tscn
+godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m2/m2_validation.tscn
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/toolchain/toolchain_test.tscn --quit-after 5
 ```
 
@@ -48,14 +55,19 @@ scenes/world/sanctuary.tscn          interior
 scenes/actors/player.tscn
 scenes/ui/hud.tscn
 scripts/actors/                      player, prop collision
-scripts/interactions/                interactable, door, one-line speech
-scripts/systems/                     scene router, time of day
+data/dialogue/                       Margaret and Harold, JSON
+data/quests/                         quest titles and objectives
+data/interactions/                   the spare key ring
+scripts/interactions/                interactable, door, one-line speech, dialogue, key ring
+scripts/dialogue/                    conversation runner
+scripts/systems/                     scene router, narrative state, time of day
 scripts/world/                       room bootstrap and the two layouts
-scripts/ui/                          prompt, line, pause
+scripts/ui/                          prompt, dialogue box, journal, pause
 assets/                              png placeholders and the master palette
 tools/generate_placeholders.py       draws those pngs
 tests/toolchain/                     environment smoke test (leave it)
-tests/m1/                            milestone checks and screenshot capture
+tests/m1/                            milestone 1 checks and screenshot capture
+tests/m2/                            milestone 2 checks
 ```
 
 ## Documents
@@ -81,8 +93,9 @@ tests/m1/                            milestone checks and screenshot capture
 
 ## Limitations
 
-- Art is an original blockout drawn in code when the scene starts, not final illustration. There are no `.ase` sources yet.
-- Margaret and the notice each say one line. There is no dialogue tree, quest log, inventory, save, sermon, or audio.
+- Art is an original blockout drawn in code when the scene starts, not final illustration. There are no `.ase` sources yet. Harold and the key ring are the same kind of placeholder.
+- The notice board is still one line. Margaret and Harold use the dialogue files. There is no inventory, sermon, or audio.
+- Quest flags live in memory for the session. Relaunching clears them. There is no save file yet.
 - Time of day is a debug cycle, not a clock. It resets to day when you relaunch.
-- Esc pauses. There is no settings menu and no controller bindings.
+- Esc pauses. There is no settings menu, no text-speed slider, and no controller bindings.
 - The map is painted when the scene starts, from `scripts/world/church_exterior.gd` and `scripts/world/sanctuary.gd`.

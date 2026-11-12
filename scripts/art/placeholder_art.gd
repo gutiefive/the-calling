@@ -73,6 +73,10 @@ static func by_id(art_id: String) -> Texture2D:
 	match art_id:
 		"margaret":
 			return margaret()
+		"harold":
+			return harold()
+		"keys":
+			return key_ring()
 		"notice":
 			return notice_board()
 		_:
@@ -93,6 +97,14 @@ static func player_sheet() -> Texture2D:
 
 static func margaret() -> Texture2D:
 	return _cached("margaret", _margaret())
+
+
+static func harold() -> Texture2D:
+	return _cached("harold", _harold_sheet())
+
+
+static func key_ring() -> Texture2D:
+	return _cached("keys", _key_ring())
 
 
 static func tree(kind: int) -> Texture2D:
@@ -374,6 +386,50 @@ static func _margaret() -> Image:
 	_blit(sheet, _actor("down", 0, true), 0, 0)
 	_blit(sheet, _actor("down", 1, true), 32, 0)
 	return sheet
+
+
+static func _harold_sheet() -> Image:
+	var sheet := _new(64, 48)
+	_blit(sheet, _harold_frame(0), 0, 0)
+	_blit(sheet, _harold_frame(1), 32, 0)
+	return sheet
+
+
+static func _harold_frame(frame: int) -> Image:
+	var image := _new(32, 48)
+	var y0 := 1 if frame == 1 else 0
+	_rect(image, 12, y0 + 33, 4, 8, PANTS)
+	_rect(image, 17, y0 + 33, 4, 8, PANTS_D)
+	_rect(image, 12, y0 + 40, 4, 3, SHOE)
+	_rect(image, 17, y0 + 40, 4, 3, SHOE)
+	_rect(image, 9, y0 + 21, 14, 13, WOOD)
+	_rect(image, 9, y0 + 21, 14, 2, WOOD_L)
+	_rect(image, 7, y0 + 23, 3, 9, WOOD_D)
+	_rect(image, 22, y0 + 23, 3, 9, WOOD_D)
+	_rect(image, 14, y0 + 22, 4, 3, CREAM)
+	_rect(image, 11, y0 + 11, 10, 11, SKIN)
+	_rect(image, 11, y0 + 19, 10, 2, SKIN_D)
+	_rect(image, 11, y0 + 8, 10, 5, GREY)
+	_rect(image, 12, y0 + 7, 8, 2, GREY_D)
+	_px(image, 13, y0 + 15, OUTLINE)
+	_px(image, 18, y0 + 15, OUTLINE)
+	_px(image, 12, y0 + 15, GOLD)
+	_px(image, 19, y0 + 15, GOLD)
+	_px(image, 14, y0 + 14, GOLD)
+	_px(image, 17, y0 + 14, GOLD)
+	var framed := _outline(image)
+	_ellipse(framed, 16, 45, 6, 2, Color(OUTLINE.r, OUTLINE.g, OUTLINE.b, 90.0 / 255.0))
+	return framed
+
+
+static func _key_ring() -> Image:
+	var image := _new(32, 32)
+	_ellipse(image, 12, 14, 6, 6, GOLD)
+	_ellipse(image, 12, 14, 3, 3, Color(0, 0, 0, 0))
+	_rect(image, 17, 13, 10, 3, GOLD)
+	_rect(image, 24, 16, 2, 4, WOOD_D)
+	_rect(image, 21, 16, 2, 3, WOOD_D)
+	return _outline(image)
 
 
 static func _actor(facing: String, frame: int, elder: bool) -> Image:

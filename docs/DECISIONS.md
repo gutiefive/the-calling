@@ -41,7 +41,31 @@ The light cookie uses five alpha steps of one lamp color so nearest-neighbor fil
 
 ## What M1 deliberately does not include
 
-Dialogue choices, quests, schedules, inventory, saving, sermons, audio, a settings menu, and controller bindings. Esc only pauses and resumes. The notice board and Margaret each say one line.
+Dialogue choices, quests, schedules, inventory, saving, sermons, audio, a settings menu, and controller bindings. Esc only pauses and resumes. The notice board and Margaret each say one line. M2 replaces Margaret's line. The notice board is still that one line.
+
+## D11 — Spare keys, and the door stays open
+
+Chapter 1 starts with a locked front door and Margaret. The hardware store, Frank, and a supply run need the town block, which is M3. The quest is the spare key ring for the church office.
+
+The sanctuary door from M1 is not locked behind the quest. Gating it would break the doorway walk and the door check already in `tests/m1/`. The ring is a story object on the stacked chairs, not a key to the room the player can already enter.
+
+## D12 — Harold is the second voice
+
+Harold, the longtime deacon, stands in the sanctuary. Frank Miller and Thomas belong on the hardware street, which M2 does not build. Harold is proud of the building and wary of new hardware. He is not a villain, and he has a line even if the quest has not started.
+
+## D13 — NarrativeState, not a save file
+
+`NarrativeState` is an autoload. It holds flags and quest records. `to_dictionary()` / `from_dictionary()` are the shape a later save can write. M2 never touches the disk. Room changes go through `SceneRouter` as before; the autoload is what survives them.
+
+Dialogue text is JSON under `data/dialogue/`. Quest titles and objectives are JSON under `data/quests/`. The key ring's lines are JSON under `data/interactions/`. The notice board is still a one-line prop.
+
+## D14 — How a conversation is driven
+
+The bottom panel shows the speaker and reveals one character per physics frame. E, Space, or Enter skips the rest of the line, then advances. On a choice, Up/Down or W/S moves the marker and E, Space, or Enter confirms. J toggles the journal.
+
+Walking is locked while the dialogue box or the journal is open. E still reaches the focused interactable, which is how the M1 "second press" and door checks keep working. Margaret and Harold do not stand inside a door's radius, and the player cannot walk onto a door while a conversation is open.
+
+There is no text-speed setting and no portrait yet. Esc still only pauses.
 
 ## Still open
 

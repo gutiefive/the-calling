@@ -1,0 +1,9 @@
+{
+  "quest_id": "spare_keys",
+  "flag": "has_spare_keys",
+  "accept_steps": ["talk_harold", "search", "pickup"],
+  "next_step": "return",
+  "locked": "A spare key ring lies on the chairs. It is not yours to take yet.",
+  "take": "You take the spare key ring. Margaret will want it back on the hook.",
+  "held": "The spare ring is already in your pocket."
+}

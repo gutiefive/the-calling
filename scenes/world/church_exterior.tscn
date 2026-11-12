@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/church_exterior.gd" id="1_script"]
 [ext_resource type="PackedScene" path="res://scenes/actors/player.tscn" id="2_player"]
 [ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
 [ext_resource type="Script" path="res://scripts/actors/solid_prop.gd" id="4_solid"]
 [ext_resource type="Script" path="res://scripts/interactions/speech_prop.gd" id="5_speech"]
+[ext_resource type="Script" path="res://scripts/interactions/dialogue_npc.gd" id="8_talk"]
 [ext_resource type="Script" path="res://scripts/interactions/door.gd" id="6_door"]
 [ext_resource type="Script" path="res://scripts/systems/time_of_day_view.gd" id="7_time"]
 
@@ -91,7 +92,7 @@ line = "Sunday worship, 10:00 a.m. Heater's doubtful. Seventeen chairs are out. 
 
 [node name="Margaret" type="Node2D" parent="Props"]
 position = Vector2(700, 360)
-script = ExtResource("5_speech")
+script = ExtResource("8_talk")
 prompt_text = "Speak with Margaret"
 radius = 40.0
 blocks_movement = true
@@ -100,7 +101,7 @@ speaker_name = "Margaret"
 art_id = "margaret"
 frame_count = 2
 fps = 1.5
-line = "Thursday already. I swept the walk, but that front step still rocks if you catch it wrong."
+dialogue_id = "margaret"
 
 [node name="Sprite" type="AnimatedSprite2D" parent="Props/Margaret"]
 

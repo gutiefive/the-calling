@@ -12,7 +12,11 @@ func _ready() -> void:
 	if _title != null:
 		_title.text = "Paused"
 	if _hint != null:
-		_hint.text = "Esc to resume"
+		_hint.text = "Esc to resume.  J journal"
+	var center := get_node_or_null("Center") as Control
+	if center != null:
+		center.offset_left = -150.0
+		center.offset_right = 150.0
 
 
 func _unhandled_input(event: InputEvent) -> void:

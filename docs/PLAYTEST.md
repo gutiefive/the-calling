@@ -36,4 +36,37 @@ Esc pauses and resumes. That is the whole pause screen.
 
 ## Results
 
-Not run yet. On 2026-11-12 the implementation session could not start a terminal, so Godot import, `m1_validation.tscn`, the 30-frame boot, and the screenshot capture were not executed. Do not treat T01–T10 as passed until those commands have been run and this section lists their output.
+On 2026-11-12, `Godot_v4.7.2-stable_win64_console.exe --headless --path . res://tests/m1/m1_validation.tscn` printed 74 `CHECK OK` lines and `M1_OK`, and exited 0. Import of the project exited 0 with no script errors. T01–T10 were not played in a window. `capture_shots.tscn` was not run.
+
+# Milestone 2 test plan
+
+The M1 list above still applies. These checks cover dialogue, the spare-key quest, and the journal.
+
+## Automated
+
+```powershell
+godot --headless --path . --import
+godot --headless --path . res://tests/m1/m1_validation.tscn
+godot --headless --path . res://tests/m2/m2_validation.tscn
+```
+
+`m2_validation.tscn` prints `CHECK OK` / `CHECK FAIL` lines and exits with `M2_OK` or `M2_FAIL`.
+It drives the dialogue box with the input actions, walks both quest endings, and changes rooms through `SceneRouter`.
+
+## Manual
+
+Launch with `godot --path .` from the repo, or press F5 in the editor.
+
+| ID | Do this | Expect |
+|---|---|---|
+| T11 | Talk to Margaret | Her name is on the panel. The line fills in. E, Space, or Enter finishes the line, then continues. |
+| T12 | Reach her question. Press Up/Down or W/S, then confirm | The marker moves. One choice asks Harold. The other searches. Walking does nothing while the panel is open. |
+| T13 | Press J, then J again | The journal lists The Spare Keys and the current objective, then closes. You can walk again. |
+| T14 | Enter the sanctuary and leave | The quest is still active. J still shows it. |
+| T15 | If you asked Harold, talk to him. Either way, take the ring on the stacked chairs and return it to Margaret | The quest completes. Her thanks is different if you asked Harold than if you searched. |
+| T16 | Read the notice, then press Esc | The notice is still one line. Esc pauses and resumes. |
+| T17 | Quit and launch again | You start outside, in daytime, with no quest and no flags. |
+
+## M2 results
+
+On 2026-11-12, `Godot_v4.7.2-stable_win64_console.exe --headless --path . res://tests/m2/m2_validation.tscn` printed `M2_OK` and exited 0. The run covered both endings, a real sanctuary transition, the journal, and the movement lock. T11–T17 were not played in a window.

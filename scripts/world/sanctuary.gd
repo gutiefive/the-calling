@@ -8,6 +8,8 @@ const POS_ALTAR := Vector2(480, 280)
 const POS_CROSS := Vector2(480, 230)
 const POS_WINDOW := Vector2(480, 168)
 const POS_CHAIRS := Vector2(110, 230)
+const POS_HAROLD := Vector2(220, 420)
+const POS_KEYS := Vector2(168, 292)
 const POS_SCONCE_L := Vector2(200, 360)
 const POS_SCONCE_R := Vector2(760, 360)
 const POS_SCONCE_N := Vector2(480, 240)
@@ -48,6 +50,8 @@ func _place_props() -> void:
 	_feet_offset("Props/Window")
 	_place("Props/Chairs", POS_CHAIRS)
 	_feet_offset("Props/Chairs")
+	_place("Props/Harold", POS_HAROLD)
+	_place("Props/KeyRing", POS_KEYS)
 	var pew_ys: Array[float] = [360.0, 440.0, 520.0, 600.0]
 	for i in pew_ys.size():
 		var left := _place("Props/PewL%d" % (i + 1), Vector2(330, pew_ys[i]))

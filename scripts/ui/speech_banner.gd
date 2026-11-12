@@ -1,5 +1,6 @@
+class_name SpeechBanner
 extends PanelContainer
-## Holds the single line an interactable just said. It is not a dialogue UI.
+## One-line banner for props. DialogueBox uses the same panel for conversations.
 
 @onready var _label: RichTextLabel = $Label
 

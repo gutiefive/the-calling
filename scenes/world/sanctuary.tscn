@@ -1,10 +1,12 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/sanctuary.gd" id="1_script"]
 [ext_resource type="PackedScene" path="res://scenes/actors/player.tscn" id="2_player"]
 [ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
 [ext_resource type="Script" path="res://scripts/actors/solid_prop.gd" id="4_solid"]
 [ext_resource type="Script" path="res://scripts/interactions/door.gd" id="5_door"]
+[ext_resource type="Script" path="res://scripts/interactions/dialogue_npc.gd" id="7_talk"]
+[ext_resource type="Script" path="res://scripts/interactions/key_ring.gd" id="8_keys"]
 [ext_resource type="Script" path="res://scripts/systems/time_of_day_view.gd" id="6_time"]
 
 [node name="Sanctuary" type="Node2D"]
@@ -35,6 +37,33 @@ block_size = Vector2(36, 10)
 position = Vector2(110, 230)
 script = ExtResource("4_solid")
 block_size = Vector2(18, 10)
+
+[node name="Harold" type="Node2D" parent="Props"]
+position = Vector2(220, 420)
+script = ExtResource("7_talk")
+prompt_text = "Speak with Harold"
+radius = 42.0
+blocks_movement = true
+block_size = Vector2(12, 8)
+speaker_name = "Harold"
+art_id = "harold"
+frame_count = 2
+fps = 1.5
+dialogue_id = "harold"
+
+[node name="Sprite" type="AnimatedSprite2D" parent="Props/Harold"]
+
+[node name="KeyRing" type="Node2D" parent="Props"]
+position = Vector2(168, 292)
+script = ExtResource("8_keys")
+prompt_text = "Spare key ring"
+radius = 42.0
+art_id = "keys"
+frame_size = Vector2i(32, 32)
+frame_count = 1
+data_path = "res://data/interactions/spare_key_ring.json"
+
+[node name="Sprite" type="AnimatedSprite2D" parent="Props/KeyRing"]
 
 [node name="PewL1" type="Sprite2D" parent="Props"]
 position = Vector2(330, 360)

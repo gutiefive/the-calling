@@ -42,10 +42,9 @@ practical tasks, complete quests → make choices with consequences → return h
 
 - **Exploration:** smooth movement on a top-down map; readable interactables (doors, notes, supplies, people, benches,
   bulletin boards); contextual prompt; y-sort occlusion; buildings as separate scenes via doors.
-- **Dialogue (future):** speaker name/portrait, branching choices with conditions and persistent flags, subtext,
-  skippable typewriter text.
-- **Quests (future):** main, character, and community tasks (deliver supplies, repair a fence, prepare an event, restore
-  a room); avoid empty fetch quests; tracking and save persistence.
+- **Dialogue (M2):** speaker name, branching choices, and flags kept on `NarrativeState`. Portrait and a text-speed
+  setting come later. Lines live in `data/dialogue/`.
+- **Quests (M2):** one Chapter 1 task, the spare key ring, tracked in a journal. Schedules and saving are M3.
 - **Sundays (future):** weekly checkpoint; choose a sermon *theme* (hope, forgiveness, service, perseverance); outcomes
   reflect prior actions; no guaranteed optimal choice.
 - **Church growth as narrative (future):** congregation health, community trust, community impact, attendance (rough

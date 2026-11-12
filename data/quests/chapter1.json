@@ -1,0 +1,15 @@
+{
+  "quests": [
+    {
+      "id": "spare_keys",
+      "title": "The Spare Keys",
+      "steps": {
+        "talk_harold": "Ask Harold where he left the spare key ring.",
+        "search": "Look for the spare key ring in the sanctuary.",
+        "pickup": "Pick up the spare key ring from the stacked chairs.",
+        "return": "Bring the spare key ring back to Margaret.",
+        "done": "The spare keys are back on Margaret's hook."
+      }
+    }
+  ]
+}

@@ -32,6 +32,8 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	var direction := Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	if _story_locks_movement():
+		direction = Vector2.ZERO
 	velocity = velocity_from_input(direction, speed)
 	move_and_slide()
 	if direction.length_squared() > 0.0001:
@@ -82,6 +84,13 @@ func clear_interact_lock() -> void:
 
 func interact_lock_active() -> bool:
 	return _lock > 0.0
+
+
+func _story_locks_movement() -> bool:
+	var story := get_node_or_null("/root/NarrativeState")
+	if story == null or not story.has_method("movement_locked"):
+		return false
+	return bool(story.call("movement_locked"))
 
 
 func _poll_interact() -> void:

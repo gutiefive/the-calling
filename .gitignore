@@ -33,3 +33,5 @@ ehthumbs.db
 .DS_Store
 *.tmp
 *.log
+
+tests/m1/shots/

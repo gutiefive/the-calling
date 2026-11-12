@@ -1,6 +1,6 @@
 class_name SpeechProp
 extends Interactable
-## One stationary speaker line. Not a dialogue system: no choices, flags, or portraits.
+## One stationary line for a prop. Conversations are DialogueNpc plus JSON.
 
 @export var speaker_name: String = ""
 @export_multiline var line: String = ""

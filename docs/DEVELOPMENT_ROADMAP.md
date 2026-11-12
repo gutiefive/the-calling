@@ -1,6 +1,6 @@
 # Development Roadmap
 
-Source: brief Sections 8–10. **Status 2026-11-12: M0 complete; M1 implemented (see `docs/ROADMAP.md` and `docs/PLAYTEST.md`). M2 not started.**
+Source: brief Sections 8–10. **Status 2026-11-12: M0 complete; M1 and M2 implemented (see `docs/ROADMAP.md` and `docs/PLAYTEST.md`). M3 not started.**
 
 ## M0 — Environment (done 2026-11-11)
 Godot 4.7.2, Cursor, Beckett Lite MCP, LibreSprite + LibreSprite-MCP, git repo, docs, toolchain smoke test.
@@ -36,8 +36,8 @@ Input map (M1 needs only): move_up W/Up, move_down S/Down, move_left A/Left, mov
 - T10 Documentation: README run steps, controls, layout, known limitations.
 
 ## M2 — Conversation & Quest Slice
-Dialogue UI (name, advance/skip, choices); two NPCs with distinct dialogue; first compact quest (church keys or
-supplies); quest state + basic journal; narrative flags kept across room transitions.
+Implemented. Dialogue UI (name, advance/skip, choices); Margaret and Harold; the spare key ring quest; quest state
+and a journal; narrative flags kept across the sanctuary door. No clock, schedules, or save files (those are M3).
 
 ## M3 — Clock, Story Consequences & Town Block
 Day clock; simple schedules for 3–5 NPCs; church/hardware-street location; relationship flags and consequences;

@@ -1,5 +1,6 @@
 extends SceneTree
-## Writes the Milestone 1 input map and launch scene into project.godot.
+## Writes the input map and launch scene into project.godot.
+## Includes the Milestone 2 journal and dialogue keys so a rerun does not drop them.
 ## Run: godot --headless --path . --script res://tools/configure_input.gd
 
 func _init() -> void:
@@ -10,10 +11,14 @@ func _init() -> void:
 	_bind("interact", [KEY_E])
 	_bind("pause", [KEY_ESCAPE])
 	_bind("cycle_time", [KEY_T])
+	_bind("journal", [KEY_J])
+	_bind("advance_dialogue", [KEY_SPACE, KEY_ENTER])
+	_bind("dialogue_up", [KEY_W, KEY_UP])
+	_bind("dialogue_down", [KEY_S, KEY_DOWN])
 	ProjectSettings.set_setting("application/run/main_scene", "res://scenes/main.tscn")
 	ProjectSettings.set_setting(
 		"application/config/description",
-		"Story-driven top-down pixel-art RPG. Milestone 1: church grounds, a sanctuary door, and a day/evening/night lighting demo."
+		"Story-driven top-down pixel-art RPG. Milestone 2: branching dialogue, a spare-key quest, and a journal on the church grounds."
 	)
 	var err := ProjectSettings.save()
 	print("PROJECT_SETTINGS_SAVE ", err)
