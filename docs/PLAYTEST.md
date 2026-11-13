@@ -604,9 +604,54 @@ It checks one hanging sign per named storefront, Maple yard fill and collisions,
 
 | ID | Do this | Expect |
 |---|---|---|
-| T71 | Walk Oak Street's south and north shops at the game camera | Each storefront shows its name once, on the hanging sign. Facades have windows and trim, not a second painted name. |
+| T71 | Walk Oak Street's south and north shops at the game camera | Each storefront shows its name once, on the storefront sign. Facades have windows and trim, not a second painted name. |
 | T72 | Walk Maple Lane end to end, then press T to evening | Yards, hedges, a vacant lot with a for-sale sign, and a seventh house. Paths and doors stay open. Evening: a porch sitter on Maple, people near Bright's and a dog walker on Oak. Windows glow. |
 
 ## M11B results
 
 On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `M1_OK` (76), `M2_OK` (113), `M3_OK` (109), `M4_OK` (90), `M4_5_OK` (90), `M5A_OK` (103), `M5B_OK` (1491), `M6A_OK` (219), `M6A2_OK` (130), `M7_OK` (93), `M8_OK` (80), `M9_OK` (105), `M9B_OK` (156), `M10_OK` (91), `M11_OK` (210), and `M11B_OK` (196), each exiting 0 with zero `CHECK FAIL`, `SCRIPT ERROR`, or Parse Error. `--quit-after 120` exited 0. `tests/m11/capture_m11.tscn` and `tests/m11b/capture_m11b.tscn` wrote after shots. T71–T72 were not played in a window.
+
+# Milestone 11C test plan
+
+These checks cover rooftop storefront signs and evening posts that no longer cover the letters. The earlier lists still apply.
+
+## Automated
+
+```powershell
+godot --headless --path . --import
+godot --headless --path . res://tests/m1/m1_validation.tscn
+godot --headless --path . res://tests/m2/m2_validation.tscn
+godot --headless --path . res://tests/m3/m3_validation.tscn
+godot --headless --path . res://tests/m4/m4_validation.tscn
+godot --headless --path . res://tests/m4_5/m4_5_validation.tscn
+godot --headless --path . res://tests/m5a/m5a_validation.tscn
+godot --headless --path . res://tests/m5b/m5b_validation.tscn
+godot --headless --path . res://tests/m6a/m6a_validation.tscn
+godot --headless --path . res://tests/m6a2/m6a2_validation.tscn
+godot --headless --path . res://tests/m7/m7_validation.tscn
+godot --headless --path . res://tests/m8/m8_validation.tscn
+godot --headless --path . res://tests/m9/m9_validation.tscn
+godot --headless --path . res://tests/m9b/m9b_validation.tscn
+godot --headless --path . res://tests/m10/m10_validation.tscn
+godot --headless --path . res://tests/m11/m11_validation.tscn
+godot --headless --path . res://tests/m11b/m11b_validation.tscn
+godot --headless --path . res://tests/m11c/m11c_validation.tscn
+godot --path . res://tests/m11c/capture_m11c.tscn
+```
+
+`m11c_validation.tscn` prints `CHECK OK` / `CHECK FAIL` lines and exits with `M11C_OK` or `M11C_FAIL`.
+It checks one rooftop sign per named storefront, that each sign sits above the door and misses the sidewalk in front, a minimum readable size, no hanging board in front of the entrance, and that evening townsfolk stand off the signs and doors.
+
+`capture_m11c.tscn` writes PNGs to `tests/m11c/shots/` and needs a display.
+
+## Manual
+
+| ID | Do this | Expect |
+|---|---|---|
+| T73 | Walk Oak Street's north and south shops at the game camera | Each storefront shows its name once, on a rooftop / parapet board. Doors and the sidewalk in front of them stay clear. |
+| T74 | Press T to evening on Oak Street, walk Hardware and Bright's | Neighbors stand to the side on the sidewalk. They do not cover the letters or block the doors. |
+
+## M11C results
+
+On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `M1_OK` (76), `M2_OK` (113), `M3_OK` (109), `M4_OK` (90), `M4_5_OK` (90), `M5A_OK` (103), `M5B_OK` (1491), `M6A_OK` (219), `M6A2_OK` (130), `M7_OK` (93), `M8_OK` (80), `M9_OK` (105), `M9B_OK` (156), `M10_OK` (91), `M11_OK` (210), `M11B_OK` (196), and `M11C_OK` (246), each exiting 0 with zero `CHECK FAIL`, `SCRIPT ERROR`, or Parse Error. `--quit-after 120` exited 0. `tests/m11c/capture_m11c.tscn` wrote after shots under `tests/m11c/shots/`. T73–T74 were not played in a window.
+

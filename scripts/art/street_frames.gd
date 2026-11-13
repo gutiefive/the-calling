@@ -1,6 +1,6 @@
 class_name StreetFrames
 extends RefCounted
-## Oak Street south storefronts, Maple Lane houses, hanging signs, and street props.
+## Oak Street south storefronts, Maple Lane houses, rooftop signs, and street props.
 ## Palette only. Same pixel scale as EnvironmentFrames.
 
 const Draw := preload("res://scripts/art/pixel_draw.gd")
@@ -199,34 +199,44 @@ static func build_house(variant: int, door_east: bool) -> Image:
 	return Draw.outline(image)
 
 
+static func build_rooftop_sign(text: String, variant: int) -> Image:
+	return build_hanging_sign(text, variant)
+
+
 static func build_hanging_sign(text: String, variant: int) -> Image:
 	var image := Draw.canvas(128, 32)
 	var back: Color = Draw.pal("wood_d")
 	var face: Color = Draw.pal("cream")
 	var ink: Color = Draw.pal("wood_d")
+	var cap: Color = Draw.pal("wood")
 	match variant % 4:
 		1:
 			back = Draw.pal("shirt_d")
 			face = Draw.pal("shirt")
 			ink = Draw.pal("paper")
+			cap = Draw.pal("shirt")
 		2:
 			back = Draw.pal("carpet_d")
 			face = Draw.pal("lamp")
 			ink = Draw.pal("wood_d")
+			cap = Draw.pal("carpet")
 		3:
 			back = Draw.pal("grey_d")
 			face = Draw.pal("grey")
 			ink = Draw.pal("paper")
-	Draw.rect(image, 4, 2, 4, 28, Draw.pal("wood_d"))
-	Draw.rect(image, 120, 2, 4, 28, Draw.pal("wood_d"))
-	Draw.rect(image, 6, 6, 116, 20, back)
-	Draw.rect(image, 8, 8, 112, 16, face)
+			cap = Draw.pal("grey")
+	Draw.rect(image, 18, 0, 92, 3, cap)
+	Draw.rect(image, 10, 2, 108, 3, back)
+	Draw.rect(image, 6, 5, 116, 21, back)
+	Draw.rect(image, 8, 7, 112, 17, face)
+	Draw.rect(image, 16, 26, 5, 5, Draw.pal("wood_d"))
+	Draw.rect(image, 107, 26, 5, 5, Draw.pal("wood_d"))
 	var letter_w := 7 * 2
 	var content_w := 0
 	for i in text.length():
 		content_w += 8 if text.substr(i, 1) == " " else letter_w
 	var text_x := 10 + maxi(0, int((108 - content_w) / 2))
-	Frames._stamp_text(image, text, text_x, 10, ink, 2)
+	Frames._stamp_text(image, text, text_x, 9, ink, 2)
 	return Draw.outline(image)
 
 

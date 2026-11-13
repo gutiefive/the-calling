@@ -355,7 +355,20 @@ func _add_living_town() -> void:
 		"The kids found a kite in the creek grass."
 	)
 	_add_neighbor(props, "NeighborA", "ada", 0, 0, Vector2(360, Y_DOOR))
-	_add_neighbor(props, "NeighborB", "ben", 1, 1, Vector2(800, Y_DOOR))
+	_add_neighbor(
+		props,
+		"NeighborB",
+		"ben",
+		1,
+		1,
+		Vector2(740, Y_DOOR),
+		[
+			Vector2(700, Y_DOOR),
+			Vector2(760, Y_DOOR),
+			Vector2(760, Y_DOOR + 8),
+			Vector2(700, Y_DOOR + 8),
+		]
+	)
 	_add_neighbor(props, "NeighborC", "cleo", 2, 2, Vector2(1240, Y_DOOR))
 	var cross := Vector2(240, Y_ROAD)
 	_add_neighbor(
@@ -411,12 +424,12 @@ func _add_living_town() -> void:
 		"hale",
 		11,
 		4,
-		Vector2(520, Y_DOOR),
+		Vector2(508, Y_DOOR),
 		[
-			Vector2(520, Y_DOOR),
-			Vector2(660, Y_DOOR),
-			Vector2(660, Y_DOOR + 20),
-			Vector2(520, Y_DOOR + 20),
+			Vector2(480, Y_DOOR),
+			Vector2(540, Y_DOOR),
+			Vector2(540, Y_DOOR + 8),
+			Vector2(480, Y_DOOR + 8),
 		],
 		PackedStringArray(["Evening"])
 	)
@@ -426,12 +439,12 @@ func _add_living_town() -> void:
 		"ivy",
 		12,
 		2,
-		Vector2(560, Y_SPAWN),
+		Vector2(680, Y_DOOR),
 		[
-			Vector2(560, Y_SPAWN),
-			Vector2(640, Y_SPAWN),
-			Vector2(640, Y_DOOR),
-			Vector2(560, Y_DOOR),
+			Vector2(660, Y_DOOR),
+			Vector2(720, Y_DOOR),
+			Vector2(720, Y_DOOR + 8),
+			Vector2(660, Y_DOOR + 8),
 		],
 		PackedStringArray(["Evening", "Night"])
 	)
@@ -598,6 +611,27 @@ func _add_neighbor(
 	props.add_child(person)
 
 
+func _add_rooftop_sign(props: Node, node_name: String, texture: Texture2D, building: Sprite2D, x: float) -> void:
+	if props.get_node_or_null("%sSign" % node_name) != null or texture == null or building == null:
+		return
+	var sign := Sprite2D.new()
+	sign.name = "%sSign" % node_name
+	sign.texture = texture
+	sign.centered = true
+	sign.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	var building_h := 128.0
+	if building.texture != null:
+		building_h = float(building.texture.get_height())
+	var sign_h := float(texture.get_height())
+	# Sit on the cornice (roof band). Share the building's y so the player
+	# y-sorts in front of the facade and never walks under a hanging board.
+	sign.position = Vector2(x, building.position.y)
+	sign.z_index = building.z_index
+	sign.offset = Vector2(0.0, -building_h + 40.0 - sign_h * 0.5)
+	sign.add_to_group("shop_sign")
+	props.add_child(sign)
+
+
 func _add_solid_sprite(props: Node, node_name: String, texture: Texture2D, pos: Vector2, block: Vector2) -> void:
 	if props.get_node_or_null(node_name) != null or texture == null:
 		return
@@ -678,11 +712,8 @@ func _add_facade_details(props: Node) -> void:
 		var sign_text := str(row.get("sign", ""))
 		if not sign_id.is_empty():
 			var sign_tex := PlaceholderArt.hanging_sign(sign_id, sign_text, index)
-			var sign_y := Y_DOOR - 12.0 if side == "north" else Y_SOUTH_DOOR - 12.0
-			_add_solid_sprite(props, "%sSign" % node_name, sign_tex, Vector2(x, sign_y), Vector2(8, 6))
-			var sign_node := props.get_node_or_null("%sSign" % node_name) as Node2D
-			if sign_node != null:
-				sign_node.add_to_group("shop_sign")
+			var building := props.get_node_or_null(node_name) as Sprite2D
+			_add_rooftop_sign(props, node_name, sign_tex, building, x)
 		var scheduled := str(row.get("scheduled", ""))
 		if not scheduled.is_empty():
 			index += 1

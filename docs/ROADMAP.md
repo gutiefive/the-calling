@@ -1,6 +1,6 @@
 # Roadmap — The Calling
 
-Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md`. This file is the current cut line. M11B (Oak and Maple polish) is implemented. Next: more enterable buildings, starting with Bright's Diner and one house. Chapter 2 storylines are not started.
+Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md`. This file is the current cut line. M11C (rooftop storefront signs) is implemented. Next: more enterable buildings, starting with Bright's Diner and one house. Chapter 2 storylines are not started.
 
 | Milestone | Status |
 |---|---|
@@ -21,6 +21,7 @@ Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md
 | M10 Oak Street redesign | Implemented. Two-lane asphalt, sidewalks, storefronts on a building line, Bright's Diner and filler shops, park and creek at the east end. |
 | M11 Oak south + Maple Lane | Implemented. South-side storefronts and civic buildings, larger hanging signs, Maple Lane as a residential street with houses and the garden kept. |
 | M11B Oak and Maple polish | Implemented. One name per shop, Maple lots filled, evening and night ambient people, warm windows. |
+| M11C Rooftop signs | Implemented. Storefront names sit on the parapet, not hanging in front of the door. Evening townsfolk stand off to the side. |
 | Planning board and Tier 1 | Not started. More projects, workshop and greenhouse. Dorms later. |
 | Next story | Chapter 2 is not started. Full Chapter 2 storylines build on M9 leanings, threads, and the run seed. |
 | M11 Night layer | Not started. Spirit framework, two Lingerers, prayer-lights, steeple light. |
@@ -125,5 +126,13 @@ Enterable south shops or house interiors. No new story, no dollar amounts in fla
 One name per storefront (hanging sign, no painted duplicate on the facade). Maple Lane lots filled with hedges, sheds, trees, a vacant for-sale lot, backyard edges, and a seventh house. Evening and night ambient people on Oak and Maple, plus warm window lights. No new story.
 
 ## M11B does not include
+
+Enterable interiors, new story flags, or changes to named NPC schedules.
+
+## M11C includes
+
+Storefront names on a rooftop / parapet board above the facade. One sign per building, readable at the game camera, never covering the door or the sidewalk in front of it. Evening townsfolk on Oak Street stand beside Hardware and Bright's instead of on the letters. No new story.
+
+## M11C does not include
 
 Enterable interiors, new story flags, or changes to named NPC schedules.

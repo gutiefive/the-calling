@@ -51,7 +51,7 @@ func _static_data() -> void:
 	_check(FileAccess.file_exists("res://assets/environments/feed_store.png"), "feed store art exists")
 	_check(FileAccess.file_exists("res://assets/environments/town_hall.png"), "town hall art exists")
 	_check(FileAccess.file_exists("res://assets/environments/boarded_shop.png"), "boarded shop art exists")
-	_check(FileAccess.file_exists("res://assets/environments/sign_hardware.png"), "hardware hanging sign exists")
+	_check(FileAccess.file_exists("res://assets/environments/sign_hardware.png"), "hardware storefront sign exists")
 	_check(FileAccess.file_exists("res://assets/environments/house_0_east.png"), "house art exists")
 	var houses := TownFacades.maple_houses()
 	_check(houses.size() >= 5 and houses.size() <= 8, "Maple Lane has 5-8 houses in data")
@@ -87,7 +87,7 @@ func _oak_layout() -> void:
 		if sign_id.is_empty():
 			continue
 		var sign := room.get_node_or_null("Props/%sSign" % str(row.get("node", ""))) as Sprite2D
-		_check(sign != null and sign.texture != null, "%s has a hanging sign" % str(row.get("node", "")))
+		_check(sign != null and sign.texture != null, "%s has a storefront sign" % str(row.get("node", "")))
 		if sign != null and sign.texture != null:
 			var size := sign.texture.get_size()
 			_check(size.x >= MIN_SIGN.x and size.y >= MIN_SIGN.y, "%s sign is readable (%sx%s)" % [str(row.get("node", "")), size.x, size.y])

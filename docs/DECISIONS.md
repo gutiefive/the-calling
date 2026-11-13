@@ -281,6 +281,12 @@ Each storefront keeps one name, on the hanging or awning sign. Facade art lost t
 
 Evening adds unnamed people with the existing ambient system: a dog walker and diner-goers on Oak Street, a neighbor on a Maple porch. Night keeps two of them out. Storefront and house windows use the existing `tod_window` lights. Lines are short greetings. No new story, no dollar amounts, no cult or power talk. Named people stay one-place.
 
+## D50 — Signs on top of the buildings (M11C)
+
+Playtest after M11B: hanging boards sat in front of the doors and two evening neighbors covered Hardware and Bright's.
+
+Each named storefront still has one name, now on a rooftop / parapet board above the facade, on the cornice. The hanging sign in front of the door is gone. Facades still have no painted duplicate. Evening townsfolk stand to the side on the sidewalk, off the signs and off the doors. Hardware, Bright's, and Frank's bay use the same rooftop style. No new story.
+
 ## Still open
 
 | # | Question | Notes |

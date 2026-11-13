@@ -50,7 +50,7 @@ func _static_data() -> void:
 	_check(FileAccess.file_exists("res://assets/environments/dog.png"), "dog art exists")
 	var street_src := FileAccess.get_file_as_string("res://scripts/art/street_frames.gd")
 	var hanging_at := street_src.find("static func build_hanging_sign")
-	_check(hanging_at > 0, "hanging sign builder exists")
+	_check(hanging_at > 0, "storefront sign builder exists")
 	if hanging_at > 0:
 		var facades := street_src.substr(0, hanging_at)
 		_check(not facades.contains("_stamp_text"), "south facades have no painted names")
@@ -84,7 +84,7 @@ func _one_sign_each() -> void:
 			continue
 		named += 1
 		var sign := room.get_node_or_null("Props/%sSign" % node_name) as Sprite2D
-		_check(sign != null and sign.texture != null, "%s has one hanging sign" % node_name)
+		_check(sign != null and sign.texture != null, "%s has one storefront sign" % node_name)
 		var extras := 0
 		var props := room.get_node_or_null("Props")
 		if props != null:
@@ -92,7 +92,7 @@ func _one_sign_each() -> void:
 				if child.name.begins_with(node_name) and str(child.name).contains("Sign") and child != sign:
 					extras += 1
 		_check(extras == 0, "%s has no extra sign nodes" % node_name)
-	_check(named >= 10, "both sides of Oak Street keep hanging signs (%d)" % named)
+	_check(named >= 10, "both sides of Oak Street keep storefront signs (%d)" % named)
 	var group_signs := 0
 	var tree := get_tree()
 	if tree != null:
