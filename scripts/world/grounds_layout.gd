@@ -50,12 +50,17 @@ const VEG_PLOT_ORIGIN := Vector2(1344, 1120)
 const VEG_PLOT_STRIDE := 48.0
 const VEG_CRATE := Vector2(1288, 1168)
 const VEG_NOTE := Vector2(1288, 1136)
-const VEG_FENCE_MEND := Vector2(1248, 1264)
+# West garden fence, three tiles south of the gate (tiles 38–40). Feet sit at
+# the south edge so a 64×96 sprite covers the fence column plus picnic debris.
+const VEG_FENCE_MEND := Vector2(1248, 1312)
+const VEG_FENCE_MEND_ORIGIN := Vector2i(39, 38)
+const VEG_FENCE_MEND_SPAN := 3
 const VEG_BARREL := Vector2(1296, 1072)
 const VEG_WHEELBARROW := Vector2(1488, 1072)
 const VEG_COMPOST := Vector2(1488, 1264)
 const VEG_GARDEN_BENCH := Vector2(1392, 1264)
 const REPAIR_FENCE := VEG_FENCE_MEND
+const REPAIR_LITTER_BAG := Vector2(1776, 292)
 const REPAIR_WEEDS := Vector2(688, 1232)
 const REPAIR_LITTER := Vector2(1744, 368)
 const REPAIR_BED := Vector2(1104, 1264)
@@ -150,6 +155,21 @@ static func veg_path_cells() -> Array[Vector2i]:
 		Vector2i(40, 36),
 	]
 	return cells
+
+
+static func veg_fence_mend_cells() -> Array[Vector2i]:
+	var cells: Array[Vector2i] = []
+	for i in VEG_FENCE_MEND_SPAN:
+		cells.append(Vector2i(VEG_FENCE_MEND_ORIGIN.x, VEG_FENCE_MEND_ORIGIN.y + i))
+	return cells
+
+
+static func veg_fence_overlaps_gate() -> bool:
+	for cell in veg_fence_mend_cells():
+		for gate in veg_path_cells():
+			if cell == gate:
+				return true
+	return false
 
 
 static func world_to_cell(pos: Vector2) -> Vector2i:

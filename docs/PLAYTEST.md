@@ -861,7 +861,7 @@ It checks each repair type, fence stages and materials, the `Missing: 3 Wood` li
 
 ## Manual
 
-Walkthrough: Continue in Oakridge (or load a week-continues save). Take the parsonage toolbox if you do not have Basic Hand Tools. Buy 3 Wood and 2 Nails at Thomas's shelves. Talk to Harold and accept The Broken Fence. Walk to the west garden fence, south of the gate. Equip Basic Hand Tools (I, then E). Press E to pull the old boards, E to set the wood, E to nail them. If a stage is short, the line is `Missing: 3 Wood` or `Missing: 2 Nails`. Talk to Harold again for the scrap. Optional: clear picnic weeds, pick up the utility litter, restore the picnic flower bed. Sleep, leave the grounds, save and load: the fence stays finished. J still lists Harold until you talk to him after the job.
+Walkthrough: Continue in Oakridge (or load a week-continues save). Take the parsonage toolbox if you do not have Basic Hand Tools. Buy 3 Wood and 2 Nails at Thomas's shelves. Talk to Harold and accept The Broken Fence. Walk to the west garden fence, three tiles south of the gate (not the gate opening). Equip Basic Hand Tools (I, then E). Press E to pull the old boards, E to set the wood, E to nail them. If a stage is short, the line is `Missing: 3 Wood` or `Missing: 2 Nails`. Talk to Harold again for the scrap. Optional: clear picnic weeds, pick up the utility litter, restore the picnic flower bed. Sleep, leave the grounds, save and load: the fence stays finished. J still lists Harold until you talk to him after the job.
 
 | ID | Do this | Expect |
 |---|---|---|
@@ -875,4 +875,34 @@ Walkthrough: Continue in Oakridge (or load a week-continues save). Take the pars
 ## Gameplay D results
 
 On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `GPD_OK` (145 `CHECK OK`) with zero `CHECK FAIL` (the expected `Save version 11 is not supported` push_error before the newer-save rejection). Every existing suite still printed its `_OK` line and exited 0: `M1_OK`, `M2_OK`, `M3_OK`, `M4_OK`, `M4_5_OK`, `M5A_OK`, `M5B_OK`, `M6A_OK`, `M6A2_OK`, `M7_OK`, `M8_OK`, `M9_OK`, `M9B_OK`, `M10_OK`, `M11_OK`, `M11B_OK`, `M11C_OK`, `M12_OK`, `GPA_OK`, `GPB_OK`, `GPC_OK`, `GPC2_OK`. `--quit-after 120` exited 0. `tests/gpd/capture_gpd.tscn` wrote `fence_damaged.png`, `fence_cleared.png`, `fence_new_wood.png`, `fence_finished.png`, `grounds_before.png`, and `grounds_after.png` under `tests/gpd/shots/`. T95–T100 were not played in a window.
+
+# Gameplay D2 — Repair worksite art
+
+The lists above still apply. These checks cover the 3-tile garden-fence stretch, clearer weed / litter / flower-bed stages, and save compatibility. No Phase E.
+
+## Automated
+
+```powershell
+godot --headless --path . --import
+godot --headless --path . res://tests/gpd2/gpd2_validation.tscn
+godot --path . res://tests/gpd2/capture_gpd2.tscn
+```
+
+`gpd2_validation.tscn` prints `CHECK OK` / `CHECK FAIL` lines and exits with `GPD2_OK` or `GPD2_FAIL`.
+It checks fence-stage pixel deltas, a 2+ tile stretch that does not overlap the garden gate, a walkable gate, weed / litter / bed before-and-after, and that RepairState flags and v9→v10 saves still work.
+
+`capture_gpd2.tscn` writes PNGs to `tests/gpd2/shots/` and needs a display. It skips with `CAPTURE_SKIPPED` under `--headless`.
+
+## Manual
+
+| ID | Do this | Expect |
+|---|---|---|
+| T101 | Stand at the west garden fence, south of the gate | A 3-tile broken stretch with posts, snapped rail, and splinters. Not a crate. The gate is still a path. |
+| T102 | Pull boards, set wood, nail | Bare posts with a plank stack; pale new rails and a nail box; then a continuous fence, slightly lighter. |
+| T103 | Clear picnic weeds, utility litter, and the picnic bed | Tall weeds become cut grass. Scattered trash vanishes and a bag sits by the bin. The bed blooms in more than one color. |
+| T104 | Face a worksite with Basic Hand Tools | The sprite warms slightly. `E  …` is the prompt. No extra markers. |
+
+## Gameplay D2 results
+
+On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `GPD2_OK` (100 `CHECK OK`) with zero `CHECK FAIL`. Every existing suite still printed its `_OK` line and exited 0: `M1_OK` (76), `M2_OK` (113), `M3_OK` (109), `M4_OK` (90), `M4_5_OK` (90), `M5A_OK` (103), `M5B_OK` (1491), `M6A_OK` (219), `M6A2_OK` (130), `M7_OK` (93), `M8_OK` (80), `M9_OK` (105), `M9B_OK` (156), `M10_OK` (91), `M11_OK` (210), `M11B_OK` (196), `M11C_OK` (246), `M12_OK` (165), `GPA_OK` (204), `GPB_OK` (125), `GPC_OK` (126), `GPC2_OK` (101), `GPD_OK` (148). `--quit-after 120` exited 0. `tests/gpd2/capture_gpd2.tscn` wrote fence stages plus weeds / litter / bed before-and-after under `tests/gpd2/shots/`. T101–T104 were not played in a window.
 

@@ -10,7 +10,7 @@
       "complete_flag": "church_fence_mended",
       "kindness_flag": "fence_kindness",
       "hide_when_done": false,
-      "position": [1248, 1264],
+      "position": [1248, 1312],
       "prompt_done": "Look at the fence",
       "stages": [
         {

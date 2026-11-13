@@ -1,6 +1,6 @@
 # Gameplay loops — The Calling
 
-Status: Phase D implemented 2026-11-13. Phases A–D remain. Phase E (weekly potluck) is specified here so it can plug in; it is not built yet.
+Status: Phase D implemented 2026-11-13. Gameplay D2 (worksite art polish) implemented 2026-11-13. Phases A–D remain. Phase E (weekly potluck) is specified here so it can plug in; it is not built yet.
 
 ## Baseline (before Phase A)
 
@@ -136,12 +136,14 @@ Data-driven in `data/repairs/catalog.json`. Autoload `RepairState`. Short E pres
 
 | Id | Kind | Where | Stages | Materials | Outcome |
 |---|---|---|---|---|---|
-| `church_fence` | fence | West garden fence, south of the gate (`GroundsLayout.REPAIR_FENCE`) | damaged → boards off → new wood → finished | 3 Wood, then 2 Nails | `church_fence_mended`, hidden `fence_kindness`. Harold's thank-you still grants the scrap. |
-| `picnic_weeds` | weeds | West picnic lawn | weedy → cleared | none | A little scrap, `picnic_weeds_cleared`. |
-| `lot_litter` | litter | Utility corner, west of the shed | pile → gone (hidden) | none | A little scrap, `lot_litter_cleared`. |
-| `picnic_bed` | flower bed | East picnic, west of the garden fence | overgrown → trimmed → restored | none | Hidden `bed_kindness`, `picnic_bed_restored`. |
+| `church_fence` | fence | West garden fence, three tiles south of the gate (`GroundsLayout.REPAIR_FENCE`). Not the gate opening. | damaged → boards off → new wood → finished | 3 Wood, then 2 Nails | `church_fence_mended`, hidden `fence_kindness`. Harold's thank-you still grants the scrap. |
+| `picnic_weeds` | weeds | West picnic lawn | weedy → cleared (cut grass, small pulled pile) | none | A little scrap, `picnic_weeds_cleared`. |
+| `lot_litter` | litter | Utility corner, west of the shed | scattered trash → gone (hidden; tied bag by the bin) | none | A little scrap, `lot_litter_cleared`. |
+| `picnic_bed` | flower bed | East picnic, west of the garden fence | overgrown → trimmed → restored blooms | none | Hidden `bed_kindness`, `picnic_bed_restored`. |
 
-**Flow.** Spot the damage, buy Wood and Nails at Thomas's shelves if the job needs them, equip Basic Hand Tools from the parsonage toolbox, press E once per stage, see the sprite change. Missing stock prints exactly `Missing: 3 Wood` (or `Missing: 2 Nails`). Materials are consumed only when that stage uses them.
+**Flow.** Spot the damage, buy Wood and Nails at Thomas's shelves if the job needs them, equip Basic Hand Tools from the parsonage toolbox, press E once per stage, see the sprite change. Facing a worksite in range warms the sprite slightly; the usual `E  …` prompt is the interact hint. Missing stock prints exactly `Missing: 3 Wood` (or `Missing: 2 Nails`). Materials are consumed only when that stage uses them.
+
+**Fence art (D2).** The job is a 3-tile stretch of the existing west garden fence (posts and two rails, same as the tile), not a 1-tile crate in a gap. Damaged: broken rails, a snapped post, splinters. Boards off: bare posts and a stack of old planks on the picnic grass. New wood: pale rails, not fully seated, plus a small nail box. Finished: rails nailed, continuous with the rest of the line, a little lighter so the work shows. The west gate stays a walkable path gap.
 
 **Harold.** "The Broken Fence" still lists 3 Wood and 2 Nails. Talking to him with the boards in the pack does not complete the ask and does not spend them. The west garden fence is the job. Finishing it sets `church_fence_mended`. Then Harold's thank-you grants one Scrap, once. An old save that already has the flag starts with the finished fence.
 

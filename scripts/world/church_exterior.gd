@@ -127,6 +127,9 @@ func _apply_grounds_look() -> void:
 		var tidy := NarrativeState.flag_is_true("grounds_bed") or NarrativeState.flag_is_true("grounds_tidy")
 		flowers.texture = PlaceholderArt.flowers() if tidy else PlaceholderArt.overgrown_bed()
 		_feet_offset("Props/Flowers")
+	var bag := get_node_or_null("Props/LitterBag") as Sprite2D
+	if bag != null:
+		bag.visible = NarrativeState.flag_is_true("lot_litter_cleared")
 	_apply_sunday_crowd()
 	for node in get_tree().get_nodes_in_group("day_world"):
 		if is_ancestor_of(node) and node.has_method("apply_clock"):
@@ -298,10 +301,15 @@ func _add_repair_sites() -> void:
 	var props := get_node_or_null("Props")
 	if props == null:
 		return
-	_add_repair_site(props, "FenceWork", "church_fence", GroundsLayout.REPAIR_FENCE)
-	_add_repair_site(props, "PicnicWeeds", "picnic_weeds", GroundsLayout.REPAIR_WEEDS)
-	_add_repair_site(props, "LotLitter", "lot_litter", GroundsLayout.REPAIR_LITTER)
-	_add_repair_site(props, "PicnicBed", "picnic_bed", GroundsLayout.REPAIR_BED)
+	_add_repair_site(props, "FenceWork", "church_fence", GroundsLayout.REPAIR_FENCE, 80.0)
+	_add_repair_site(props, "PicnicWeeds", "picnic_weeds", GroundsLayout.REPAIR_WEEDS, 64.0)
+	_add_repair_site(props, "LotLitter", "lot_litter", GroundsLayout.REPAIR_LITTER, 64.0)
+	_add_repair_site(props, "PicnicBed", "picnic_bed", GroundsLayout.REPAIR_BED, 56.0)
+	_add_litter_bag(props)
+	var repairs := get_node_or_null("/root/RepairState")
+	if repairs != null and repairs.has_signal("sites_changed"):
+		if not repairs.sites_changed.is_connected(_apply_grounds_look):
+			repairs.sites_changed.connect(_apply_grounds_look)
 	if props.get_node_or_null("GroundsRemark") != null:
 		return
 	var remark := GroundsRemark.new()
@@ -322,7 +330,7 @@ func _add_repair_sites() -> void:
 	props.add_child(remark)
 
 
-func _add_repair_site(props: Node, node_name: String, site_id: String, pos: Vector2) -> void:
+func _add_repair_site(props: Node, node_name: String, site_id: String, pos: Vector2, reach: float = 52.0) -> void:
 	if props.get_node_or_null(node_name) != null:
 		return
 	var site := RepairSite.new()
@@ -330,8 +338,23 @@ func _add_repair_site(props: Node, node_name: String, site_id: String, pos: Vect
 	site.site_id = site_id
 	site.position = pos
 	site.prompt_text = "Repair"
-	site.radius = 52.0
+	site.radius = reach
 	props.add_child(site)
+
+
+func _add_litter_bag(props: Node) -> void:
+	if props.get_node_or_null("LitterBag") != null:
+		return
+	var bag := Sprite2D.new()
+	bag.name = "LitterBag"
+	bag.centered = true
+	bag.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	bag.texture = RepairArt.texture("litter_bag")
+	bag.position = GroundsLayout.REPAIR_LITTER_BAG
+	if bag.texture != null:
+		bag.offset = Vector2(0, -bag.texture.get_height() * 0.5)
+	bag.visible = false
+	props.add_child(bag)
 
 
 func _add_chore(props: Node, node_name: String, chore_id: String, pos: Vector2, prompt: String, line: String) -> void:
@@ -474,6 +497,9 @@ func _paint_veg_garden(layer: TileMapLayer) -> void:
 	layer.set_cell(Vector2i(garden.position.x + 1, 34), 0, TownTiles.PATH)
 	layer.set_cell(Vector2i(garden.position.x + 1, 35), 0, TownTiles.PATH)
 	layer.set_cell(Vector2i(garden.position.x + 1, 36), 0, TownTiles.PATH)
+	# Leave the repair stretch as grass; the worksite sprite is the fence there.
+	for cell in GroundsLayout.veg_fence_mend_cells():
+		layer.set_cell(cell, 0, TownTiles.grass_at(cell.x, cell.y))
 
 
 func _paint_parsonage_yard(layer: TileMapLayer) -> void:

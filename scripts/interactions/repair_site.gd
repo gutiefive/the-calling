@@ -34,6 +34,7 @@ func _exit_tree() -> void:
 
 
 func _process(delta: float) -> void:
+	_update_hint()
 	if _fx_time <= 0.0:
 		return
 	_fx_time = maxf(0.0, _fx_time - delta)
@@ -110,6 +111,47 @@ func _flash() -> void:
 	_fx.visible = true
 	_fx.modulate.a = 1.0
 	_fx_time = 0.35
+
+
+func _update_hint() -> void:
+	if _sprite == null:
+		return
+	if not visible or not enabled:
+		_sprite.modulate = Color.WHITE
+		return
+	var tree := get_tree()
+	if tree == null:
+		_sprite.modulate = Color.WHITE
+		return
+	var player := tree.get_first_node_in_group("player") as Node2D
+	if player == null:
+		_sprite.modulate = Color.WHITE
+		return
+	if player.global_position.distance_to(global_position) > radius:
+		_sprite.modulate = Color.WHITE
+		return
+	if not _player_faces_site(player):
+		_sprite.modulate = Color.WHITE
+		return
+	_sprite.modulate = Color(1.14, 1.08, 0.92, 1.0)
+
+
+func _player_faces_site(player: Node2D) -> bool:
+	var facing := &"down"
+	if player.has_method("get_facing"):
+		facing = StringName(str(player.call("get_facing")))
+	var delta := global_position - player.global_position
+	match facing:
+		&"up":
+			return delta.y <= 8.0
+		&"down":
+			return delta.y >= -8.0
+		&"left":
+			return delta.x <= 8.0
+		&"right":
+			return delta.x >= -8.0
+		_:
+			return true
 
 
 func _ensure_sprite() -> void:

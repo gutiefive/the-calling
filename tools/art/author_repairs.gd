@@ -1,5 +1,5 @@
 extends SceneTree
-## Writes 32×32 worksite stage frames.
+## Writes worksite stage frames (fence stretch is 64×96; weeds/litter 96×48).
 ## C:\Tools\Godot\4.7.2\Godot_v4.7.2-stable_win64_console.exe --headless --path . --script res://tools/art/author_repairs.gd
 
 const Frames := preload("res://scripts/art/repair_frames.gd")
@@ -13,6 +13,7 @@ const IDS: PackedStringArray = [
 	"weeds_cleared",
 	"litter_pile",
 	"litter_gone",
+	"litter_bag",
 	"bed_overgrown",
 	"bed_trimmed",
 	"bed_restored",

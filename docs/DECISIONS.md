@@ -357,6 +357,16 @@ The first physical repair loop is on the church grounds, not a second chore list
 
 **Save.** Version 10. A version 9 file gains worksites.
 
+## D57 — Repair worksite art (Gameplay D2)
+
+A polish pass on Phase D. No new systems and no save bump. Phase E is not started.
+
+**Fence.** The worksite is a 3-tile stretch of the west garden fence, south of the gate, not the gate opening and not a 1-tile crate. Stages use the same posts-and-rails language as `TownTiles.FENCE`. `church_fence`, `church_fence_mended`, and save v10 stay as they were. Layout lives in `GroundsLayout.VEG_FENCE_MEND`.
+
+**Other sites.** Picnic weeds read as tall growth, then cut grass. Utility litter is scattered trash; when it is gone a tied bag sits by the shed bin. The picnic bed goes from a broken, weedy box to a mulched bed with several flower colors.
+
+**Hint.** Facing a worksite in range tints the sprite slightly. The existing `E  …` prompt is unchanged. No map markers.
+
 ## Still open
 
 | # | Question | Notes |
