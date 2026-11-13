@@ -23,11 +23,11 @@ Launch with `godot --path .` from the repo, or press F5 in the editor.
 |---|---|---|
 | T01 | Launch the project | Church grounds, no missing-resource or script errors in the output |
 | T02 | Hold W A S D and the arrow keys, including two at once, then let go | 8-way movement, diagonals no faster than straight lines, full stop on release |
-| T03 | Walk into the church wall, a tree, the bench, and a pew inside | The body stops. The south church door and the sanctuary aisle can be walked up to the inner stopper |
+| T03 | Walk into the church wall, a tree, the bench, and a pew inside | The body stops. Walking into the south church door enters the sanctuary |
 | T04 | Walk the grounds and the sanctuary | The camera follows, stays inside the map, and does not shake |
-| T05 | Walk toward Margaret, the notice, and a door, then walk away | The `E  …` prompt appears only in range |
-| T06 | Hold E, release, press E again | One line (or one room change) per press, not a stream of repeats |
-| T07 | Enter the sanctuary and step back outside, several times | You arrive at the matching marker and do not bounce straight back through the door |
+| T05 | Walk toward Margaret, the notice, and a door, then walk away | The `E  …` prompt appears only in range of people and objects. A door shows the place name with no E |
+| T06 | Hold E, release, press E again | One line per press, not a stream of repeats. Doors do not use E |
+| T07 | Walk into the sanctuary and walk back outside, several times | You arrive at the matching marker and do not bounce straight back through the door |
 | T08 | Press T | Day, evening, and night are visibly different. Night is dim but the path, the player, and the interior floor stay readable. The lamp and windows are obvious at night |
 | T09 | Close the game and launch it again | You start outside, in daytime, at the front path |
 | T10 | Read `README.md` | Run steps, controls, layout, and limitations match the build |
@@ -224,8 +224,8 @@ Launch with `godot --path .` from the repo, or press F5 in the editor.
 |---|---|---|
 | T39 | From the church grounds, enter the parsonage and press E on the bed. Close the card with E | The screen fades. It is 6:00 a.m. the next morning, or this morning if you were already up. A card names the weekday and a few things you might do. Nothing on it is required. |
 | T40 | On the first Sunday, before the chapter ending, sleep again | The clock stays on Sunday. It does not invent a Monday. After Continue, the same sleep reaches Monday. See T48. |
-| T41 | Walk east on Oak Street to the bridge sign, then past it. Come back | The sign says the bridge is open. Maple Lane has houses, fences, a bus stop, and a garden. The banner names the lane. The return door puts you back on Oak Street. M shows the lane. |
-| T42 | On Friday morning, enter the hardware store and the bay. Press T until night and try the doors again | Thomas is at the counter in the morning, and the shelves can be read. Frank is in the bay. At night both doors stay shut and say when they open. |
+| T41 | Walk east on Oak Street to the bridge sign, then past it. Come back | The sign says the bridge is open. Maple Lane has houses, fences, a bus stop, and a garden. The banner names the lane. Walking back puts you on Oak Street. M shows the lane. |
+| T42 | On Friday morning, walk into the hardware store and the bay. Press T until night and walk into the doors again | Thomas is at the counter in the morning, and the shelves can be read. Frank is in the bay. At night both doors stay shut and say when they open. |
 | T43 | Press J after a sermon, and again after tidying the church walk | The church section uses words such as Strained, Steady, or Growing. It does not show a score. |
 | T44 | Pick up the litter and tend the flower bed. On Maple Lane, clear the garden and talk to the neighbor about planting. Sleep to another morning | The walk looks tidier. The garden changes, then looks further along the next day. Skip both on another run and the ledger still ends the chapter. |
 | T45 | After Thursday with Frank, visit the bay Friday morning, then again Friday afternoon or Saturday before 2:00. Choose to listen. On another run, press him about Sunday | The morning visit asks you to come back. Listening hears why he stopped. Sunday mentions that. Pressing him does not raise the relationship, and Sunday says so. |
@@ -447,3 +447,39 @@ Leanings, Pull, and relationships stay hidden. Dollars stay on the ledger.
 ## M9 results
 
 On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `M1_OK` (74), `M2_OK` (113), `M3_OK` (109), `M4_OK` (90), `M4_5_OK` (90), `M5A_OK` (103), `M5B_OK` (1491), `M6A_OK` (219), `M6A2_OK` (128), `M7_OK` (93), `M8_OK` (80), and `M9_OK` (105), each exiting 0. `--quit-after 120` exited 0 with no script errors. T64–T65 were not played in a window. The M3 run still prints `Save is missing a version` before the check that rejects it. The M5A, M8, and M9 runs print `Save version 7 is not supported` before the check that rejects a newer file.
+
+# Milestone 9B test plan
+
+The lists above still apply. These checks cover walk-in doors. E stays for talking and inspecting.
+
+## Automated
+
+```powershell
+godot --headless --path . --import
+godot --headless --path . res://tests/m1/m1_validation.tscn
+godot --headless --path . res://tests/m2/m2_validation.tscn
+godot --headless --path . res://tests/m3/m3_validation.tscn
+godot --headless --path . res://tests/m4/m4_validation.tscn
+godot --headless --path . res://tests/m4_5/m4_5_validation.tscn
+godot --headless --path . res://tests/m5a/m5a_validation.tscn
+godot --headless --path . res://tests/m5b/m5b_validation.tscn
+godot --headless --path . res://tests/m6a/m6a_validation.tscn
+godot --headless --path . res://tests/m6a2/m6a2_validation.tscn
+godot --headless --path . res://tests/m7/m7_validation.tscn
+godot --headless --path . res://tests/m8/m8_validation.tscn
+godot --headless --path . res://tests/m9/m9_validation.tscn
+godot --headless --path . res://tests/m9b/m9b_validation.tscn
+```
+
+`m9b_validation.tscn` prints `CHECK OK` / `CHECK FAIL` lines and exits with `M9B_OK` or `M9B_FAIL`.
+It enumerates every scene door, walks in to the matching spawn, checks that arriving does not bounce, bumps a shut shop, keeps doors inert during dialogue and menus, and still talks with E.
+
+## Manual
+
+| ID | Do this | Expect |
+|---|---|---|
+| T66 | Walk into the church, back out, east to Oak Street, into the store while it is open, and home to the parsonage. At night, walk into the store. Talk to Margaret with E. | Room changes happen on contact, with a short fade, and you do not ping-pong. The hover names the place. A shut shop stays put and says when it opens. E still talks. |
+
+## M9B results
+
+On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `M1_OK` (76), `M2_OK` (113), `M3_OK` (109), `M4_OK` (90), `M4_5_OK` (90), `M5A_OK` (103), `M5B_OK` (1491), `M6A_OK` (219), `M6A2_OK` (128), `M7_OK` (93), `M8_OK` (80), `M9_OK` (105), and `M9B_OK` (156), each exiting 0. `--quit-after 120` exited 0 with no script errors. T66 was not played in a window. M1 gained two checks: walking in requests the sanctuary, and E on a door does not change rooms.

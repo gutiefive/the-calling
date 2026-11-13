@@ -151,8 +151,9 @@ func _add_door(props: Node) -> void:
 	var door := Door.new()
 	door.name = "ToOak"
 	door.position = Vector2(352, 96)
-	door.prompt_text = "Walk to Oak Street"
-	door.radius = 42.0
+	door.place_name = "Oak Street"
+	door.prompt_text = "Oak Street"
+	door.radius = 26.0
 	door.destination_scene = "res://scenes/world/hardware_street.tscn"
 	door.destination_spawn = &"from_maple"
 	props.add_child(door)

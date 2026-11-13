@@ -1,5 +1,6 @@
 extends PanelContainer
-## Shows "E  …" only while the player is in range of one interactable.
+## Shows "E  …" while the player is in range of one interactable.
+## Doors are walk-in, so they show only the place name, with no E.
 
 @onready var _label: Label = $Label
 
@@ -26,8 +27,14 @@ func _process(_delta: float) -> void:
 		visible = false
 		return
 	var item: Interactable = player.get_focus()
-	if item == null:
-		visible = false
+	if item != null:
+		visible = true
+		_label.text = "E  %s" % item.prompt_label()
 		return
-	visible = true
-	_label.text = "E  %s" % item.prompt_label()
+	if player is Player:
+		var door := (player as Player).get_door_focus()
+		if door != null:
+			visible = true
+			_label.text = door.place_label()
+			return
+	visible = false

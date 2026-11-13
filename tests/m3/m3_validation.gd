@@ -245,8 +245,7 @@ func _town_trip() -> void:
 	if player == null or door == null:
 		_check(false, "the grounds are missing the Oak Street exit")
 		return
-	await _stand_at(player, door)
-	await _tap("interact")
+	await _walk_into(player, door)
 	room = await _wait_scene("HardwareStreet")
 	if room == null:
 		return
@@ -258,8 +257,7 @@ func _town_trip() -> void:
 	if player == null or back == null:
 		_check(false, "Oak Street is missing the return")
 		return
-	await _stand_at(player, back)
-	await _tap("interact")
+	await _walk_into(player, back)
 	room = await _wait_scene("ChurchExterior")
 	if room == null:
 		return
@@ -399,8 +397,7 @@ func _story_to_saturday() -> void:
 	if player == null or store_door == null:
 		_check(false, "Oak Street is missing the store door")
 		return
-	await _stand_at(player, store_door)
-	await _tap("interact")
+	await _walk_into(player, store_door)
 	room = await _wait_scene("HardwareInterior")
 	if room == null:
 		return
@@ -420,8 +417,7 @@ func _story_to_saturday() -> void:
 	if out == null:
 		_check(false, "the store is missing its door")
 		return
-	await _stand_at(player, out)
-	await _tap("interact")
+	await _walk_into(player, out)
 	room = await _wait_scene("HardwareStreet")
 	if room == null:
 		return
@@ -430,8 +426,7 @@ func _story_to_saturday() -> void:
 	if player == null or bay_door == null:
 		_check(false, "Oak Street is missing the bay door")
 		return
-	await _stand_at(player, bay_door)
-	await _tap("interact")
+	await _walk_into(player, bay_door)
 	room = await _wait_scene("BayInterior")
 	if room == null:
 		return
@@ -455,8 +450,7 @@ func _story_to_saturday() -> void:
 	if player == null or out == null:
 		_check(false, "the bay is missing its door")
 		return
-	await _stand_at(player, out)
-	await _tap("interact")
+	await _walk_into(player, out)
 	room = await _wait_scene("HardwareStreet")
 	if room == null:
 		return
@@ -577,6 +571,45 @@ func _stand_at(player: Player, target: Node2D) -> void:
 	player.global_position = target.global_position + Vector2(0, 26)
 	player.clear_interact_lock()
 	await _pump(2)
+
+
+func _walk_into(player: Player, door: Node2D) -> void:
+	if player == null or door == null:
+		return
+	_release_all()
+	player.clear_interact_lock()
+	var radius := 26.0
+	var raw: Variant = door.get("radius")
+	if raw is float or raw is int:
+		radius = float(raw)
+	var dest := door.global_position
+	var away := Vector2(0.0, 1.0)
+	if player.global_position.distance_to(dest) > 1.0:
+		away = (player.global_position - dest).normalized()
+	player.global_position = dest + away * (radius + 20.0)
+	player.velocity = Vector2.ZERO
+	await _pump(3)
+	if not is_instance_valid(player):
+		return
+	var delta := dest - player.global_position
+	var action := "move_up"
+	if absf(delta.x) > absf(delta.y):
+		action = "move_right" if delta.x > 0.0 else "move_left"
+	else:
+		action = "move_down" if delta.y > 0.0 else "move_up"
+	Input.action_press(action)
+	var start := get_tree().current_scene
+	var guard := 0
+	while guard < 55:
+		await get_tree().physics_frame
+		guard += 1
+		if get_tree().current_scene != start:
+			break
+		if not is_instance_valid(player):
+			break
+	Input.action_release(action)
+	_release_all()
+	await _pump(1)
 
 
 func _tap(action: String) -> void:

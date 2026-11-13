@@ -241,6 +241,16 @@ Replayability is three hidden systems, not a visible alignment meter.
 
 **Saves.** Version 6 stores `pastor_path`, `threads`, and `run_seed`. Version 5, 4, and 3 files migrate. A newer file is still rejected.
 
+## D46 — Walk-in doors (M9B)
+
+Doors, doorways, and street exits change rooms when the player walks into them. E is no longer used for travel. E still talks to people and inspects objects: the notice board, the ledger desk, the bed, the Fellowship Hall, signs, and chores.
+
+`Door` is an `Area2D` on the player collision layer. `ScheduledDoor` still extends it and stays shut outside shop hours. One script covers every scene: the church grounds and sanctuary, the parsonage, Oak Street, Maple Lane, the hardware store, Frank's bay. The park and creek are still stubs, not rooms. The Fellowship Hall is still an inspectable.
+
+The trigger fires only if the player is moving toward it. Arriving inside or next to a door does not bounce back: spawn markers sit outside the circle, the player keeps the short spawn lock, and the area must be left before it will fire again. A 0.4 s re-arm follows a successful walk-in. Shut or locked doors stay put and show the existing closed line once per bump.
+
+Walk-in is ignored during dialogue, the journal, the town map, the morning card, the ledger, the chapter ending, and pause. Room changes still fade. A nearby door shows the place name on the prompt, with no E.
+
 ## Still open
 
 | # | Question | Notes |

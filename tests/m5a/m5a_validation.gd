@@ -253,14 +253,12 @@ func _town_and_shops() -> void:
 	if player == null or store == null or bay == null:
 		_check(false, "Oak Street is missing the shop doors")
 		return
-	await _stand_at(player, store)
-	await _tap("interact")
+	await _walk_into(player, store)
 	_check(String(get_tree().current_scene.name) == "HardwareStreet", "a shut store does not change rooms")
 	var label := room.get_node_or_null("HUD/Banner/Label") as RichTextLabel
 	var shut := label.text if label != null else ""
 	_check(shut.contains("Closed") and shut.contains("Back at"), "the shut store says when it opens (%s)" % _snippet(shut))
-	await _stand_at(player, bay)
-	await _tap("interact")
+	await _walk_into(player, bay)
 	_check(String(get_tree().current_scene.name) == "HardwareStreet", "a shut bay does not change rooms")
 	label = room.get_node_or_null("HUD/Banner/Label") as RichTextLabel
 	shut = label.text if label != null else ""
@@ -271,8 +269,7 @@ func _town_and_shops() -> void:
 	player = room.get_node_or_null("Props/Player") as Player
 	store = room.get_node_or_null("Props/StoreDoor") as Node2D
 	if player != null and store != null:
-		await _stand_at(player, store)
-		await _tap("interact")
+		await _walk_into(player, store)
 	room = await _wait_scene("HardwareInterior")
 	if room == null:
 		return
@@ -285,16 +282,14 @@ func _town_and_shops() -> void:
 	player = room.get_node_or_null("Props/Player") as Player
 	var out := room.get_node_or_null("Props/Door") as Node2D
 	if player != null and out != null:
-		await _stand_at(player, out)
-		await _tap("interact")
+		await _walk_into(player, out)
 	room = await _wait_scene("HardwareStreet")
 	if room == null:
 		return
 	player = room.get_node_or_null("Props/Player") as Player
 	bay = room.get_node_or_null("Props/BayDoor") as Node2D
 	if player != null and bay != null:
-		await _stand_at(player, bay)
-		await _tap("interact")
+		await _walk_into(player, bay)
 	room = await _wait_scene("BayInterior")
 	if room == null:
 		return
@@ -305,16 +300,14 @@ func _town_and_shops() -> void:
 	player = room.get_node_or_null("Props/Player") as Player
 	out = room.get_node_or_null("Props/Door") as Node2D
 	if player != null and out != null:
-		await _stand_at(player, out)
-		await _tap("interact")
+		await _walk_into(player, out)
 	room = await _wait_scene("HardwareStreet")
 	if room == null:
 		return
 	player = room.get_node_or_null("Props/Player") as Player
 	var lane := room.get_node_or_null("Props/MapleDoor") as Node2D
 	if player != null and lane != null:
-		await _stand_at(player, lane)
-		await _tap("interact")
+		await _walk_into(player, lane)
 	room = await _wait_scene("MapleLane")
 	if room == null:
 		return
@@ -325,8 +318,7 @@ func _town_and_shops() -> void:
 	_check(player != null and arrived != null and player.global_position.distance_to(arrived.global_position) < 2.0, "Maple Lane spawn is inside the lane")
 	var back := room.get_node_or_null("Props/ToOak") as Node2D
 	if player != null and back != null:
-		await _stand_at(player, back)
-		await _tap("interact")
+		await _walk_into(player, back)
 	room = await _wait_scene("HardwareStreet")
 	if room == null:
 		return
@@ -539,6 +531,45 @@ func _stand_at(player: Player, target: Node2D) -> void:
 	player.global_position = target.global_position + Vector2(0, 26)
 	player.clear_interact_lock()
 	await _pump(2)
+
+
+func _walk_into(player: Player, door: Node2D) -> void:
+	if player == null or door == null:
+		return
+	_release_all()
+	player.clear_interact_lock()
+	var radius := 26.0
+	var raw: Variant = door.get("radius")
+	if raw is float or raw is int:
+		radius = float(raw)
+	var dest := door.global_position
+	var away := Vector2(0.0, 1.0)
+	if player.global_position.distance_to(dest) > 1.0:
+		away = (player.global_position - dest).normalized()
+	player.global_position = dest + away * (radius + 20.0)
+	player.velocity = Vector2.ZERO
+	await _pump(3)
+	if not is_instance_valid(player):
+		return
+	var delta := dest - player.global_position
+	var action := "move_up"
+	if absf(delta.x) > absf(delta.y):
+		action = "move_right" if delta.x > 0.0 else "move_left"
+	else:
+		action = "move_down" if delta.y > 0.0 else "move_up"
+	Input.action_press(action)
+	var start := get_tree().current_scene
+	var guard := 0
+	while guard < 55:
+		await get_tree().physics_frame
+		guard += 1
+		if get_tree().current_scene != start:
+			break
+		if not is_instance_valid(player):
+			break
+	Input.action_release(action)
+	_release_all()
+	await _pump(1)
 
 
 func _tap(action: String) -> void:

@@ -112,11 +112,14 @@ npc_id = "sarah"
 
 [node name="Sprite" type="AnimatedSprite2D" parent="Props/Sarah"]
 
-[node name="ToChurch" type="Node2D" parent="Props"]
+[node name="ToChurch" type="Area2D" parent="Props"]
 position = Vector2(96, 500)
+collision_layer = 0
+collision_mask = 2
 script = ExtResource("5_door")
-prompt_text = "Return to the church"
-radius = 42.0
+place_name = "Church grounds"
+prompt_text = "Church grounds"
+radius = 26.0
 destination_scene = "res://scenes/world/church_exterior.tscn"
 destination_spawn = &"from_street"
 

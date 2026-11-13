@@ -307,7 +307,7 @@ func _add_shop_doors(props: Node) -> void:
 		props,
 		"StoreDoor",
 		Vector2(540, 530),
-		"Enter the store",
+		"Hardware Store",
 		"thomas",
 		"res://scenes/world/hardware_interior.tscn"
 	)
@@ -315,15 +315,16 @@ func _add_shop_doors(props: Node) -> void:
 		props,
 		"BayDoor",
 		Vector2(1160, 480),
-		"Enter the bay",
+		"Frank's bay",
 		"frank",
 		"res://scenes/world/bay_interior.tscn"
 	)
 	var lane := Door.new()
 	lane.name = "MapleDoor"
 	lane.position = Vector2(1536, 1104)
-	lane.prompt_text = "Walk to Maple Lane"
-	lane.radius = 42.0
+	lane.place_name = "Maple Lane"
+	lane.prompt_text = "Maple Lane"
+	lane.radius = 26.0
 	lane.destination_scene = "res://scenes/world/maple_lane.tscn"
 	lane.destination_spawn = &"from_oak"
 	if props.get_node_or_null("MapleDoor") == null:
@@ -339,8 +340,9 @@ func _add_scheduled_door(props: Node, node_name: String, pos: Vector2, prompt: S
 	var door := ScheduledDoor.new()
 	door.name = node_name
 	door.position = pos
+	door.place_name = prompt
 	door.prompt_text = prompt
-	door.radius = 40.0
+	door.radius = 26.0
 	door.hours_id = hours_id
 	door.destination_scene = scene_path
 	door.destination_spawn = &"from_street"

@@ -65,6 +65,25 @@ func get_focus() -> Interactable:
 	return best
 
 
+func get_door_focus() -> Door:
+	var best: Door = null
+	var best_dist := 100000.0
+	var tree := get_tree()
+	if tree == null:
+		return null
+	for node in tree.get_nodes_in_group("scene_door"):
+		if not node is Door:
+			continue
+		var door := node as Door
+		if not door.is_hovering(self):
+			continue
+		var dist := global_position.distance_to(door.global_position)
+		if dist < best_dist:
+			best = door
+			best_dist = dist
+	return best
+
+
 func get_facing() -> StringName:
 	return _facing
 

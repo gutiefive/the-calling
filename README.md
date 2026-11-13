@@ -3,10 +3,10 @@
 A story-driven, top-down pixel-art RPG made in **Godot 4.7**. You play a young pastor who arrives in
 the fictional town of **Oakridge** to lead **Grace Community Church**.
 
-> **Status (2026-11-13):** Milestone 9 is playable. Chapter 1 still plays start to finish. Choices now leave
-> hidden leanings and story threads, and a per-save seed varies small town texture. After Chapter 1 you can
-> Continue in Oakridge and keep a weekly loop. A suggested path, including two contrasting runs, is in
-> `docs/PLAYTEST.md`.
+> **Status (2026-11-13):** Milestone 9B is playable. Doors and street exits are walk-in. Chapter 1 still plays
+> start to finish. Choices leave hidden leanings and story threads, and a per-save seed varies small town texture.
+> After Chapter 1 you can Continue in Oakridge and keep a weekly loop. A suggested path, including two contrasting
+> runs, is in `docs/PLAYTEST.md`.
 
 ## Play (Windows)
 
@@ -24,7 +24,7 @@ Continue appears when `user://the_calling_save.json` exists. In the editor, open
 | Action | Keys |
 |---|---|
 | Move | W A S D or arrow keys. Diagonals are normalized. |
-| Interact | E. The prompt names who or what you are using. |
+| Interact | E. Talk to people and inspect objects. The prompt names who or what you are using. Doors and street exits are walk-in; they show the place name with no E. |
 | Advance dialogue / confirm a choice | E, Space, or Enter. The first press finishes a line that is still revealing. |
 | Move the dialogue selection | Up / Down, or W / S, while choices are on screen. |
 | Journal | J. Esc closes it. Early on, a note names the lane east to Oak Street. |
@@ -40,11 +40,11 @@ It holds still during dialogue, the journal, the morning card, pause, and the ch
 Changing rooms fades briefly. Until you continue past the ledger, the clock stops on Sunday night, and sleeping on Sunday does not add a Monday.
 Continue in Oakridge keeps the story and lets sleep and the clock run into Monday, then a repeating week. Later Sundays at ten run a short service, then the ledger.
 
-Walk up the path to the church. Stand near Margaret or the notice board and press E.
+Walk up the path into the church. Stand near Margaret or the notice board and press E.
 You cannot walk while a conversation, the journal, the morning card, the town map, the ledger, the Sunday service, or the chapter ending is open.
 
 Margaret's spare key ring is the first quest. Harold is in the sanctuary on Thursday.
-The east side of the lot walks to Oak Street. A sign and a path point that way. The street has the hardware store, Frank's bay, a cottage, a park, and a creek bank. The bridge sign past the shops opens onto Maple Lane. The store and the bay have doors. They are open while Thomas or Frank is inside, and a shut door says when to come back. During those hours they are behind the counter, not also on the sidewalk. A few neighbors wander the sidewalks. Thursday, Friday, and Saturday each have one small moment you can find by looking around. The church walk can be tidied, and the Maple Lane garden can be cleared and replanted. None of that is required for Sunday.
+The east side of the lot walks to Oak Street. A sign and a path point that way. The street has the hardware store, Frank's bay, a cottage, a park, and a creek bank. The bridge sign past the shops opens onto Maple Lane. Walk into the store and the bay. They are open while Thomas or Frank is inside, and a shut door says when to come back. During those hours they are behind the counter, not also on the sidewalk. A few neighbors wander the sidewalks. Thursday, Friday, and Saturday each have one small moment you can find by looking around. The church walk can be tidied, and the Maple Lane garden can be cleared and replanted. None of that is required for Sunday.
 The parsonage is on the church grounds. The bed sleeps until morning and shows a short card of things you might do.
 J lists the current objective, a Threads section in words, and under The church, a few words for how the week feels. L opens the ledger after Chapter 1. Save and Load are on the pause menu. There is one slot, version 6.
 A version 1, 2, 3, 4, or 5 save still loads. On Sunday at 10:00 a.m., go into the sanctuary for the service.
@@ -66,6 +66,7 @@ godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m6a2/m6a
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m7/m7_validation.tscn
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m8/m8_validation.tscn
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m9/m9_validation.tscn
+godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m9b/m9b_validation.tscn
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/toolchain/toolchain_test.tscn --quit-after 5
 ```
 
@@ -90,7 +91,7 @@ data/schedules/week.json             where each of them stands, by day and time,
 data/quests/                         quest titles and objectives
 data/story/                          named story threads for the journal
 data/interactions/                   the spare key ring
-scripts/interactions/                interactable, door, one-line speech, dialogue, key ring
+scripts/interactions/                interactable, walk-in door, one-line speech, dialogue, key ring
 scripts/dialogue/                    conversation runner
 scripts/systems/                     scene router, narrative state, day clock, schedules, save, funds, time of day
 scripts/services/                    Sunday gathering in the sanctuary
@@ -112,6 +113,7 @@ tests/m6a2/                          milestone 6A part 2 environment-art checks
 tests/m7/                            milestone 7 checks
 tests/m8/                            milestone 8 weekly loop, funds, and hall checks
 tests/m9/                            milestone 9 branching, leanings, threads, and save v6
+tests/m9b/                           milestone 9B walk-in doors
 ```
 
 ## Documents

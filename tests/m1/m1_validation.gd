@@ -82,7 +82,7 @@ func _check_exterior() -> void:
 	var ground := room.get_node("Ground") as TileMapLayer
 	_check(ground.get_cell_source_id(Vector2i(0, 0)) != -1, "grass is painted")
 	_check(ground.get_cell_atlas_coords(Vector2i(18, 12)) == Vector2i(2, 0), "path leads to the church")
-	_check(_count_interactables(room) >= 3, "Margaret, notice, and door exist")
+	_check(_count_interactables(room) >= 2, "Margaret and the notice are still interactable")
 
 	var right_dist := await _travel(player, ["move_right"], 18)
 	var diagonal_dist := await _travel(player, ["move_right", "move_down"], 18)
@@ -120,6 +120,9 @@ func _check_exterior() -> void:
 	_check(player.global_position.x > left - 26.0, "player reached the church wall")
 
 	var door := room.get_node("Props/Door") as Door
+	_check(door is Area2D and not door.is_in_group("interactable"), "the sanctuary door is a walk-in trigger")
+	SceneRouter.suppress_change = true
+	SceneRouter.last_path = ""
 	player.global_position = door.global_position + Vector2(0, 90)
 	player.velocity = Vector2.ZERO
 	Input.action_press("move_up")
@@ -168,15 +171,31 @@ func _check_exterior() -> void:
 
 	SceneRouter.suppress_change = true
 	SceneRouter.last_path = ""
-	player.global_position = door.global_position + Vector2(0, 24)
+	player.global_position = door.global_position + Vector2(0, 70)
+	player.velocity = Vector2.ZERO
 	player.clear_interact_lock()
-	await get_tree().process_frame
 	_release()
+	await get_tree().physics_frame
+	await get_tree().physics_frame
+	Input.action_press("move_up")
+	for _i in 40:
+		await get_tree().physics_frame
+	Input.action_release("move_up")
+	await get_tree().process_frame
+	await get_tree().process_frame
+	_check(SceneRouter.last_path.ends_with("sanctuary.tscn"), "walking into the door requests the sanctuary")
+	_check(SceneRouter.next_spawn == &"from_exterior", "door sets the interior spawn")
+	_release()
+	await get_tree().physics_frame
+	SceneRouter.last_path = ""
+	player.global_position = door.global_position + Vector2(0, 20)
+	player.velocity = Vector2.ZERO
+	player.clear_interact_lock()
 	await get_tree().physics_frame
 	Input.action_press("interact")
 	await get_tree().physics_frame
-	_check(SceneRouter.last_path.ends_with("sanctuary.tscn"), "door requests the sanctuary")
-	_check(SceneRouter.next_spawn == &"from_exterior", "door sets the interior spawn")
+	await get_tree().physics_frame
+	_check(SceneRouter.last_path == "", "E on a door does not change rooms")
 	_release()
 	SceneRouter.suppress_change = false
 

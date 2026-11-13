@@ -1,7 +1,8 @@
 class_name Interactable
 extends Node2D
 ## Something the player can use with E while standing close.
-## Doors and speech props share the prompt and the single-target rule.
+## Speech props, people, and inspectables share the prompt and the single-target rule.
+## Scene doors are walk-in Area2D nodes, not interactables.
 
 signal interacted
 

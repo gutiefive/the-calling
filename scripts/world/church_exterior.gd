@@ -148,8 +148,9 @@ func _add_home() -> void:
 	var door := Door.new()
 	door.name = "HomeDoor"
 	door.position = Vector2(200, 500)
-	door.prompt_text = "Go home"
-	door.radius = 42.0
+	door.place_name = "Parsonage"
+	door.prompt_text = "Parsonage"
+	door.radius = 26.0
 	door.destination_scene = "res://scenes/world/parsonage.tscn"
 	door.destination_spawn = &"from_grounds"
 	props.add_child(door)

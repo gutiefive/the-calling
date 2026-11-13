@@ -63,7 +63,7 @@ func _add_walls() -> void:
 			var door_gap := y == MAP_SIZE.y - 1 and (x == 9 or x == 10)
 			if border and not door_gap:
 				_add_rect(Vector2(x * 32 + 16, y * 32 + 16), Vector2(32, 32))
-	# The south gap is the door. A lip stops a walk off the map. E on the door still leaves.
+	# The south gap is the door. A lip stops a walk off the map. Walking into the door leaves.
 	_add_rect(Vector2(320, MAP_SIZE.y * 32 - 6), Vector2(64, 12))
 
 
@@ -73,16 +73,16 @@ func _place_room() -> void:
 		return
 	var exit_scene := "res://scenes/world/church_exterior.tscn"
 	var exit_spawn := &"from_parsonage"
-	var exit_prompt := "Step outside"
+	var exit_name := "Church grounds"
 	if _kind() == "hardware":
 		exit_scene = "res://scenes/world/hardware_street.tscn"
 		exit_spawn = &"from_store"
-		exit_prompt = "Step outside"
+		exit_name = "Oak Street"
 	elif _kind() == "bay":
 		exit_scene = "res://scenes/world/hardware_street.tscn"
 		exit_spawn = &"from_bay"
-		exit_prompt = "Step outside"
-	_add_door(props, "Door", Vector2(320, 470), exit_prompt, exit_scene, exit_spawn)
+		exit_name = "Oak Street"
+	_add_door(props, "Door", Vector2(320, 470), exit_name, exit_scene, exit_spawn)
 	_place_marker("default", Vector2(320, 360), &"up")
 	_place_marker("from_grounds", Vector2(320, 360), &"up")
 	_place_marker("from_street", Vector2(320, 360), &"up")
@@ -111,8 +111,9 @@ func _add_door(props: Node, node_name: String, pos: Vector2, prompt: String, sce
 	var door := Door.new()
 	door.name = node_name
 	door.position = pos
+	door.place_name = prompt
 	door.prompt_text = prompt
-	door.radius = 42.0
+	door.radius = 26.0
 	door.destination_scene = scene_path
 	door.destination_spawn = spawn
 	props.add_child(door)

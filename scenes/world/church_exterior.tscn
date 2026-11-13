@@ -138,19 +138,25 @@ npc_id = "ostrow"
 
 [node name="Sprite" type="AnimatedSprite2D" parent="Props/Ostrow"]
 
-[node name="Door" type="Node2D" parent="Props"]
+[node name="Door" type="Area2D" parent="Props"]
 position = Vector2(576, 286)
+collision_layer = 0
+collision_mask = 2
 script = ExtResource("6_door")
-prompt_text = "Enter the sanctuary"
-radius = 42.0
+place_name = "Sanctuary"
+prompt_text = "Sanctuary"
+radius = 26.0
 destination_scene = "res://scenes/world/sanctuary.tscn"
 destination_spawn = &"from_exterior"
 
-[node name="StreetDoor" type="Node2D" parent="Props"]
+[node name="StreetDoor" type="Area2D" parent="Props"]
 position = Vector2(1040, 640)
+collision_layer = 0
+collision_mask = 2
 script = ExtResource("6_door")
-prompt_text = "Walk to Oak Street"
-radius = 42.0
+place_name = "Oak Street"
+prompt_text = "Oak Street"
+radius = 26.0
 destination_scene = "res://scenes/world/hardware_street.tscn"
 destination_spawn = &"from_church"
 
