@@ -723,11 +723,51 @@ It checks add / remove / stack limits / capacity / invalid items, wallet vs Chur
 | ID | Do this | Expect |
 |---|---|---|
 | T78 | Walk into the parsonage. E on the toolbox, then I | Watering Can, Hoe, and Basic Hand Tools are in the pack. The wallet shows $20. Taking the crate again does nothing. |
-| T79 | Walk to the Maple Lane garden crate, E, then I | Four seed packets are in the pack. The Chapter 1 weeds are still there until you tend the plot. |
+| T79 | Walk to the church vegetable garden crate (east of the picnic lawn), E, then I | Four seed packets are in the pack. The Maple Lane Chapter 1 weeds are still there until you tend that plot. |
 | T80 | Walk into the hardware store. E on the shelves. Buy wood. Try to buy with too little cash | The wallet drops. Wood is in the pack. Overspend is refused. Thomas's talk still has no prices. |
 | T81 | Esc, Save, Load | The pack and wallet come back. Church ledger money is unchanged. |
 
 ## Gameplay A results
 
 On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `GPA_OK` with zero `CHECK FAIL` (the expected `Save version 8 is not supported` push_error before the newer-save rejection, matching M8/M9). Every existing suite still printed its `_OK` line and exited 0: `M1_OK`, `M2_OK`, `M3_OK`, `M4_OK`, `M4_5_OK`, `M5A_OK`, `M5B_OK`, `M6A_OK`, `M6A2_OK`, `M7_OK`, `M8_OK`, `M9_OK`, `M9B_OK`, `M10_OK`, `M11_OK`, `M11B_OK`, `M11C_OK`, `M12_OK`. `--quit-after 120` exited 0. `tests/gpa/capture_gpa.tscn` wrote `inventory_ui.png` and `shop_ui.png` under `tests/gpa/shots/`. T78–T81 were not played in a window.
+
+# Gameplay B — Gardening
+
+The lists above still apply. These checks cover the church vegetable garden, overnight growth, harvest, Chapter 1 Maple Lane flags, and save v8.
+
+## Automated
+
+```powershell
+godot --headless --path . --import
+godot --headless --path . res://tests/gpb/gpb_validation.tscn
+godot --path . res://tests/gpb/capture_gpb.tscn
+```
+
+`gpb_validation.tscn` prints `CHECK OK` / `CHECK FAIL` lines and exits with `GPB_OK` or `GPB_FAIL`.
+It checks the till / plant / water / grow / harvest cycle for every crop, wrong tool and missing seed, unwatered pause, seed use and yield, no Pull / attendance / ChurchFunds change, Chapter 1 garden flags, save/load, and version-7 migration.
+
+`capture_gpb.tscn` writes PNGs to `tests/gpb/shots/` and needs a display. It skips with `CAPTURE_SKIPPED` under `--headless`.
+
+## Manual
+
+Exact walkthrough:
+
+1. New Game. Walk into the parsonage. E on the toolbox. I, highlight the Hoe, E to equip. Esc.
+2. From the courtyard, walk south onto the picnic lawn, then east into the fenced garden. E on Ruth's card if you want the five steps.
+3. E on the seed crate. I, highlight Lettuce Seeds, E to prepare them. Esc.
+4. Stand on an untilled bed. E tills. E plants. Equip the Watering Can (1/2/3 or I then E). E waters.
+5. Walk home. E on the bed. Close the morning card. The watered lettuce has grown. Water again, sleep again. E harvests into the pack.
+6. Leave an unwatered bed overnight: it waits. Equip the Hoe on a planted bed: it explains and does nothing.
+7. Esc, Save, Load. The beds are as you left them. The Maple Lane weeds still need the Chapter 1 neighbor to plant.
+
+| ID | Do this | Expect |
+|---|---|---|
+| T82 | Church garden, Hoe, E on an empty bed | Soil tills. Prompt becomes Plant. |
+| T83 | Prepare lettuce seeds, E on tilled soil, water, sleep twice | Harvests 1 Lettuce. Wallet and church books unchanged. |
+| T84 | Plant without watering, sleep | Crop is still there, not grown. |
+| T85 | Maple Lane garden plot, E | Weeds clear. It still wants the neighbor's seed. Church beds did not change that flag. |
+
+## Gameplay B results
+
+On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `GPB_OK` with zero `CHECK FAIL` (the expected `Save version 9 is not supported` push_error before the newer-save rejection). Every existing suite still printed its `_OK` line and exited 0: `M1_OK`, `M2_OK`, `M3_OK`, `M4_OK`, `M4_5_OK`, `M5A_OK`, `M5B_OK`, `M6A_OK`, `M6A2_OK`, `M7_OK`, `M8_OK`, `M9_OK`, `M9B_OK`, `M10_OK`, `M11_OK`, `M11B_OK`, `M11C_OK`, `M12_OK`, `GPA_OK`. `--quit-after 120` exited 0. `tests/gpb/capture_gpb.tscn` wrote `garden_day.png`, `shop_ui.png`, and `inventory_ui.png` under `tests/gpb/shots/`. T82–T85 were not played in a window.
 

@@ -4,7 +4,7 @@ extends RefCounted
 
 const Catalog := preload("res://scripts/systems/item_catalog.gd")
 
-const SAVE_VERSION := 7
+const SAVE_VERSION := 8
 const SAVE_PATH := "user://the_calling_save.json"
 
 
@@ -97,6 +97,12 @@ static func capture(tree: SceneTree) -> Dictionary:
 		var pack_raw: Variant = pack.call("to_dictionary")
 		if pack_raw is Dictionary:
 			inventory_data = pack_raw
+	var garden_data: Dictionary = {}
+	var garden := tree.root.get_node_or_null("GardenState")
+	if garden != null and garden.has_method("to_dictionary"):
+		var garden_raw: Variant = garden.call("to_dictionary")
+		if garden_raw is Dictionary:
+			garden_data = garden_raw
 	return {
 		"version": SAVE_VERSION,
 		"narrative": NarrativeState.to_dictionary(),
@@ -111,6 +117,7 @@ static func capture(tree: SceneTree) -> Dictionary:
 		"threads": thread_data,
 		"run_seed": run_seed,
 		"inventory": inventory_data,
+		"garden": garden_data,
 	}
 
 
@@ -160,6 +167,11 @@ static func apply_state(data: Dictionary) -> bool:
 		var pack_v: Variant = data.get("inventory", {})
 		var pack_data: Dictionary = pack_v if pack_v is Dictionary else {}
 		pack.call("from_dictionary", pack_data)
+	var garden := tree.root.get_node_or_null("GardenState") if tree != null else null
+	if garden != null and garden.has_method("from_dictionary"):
+		var garden_v: Variant = data.get("garden", {})
+		var garden_data: Dictionary = garden_v if garden_v is Dictionary else {}
+		garden.call("from_dictionary", garden_data)
 	var clock_v: Variant = data.get("clock", {})
 	if tree != null and clock_v is Dictionary:
 		var clock := tree.root.get_node_or_null("DayClock")
@@ -205,6 +217,9 @@ static func begin_new_game(tree: SceneTree) -> void:
 		var pack := tree.root.get_node_or_null("Inventory")
 		if pack != null and pack.has_method("reset"):
 			pack.call("reset")
+		var garden := tree.root.get_node_or_null("GardenState")
+		if garden != null and garden.has_method("reset"):
+			garden.call("reset")
 	DayClock.held = false
 	if tree != null and tree.paused:
 		tree.paused = false
@@ -220,6 +235,8 @@ static func delete_save() -> void:
 
 
 static func _migrate_step(data: Dictionary, from_version: int) -> Dictionary:
+	if from_version == 7:
+		return _migrate_garden(data)
 	if from_version == 6:
 		return _migrate_inventory(data)
 	if from_version == 5:
@@ -401,6 +418,26 @@ static func _migrate_inventory(data: Dictionary) -> Dictionary:
 		if existing.has("cash"):
 			inventory["cash"] = int(existing.get("cash", inventory["cash"]))
 	data["inventory"] = inventory
+	return data
+
+
+static func _migrate_garden(data: Dictionary) -> Dictionary:
+	# Version 8 adds the church garden plots. Older files get empty untilled beds.
+	var garden: Dictionary = {
+		"last_processed_day": 4,
+		"plots": [],
+	}
+	var clock_v: Variant = data.get("clock", {})
+	if clock_v is Dictionary:
+		garden["last_processed_day"] = int((clock_v as Dictionary).get("weekday", 4))
+	var garden_v: Variant = data.get("garden", {})
+	if garden_v is Dictionary:
+		var existing: Dictionary = garden_v
+		if existing.has("last_processed_day"):
+			garden["last_processed_day"] = int(existing.get("last_processed_day", garden["last_processed_day"]))
+		if existing.has("plots"):
+			garden["plots"] = existing.get("plots", [])
+	data["garden"] = garden
 	return data
 
 

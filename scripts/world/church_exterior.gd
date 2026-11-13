@@ -35,6 +35,7 @@ func _build() -> void:
 	_add_campus_props()
 	_add_expansion_plots()
 	_add_grounds_work()
+	_add_church_garden()
 	_add_sunday_gathering()
 	_paint_ground()
 	_clear_solids()
@@ -92,7 +93,7 @@ func _place_props() -> void:
 	_place("Props/Flowers", POS_FLOWERS)
 	_feet_offset("Props/Flowers")
 	var trees: Array[Vector2] = [
-		Vector2(160, 720), Vector2(1600, 200), Vector2(180, 1100), Vector2(1500, 1200), Vector2(1280, 560),
+		Vector2(160, 720), Vector2(1600, 200), Vector2(180, 1100), Vector2(1648, 1264), Vector2(1280, 560),
 	]
 	for i in trees.size():
 		var path := "Props/Tree%d" % (i + 1)
@@ -215,6 +216,81 @@ func _add_grounds_work() -> void:
 	_add_chore(props, "FlowerBed", "bed", Vector2(1104, 688), "Trim the bed", "You cut the weeds back. The flowers can breathe.")
 
 
+func _add_church_garden() -> void:
+	var props := get_node_or_null("Props")
+	if props == null:
+		return
+	for i in 9:
+		var plot_name := "ChurchPlot%d" % i
+		if props.get_node_or_null(plot_name) != null:
+			continue
+		var plot := GardenPlot.new()
+		plot.name = plot_name
+		plot.plot_id = "church_%d" % i
+		plot.position = GroundsLayout.veg_plot_position(i)
+		plot.prompt_text = "Till"
+		plot.radius = 28.0
+		plot.blocks_movement = true
+		plot.block_size = Vector2(24, 10)
+		var sprite := Sprite2D.new()
+		sprite.name = "Sprite"
+		sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		plot.add_child(sprite)
+		props.add_child(plot)
+	if props.get_node_or_null("SeedCrate") == null:
+		var crate := ItemPickup.new()
+		crate.name = "SeedCrate"
+		crate.position = GroundsLayout.VEG_CRATE
+		crate.starter_id = "seeds"
+		crate.speaker_name = "Seed crate"
+		crate.take_line = "Paper packets: lettuce, carrot, tomato, and flower. Enough to start the beds."
+		crate.empty_line = "The crate holds a little dirt and nothing else."
+		crate.sheet = PlaceholderArt.crate()
+		crate.frame_size = Vector2i(32, 32)
+		crate.prompt_text = "Take"
+		crate.radius = 36.0
+		crate.blocks_movement = true
+		crate.block_size = Vector2(16, 10)
+		var crate_sprite := Sprite2D.new()
+		crate_sprite.name = "Sprite"
+		crate.add_child(crate_sprite)
+		props.add_child(crate)
+	if props.get_node_or_null("GardenNote") == null:
+		var note := SpeechProp.new()
+		note.name = "GardenNote"
+		note.position = GroundsLayout.VEG_NOTE
+		note.sheet = PlaceholderArt.notice_board()
+		note.frame_size = Vector2i(32, 48)
+		note.frame_count = 1
+		note.speaker_name = "Ruth"
+		note.prompt_text = "Read the card"
+		note.line = "Ruth left a card. Till with the hoe. Plant a seed packet. Water. Come back after a morning. Then pick."
+		note.blocks_movement = true
+		note.block_size = Vector2(14, 8)
+		note.radius = 36.0
+		var note_sprite := AnimatedSprite2D.new()
+		note_sprite.name = "Sprite"
+		note.add_child(note_sprite)
+		props.add_child(note)
+	if props.get_node_or_null("GardenRemark") == null:
+		var remark := GardenRemark.new()
+		remark.name = "GardenRemark"
+		remark.position = Vector2(1224, 1168)
+		remark.sheet = PlaceholderArt.townsfolk(1)
+		remark.frame_size = Vector2i(32, 48)
+		remark.frame_count = 2
+		remark.speaker_name = "A neighbor"
+		remark.prompt_text = "Say hello"
+		remark.line = GardenRemark.QUIET
+		remark.blocks_movement = false
+		remark.block_size = Vector2(12, 8)
+		remark.radius = 36.0
+		var remark_sprite := AnimatedSprite2D.new()
+		remark_sprite.name = "Sprite"
+		remark.add_child(remark_sprite)
+		props.add_child(remark)
+
+
 func _add_chore(props: Node, node_name: String, chore_id: String, pos: Vector2, prompt: String, line: String) -> void:
 	if props.get_node_or_null(node_name) != null:
 		return
@@ -265,6 +341,7 @@ func _paint_ground() -> void:
 	_paint_parking(layer)
 	_paint_drive(layer)
 	_paint_garden(layer)
+	_paint_veg_garden(layer)
 	_paint_parsonage_yard(layer)
 	_paint_plots(layer)
 	_paint_utility(layer)
@@ -302,8 +379,8 @@ func _paint_paths(layer: TileMapLayer) -> void:
 	# Parsonage walk.
 	_paint_rect(layer, 7, 38, 28, 40, TownTiles.PATH)
 	_paint_rect(layer, 7, 39, 9, 42, TownTiles.PATH)
-	# Picnic spur.
-	_paint_rect(layer, 22, 34, 36, 36, TownTiles.PATH)
+	# Picnic spur, extended east to the church garden gate.
+	_paint_rect(layer, 22, 34, 40, 36, TownTiles.PATH)
 	# Side gate walk.
 	_paint_rect(layer, 1, 37, 8, 39, TownTiles.PATH)
 
@@ -341,6 +418,19 @@ func _paint_garden(layer: TileMapLayer) -> void:
 	# Gate toward the courtyard.
 	layer.set_cell(Vector2i(11, 10), 0, TownTiles.PATH)
 	layer.set_cell(Vector2i(11, 11), 0, TownTiles.PATH)
+
+
+func _paint_veg_garden(layer: TileMapLayer) -> void:
+	var garden := GroundsLayout.VEG_GARDEN
+	_paint_rect(layer, garden.position.x, garden.position.y, garden.end.x, garden.end.y, TownTiles.FENCE)
+	_paint_rect(layer, garden.position.x + 1, garden.position.y + 1, garden.end.x - 1, garden.end.y - 1, TownTiles.GRASS_B)
+	# West gate onto the picnic spur (y 34–36).
+	layer.set_cell(Vector2i(garden.position.x, 34), 0, TownTiles.PATH)
+	layer.set_cell(Vector2i(garden.position.x, 35), 0, TownTiles.PATH)
+	layer.set_cell(Vector2i(garden.position.x, 36), 0, TownTiles.PATH)
+	layer.set_cell(Vector2i(garden.position.x + 1, 34), 0, TownTiles.PATH)
+	layer.set_cell(Vector2i(garden.position.x + 1, 35), 0, TownTiles.PATH)
+	layer.set_cell(Vector2i(garden.position.x + 1, 36), 0, TownTiles.PATH)
 
 
 func _paint_parsonage_yard(layer: TileMapLayer) -> void:
@@ -413,6 +503,7 @@ func _add_church_collision() -> void:
 func _add_campus_blocks() -> void:
 	_add_perimeter_blocks()
 	_add_garden_fence_blocks()
+	_add_veg_garden_fence_blocks()
 	_add_parsonage_hedge_blocks()
 	_add_car_blocks()
 
@@ -446,6 +537,21 @@ func _add_garden_fence_blocks() -> void:
 	_add_rect(Vector2(x0 + t * 0.5, (y0 + y1) * 0.5), Vector2(t, y1 - y0))
 	_add_rect(Vector2(x1 - t * 0.5, (y0 + y1) * 0.5 - 16.0), Vector2(t, y1 - y0 - 32.0))
 	_add_rect(Vector2((x0 + x1) * 0.5 - 16.0, y1 - t * 0.5), Vector2(x1 - x0 - 32.0, t))
+
+
+func _add_veg_garden_fence_blocks() -> void:
+	var g := GroundsLayout.VEG_GARDEN
+	var x0 := float(g.position.x * TILE)
+	var y0 := float(g.position.y * TILE)
+	var x1 := float(g.end.x * TILE)
+	var y1 := float(g.end.y * TILE)
+	var t := 12.0
+	_add_rect(Vector2((x0 + x1) * 0.5, y0 + t * 0.5), Vector2(x1 - x0, t))
+	_add_rect(Vector2((x0 + x1) * 0.5, y1 - t * 0.5), Vector2(x1 - x0, t))
+	_add_rect(Vector2(x1 - t * 0.5, (y0 + y1) * 0.5), Vector2(t, y1 - y0))
+	# West fence split around the gate onto the picnic spur (tiles 34–36).
+	_add_rect(Vector2(x0 + t * 0.5, 1056.0), Vector2(t, 64.0))
+	_add_rect(Vector2(x0 + t * 0.5, 1248.0), Vector2(t, 128.0))
 
 
 func _add_parsonage_hedge_blocks() -> void:
@@ -627,7 +733,7 @@ func _add_walkway_posts(props: Node) -> void:
 func _add_rhythm_trees(props: Node) -> void:
 	var spots: Array[Vector2] = [
 		Vector2(480, 200), Vector2(720, 200), Vector2(1120, 200), Vector2(1360, 200),
-		Vector2(480, 1000), Vector2(1280, 1000), Vector2(1600, 1000),
+		Vector2(480, 1000), Vector2(1168, 992), Vector2(1720, 1008),
 		Vector2(200, 880), Vector2(1680, 480), Vector2(400, 1280),
 	]
 	for i in spots.size():

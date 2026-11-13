@@ -129,6 +129,10 @@ static func item_is_tool(item_id: String) -> bool:
 	return category(item_id) == CATEGORY_TOOLS
 
 
+static func item_is_seed(item_id: String) -> bool:
+	return category(item_id) == CATEGORY_SEEDS
+
+
 static func is_consumable(item_id: String) -> bool:
 	if not has_item(item_id):
 		return false

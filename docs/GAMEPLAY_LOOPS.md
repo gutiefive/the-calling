@@ -1,6 +1,6 @@
 # Gameplay loops — The Calling
 
-Status: Phase A (inventory and items) implemented 2026-11-13. Phases B–F are specified here so they can plug in; they are not built yet.
+Status: Phase B (gardening) implemented 2026-11-13. Phase A (inventory and items) remains. Phases C–F are specified here so they can plug in; they are not built yet.
 
 ## Baseline (before Phase A)
 
@@ -18,12 +18,12 @@ These existing systems stay in place. Phase A hooks them; it does not replace th
 
 | System | Where | Phase A use | Later phases |
 |---|---|---|---|
-| `DayClock` | autoload | Inventory and shop set `NarrativeState` locks so the clock holds still, same as the journal and ledger. | B: growth ticks on morning / sleep, guarded by a last-processed day id. |
+| `DayClock` | autoload | Inventory and shop set `NarrativeState` locks so the clock holds still, same as the journal and ledger. | B: `GardenState` ticks growth on `time_changed` when the weekday advances past 6:00 a.m., guarded by `last_processed_day`. |
 | `NarrativeState` | autoload | New UI flags `inventory_open` / `shop_open` join `movement_locked()`. Starter grants use new flags only (`starter_tools_taken`, `starter_seeds_taken`). Existing story flags, quests, leanings, and threads are untouched. | C: request accept/complete flags. D: repair flags mapped from `grounds_tidy` / `garden_*` when safe. |
 | `ChurchFunds` | autoload | Never spent on personal items. Personal cash is `Inventory` wallet. Dollar amounts stay out of dialogue JSON. | E: potluck prep does not siphon the plate. |
-| `SaveGame` | `scripts/systems/save_game.gd` | Version 7. Migration from 6 adds default inventory and wallet. Relationships, flags, funds, leanings, threads, and clock keep their values. | B–E: extra blobs (`garden`, `requests`, `repairs`, `event`) with the same migrate-forward rule. |
+| `SaveGame` | `scripts/systems/save_game.gd` | Version 8. Migration from 7 adds empty untilled church plots. Version 6 still gains a default pack and wallet on the way through 7. | C–E: extra blobs (`requests`, `repairs`, `event`) with the same migrate-forward rule. |
 | Dialogue | `data/dialogue/`, `DialogueRunner` | Thomas, Margaret, garden_help, and Chapter 1 lines are unchanged. No `$` or dollar words in JSON. Shop is a separate UI, not a dialogue tree. | C: request accept nodes added beside existing routers, existing first choices kept. |
-| Maple Lane garden | `GardenPlot`, `garden_help.json` | Unchanged Chapter 1 clear/plant beat. A seed crate is a new interactable next to the plot. | B: refactor `GardenPlot` into real 3×3 plots without dropping `garden_cleared` / `garden_planted` / `garden_growth`. |
+| Maple Lane garden | `GardenPlot`, `garden_help.json` | Unchanged Chapter 1 clear/plant beat. Weeds, `garden_cleared`, `garden_planted`, and `garden_growth` stay on this plot. The Phase A seed crate moved to the church garden. | C: garden-needs-hands request can read the same flags. |
 | Hardware store | `building_interior.gd` HardwareInterior | Thomas still talks. A shelf interactable opens the shop UI (seeds, Wood, Nails). | D: same shop sells repair stock. |
 | Parsonage | `building_interior.gd` | A toolbox grants the starter tools once. Bed / sleep unchanged. | B: sleep still advances garden morning. |
 | HUD | `scenes/ui/hud.tscn` | Inventory panel (I), shop panel, small equipped-tool strip. Same panel chrome as journal / ledger. | B: short contextual lines (“Planted Carrot Seeds.”). C: journal lists active requests. |
@@ -31,7 +31,7 @@ These existing systems stay in place. Phase A hooks them; it does not replace th
 | Art pipeline | `scripts/art`, `tools/art/author_environment.gd` | 16×16 item icons, palette-only, written to `assets/items/`. | B–E: soil, crop stages, water, repair, potluck props through the same pipeline. |
 | Church grounds chores | `GroundsChore` | Untouched. | D: refactor only when flags can be mapped 1:1. |
 
-Signals reserved for later phases (declared now or to be added then): `item_added`, `item_consumed` (A), then `crop_watered`, `crop_harvested`, `request_completed`, `repair_finished`, `event_prepared`.
+Signals: `item_added`, `item_consumed` (A), `crop_watered`, `crop_harvested`, `garden_action` (B). Reserved for later: `request_completed`, `repair_finished`, `event_prepared`.
 
 ---
 
@@ -41,7 +41,7 @@ Signals reserved for later phases (declared now or to be added then): `item_adde
 
 **Weekly (existing, unchanged by A):** after Chapter 1, Continue in Oakridge. Later Sundays run a short service, then the ledger. Attendance and the plate stay on `ChurchFunds`. Inventory work is optional and never required for Sunday.
 
-**Target feeling once B–E land:** “one more day, the crops are almost ready, Sarah needs vegetables, I want to finish that fence.” Phase A only supplies the pack, the wallet, and a way to get tools, seeds, and lumber.
+**Target feeling once C–E land:** “one more day, the crops are almost ready, Sarah needs vegetables, I want to finish that fence.” Phase B adds the church garden. Harvests stay items until later phases give them somewhere to go.
 
 Sunday stays special. Nothing in A forces a daily checklist.
 
@@ -82,7 +82,7 @@ Shop prices (also in `catalog.json`): lettuce/carrot seeds `$2`, tomato/flower s
 
 **Starter tools.** A toolbox in the **parsonage** (the kit left with the house). Taking it grants the three tools and sets `starter_tools_taken`. A second inspect only says the crate is empty. Margaret’s Chapter 1 lines are unchanged.
 
-**Starter seeds.** A crate beside the **Maple Lane community garden**. Taking it grants a few of each seed packet and sets `starter_seeds_taken`. It does not clear weeds or plant the Chapter 1 plot. The neighbor’s `garden_help` conversation is unchanged.
+**Starter seeds.** A crate inside the **church vegetable garden** (east of the picnic lawn). Taking it grants a few of each seed packet and sets `starter_seeds_taken`. It does not touch the Chapter 1 Maple Lane plot. The neighbor’s `garden_help` conversation is unchanged.
 
 **More stock.** Walk into Oak Street Hardware while Thomas is in, stand at the shelves, E to browse. Thomas’s spoken lines do not mention prices.
 
@@ -90,9 +90,9 @@ Icons are 16×16 palette pixels from `scripts/art/item_frames.gd`, authored to `
 
 ---
 
-## Crops (Phase B, not built)
+## Crops (Phase B)
 
-Configurable in data when B starts. Unwatered crops pause and never die. Ready crops do not need water. Sunday does not destroy crops.
+Configurable in `data/crops/catalog.json`. Unwatered crops pause and never die. Ready crops do not need water. Sunday does not destroy crops.
 
 | Crop | Watered days | Yield | Role |
 |---|---|---|---|
@@ -101,9 +101,17 @@ Configurable in data when B starts. Unwatered crops pause and never die. Ready c
 | Tomatoes | 4 | 3 | community meals |
 | Flowers | 3 | 2 | gifts and decoration |
 
-## Gardening (Phase B, not built)
+## Gardening (Phase B)
 
-Turn the Maple Lane lot into about nine interactable plots. Reuse `GardenPlot` and keep `garden_cleared`, `garden_planted`, and the `garden_growth` thread. Hoe tills, equipped seed plants (consumes one), watering can marks watered, growth advances once per morning if watered, harvest yields catalog crops. Onboarding through Ruth or the existing garden neighbor, skippable.
+**Where.** Nine plots sit in a fenced vegetable garden on the **church grounds**, east of the picnic lawn and south of the drive (`GroundsLayout.VEG_GARDEN`, tiles 39,32 9×9). It is not the memorial garden, not the parking lot, not a main path, and not one of the five Future Site lots in `data/grounds/plots.json`. A west gate opens onto an extension of the picnic spur. The Chapter 1 Maple Lane plot, its weeds, and `garden_cleared` / `garden_planted` / `garden_growth` are unchanged.
+
+**Plots.** Autoload `GardenState` stores id, soil, crop, planted, watered, growth, stage, and ready for `church_0`…`church_8`. `GardenPlot` with a `plot_id` is a farm bed; an empty `plot_id` is still the Maple Lane story plot.
+
+**Cycle.** Equip the Hoe, E to till. Equip a seed packet in the pack (I, then E), E to plant (consumes one). Equip the Watering Can, E to water (darker soil). Growth advances once per morning if the bed was watered, through sleep and DayClock, never a frame timer. `last_processed_day` prevents double-counting across skips, sleep, save/load, and leaving the room. Harvest yields the catalog crop and leaves plantable harvested soil. No energy bar. Wrong tool or missing seed does nothing and says why.
+
+**Onboarding.** Ruth is still the Maple Lane walker (M5B one-place). She left a skippable card at the church garden: till, plant, water, come back after a morning, harvest. Plot prompts name the next action. A neighbor by the gate comments lightly when the beds look tended, with no numbers.
+
+**Story.** Growing food is neutral. Gardening does not raise Pull, attendance, dependents, loyalty, or ChurchFunds. Harvests are items for later requests and the potluck.
 
 ## Community requests (Phase C, not built)
 
@@ -119,21 +127,21 @@ Extend the existing M8 potluck happening. Optional prep (food, flowers, grounds,
 
 ## Story integration
 
-Growing food is neutral. Giving food, repairing public space, and how those things are offered are what may later touch relationships or Pull. Faith is not the villain. Insiders never say “cult”. No dollar amounts in dialogue. Phase A adds no Pull, no attendance bump, and no new story flags except the two starter-taken flags.
+Growing food is neutral. Giving food, repairing public space, and how those things are offered are what may later touch relationships or Pull. Faith is not the villain. Insiders never say “cult”. No dollar amounts in dialogue. Phase B adds no Pull, no attendance bump, and no new story flags.
 
 ## Save changes
 
-Version **7**. `capture()` writes `inventory: { slots, equipped, cash }`. Migration from 6 fills default empty slots, no equipped tool, and starting cash. Church funds, narrative, clock, influence, pastor path, and threads pass through. A version 8 file is rejected until a later bump.
+Version **8**. `capture()` writes `inventory: { slots, equipped, seed, cash }` and `garden: { last_processed_day, plots }`. Migration from 7 fills nine empty untilled plots and keeps the pack. Migration from 6 still fills default inventory on the way through 7. Church funds, narrative, clock, influence, pastor path, and threads pass through. A version 9 file is rejected until a later bump.
 
-New Game / Restart call `Inventory.reset()` from `NarrativeState.reset()`.
+New Game / Restart call `Inventory.reset()` and `GardenState.reset()` from `NarrativeState.reset()`.
 
-## Limitations (Phase A)
+## Limitations (Phase B)
 
-- Crops exist in the catalog only. Planting does nothing yet.
+- Harvests have nowhere to go yet besides the pack (requests and the potluck are C and E).
 - Scrap has no source.
 - The shop does not sell tools (you already have them) or crops.
 - No energy bar, no durability, no drag-and-drop mouse inventory.
-- Item icons are procedural 16×16 PNGs, not LibreSprite `.ase` sources.
+- Item icons are procedural 16×16 PNGs scaled up in the pack. Crop stages are procedural 32×32 PNGs in `assets/garden/`. No LibreSprite `.ase` sources.
 
 ## Future expansion (do not build)
 

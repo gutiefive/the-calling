@@ -3,7 +3,7 @@
 A story-driven, top-down pixel-art RPG made in **Godot 4.7**. You play a young pastor who arrives in
 the fictional town of **Oakridge** to lead **Grace Community Church**.
 
-> **Status (2026-11-13):** Milestone 12 is playable, plus Gameplay A (inventory, wallet, shop). Chapter 1 still plays
+> **Status (2026-11-13):** Milestone 12 is playable, plus Gameplay A (inventory, wallet, shop) and Gameplay B (church garden). Chapter 1 still plays
 > start to finish. Choices leave hidden leanings and story threads, and a per-save seed varies small town texture.
 > After Chapter 1 you can Continue in Oakridge and keep a weekly loop. A suggested path, including two contrasting
 > runs, is in `docs/PLAYTEST.md`. Inventory and shop notes are in `docs/GAMEPLAY_LOOPS.md`.
@@ -31,8 +31,9 @@ Continue appears when `user://the_calling_save.json` exists. In the editor, open
 | Town map | M. Esc closes it. Also the Map row on the pause menu. It shows the church grounds, the sanctuary, Oak Street, the parsonage, Maple Lane, the hardware store, Frank's bay, and where you are. |
 | Pause | Esc, when the journal, the map, and the ledger are closed. Up / Down or W / S choose. E, Space, or Enter confirms Resume, Save, Load, or Map. |
 | Church ledger | L, after Chapter 1. Esc or L closes it. Dollar amounts live here. |
-| Inventory | I. Esc or I closes it. Arrows or WASD move the highlight. E equips a tool. The wallet prints here. |
+| Inventory | I. Esc or I closes it. Arrows or WASD move the highlight. E equips a tool or prepares a seed packet. The wallet prints here. |
 | Hardware shop | E on the shelves inside Thomas's store. E buys. Esc closes. Prices print here, not in talk. |
+| Garden | E on a church-grounds bed. Hoe tills, a prepared seed plants, watering can waters, E harvests when ready. Sleep advances a watered crop. |
 | Equipped tool | 1 / 2 / 3 pick among tools you are carrying. A small strip at the bottom left names the current tool. |
 | Skip to the next part of the day | T (debug). Day starts at 6:00, evening at 5:00, night at 8:00. On Sunday before 10:00 a.m., T lands on 10:00. |
 | Sleep | E on the bed in the parsonage. The morning card closes with E, Space, or Enter. |
@@ -49,8 +50,8 @@ You cannot walk while a conversation, the journal, the inventory, the shop, the 
 Margaret's spare key ring is the first quest. Harold is in the sanctuary on Thursday.
 The east side of the lot walks to Oak Street. A sign and a path point that way. Oak Street is a two-lane road with sidewalks: a cottage, the post office, Bright's Diner, the hardware store, an alley, a barber, a for-lease shop, and Frank's bay, then a park and creek. The bridge sign opens onto Maple Lane. Walk into the store and the bay. They are open while Thomas or Frank is inside, and a shut door says when to come back. During those hours they are behind the counter, not also on the sidewalk. A few neighbors wander the sidewalks. Thursday, Friday, and Saturday each have one small moment you can find by looking around. The church walk can be tidied, and the Maple Lane garden can be cleared and replanted. None of that is required for Sunday.
 The parsonage is on the church grounds. The bed sleeps until morning and shows a short card of things you might do.
-J lists the current objective, a Threads section in words, and under The church, a few words for how the week feels. I opens the pack. L opens the ledger after Chapter 1. Save and Load are on the pause menu. There is one slot, version 7.
-A version 1, 2, 3, 4, 5, or 6 save still loads. Starter tools are in the parsonage toolbox. Starter seeds sit in a crate by the Maple Lane garden. Thomas's shelves sell seed, wood, and nails from a personal wallet, not the church books. On Sunday at 10:00 a.m., go into the sanctuary for the service.
+J lists the current objective, a Threads section in words, and under The church, a few words for how the week feels. I opens the pack. L opens the ledger after Chapter 1. Save and Load are on the pause menu. There is one slot, version 8.
+A version 1, 2, 3, 4, 5, 6, or 7 save still loads. Starter tools are in the parsonage toolbox. Starter seeds sit in a crate in the church vegetable garden, east of the picnic lawn. The Maple Lane plot is still the Chapter 1 weeds. Thomas's shelves sell seed, wood, and nails from a personal wallet, not the church books. On Sunday at 10:00 a.m., go into the sanctuary for the service.
 After it, talk to Margaret. The ledger is on the west table and ends the chapter. Continue keeps you in town. Restart returns to Thursday. Frank's longer story is at the bay on Friday and again before Saturday afternoon. You can skip it.
 
 ## Checks
@@ -76,10 +77,11 @@ godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m11b/m11
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m11c/m11c_validation.tscn
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m12/m12_validation.tscn
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/gpa/gpa_validation.tscn
+godot --headless --path C:\Users\natha\Projects\the-calling res://tests/gpb/gpb_validation.tscn
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/toolchain/toolchain_test.tscn --quit-after 5
 ```
 
-The manual list is `docs/PLAYTEST.md`. Named character sheets live in `assets/characters/` and are rebuilt by `tools/art/author_sprites.gd`. Outdoor tiles, church-lot props, and Oak Street buildings are rebuilt by `tools/art/author_environment.gd`. Item icons are rebuilt by `tools/art/author_items.gd`. Unnamed townsfolk and interior furniture still come from `scripts/art/placeholder_art.gd`.
+The manual list is `docs/PLAYTEST.md`. Named character sheets live in `assets/characters/` and are rebuilt by `tools/art/author_sprites.gd`. Outdoor tiles, church-lot props, and Oak Street buildings are rebuilt by `tools/art/author_environment.gd`. Item icons are rebuilt by `tools/art/author_items.gd`. Garden soil and crop frames are rebuilt by `tools/art/author_crops.gd`. Unnamed townsfolk and interior furniture still come from `scripts/art/placeholder_art.gd`.
 
 ## Layout
 
@@ -152,8 +154,8 @@ tests/gpa/                           Gameplay A inventory, wallet, shop, and sav
 ## Limitations
 
 - The player, the five named townspeople, and Dell Ostrow use authored 32×48 sheets. Outdoor tiles, the church face, trees, benches, lamps, the notice board, and mailboxes are authored PNGs. Remaining buildings, sanctuary furniture, and unnamed townsfolk are still the original blockout drawn in code. There are no `.ase` sources yet.
-- The notice board is still one line. There is no audio. I opens the pack. Crops in the catalog cannot be planted yet.
-- One save slot, `user://the_calling_save.json`, version 7. A version 1, 2, 3, 4, 5, or 6 file loads. Esc, then Save or Load. Inner voice is a pause-menu toggle after Map. L opens the church ledger after Chapter 1. I opens the personal pack. New Game does not delete the slot. Restart on the chapter screen does.
+- The notice board is still one line. There is no audio. I opens the pack. Church-grounds beds can be tilled, planted, watered, and harvested.
+- One save slot, `user://the_calling_save.json`, version 8. A version 1, 2, 3, 4, 5, 6, or 7 file loads. Esc, then Save or Load. Inner voice is a pause-menu toggle after Map. L opens the church ledger after Chapter 1. I opens the personal pack. New Game does not delete the slot. Restart on the chapter screen does.
 - The clock enters Sunday and stops at Sunday 11:59 p.m. T is a debug skip. Before 10:00 a.m. on Sunday it stops at 10:00. A single frame never moves the clock more than one minute.
 - The Sunday service and the chapter ending use the same confirm keys as dialogue. There is no settings menu, no text-speed slider, and no controller bindings.
 - Unnamed congregants are placeholders. They do not speak. Named people use a seated bust during the service and their standing sheet afterward.

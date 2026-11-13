@@ -5,9 +5,10 @@ const Catalog := preload("res://scripts/systems/item_catalog.gd")
 const Icons := preload("res://scripts/art/item_art.gd")
 
 const COLS := 4
-const CELL := 36
-const PANEL_POS := Vector2(72, 28)
-const PANEL_SIZE := Vector2(496, 304)
+const CELL := 42
+const ICON := 32
+const PANEL_POS := Vector2(64, 12)
+const PANEL_SIZE := Vector2(512, 336)
 
 var _open: bool = false
 var _index: int = 0
@@ -74,9 +75,10 @@ func _ready() -> void:
 	_build_cells()
 	_detail = _make_label("", 14, Color(0.89, 0.82, 0.72))
 	_detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_detail.custom_minimum_size = Vector2(470, 72)
+	_detail.custom_minimum_size = Vector2(480, 36)
+	_detail.size_flags_vertical = Control.SIZE_SHRINK_END
 	body.add_child(_detail)
-	_hint = _make_label("I or Esc  close    E  equip tool", 13, Color(0.78, 0.72, 0.62))
+	_hint = _make_label("I or Esc  close    E  equip tool or seed", 13, Color(0.78, 0.72, 0.62))
 	body.add_child(_hint)
 	var pack := _pack()
 	if pack != null:
@@ -215,8 +217,10 @@ func _equip_selected() -> void:
 	if not row_v is Dictionary:
 		return
 	var item_id := str((row_v as Dictionary).get("id", ""))
-	if pack.has_method("equip"):
+	if Catalog.item_is_tool(item_id) and pack.has_method("equip"):
 		pack.call("equip", item_id)
+	elif Catalog.item_is_seed(item_id) and pack.has_method("equip_seed"):
+		pack.call("equip_seed", item_id)
 	_refresh()
 
 
@@ -265,7 +269,7 @@ func _refresh() -> void:
 	if _detail != null:
 		_detail.text = _detail_text(rows, equipped)
 	if _hint != null:
-		_hint.text = "I or Esc  close    E  equip tool    arrows move"
+		_hint.text = "I or Esc  close    E  equip tool or seed    arrows move"
 
 
 func _detail_text(rows: Array, equipped: String) -> String:
@@ -289,6 +293,15 @@ func _detail_text(rows: Array, equipped: String) -> String:
 			lines.append("Equipped.")
 		else:
 			lines.append("E equips this tool.")
+	elif Catalog.item_is_seed(item_id):
+		var prepared := ""
+		var pack := _pack()
+		if pack != null and pack.has_method("equipped_seed"):
+			prepared = str(pack.call("equipped_seed"))
+		if prepared == item_id:
+			lines.append("Ready to plant.")
+		else:
+			lines.append("E prepares this seed for planting.")
 	else:
 		lines.append("Consumable.")
 	return "\n".join(lines)
@@ -311,14 +324,16 @@ func _build_cells() -> void:
 		var icon := TextureRect.new()
 		icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		icon.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-		icon.position = Vector2(6, 6)
-		icon.custom_minimum_size = Vector2(16, 16)
-		icon.stretch_mode = TextureRect.STRETCH_KEEP
+		icon.position = Vector2(6, 4)
+		icon.custom_minimum_size = Vector2(ICON, ICON)
+		icon.size = Vector2(ICON, ICON)
+		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		inner.add_child(icon)
 		var qty := Label.new()
 		qty.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		qty.position = Vector2(16, 16)
-		qty.add_theme_font_size_override("font_size", 10)
+		qty.position = Vector2(20, 22)
+		qty.add_theme_font_size_override("font_size", 11)
 		qty.add_theme_color_override("font_color", Color(0.93, 0.88, 0.78))
 		inner.add_child(qty)
 		_grid.add_child(cell)

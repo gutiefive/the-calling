@@ -1,0 +1,41 @@
+{
+  "action_minutes": 8,
+  "crops": [
+    {
+      "id": "lettuce",
+      "name": "Lettuce",
+      "seed_id": "lettuce_seeds",
+      "item_id": "lettuce",
+      "watered_days": 2,
+      "yield": 1,
+      "role": "quick requests"
+    },
+    {
+      "id": "carrots",
+      "name": "Carrots",
+      "seed_id": "carrot_seeds",
+      "item_id": "carrots",
+      "watered_days": 3,
+      "yield": 2,
+      "role": "food deliveries"
+    },
+    {
+      "id": "tomatoes",
+      "name": "Tomatoes",
+      "seed_id": "tomato_seeds",
+      "item_id": "tomatoes",
+      "watered_days": 4,
+      "yield": 3,
+      "role": "community meals"
+    },
+    {
+      "id": "flowers",
+      "name": "Flowers",
+      "seed_id": "flower_seeds",
+      "item_id": "flowers",
+      "watered_days": 3,
+      "yield": 2,
+      "role": "gifts and decoration"
+    }
+  ]
+}

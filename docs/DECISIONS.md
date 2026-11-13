@@ -311,7 +311,19 @@ The first repeatable loop needs a pack before it needs a farm. Phase A adds item
 
 **Save.** Version 7. A version 6 file gains an empty pack and starting cash. Flags, funds, leanings, and threads pass through.
 
-Phases B–F (garden plots, requests, repairs, potluck) are specified in `docs/GAMEPLAY_LOOPS.md` and are not built.
+Phases C–F (requests, repairs, potluck, integration) are specified in `docs/GAMEPLAY_LOOPS.md` and are not built.
+
+## D53 — Church vegetable garden (Gameplay B)
+
+The repeatable garden is on the **church grounds**, not Maple Lane. Nine plots sit in a tidy fenced bed east of the picnic lawn, south of the drive, inside the campus fence (`GroundsLayout.VEG_GARDEN`). The memorial garden, parking lot, main paths, doors, and the five Future Site lots in `data/grounds/plots.json` stay clear. The Phase A seed crate moved here. Maple Lane's Chapter 1 plot, weeds, and `garden_cleared` / `garden_planted` / `garden_growth` are untouched.
+
+**Loop.** Hoe tills, a prepared seed packet plants (one consumed), watering can marks watered, growth ticks once per morning if watered, harvest yields catalog crops. Unwatered crops pause and never die. Ready crops need no water. Sunday does not destroy them. `last_processed_day` stops double-counting. No energy bar. Wrong tool names what would help and changes nothing.
+
+**Onboarding.** Ruth still walks Maple Lane (one place). She left a skippable card at the church garden with the five steps. Plot prompts carry the rest. A neighbor by the gate may comment if the beds look tended, with no numbers.
+
+**Story.** Growing food is neutral. Gardening does not raise Pull, attendance, dependents, or ChurchFunds.
+
+**Save.** Version 8. A version 7 file gains empty untilled plots and keeps everything else.
 
 ## Still open
 

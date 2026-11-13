@@ -45,6 +45,11 @@ const COURTYARD := Rect2i(22, 19, 14, 8)
 const PARKING := Rect2i(42, 18, 14, 6)
 const PICNIC := Rect2i(20, 32, 18, 10)
 const GARDEN := Rect2i(3, 3, 9, 8)
+const VEG_GARDEN := Rect2i(39, 32, 9, 9)
+const VEG_PLOT_ORIGIN := Vector2(1344, 1120)
+const VEG_PLOT_STRIDE := 48.0
+const VEG_CRATE := Vector2(1288, 1168)
+const VEG_NOTE := Vector2(1288, 1136)
 const DRIVE := Rect2i(36, 25, 28, 5)
 
 
@@ -98,6 +103,12 @@ static func church_east_jamb_center() -> Vector2:
 
 static func church_jamb_size() -> Vector2:
 	return Vector2(160, 28)
+
+
+static func veg_plot_position(index: int) -> Vector2:
+	var col := index % 3
+	var row := int(index / 3)
+	return VEG_PLOT_ORIGIN + Vector2(float(col) * VEG_PLOT_STRIDE, float(row) * VEG_PLOT_STRIDE)
 
 
 static func north_border_center() -> Vector2:

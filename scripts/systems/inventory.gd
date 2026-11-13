@@ -12,6 +12,7 @@ signal equipped_changed
 var _slots: Array[Dictionary] = []
 var _cash: int = 0
 var _equipped: String = ""
+var _seed: String = ""
 
 
 func _ready() -> void:
@@ -22,6 +23,7 @@ func reset() -> void:
 	_slots.clear()
 	_cash = Catalog.starting_cash()
 	_equipped = ""
+	_seed = ""
 	inventory_changed.emit()
 	wallet_changed.emit()
 	equipped_changed.emit()
@@ -150,6 +152,9 @@ func remove(item_id: String, amount: int = 1) -> int:
 		if _equipped == item_id and quantity(item_id) <= 0:
 			_equipped = ""
 			equipped_changed.emit()
+		if _seed == item_id and quantity(item_id) <= 0:
+			_seed = ""
+			equipped_changed.emit()
 		item_consumed.emit(item_id, removed)
 		inventory_changed.emit()
 	return removed
@@ -166,6 +171,10 @@ func equipped_tool() -> String:
 	return _equipped
 
 
+func equipped_seed() -> String:
+	return _seed
+
+
 func equip(item_id: String) -> bool:
 	if item_id.is_empty():
 		if _equipped.is_empty():
@@ -178,6 +187,22 @@ func equip(item_id: String) -> bool:
 	if _equipped == item_id:
 		return true
 	_equipped = item_id
+	equipped_changed.emit()
+	return true
+
+
+func equip_seed(item_id: String) -> bool:
+	if item_id.is_empty():
+		if _seed.is_empty():
+			return true
+		_seed = ""
+		equipped_changed.emit()
+		return true
+	if not Catalog.item_is_seed(item_id) or quantity(item_id) <= 0:
+		return false
+	if _seed == item_id:
+		return true
+	_seed = item_id
 	equipped_changed.emit()
 	return true
 
@@ -230,6 +255,12 @@ func grant_starter(kind: String) -> bool:
 			return false
 	for row in rows:
 		add(str(row.get("id", "")), int(row.get("qty", 1)))
+	if kind == "seeds" and _seed.is_empty():
+		for row in rows:
+			var seed_id := str(row.get("id", ""))
+			if Catalog.item_is_seed(seed_id):
+				equip_seed(seed_id)
+				break
 	var flag := Catalog.starter_flag(kind)
 	var story := get_node_or_null("/root/NarrativeState")
 	if story != null and story.has_method("set_flag") and not flag.is_empty():
@@ -244,6 +275,7 @@ func to_dictionary() -> Dictionary:
 	return {
 		"slots": slot_rows,
 		"equipped": _equipped,
+		"seed": _seed,
 		"cash": _cash,
 	}
 
@@ -277,6 +309,11 @@ func from_dictionary(data: Dictionary) -> void:
 			_equipped = tools_owned()[0]
 	else:
 		_equipped = equipped
+	var seed := str(data.get("seed", ""))
+	if seed.is_empty() or quantity(seed) <= 0 or not Catalog.item_is_seed(seed):
+		_seed = ""
+	else:
+		_seed = seed
 	inventory_changed.emit()
 	wallet_changed.emit()
 	equipped_changed.emit()

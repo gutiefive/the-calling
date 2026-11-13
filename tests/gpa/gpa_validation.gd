@@ -206,20 +206,27 @@ func _pickup_and_shop_nodes() -> void:
 	home.free()
 	await _pump(1)
 	NarrativeState.reset()
+	var grounds := _instance("res://scenes/world/church_exterior.tscn")
+	if grounds == null:
+		return
+	await _pump(2)
+	var crate := grounds.get_node_or_null("Props/SeedCrate") as ItemPickup
+	_check(crate != null, "the church garden has a seed crate")
+	if crate != null:
+		crate.interact(null)
+		_check(NarrativeState.flag_is_true("starter_seeds_taken"), "using the crate grants seeds")
+		_check(not NarrativeState.flag_is_true("garden_cleared"), "taking leftover seed does not clear the Maple Lane plot")
+		crate.interact(null)
+		_check(int(_pack().call("quantity", "lettuce_seeds")) == 4, "using the crate again does not duplicate seeds")
+	grounds.free()
+	await _pump(1)
 	var lane := _instance("res://scenes/world/maple_lane.tscn")
 	if lane == null:
 		return
 	await _pump(2)
-	var crate := lane.get_node_or_null("Props/SeedCrate") as ItemPickup
 	var plot := lane.get_node_or_null("Props/Garden") as GardenPlot
-	_check(crate != null, "the garden has a seed crate")
 	_check(plot != null, "the Chapter 1 garden plot is still there")
-	if crate != null:
-		crate.interact(null)
-		_check(NarrativeState.flag_is_true("starter_seeds_taken"), "using the crate grants seeds")
-		_check(not NarrativeState.flag_is_true("garden_cleared"), "taking leftover seed does not clear the plot")
-		crate.interact(null)
-		_check(int(_pack().call("quantity", "lettuce_seeds")) == 4, "using the crate again does not duplicate seeds")
+	_check(lane.get_node_or_null("Props/SeedCrate") == null, "the seed crate is no longer on Maple Lane")
 	lane.free()
 	await _pump(1)
 	var store := _instance("res://scenes/world/hardware_interior.tscn")
@@ -291,11 +298,11 @@ func _save_roundtrip() -> void:
 		return
 	player.global_position = Vector2(420, 510)
 	var saved := SaveGame.save_to_disk(get_tree())
-	_check(saved, "a version 7 save writes")
+	_check(saved, "a version 8 save writes")
 	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(SaveGame.SAVE_PATH))
 	_check(parsed is Dictionary, "the save file is an object")
 	var row: Dictionary = parsed if parsed is Dictionary else {}
-	_check(int(row.get("version", -1)) == 7, "the save file is version 7")
+	_check(int(row.get("version", -1)) == 8, "the save file is version 8")
 	_check(row.has("inventory"), "the save stores inventory")
 	var inv_row: Dictionary = row.get("inventory", {}) if row.get("inventory", {}) is Dictionary else {}
 	_check(int(inv_row.get("cash", -1)) == 12, "the save stores wallet cash")
@@ -303,7 +310,7 @@ func _save_roundtrip() -> void:
 	_check(int(pack.call("cash")) == 20 and int(pack.call("quantity", "wood")) == 0, "reset restores empty pack and starting cash")
 	_check(int(funds.get("balance")) == 55, "reset restores church starting balance")
 	var loaded := SaveGame.read_file()
-	_check(int(loaded.get("version", 0)) == 7, "read_file keeps version 7")
+	_check(int(loaded.get("version", 0)) == 8, "read_file keeps version 8")
 	SaveGame.apply_state(loaded)
 	_check(int(pack.call("cash")) == 12, "load restores the wallet")
 	_check(int(pack.call("quantity", "wood")) == 3, "load restores wood")
@@ -334,7 +341,7 @@ func _old_save_migration() -> void:
 			"growth": {"community_trust": 1, "attendance": 17},
 		},
 	})
-	_check(int(from_v6.get("version", 0)) == 7, "a version 6 file migrates to version 7")
+	_check(int(from_v6.get("version", 0)) == 8, "a version 6 file migrates to version 8")
 	var inv_v: Variant = from_v6.get("inventory", {})
 	var inv: Dictionary = inv_v if inv_v is Dictionary else {}
 	_check(int(inv.get("cash", -1)) == 20, "v6 migration adds starting wallet cash")
@@ -352,7 +359,7 @@ func _old_save_migration() -> void:
 			flags = flags_v
 	_check(bool(flags.get("frank_listened", false)) and bool(flags.get("spare_keys_returned", false)), "v6 migration keeps story flags")
 	_check(int(from_v6.get("run_seed", 0)) == 42, "v6 migration keeps the run seed")
-	_check(SaveGame.migrate({"version": 8, "scene": "res://scenes/world/church_exterior.tscn"}).is_empty(), "a newer save is still rejected")
+	_check(SaveGame.migrate({"version": 9, "scene": "res://scenes/world/church_exterior.tscn"}).is_empty(), "a newer save is still rejected")
 	var pack := _pack()
 	var funds := _funds()
 	NarrativeState.reset()

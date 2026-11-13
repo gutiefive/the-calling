@@ -1,6 +1,6 @@
 # Roadmap — The Calling
 
-Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md`. This file is the current cut line. M12 (church grounds campus) is implemented. Gameplay A (inventory and items) is implemented. Next: Gameplay B (Maple Lane gardening) unless Nathan sends the work elsewhere. Chapter 2 storylines are not started.
+Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md`. This file is the current cut line. M12 (church grounds campus) is implemented. Gameplay A (inventory and items) and Gameplay B (church garden) are implemented. Next: Gameplay C (community requests) unless Nathan sends the work elsewhere. Chapter 2 storylines are not started.
 
 | Milestone | Status |
 |---|---|
@@ -24,7 +24,7 @@ Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md
 | M11C Rooftop signs | Implemented. Storefront names sit on the parapet, not hanging in front of the door. Evening townsfolk stand off to the side. |
 | M12 Church grounds campus | Implemented. Perimeter and one main gate, courtyard, parking, garden, picnic lawn, and data-driven expansion plots. Fellowship Hall repair unchanged. |
 | Gameplay A Inventory and items | Implemented. Data-driven catalog, pack, personal wallet, I-panel, hardware shop, starter tools and seeds, save v7. See `docs/GAMEPLAY_LOOPS.md`. |
-| Gameplay B Gardening | Not started. Maple Lane plots, hoe / seed / water / harvest, morning growth. |
+| Gameplay B Gardening | Implemented. Nine church-grounds plots east of the picnic lawn, hoe / seed / water / harvest, morning growth, save v8. Maple Lane Chapter 1 plot unchanged. See `docs/GAMEPLAY_LOOPS.md`. |
 | Gameplay C Community requests | Not started. Sarah, Margaret, Harold, garden hands. Journal tracking. |
 | Gameplay D Interactive repairs | Not started. Fence, weeds, litter, flower bed. Keep GroundsChore flags. |
 | Gameplay E Weekly potluck | Not started. Extend the M8 happening; do not duplicate Sunday. |
@@ -151,3 +151,11 @@ A data-driven item catalog, a 16-slot pack, a personal wallet separate from Chur
 ## Gameplay A does not include
 
 Planting, watering, harvest, community requests, staged repairs, or the potluck. Those are B–E. Scrap has no source yet.
+
+## Gameplay B includes
+
+Nine individually interactable plots in a fenced vegetable garden on the church grounds (east of the picnic lawn, not the memorial garden and not a Future Site lot). Hoe, seed, water, overnight growth if watered, harvest into the pack. Crop data in `data/crops/catalog.json`. The Maple Lane Chapter 1 plot and flags stay as they were. The starter seed crate sits in the church garden. Saves are version 8. A version 7 file loads with empty untilled plots. Gardening does not raise Pull, attendance, or ChurchFunds.
+
+## Gameplay B does not include
+
+Community requests, staged repairs, or the potluck. Those are C–E. Harvests are items with no automatic story effect.

@@ -16,7 +16,7 @@ func _ready() -> void:
 	anchor_bottom = 1.0
 	offset_left = 8.0
 	offset_top = -34.0
-	offset_right = 220.0
+	offset_right = 280.0
 	offset_bottom = -8.0
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color(0.14, 0.11, 0.16, 0.86)
@@ -77,13 +77,21 @@ func _refresh() -> void:
 		return
 	var pack := get_node_or_null("/root/Inventory")
 	var equipped := ""
+	var seed := ""
 	if pack != null and pack.has_method("equipped_tool"):
 		equipped = str(pack.call("equipped_tool"))
-	if equipped.is_empty():
+	if pack != null and pack.has_method("equipped_seed"):
+		seed = str(pack.call("equipped_seed"))
+	if equipped.is_empty() and seed.is_empty():
 		visible = false
 		return
 	visible = true
+	var shown := equipped if not equipped.is_empty() else seed
 	if _icon != null:
-		_icon.texture = Icons.icon(equipped)
+		_icon.texture = Icons.icon(shown)
 	if _label != null:
-		_label.text = Catalog.display_name(equipped)
+		var text := Catalog.display_name(equipped) if not equipped.is_empty() else ""
+		if not seed.is_empty():
+			var seed_name := Catalog.display_name(seed)
+			text = seed_name if text.is_empty() else "%s · %s" % [text, seed_name]
+		_label.text = text

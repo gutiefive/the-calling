@@ -89,6 +89,9 @@ func reset() -> void:
 	var pack := get_node_or_null("/root/Inventory")
 	if pack != null and pack.has_method("reset"):
 		pack.call("reset")
+	var garden := get_node_or_null("/root/GardenState")
+	if garden != null and garden.has_method("reset"):
+		garden.call("reset")
 
 
 func set_flag(key: String, value: Variant) -> void:
