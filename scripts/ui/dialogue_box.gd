@@ -178,6 +178,8 @@ func _refresh_text() -> void:
 		return
 	var full := _runner.body()
 	var shown := full.substr(0, mini(_reveal, full.length()))
+	if _runner.is_thought():
+		shown = "[i]%s[/i]" % shown
 	var text := shown
 	if not _runner.speaker().is_empty():
 		text = "[color=#%s]%s[/color]\n%s" % [NAME_COLOR, _runner.speaker(), shown]

@@ -17,6 +17,7 @@ const POS_WIN_R := Vector2(696, 256)
 const POS_STREET_DOOR := Vector2(1040, 640)
 const POS_FROM_STREET := Vector2(920, 640)
 const POS_HAROLD := Vector2(640, 420)
+const POS_OSTROW := Vector2(640, 520)
 
 
 func area_name() -> String:
@@ -73,6 +74,7 @@ func _place_props() -> void:
 	_feet_offset("Props/Mat")
 	_place("Props/Margaret", POS_MARGARET)
 	_place("Props/Harold", POS_HAROLD)
+	_place("Props/Ostrow", POS_OSTROW)
 	_place("Props/Notice", POS_NOTICE)
 	_place("Props/Bench", POS_BENCH)
 	_feet_offset("Props/Bench")

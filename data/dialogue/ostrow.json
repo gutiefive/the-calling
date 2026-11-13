@@ -1,0 +1,23 @@
+{
+  "id": "ostrow",
+  "start": "start",
+  "nodes": {
+    "start": {
+      "router": [
+        {"if": {"flag": "ostrow_met"}, "next": "later"},
+        {"next": "greet"}
+      ]
+    },
+    "greet": {
+      "speaker": "Dell Ostrow",
+      "text": "Councilman Dell Ostrow. Pastor Reece and I got a lot done together. You need anything at the hall, you call me first.",
+      "set_flags": {"ostrow_met": true},
+      "end": true
+    },
+    "later": {
+      "speaker": "Dell Ostrow",
+      "text": "I'm only on the walk a minute. Reece knew how to get a week moving. You'll get there.",
+      "end": true
+    }
+  }
+}

@@ -2,6 +2,7 @@
   "people": [
     {
       "id": "ada",
+      "outsider": true,
       "lines": [
         {"days": ["Thursday"], "phases": ["Day"], "text": "The hardware door sticks if you shove it. Thomas says that's character."},
         {"days": ["Friday"], "phases": ["Day"], "text": "Frank's got boxes on the walk. I'm stepping around them."},
@@ -15,6 +16,7 @@
     },
     {
       "id": "ben",
+      "outsider": true,
       "lines": [
         {"days": ["Thursday"], "phases": ["Day"], "text": "New to the block? The lane west of here finds the church."},
         {"days": ["Friday"], "phases": ["Day"], "text": "Delivery day. Don't trip on the crates by the store."},
@@ -27,6 +29,7 @@
     },
     {
       "id": "cleo",
+      "outsider": true,
       "lines": [
         {"days": ["Thursday"], "phases": ["Day"], "text": "Margaret's flowers are the bright spot on that church wall."},
         {"days": ["Friday"], "phases": ["Day"], "text": "Frank's been at those boxes since the truck left."},
@@ -48,7 +51,7 @@
     {
       "id": "ruth",
       "lines": [
-        {"days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "phases": ["Day"], "text": "The garden plot's gone to weeds. Somebody could still put seed in it."},
+        {"days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "phases": ["Day"], "text": "Pastor Reece used to say the garden was how you learn who'll show up. The plot's gone to weeds."},
         {"phases": ["Evening"], "text": "The bench is wet with dew already. I'm done for the day."},
         {"text": "Morning's the quiet end of the lane."}
       ]

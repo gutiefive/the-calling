@@ -199,6 +199,18 @@ Character drop shadows moved up from a few pixels below the shoes to sit under t
 
 Unnamed townsfolk, remaining buildings, and interior furniture stay on `PlaceholderArt`.
 
+## D42 — The quiet ambition (new direction)
+
+Nathan approved `docs/SPIRITUAL_TURN_PROPOSAL.md`. The surface stays a cozy pastor RPG. Underneath, Chapter 2 onward is about whether the player feeds a hunger to have the town run through the church. Faith is not the villain. Insiders never say "cult". Pull is hidden. Influence climbs a ladder from personal trust to a voice on the council. M7 only seeds Chapter 1 and records Pull. Later milestones in that proposal are not started.
+
+## D43 — Save version 4 and Chapter 1 seeds (M7)
+
+The file version is 4. It adds hidden influence (seats, storefronts, dependents, a general total, ladder stage) and an empty `chapter` field. Version 3 gains those at zero / trust / "". Version 2 still gains the church measures, then the same influence defaults. Version 1 still gains an empty sermon theme first. A missing version is still rejected. A newer version is still rejected.
+
+The M5A checks that a migrated or fresh file "is version 3" now compare against `SaveGame.SAVE_VERSION`. The M5A check that a newer file is rejected now uses version 5, so the engine still prints `Save version 5 is not supported` before that `CHECK OK`.
+
+Chapter 1 still plays as before. The seeds are extra lines and one Saturday visitor, Dell Ostrow. Returning the spare keys sets `has_reece_key` for a file box that does not exist yet. Pull changes on the Frank and Sarah choices do not change those outcomes. Inner-voice thoughts are optional italic lines after a choice, default on, toggled from the pause menu after Map so Resume / Save / Load stay the first three rows.
+
 ## Still open
 
 | # | Question | Notes |

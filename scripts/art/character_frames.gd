@@ -14,7 +14,7 @@ const MAP_Y := 7
 
 const FACINGS: PackedStringArray = ["down", "up", "left", "right"]
 const NAMES: PackedStringArray = [
-	"player", "margaret", "harold", "thomas", "frank", "sarah"
+	"player", "margaret", "harold", "thomas", "frank", "sarah", "ostrow"
 ]
 
 
@@ -85,6 +85,8 @@ static func _kit(who: String) -> Dictionary:
 			return _colors("stocky", "grey_d", "grey", "grey", "grey_d", "gravel_d", "pants", "pants_d", "grey_d", "path_c")
 		"sarah":
 			return _colors("skirt", "hair", "hair_l", "flower", "flower2", "brick_d", "skirt", "skirt_d", "wood", "cream")
+		"ostrow":
+			return _colors("slim", "hair", "hair_l", "grey_d", "grey", "pants", "pants", "pants_d", "grey", "cream")
 		_:
 			return _colors("slim", "hair", "hair_l", "shirt", "shirt_l", "shirt_d", "pants", "pants_d", "paper", "gold")
 
@@ -150,6 +152,8 @@ static func _hair(who: String, facing: String) -> PackedStringArray:
 			return _HAIR_FRANK_SIDE if facing == "left" else (_HAIR_FRANK_UP if facing == "up" else _HAIR_FRANK_DOWN)
 		"sarah":
 			return _HAIR_SARAH_SIDE if facing == "left" else (_HAIR_SARAH_UP if facing == "up" else _HAIR_SARAH_DOWN)
+		"ostrow":
+			return _HAIR_OSTROW_SIDE if facing == "left" else (_HAIR_OSTROW_UP if facing == "up" else _HAIR_OSTROW_DOWN)
 		_:
 			return _HAIR_PLAYER_SIDE if facing == "left" else (_HAIR_PLAYER_UP if facing == "up" else _HAIR_PLAYER_DOWN)
 
@@ -168,6 +172,8 @@ static func _extra(who: String, facing: String) -> PackedStringArray:
 			return _EMPTY
 		"sarah":
 			return _EXTRA_BAG_SIDE if facing == "left" else (_EMPTY if facing == "up" else _EXTRA_BAG_DOWN)
+		"ostrow":
+			return _EXTRA_OSTROW_SIDE if facing == "left" else (_EMPTY if facing == "up" else _EXTRA_OSTROW_DOWN)
 		_:
 			return _EMPTY
 
@@ -1030,4 +1036,88 @@ const _EXTRA_BAG_SIDE: PackedStringArray = [
 	"...........xx...",
 	"..........xxx...",
 	"..........xxx...",
+]
+
+const _HAIR_OSTROW_DOWN: PackedStringArray = [
+	"................",
+	"....xhhhhhhx....",
+	"...xhhhhhhhhx...",
+	"...xhHHHHHHhx...",
+	"...hhsssssshh...",
+	"...x........x...",
+	"................",
+	"................",
+	"................",
+	"................",
+	"................",
+	"................",
+]
+
+const _HAIR_OSTROW_UP: PackedStringArray = [
+	"................",
+	"....xhhhhhhx....",
+	"...xhhhhhhhhx...",
+	"...hhhhhhhhhh...",
+	"...xhHHHHHHhx...",
+	"...xhhhhhhhhx...",
+	"....xhhhhhhx....",
+	"................",
+	"................",
+	"................",
+	"................",
+	"................",
+]
+
+const _HAIR_OSTROW_SIDE: PackedStringArray = [
+	"................",
+	".....hhhhhhx....",
+	"....hhhhhhhhx...",
+	"....hhHHHHHhx...",
+	"....h....xhhx...",
+	".........xhx....",
+	"..........x.....",
+	"................",
+	"................",
+	"................",
+	"................",
+	"................",
+]
+
+const _EXTRA_OSTROW_DOWN: PackedStringArray = [
+	"................",
+	"................",
+	"................",
+	"................",
+	"................",
+	"................",
+	"................",
+	"................",
+	"................",
+	"................",
+	"................",
+	"................",
+	"......yyyy......",
+	"......y..y......",
+	".......z........",
+	".......z........",
+	".......z........",
+]
+
+const _EXTRA_OSTROW_SIDE: PackedStringArray = [
+	"................",
+	"................",
+	"................",
+	"................",
+	"................",
+	"................",
+	"................",
+	"................",
+	"................",
+	"................",
+	"................",
+	"................",
+	"......yy........",
+	"......y.........",
+	"......z.........",
+	"......z.........",
 ]

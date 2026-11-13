@@ -16,27 +16,32 @@
       "text": "You gave Sarah something she can repeat to the kids. Harold will want numbers before supper. The ledger is on the west table when you are ready.",
       "set_flags": {"margaret_sunday": true},
       "quest": {"id": "first_sunday", "step": "ledger"},
-      "end": true
+      "next": "shepherd"
     },
     "forgiveness": {
       "speaker": "Margaret",
       "text": "Frank stayed through it. He did not clap. That is new. The ledger is on the west table. I did not want it before the hymn.",
       "set_flags": {"margaret_sunday": true},
       "quest": {"id": "first_sunday", "step": "ledger"},
-      "end": true
+      "next": "shepherd"
     },
     "service": {
       "speaker": "Margaret",
       "text": "Thomas heard a list, and Harold heard permission to fix things. The ledger is on the west table. Lists do not pay the oil bill.",
       "set_flags": {"margaret_sunday": true},
       "quest": {"id": "first_sunday", "step": "ledger"},
-      "end": true
+      "next": "shepherd"
     },
     "plain": {
       "speaker": "Margaret",
       "text": "The room stayed. That is the whole victory. The ledger is on the west table when you want the rest of it.",
       "set_flags": {"margaret_sunday": true},
       "quest": {"id": "first_sunday", "step": "ledger"},
+      "next": "shepherd"
+    },
+    "shepherd": {
+      "speaker": "Margaret",
+      "text": "Thank you, Shepherd. Pastor. Sorry. That's what we called him.",
       "end": true
     },
     "again": {

@@ -10,6 +10,12 @@ residents, faces difficult moral and leadership choices, and helps a fractured c
 **Core dramatic question:** Can a new pastor help a struggling church become a healthy part of the town without
 losing their integrity, ignoring difficult truths, or treating relationships as transactions?
 
+## Direction
+From M7, the long story follows `docs/SPIRITUAL_TURN_PROPOSAL.md` (D42): a good person discovering how much they like
+being needed, and how far they will go to make a town run through their church. Chapter 1 still plays as the arrival
+and first Sunday. Pull, the influence ladder, and later systems stay hidden or unbuilt until their milestones. Insiders
+never say "cult". The previous pastor is Alden Reece.
+
 ## Setting
 - **Oakridge** — fictional contemporary American small town (~2,400 residents): main street, diner, auto repair shop,
   hardware store, homes, park, small aging church. The game starts in a constrained neighborhood slice.

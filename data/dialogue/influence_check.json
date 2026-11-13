@@ -1,0 +1,28 @@
+{
+  "id": "influence_check",
+  "start": "start",
+  "nodes": {
+    "start": {
+      "router": [
+        {"if": {"pull_at_least": 2}, "next": "high"},
+        {"if": {"influence_stage_at_least": 1}, "next": "trust"},
+        {"next": "none"}
+      ]
+    },
+    "high": {
+      "speaker": "You",
+      "text": "high pull",
+      "end": true
+    },
+    "trust": {
+      "speaker": "You",
+      "text": "trust stage",
+      "end": true
+    },
+    "none": {
+      "speaker": "You",
+      "text": "none",
+      "end": true
+    }
+  }
+}

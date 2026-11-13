@@ -69,6 +69,12 @@
       "entries": [
         {"days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "from": "09:00", "until": "17:00", "scene": "maple_lane", "position": [520, 760]}
       ]
+    },
+    {
+      "id": "ostrow",
+      "entries": [
+        {"days": ["Saturday"], "from": "09:00", "until": "17:00", "scene": "church_exterior", "position": [640, 520]}
+      ]
     }
   ]
 }

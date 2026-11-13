@@ -213,8 +213,8 @@ godot --headless --path . res://tests/m5a/m5a_validation.tscn
 ```
 
 `m5a_validation.tscn` prints `CHECK OK` / `CHECK FAIL` lines and exits with `M5A_OK` or `M5A_FAIL`.
-It checks sleep and the morning card, Maple Lane both ways and on the map, open and shut shops, the soft church words, the grounds and the garden, a chapter ending that skipped both jobs, Frank across Friday and Saturday, a version 3 round trip, and a version 2 file migrating forward.
-The M3 run still prints `Save is missing a version` before the check that rejects it. The M5A run prints `Save version 4 is not supported` before the check that rejects a newer file. Both suites then exit 0.
+It checks sleep and the morning card, Maple Lane both ways and on the map, open and shut shops, the soft church words, the grounds and the garden, a chapter ending that skipped both jobs, Frank across Friday and Saturday, a current-version round trip, and a version 2 file migrating forward.
+The M3 run still prints `Save is missing a version` before the check that rejects it. The M5A run prints `Save version 5 is not supported` before the check that rejects a newer file. Both suites then exit 0. Save files are version 4 as of M7.
 
 ## Manual
 
@@ -254,7 +254,7 @@ godot --headless --path . res://tests/m5b/m5b_validation.tscn
 
 `m5b_validation.tscn` prints `CHECK OK` / `CHECK FAIL` lines and exits with `M5B_OK` or `M5B_FAIL`.
 It samples every named person on every weekday, including a second week, and checks that the schedule and the loaded rooms agree on at most one place. It continues past the ledger, sleeps through a full week into the next Monday, checks the quiet second Sunday, and round-trips a save on Friday of that second week. It also checks the shop-door lip, the named prompt, the fade, and Esc on the journal and the map.
-The M3 run still prints `Save is missing a version` before the check that rejects it. The M5A run prints `Save version 4 is not supported` before the check that rejects a newer file. Both suites then exit 0. M3 now prints 109 checks because the Friday shop check looks inside and also asserts the sidewalk copies are hidden.
+The M3 run still prints `Save is missing a version` before the check that rejects it. The M5A run prints `Save version 5 is not supported` before the check that rejects a newer file. Both suites then exit 0. M3 now prints 109 checks because the Friday shop check looks inside and also asserts the sidewalk copies are hidden. Save files are version 4 as of M7.
 
 ## Manual
 
@@ -335,3 +335,41 @@ It checks that the tileset PNG is 256×64 and palette-only, that `town_tiles.tre
 ## M6A2 results
 
 On 2026-11-12, `Godot_v4.7.2-stable_win64_console.exe --headless --path . res://tests/m6a2/m6a2_validation.tscn` printed 128 `CHECK OK` lines and `M6A2_OK`, and exited 0. The same binary printed `M1_OK`, `M2_OK`, `M3_OK`, `M4_OK`, `M4_5_OK`, `M5A_OK`, `M5B_OK`, `M6A_OK`, and `TOOLCHAIN_OK`, each exiting 0. T53–T54 were not played in a window.
+
+# Milestone 7 test plan
+
+These checks cover hidden Pull, save v4, Chapter 1 seeds, Dell Ostrow, the inner voice, and the no-cult scan. Chapter 1 still plays start to finish.
+
+## Automated
+
+```powershell
+godot --headless --path . --import
+godot --headless --path . res://tests/m1/m1_validation.tscn
+godot --headless --path . res://tests/m2/m2_validation.tscn
+godot --headless --path . res://tests/m3/m3_validation.tscn
+godot --headless --path . res://tests/m4/m4_validation.tscn
+godot --headless --path . res://tests/m4_5/m4_5_validation.tscn
+godot --headless --path . res://tests/m5a/m5a_validation.tscn
+godot --headless --path . res://tests/m5b/m5b_validation.tscn
+godot --headless --path . res://tests/m6a/m6a_validation.tscn
+godot --headless --path . res://tests/m6a2/m6a2_validation.tscn
+godot --headless --path . res://tests/m7/m7_validation.tscn
+```
+
+`m7_validation.tscn` prints `CHECK OK` / `CHECK FAIL` lines and exits with `M7_OK` or `M7_FAIL`.
+It checks that InfluenceState starts at 0, that add_pull and the new dialogue conditions work, that Pull is not printed in the journal or HUD, that save v4 round-trips and v3 migrates, that each seed line and flag is present, that Ostrow's sheet is palette-only and wired with idle/walk, that Frank and Sarah's choices move Pull, that the no-cult scan passes, and that the ledger still ends Chapter 1.
+
+## Manual
+
+| ID | Do this | Expect |
+|---|---|---|
+| T55 | Return the spare keys to Margaret | She still thanks you. She also mentions an old key that fits nothing, and that Pastor Reece kept it. |
+| T56 | Talk to Margaret after the first Sunday | She still points to the ledger. She also says "Thank you, Shepherd," then corrects to Pastor. |
+| T57 | Read the ledger | She still names the oil bill. She also names unrecognized deposits the week before a council vote. The chapter ending still opens. Continue in Oakridge still works. |
+| T58 | Saturday daytime on the church walk | Councilman Dell Ostrow is there. He is friendly and a little too familiar. Pastor Reece and he "got a lot done together." |
+| T59 | Talk to Ruth at the Maple Lane garden | She mentions Pastor Reece and how you learn who'll show up. |
+| T60 | After the sermon, and on the pause menu | An italic thought may follow the sermon choice. Pause, Inner voice, toggles it. The journal and HUD never show Pull as a number. |
+
+## M7 results
+
+On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . res://tests/m7/m7_validation.tscn` printed 93 `CHECK OK` lines and `M7_OK`, and exited 0. The same binary printed `M1_OK`, `M2_OK`, `M3_OK`, `M4_OK`, `M4_5_OK`, `M5A_OK`, `M5B_OK`, `M6A_OK`, and `M6A2_OK`, each exiting 0. T55–T60 were not played in a window. The M5A run prints `Save version 5 is not supported` before the check that rejects a newer file, then exits 0.

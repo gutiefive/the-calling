@@ -122,6 +122,22 @@ npc_id = "harold"
 
 [node name="Sprite" type="AnimatedSprite2D" parent="Props/Harold"]
 
+[node name="Ostrow" type="Node2D" parent="Props"]
+position = Vector2(640, 520)
+script = ExtResource("8_talk")
+prompt_text = "Speak with Dell Ostrow"
+radius = 40.0
+blocks_movement = true
+block_size = Vector2(12, 8)
+speaker_name = "Dell Ostrow"
+art_id = "ostrow"
+frame_count = 2
+fps = 1.5
+dialogue_id = "ostrow"
+npc_id = "ostrow"
+
+[node name="Sprite" type="AnimatedSprite2D" parent="Props/Ostrow"]
+
 [node name="Door" type="Node2D" parent="Props"]
 position = Vector2(576, 286)
 script = ExtResource("6_door")

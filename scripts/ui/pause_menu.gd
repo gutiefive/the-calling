@@ -1,7 +1,7 @@
 extends Control
 ## Esc pauses. Up and Down choose. E, Space, or Enter confirms Save or Load.
 
-const OPTIONS: PackedStringArray = ["Resume", "Save", "Load", "Map"]
+const OPTIONS: PackedStringArray = ["Resume", "Save", "Load", "Map", "Inner voice"]
 
 @onready var _title: Label = $Center/Title
 @onready var _hint: Label = $Center/Hint
@@ -24,8 +24,8 @@ func _ready() -> void:
 	if center != null:
 		center.offset_left = -160.0
 		center.offset_right = 160.0
-		center.offset_top = -110.0
-		center.offset_bottom = 110.0
+		center.offset_top = -130.0
+		center.offset_bottom = 130.0
 	for option in OPTIONS:
 		var label := Label.new()
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -105,8 +105,10 @@ func _confirm() -> void:
 			_do_save()
 		2:
 			_do_load()
-		_:
+		3:
 			_open_map()
+		_:
+			_toggle_inner_voice()
 
 
 func _do_save() -> void:
@@ -137,10 +139,19 @@ func _do_load() -> void:
 		_set_status("Couldn't load.")
 
 
+func _toggle_inner_voice() -> void:
+	GameSettings.inner_voice = not GameSettings.inner_voice
+	_set_status("Inner voice is on." if GameSettings.inner_voice else "Inner voice is off.")
+	_refresh()
+
+
 func _refresh() -> void:
 	for i in _labels.size():
 		var mark := "> " if i == _index else "  "
-		_labels[i].text = mark + OPTIONS[i]
+		var label := OPTIONS[i]
+		if i == 4:
+			label = "Inner voice: On" if GameSettings.inner_voice else "Inner voice: Off"
+		_labels[i].text = mark + label
 
 
 func _set_status(text: String) -> void:

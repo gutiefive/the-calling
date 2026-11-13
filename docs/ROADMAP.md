@@ -14,7 +14,18 @@ Status date: 2026-11-12. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md
 | M5B Polish | Implemented. One place for each person, a week that continues after Chapter 1, and a quiet later Sunday. |
 | M6A part 1 Character sprites | Implemented. Player plus Margaret, Harold, Thomas, Frank, and Sarah use 32×48 sheets. |
 | M6A part 2 Environment art | Implemented. Outdoor tileset plus church face, tree, bench, lamp, notice board, and mailbox. Remaining buildings and unnamed townsfolk stay placeholder. |
-| Later | Not started. Do not add another chapter, inventory, or audio until Nathan asks. |
+| M7 Seeds and influence | Implemented. Hidden Pull, save v4, Chapter 1 seeds, Dell Ostrow, inner voice, and the no-cult scan. Chapter 1 still plays start to finish. |
+| M8 Chapter state | Not started. Chapter-aware calendar and a Chapter 2 scaffold. Chapter 1 must play identically. |
+| M9 Funds and ledger | Not started. ChurchFunds, offerings and donations, debts, the income floor. No buildings yet. |
+| M10 Planning board and Tier 1 | Not started. Build sites, scaffolding, workshop and greenhouse. |
+| M11 Night layer | Not started. Spirit framework, two Lingerers, prayer-lights, steeple light. |
+| M12 Chapter 2, part A | Not started. June, the deposits, Reece's file box, Ostrow's favor, inner voice in play. |
+| M13 Gathered v1 | Not started. Town helpers, notice board, Garden and Upkeep roles. |
+| M14 Invited guest | Not started. Fence dispute and town hall interior. |
+| M15 Chapter 2, part B | Not started. First fundraiser, the Sunday, Frank's wife, chapter close. |
+| M16 Tier 2 and live-ins | Not started. Fellowship House, dining hall, live-in Gathered. |
+| M17 Council meetings | Not started. Tuesday scenes, Cal's diner, Pearl's column. |
+| M18 onward | Not started. Chapters 3 to 5, Tier 3, the seat, tells pass. Endings wait for Nathan. |
 
 ## M1 includes
 

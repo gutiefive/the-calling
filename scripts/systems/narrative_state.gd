@@ -60,6 +60,9 @@ func reset() -> void:
 	ending_open = false
 	map_open = false
 	day_card_open = false
+	var inf := get_node_or_null("/root/InfluenceState")
+	if inf != null and inf.has_method("reset"):
+		inf.call("reset")
 
 
 func set_flag(key: String, value: Variant) -> void:

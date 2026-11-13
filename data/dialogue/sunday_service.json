@@ -26,21 +26,24 @@
           "next": "preach_hope",
           "set_flags": {"sermon_theme": "hope"},
           "add_relationships": {"sarah": 1},
-          "add_growth": {"congregation_health": 1}
+          "add_growth": {"congregation_health": 1},
+          "thought": "They listened. That felt good. Maybe too good."
         },
         {
           "text": "Forgiveness. No names. The hurt in the room is still allowed.",
           "next": "preach_forgiveness",
           "set_flags": {"sermon_theme": "forgiveness"},
           "add_relationships": {"frank": 1},
-          "add_growth": {"community_trust": 1}
+          "add_growth": {"community_trust": 1},
+          "thought": "They listened. That felt good. Maybe too good."
         },
         {
           "text": "Service. Faith that picks up a screwdriver.",
           "next": "preach_service",
           "set_flags": {"sermon_theme": "service"},
           "add_relationships": {"harold": 1, "thomas": 1},
-          "add_growth": {"community_impact": 1}
+          "add_growth": {"community_impact": 1},
+          "thought": "They listened. That felt good. Maybe too good."
         }
       ]
     },
@@ -58,7 +61,7 @@
     },
     "preach_forgiveness": {
       "speaker": "You",
-      "text": "You talk about forgiveness without naming the last pastor. You do not ask anyone to be finished.",
+      "text": "You talk about forgiveness without naming Alden Reece. You do not ask anyone to be finished.",
       "next": "closing_forgiveness"
     },
     "closing_forgiveness": {

@@ -41,6 +41,10 @@ func body() -> String:
 	return str(_current.get("text", ""))
 
 
+func is_thought() -> bool:
+	return bool(_current.get("thought", false))
+
+
 func choice_count() -> int:
 	return _choice_rows().size()
 
@@ -76,6 +80,19 @@ func choose(index: int) -> void:
 	var choice: Dictionary = rows[index]
 	_apply(choice)
 	var nxt := str(choice.get("next", ""))
+	var thought := _thought_text(choice)
+	if thought.is_empty():
+		thought = _thought_text(_current)
+	if not thought.is_empty():
+		_current = {
+			"speaker": "",
+			"text": thought,
+			"thought": true,
+			"next": nxt,
+			"end": nxt.is_empty(),
+		}
+		_open = true
+		return
 	if nxt.is_empty():
 		_open = false
 		return
@@ -158,6 +175,12 @@ func _matches(condition: Dictionary) -> bool:
 	if condition.has("hour_before"):
 		var clock := _clock()
 		return clock != null and int(clock.get("hour")) < int(condition["hour_before"])
+	if condition.has("pull_at_least"):
+		var inf := _influence()
+		return inf != null and bool(inf.call("pull_at_least", int(condition["pull_at_least"])))
+	if condition.has("influence_stage_at_least"):
+		var inf := _influence()
+		return inf != null and bool(inf.call("influence_stage_at_least", int(condition["influence_stage_at_least"])))
 	return false
 
 
@@ -166,6 +189,35 @@ func _clock() -> Node:
 	if tree == null:
 		return null
 	return tree.root.get_node_or_null("DayClock")
+
+
+func _influence() -> Node:
+	var tree := Engine.get_main_loop() as SceneTree
+	if tree == null:
+		return null
+	return tree.root.get_node_or_null("InfluenceState")
+
+
+func _thought_text(data: Dictionary) -> String:
+	if not GameSettings.thought_enabled():
+		return ""
+	var thought_v: Variant = data.get("thought", null)
+	if thought_v == null:
+		return ""
+	var text := ""
+	var need := 0
+	if thought_v is Dictionary:
+		var row: Dictionary = thought_v
+		text = str(row.get("text", ""))
+		need = int(row.get("pull_at_least", 0))
+	else:
+		text = str(thought_v)
+	if text.is_empty():
+		return ""
+	var inf := _influence()
+	if inf != null and inf.has_method("pull_at_least") and not bool(inf.call("pull_at_least", need)):
+		return ""
+	return text
 
 
 func _apply(data: Dictionary) -> void:
@@ -189,6 +241,18 @@ func _apply(data: Dictionary) -> void:
 	if growth_v is Dictionary:
 		for key in (growth_v as Dictionary).keys():
 			NarrativeState.add_growth(str(key), int((growth_v as Dictionary)[key]))
+	var pull_v: Variant = data.get("add_pull", null)
+	if pull_v != null:
+		var amount := 0
+		var part := ""
+		if pull_v is Dictionary:
+			amount = int((pull_v as Dictionary).get("amount", 0))
+			part = str((pull_v as Dictionary).get("part", ""))
+		else:
+			amount = int(pull_v)
+		var inf := _influence()
+		if inf != null and inf.has_method("add_pull"):
+			inf.call("add_pull", amount, part)
 	var quest_v: Variant = data.get("quest", null)
 	if not quest_v is Dictionary:
 		return

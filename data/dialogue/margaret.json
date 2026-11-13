@@ -53,15 +53,15 @@
     },
     "return_harold": {
       "speaker": "Margaret",
-      "text": "He told you where they were. Good. I'll put them on the hook, not where Harold calls orderly.",
-      "set_flags": {"spare_keys_returned": true},
+      "text": "He told you where they were. Good. I'll put them on the hook, not where Harold calls orderly. There's an old key on here that fits nothing. Pastor Reece kept that one on him.",
+      "set_flags": {"spare_keys_returned": true, "has_reece_key": true},
       "quest": {"id": "spare_keys", "complete": true},
       "end": true
     },
     "return_search": {
       "speaker": "Margaret",
-      "text": "You found them without a committee. I'll take that. Harold will say he knew all along.",
-      "set_flags": {"spare_keys_returned": true},
+      "text": "You found them without a committee. I'll take that. Harold will say he knew all along. There's an old key on here that fits nothing. Pastor Reece kept that one on him.",
+      "set_flags": {"spare_keys_returned": true, "has_reece_key": true},
       "quest": {"id": "spare_keys", "complete": true},
       "end": true
     },

@@ -71,12 +71,14 @@
       "set_flags": {"frank_arc_heard": true},
       "add_relationships": {"frank": 1},
       "add_growth": {"community_trust": 1},
+      "add_pull": -1,
       "end": true
     },
     "arc_pushed": {
       "speaker": "Frank",
       "text": "That's the pitch again. The bay is still mine. Come by for parts, not for Sunday.",
       "set_flags": {"frank_arc_pushed": true},
+      "add_pull": 1,
       "end": true
     },
     "arc_settled": {
@@ -103,18 +105,20 @@
           "next": "listened",
           "set_flags": {"frank_listened": true},
           "add_relationships": {"frank": 1},
-          "add_growth": {"community_trust": 1}
+          "add_growth": {"community_trust": 1},
+          "add_pull": -1
         },
         {
           "text": "We could use you on Sunday.",
           "next": "pitched",
-          "set_flags": {"frank_invited": true}
+          "set_flags": {"frank_invited": true},
+          "add_pull": 1
         }
       ]
     },
     "listened": {
       "speaker": "Frank",
-      "text": "The last pastor stopped returning calls. I'm not angry at the building. I'm tired of being useful and unheard.",
+      "text": "Pastor Reece stopped returning calls. I'm not angry at the building. I'm tired of being useful and unheard.",
       "quest": {"id": "oak_street", "step": "friday"},
       "end": true
     },

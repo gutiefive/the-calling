@@ -391,7 +391,7 @@ func _save_roundtrip() -> void:
 	await _tap("dialogue_down")
 	await _tap("interact")
 	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(SaveGame.SAVE_PATH))
-	_check(parsed is Dictionary and int((parsed as Dictionary).get("version", -1)) == 3, "the save file is version 3")
+	_check(parsed is Dictionary and int((parsed as Dictionary).get("version", -1)) == SaveGame.SAVE_VERSION, "the save file is the current version")
 	pause.toggle_pause()
 	NarrativeState.reset()
 	DayClock.reset()
@@ -433,16 +433,16 @@ func _save_roundtrip() -> void:
 	var flags_v: Variant = narrative.get("flags", {})
 	if flags_v is Dictionary:
 		flags = flags_v
-	_check(int(old.get("version", 0)) == 3, "a version 2 file migrates to version 3")
+	_check(int(old.get("version", 0)) == SaveGame.SAVE_VERSION, "a version 2 file migrates to the current save")
 	_check(int(growth.get("community_trust", -1)) == 0 and int(growth.get("attendance", 0)) == 17, "migration adds the measures without inventing progress")
 	_check(bool(flags.get("frank_listened", false)) and str(narrative.get("notes", [])).contains("A note"), "migration keeps the old story")
-	_check(SaveGame.migrate({"version": 4, "scene": "res://scenes/world/church_exterior.tscn"}).is_empty(), "a newer save is still rejected")
+	_check(SaveGame.migrate({"version": SaveGame.SAVE_VERSION + 1, "scene": "res://scenes/world/church_exterior.tscn"}).is_empty(), "a newer save is still rejected")
 	var from_v1 := SaveGame.migrate({
 		"version": 1,
 		"scene": "res://scenes/world/church_exterior.tscn",
 		"narrative": {"flags": {"sunday_ready": true}, "quests": {}, "relationships": {"sarah": 2}},
 	})
-	_check(int(from_v1.get("version", 0)) == 3, "a version 1 file still migrates forward")
+	_check(int(from_v1.get("version", 0)) == SaveGame.SAVE_VERSION, "a version 1 file still migrates forward")
 
 
 func _line_for(conversation_id: String, flags: Dictionary) -> String:

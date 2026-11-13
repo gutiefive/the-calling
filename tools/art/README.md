@@ -4,7 +4,7 @@ Headless generators write PNG files from palette-only pixel maps. Do not copy an
 
 ## Characters (M6A part 1)
 
-Six 32×48 sheets at `assets/characters/`:
+Named 32×48 sheets at `assets/characters/`:
 
 - `player_sheet.png`
 - `npc_margaret_sheet.png`
@@ -12,6 +12,7 @@ Six 32×48 sheets at `assets/characters/`:
 - `npc_thomas_sheet.png`
 - `npc_frank_sheet.png`
 - `npc_sarah_sheet.png`
+- `npc_ostrow_sheet.png` (Dell Ostrow, M7)
 
 Each sheet is 192×192: four rows (down, up, left, right) and six columns (idle, idle, walk ×4). Colors come from `assets/source/palette/the_calling_master.gpl`.
 

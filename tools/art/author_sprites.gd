@@ -1,5 +1,5 @@
 extends SceneTree
-## Writes the six authored character sheets under assets/characters/.
+## Writes the authored character sheets under assets/characters/.
 ## Run from the repo root:
 ## C:\Tools\Godot\4.7.2\Godot_v4.7.2-stable_win64_console.exe --headless --path . --script res://tools/art/author_sprites.gd
 
