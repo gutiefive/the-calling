@@ -15,12 +15,13 @@ static func tile_texture(row: Dictionary, neighbor_mask: int = 0) -> Texture2D:
 	var stage := str(row.get("stage", "untouched"))
 	var crop_id := str(row.get("crop", ""))
 	var watered := bool(row.get("watered", false))
-	var key := "%s|%s|%s|%d" % [stage, crop_id, "w" if watered else "d", neighbor_mask]
+	var cell := _cell_of(row)
+	var key := "%s|%s|%s|%d|%d,%d" % [stage, crop_id, "w" if watered else "d", neighbor_mask, cell.x, cell.y]
 	if _cache.has(key):
 		var cached: Variant = _cache[key]
 		if cached is Texture2D:
 			return cached
-	var image := _compose(row, neighbor_mask)
+	var image := _compose(row, neighbor_mask, cell)
 	if image == null:
 		return null
 	var tex := ImageTexture.create_from_image(image)
@@ -69,13 +70,37 @@ static func fx_texture(kind: String) -> Texture2D:
 	return tex
 
 
-static func _compose(row: Dictionary, neighbor_mask: int = 0) -> Image:
+static func prop_texture(prop_id: String) -> Texture2D:
+	if prop_id.is_empty():
+		return null
+	var key := "prop|%s" % prop_id
+	if _cache.has(key):
+		var cached: Variant = _cache[key]
+		if cached is Texture2D:
+			return cached
+	var tex := _load_or_build(prop_id)
+	if tex != null:
+		_cache[key] = tex
+	return tex
+
+
+static func _compose(row: Dictionary, neighbor_mask: int = 0, cell: Vector2i = Vector2i.ZERO) -> Image:
 	var stage := str(row.get("stage", "untouched"))
 	var watered := bool(row.get("watered", false))
-	var soil := CropFrames.ground(watered, neighbor_mask, stage)
+	var soil := CropFrames.ground(watered, neighbor_mask, stage, cell)
 	if soil == null:
 		return null
 	return soil.duplicate()
+
+
+static func _cell_of(row: Dictionary) -> Vector2i:
+	var id := str(row.get("id", ""))
+	if id.is_empty():
+		return Vector2i.ZERO
+	var parts := id.split(",")
+	if parts.size() < 2:
+		return Vector2i.ZERO
+	return Vector2i(int(parts[0]), int(parts[1]))
 
 
 static func _load_or_build(frame_id: String) -> Texture2D:

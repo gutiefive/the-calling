@@ -333,6 +333,18 @@ Optional asks, not a quest log with markers. Definitions live in `data/requests/
 
 **Save.** Version 9. A version 8 file gains an empty request list and converted tiles.
 
+## D55 — Garden dirt, crops, and journal (Gameplay C2)
+
+A polish pass on Phase C. No new systems and no save bump.
+
+**Soil.** Tilled ground is dirt, not boards. Procedural tiles use clods, pebbles, and short hoe marks, with a darker wet state. Neighbor masks skip internal grass borders so a 3×3 patch is one field.
+
+**Crops.** Every growth stage is larger and higher contrast. Mature plants fill most of the tile; tomatoes are staked and may overhang the tile above.
+
+**Journal.** Sections are labeled Story and Requests. Empty copy is per-section. The panel fits 640×360 with a scroll box, and the area title hides while J is open.
+
+**Garden.** A barrel, wheelbarrow, compost bin, and bench sit along the fence. Reserved tiles keep them off the path and gate.
+
 ## Still open
 
 | # | Question | Notes |

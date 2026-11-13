@@ -812,3 +812,33 @@ Exact walkthrough:
 
 On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `GPC_OK` (123 `CHECK OK`) with zero `CHECK FAIL` (the expected `Save version 10 is not supported` push_error before the newer-save rejection). Every existing suite still printed its `_OK` line and exited 0: `M1_OK` (76), `M2_OK` (113), `M3_OK` (109), `M4_OK` (90), `M4_5_OK` (90), `M5A_OK` (103), `M5B_OK` (1491), `M6A_OK` (219), `M6A2_OK` (130), `M7_OK` (93), `M8_OK` (80), `M9_OK` (105), `M9B_OK` (156), `M10_OK` (91), `M11_OK` (210), `M11B_OK` (196), `M11C_OK` (246), `M12_OK` (165), `GPA_OK` (204), `GPB_OK` (125). `--quit-after 120` exited 0. `tests/gpc/capture_gpc.tscn` wrote `garden_day.png`, `journal_requests.png`, and `request_dialogue.png` under `tests/gpc/shots/`. T86–T90 were not played in a window.
 
+# Gameplay C2 — Garden and journal polish
+
+The lists above still apply. These checks cover dirt tiles, crop readability, journal sections, and garden props.
+
+## Automated
+
+```powershell
+godot --headless --path . --import
+godot --headless --path . res://tests/gpc2/gpc2_validation.tscn
+godot --path . res://tests/gpc2/capture_gpc2.tscn
+```
+
+`gpc2_validation.tscn` prints `CHECK OK` / `CHECK FAIL` lines and exits with `GPC2_OK` or `GPC2_FAIL`.
+It checks dry vs watered soil, neighbor blending, crop-stage bounding boxes, journal empty-copy per section, the area label hiding while J is open, and garden props staying off the path and gate.
+
+`capture_gpc2.tscn` writes PNGs to `tests/gpc2/shots/` and needs a display. It skips with `CAPTURE_SKIPPED` under `--headless`.
+
+## Manual
+
+| ID | Do this | Expect |
+|---|---|---|
+| T91 | Till a 3×3 patch in the church garden | One dirt field, not a grid of boards. Watering darkens the patch. |
+| T92 | Grow lettuce, carrot, tomato, and flower to harvest | Each crop is readable at sprout. Late stages fill the tile. Tomatoes climb a stake. |
+| T93 | Accept Sarah's ask with no story quest, press J | Requests lists the ask. Story says no active quests. "Church grounds" is not sitting on the panel. |
+| T94 | Walk the garden path through the west gate | Barrel, wheelbarrow, compost, and bench are visible and do not block the path. |
+
+## Gameplay C2 results
+
+On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `GPC2_OK` (101 `CHECK OK`) with zero `CHECK FAIL`. Every existing suite still printed its `_OK` line and exited 0: `M1_OK` (76), `M2_OK` (113), `M3_OK` (109), `M4_OK` (90), `M4_5_OK` (90), `M5A_OK` (103), `M5B_OK` (1491), `M6A_OK` (219), `M6A2_OK` (130), `M7_OK` (93), `M8_OK` (80), `M9_OK` (105), `M9B_OK` (156), `M10_OK` (91), `M11_OK` (210), `M11B_OK` (196), `M11C_OK` (246), `M12_OK` (165), `GPA_OK` (204), `GPB_OK` (125), `GPC_OK` (123). `--quit-after 120` exited 0. `tests/gpc2/capture_gpc2.tscn` wrote `garden_patch.png` and `journal_open.png` under `tests/gpc2/shots/`. T91–T94 were not played in a window.
+

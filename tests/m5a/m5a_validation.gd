@@ -148,7 +148,7 @@ func _grounds_and_journal() -> void:
 	_check(home != null and home.destination_scene.ends_with("parsonage.tscn"), "the parsonage door is on the grounds")
 	var tidy := _line_for("thomas", {"grounds_tidy": true})
 	_check(tidy.contains("walk looks better"), "Thomas notices the grounds (%s)" % _snippet(tidy))
-	var journal := room.get_node_or_null("HUD/Journal/Body") as Label
+	var journal := room.get_node_or_null("HUD/Journal/Scroll/Body") as Label
 	await _tap("journal")
 	var page := journal.text if journal != null else ""
 	_check(page.contains("The church") and page.contains("Steady") and page.contains("a small gathering"), "the journal shows soft church words (%s)" % _snippet(page))

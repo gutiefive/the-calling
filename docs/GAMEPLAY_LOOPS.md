@@ -1,6 +1,6 @@
 # Gameplay loops — The Calling
 
-Status: Phase C (community requests and in-ground garden) implemented 2026-11-13. Phases A and B remain. Phases D–F are specified here so they can plug in; they are not built yet.
+Status: Phase C implemented 2026-11-13. Gameplay C2 (garden dirt, crop readability, journal) polished 2026-11-13. Phases A–C remain. Phases D–F are specified here so they can plug in; they are not built yet.
 
 ## Baseline (before Phase A)
 
@@ -103,9 +103,13 @@ Configurable in `data/crops/catalog.json`. Unwatered crops pause and never die. 
 
 ## Gardening (Phase B)
 
-**Where.** Open ground inside the fenced vegetable garden on the **church grounds**, east of the picnic lawn and south of the drive (`GroundsLayout.VEG_GARDEN`, tiles 39,32 9×9). The path, west gate, Ruth's card, and the seed crate are not tillable. It is not the memorial garden, not the parking lot, not a main path, and not one of the five Future Site lots in `data/grounds/plots.json`. The Chapter 1 Maple Lane plot, its weeds, and `garden_cleared` / `garden_planted` / `garden_growth` are unchanged.
+**Where.** Open ground inside the fenced vegetable garden on the **church grounds**, east of the picnic lawn and south of the drive (`GroundsLayout.VEG_GARDEN`, tiles 39,32 9×9). The path, west gate, Ruth's card, the seed crate, and the fence-side props are not tillable. It is not the memorial garden, not the parking lot, not a main path, and not one of the five Future Site lots in `data/grounds/plots.json`. The Chapter 1 Maple Lane plot, its weeds, and `garden_cleared` / `garden_planted` / `garden_growth` are unchanged.
 
-**Tiles.** Autoload `GardenState` stores a sparse dictionary keyed by tile (`"42,35"`). Each entry has soil, crop, planted, watered, growth, stage, ready, and idle days. `GardenPlot` with an empty `plot_id` is still the Maple Lane story plot. A facing-tile marker shows which cell E will act on.
+**Tiles.** Autoload `GardenState` stores a sparse dictionary keyed by tile (`"42,35"`). Each entry has soil, crop, planted, watered, growth, stage, ready, and idle days. `GardenPlot` with an empty `plot_id` is still the Maple Lane story plot. A facing-tile marker shows which cell E will act on. Adjacent tilled cells skip internal grass borders so a patch reads as one field. Dry soil is warm brown earth with clods, pebbles, and short hoe marks; watered soil is darker with a light sheen.
+
+**Crops.** Lettuce, carrot, tomato, and flower stages are larger, higher-contrast 32×32 sprites (tomatoes grow to 32×48 and overhang the tile above on a stake). Late stages fill most of the cell; the mature stage is obviously harvestable.
+
+**Garden life.** A water barrel by the west gate, a wheelbarrow, a compost bin, and a bench sit along the fence. They reserve their tiles and stay off the path and gate.
 
 **Cycle.** Equip the Hoe, face a grass tile, E to till. Equip a seed packet in the pack (I, then E), E to plant (consumes one). Equip the Watering Can, E to water (darker soil). Growth advances once per morning if the tile was watered, through sleep and DayClock, never a frame timer. `last_processed_day` prevents double-counting across skips, sleep, save/load, and leaving the room. Harvest yields the catalog crop and leaves plantable harvested soil. Empty tilled soil reverts to grass after three mornings. No energy bar. Wrong tool, reserved tiles, or missing seed does nothing and says why.
 
@@ -124,7 +128,7 @@ Data-driven in `data/requests/catalog.json`, shown in the journal, up to three a
 | `broken_fence` | The Broken Fence | Harold | 3 Wood, 2 Nails | Thank-you, a bit of scrap, a mended stretch of garden fence |
 | `garden_needs_hands` | The Garden Needs Hands | Ruth | Maple Lane `garden_planted` | Thank-you, carrot seeds, a remembered kindness |
 
-Accept through existing dialogue routers after Chapter 1 continues. The journal lists active asks, required items, progress, where to return, and a short history. Delivering removes exactly those items. Duplicate delivery grants nothing. Sarah's ask expires after a week and can be taken again; Harold's and Ruth's do not repeat. Completing an ask never raises Pull, attendance, dependents, loyalty, or ChurchFunds. Trust stays off the HUD. No dollar amounts in dialogue JSON. Insiders never say "cult". Harold's `kind: repair_materials` is the hook Phase D can reuse.
+Accept through existing dialogue routers after Chapter 1 continues. The journal splits **Story** (chapter quests) and **Requests** (community asks). Each section's empty line ("No active quests." / "No open asks.") prints only when that section is empty. The panel fits 640×360, scrolls, and hides the area title while it is open. Delivering removes exactly those items. Duplicate delivery grants nothing. Sarah's ask expires after a week and can be taken again; Harold's and Ruth's do not repeat. Completing an ask never raises Pull, attendance, dependents, loyalty, or ChurchFunds. Trust stays off the HUD. No dollar amounts in dialogue JSON. Insiders never say "cult". Harold's `kind: repair_materials` is the hook Phase D can reuse.
 
 ## Interactive repairs (Phase D, not built)
 
@@ -151,7 +155,7 @@ New Game / Restart call `Inventory.reset()`, `GardenState.reset()`, and `Request
 - Scrap has no source except Harold's thank-you.
 - The shop does not sell tools (you already have them) or crops.
 - No energy bar, no durability, no drag-and-drop mouse inventory, no quest markers.
-- Item icons are procedural 16×16 PNGs scaled up in the pack. Crop stages and in-ground soil are procedural 32×32 PNGs in `assets/garden/`. No LibreSprite `.ase` sources.
+- Item icons are procedural 16×16 PNGs scaled up in the pack. Crop stages and in-ground soil are procedural PNGs in `assets/garden/` (32×32, tomatoes 32×48 when staked). Garden props (barrel, wheelbarrow, compost) are the same pipeline. No LibreSprite `.ase` sources.
 
 ## Future expansion (do not build)
 

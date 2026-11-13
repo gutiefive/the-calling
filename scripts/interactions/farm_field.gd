@@ -105,6 +105,8 @@ func _refresh_tile(plot_id: String) -> void:
 			crop.texture = plant_tex
 			crop.visible = plant_tex != null
 			crop.position = center
+			if plant_tex != null:
+				crop.offset = Vector2(0.0, 12.0 - float(plant_tex.get_height()) * 0.5)
 	elif crop != null:
 		crop.visible = false
 

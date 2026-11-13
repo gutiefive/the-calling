@@ -29,6 +29,9 @@ const IDS: PackedStringArray = [
 	"fx_harvest",
 	"fx_target",
 	"fence_patch",
+	"water_barrel",
+	"wheelbarrow",
+	"compost_bin",
 ]
 
 
@@ -49,7 +52,7 @@ func _write_crops() -> bool:
 	var ok := true
 	for frame_id in IDS:
 		var image: Image = Frames.build(frame_id)
-		if image == null or image.get_width() != 32 or image.get_height() != 32:
+		if image == null or image.get_width() < 8 or image.get_height() < 8:
 			print("AUTHOR FAIL ", frame_id, " bad size")
 			ok = false
 			continue
@@ -60,5 +63,5 @@ func _write_crops() -> bool:
 			print("AUTHOR FAIL ", rel, " save ", err)
 			ok = false
 			continue
-		print("WROTE ", rel, " 32x32")
+		print("WROTE ", rel, " ", image.get_width(), "x", image.get_height())
 	return ok

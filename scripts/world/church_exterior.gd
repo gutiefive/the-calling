@@ -272,6 +272,7 @@ func _add_church_garden() -> void:
 		note_sprite.name = "Sprite"
 		note.add_child(note_sprite)
 		props.add_child(note)
+	_add_garden_life(props)
 	if props.get_node_or_null("GardenRemark") == null:
 		var remark := GardenRemark.new()
 		remark.name = "GardenRemark"
@@ -290,6 +291,13 @@ func _add_church_garden() -> void:
 		remark.add_child(remark_sprite)
 		props.add_child(remark)
 	_add_fence_mend(props)
+
+
+func _add_garden_life(props: Node) -> void:
+	_add_solid_sprite(props, "GardenBarrel", PlaceholderArt.water_barrel(), GroundsLayout.VEG_BARREL, Vector2(12, 8))
+	_add_solid_sprite(props, "GardenWheelbarrow", PlaceholderArt.wheelbarrow(), GroundsLayout.VEG_WHEELBARROW, Vector2(18, 8))
+	_add_solid_sprite(props, "GardenCompost", PlaceholderArt.compost_bin(), GroundsLayout.VEG_COMPOST, Vector2(14, 8))
+	_add_solid_sprite(props, "VegGardenBench", PlaceholderArt.bench(), GroundsLayout.VEG_GARDEN_BENCH, Vector2(28, 8))
 
 
 func _add_fence_mend(props: Node) -> void:

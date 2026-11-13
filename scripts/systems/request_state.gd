@@ -172,9 +172,7 @@ func progress_line(request_id: String) -> String:
 func journal_lines() -> PackedStringArray:
 	_tick_expiry()
 	var lines := PackedStringArray()
-	if _active.is_empty():
-		lines.append("No open asks.")
-	else:
+	if not _active.is_empty():
 		for request_id in active_ids():
 			lines.append(Catalog.title(request_id))
 			var desc := Catalog.description(request_id)

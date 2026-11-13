@@ -51,6 +51,10 @@ const VEG_PLOT_STRIDE := 48.0
 const VEG_CRATE := Vector2(1288, 1168)
 const VEG_NOTE := Vector2(1288, 1136)
 const VEG_FENCE_MEND := Vector2(1248, 1120)
+const VEG_BARREL := Vector2(1296, 1072)
+const VEG_WHEELBARROW := Vector2(1488, 1072)
+const VEG_COMPOST := Vector2(1488, 1264)
+const VEG_GARDEN_BENCH := Vector2(1392, 1264)
 const REVERT_DAYS := 3
 const DRIVE := Rect2i(36, 25, 28, 5)
 
@@ -120,6 +124,22 @@ static func veg_interior() -> Rect2i:
 
 static func veg_reserved_cells() -> Array[Vector2i]:
 	var cells: Array[Vector2i] = [
+		Vector2i(40, 34),
+		Vector2i(40, 35),
+		Vector2i(40, 36),
+		Vector2i(40, 33),
+		Vector2i(46, 33),
+		Vector2i(46, 39),
+		Vector2i(43, 39),
+	]
+	return cells
+
+
+static func veg_path_cells() -> Array[Vector2i]:
+	var cells: Array[Vector2i] = [
+		Vector2i(39, 34),
+		Vector2i(39, 35),
+		Vector2i(39, 36),
 		Vector2i(40, 34),
 		Vector2i(40, 35),
 		Vector2i(40, 36),

@@ -84,7 +84,7 @@ func _wayfinding() -> void:
 	var flowers := room.get_node_or_null("Props/ThursdayFlowers") as CanvasItem
 	_check(flowers != null and flowers.visible, "Thursday's flower moment is on the grounds in the afternoon")
 	await _tap("journal")
-	var body := room.get_node_or_null("HUD/Journal/Body") as Label
+	var body := room.get_node_or_null("HUD/Journal/Scroll/Body") as Label
 	_check(body != null and body.text.contains("Oak Street"), "the journal hints at Oak Street early (%s)" % _snippet(body.text if body != null else ""))
 	await _tap("journal")
 

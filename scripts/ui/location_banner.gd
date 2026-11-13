@@ -24,8 +24,12 @@ func show_place(place_name: String) -> void:
 
 
 func _process(delta: float) -> void:
-	if not visible:
+	var story := get_node_or_null("/root/NarrativeState")
+	if story != null and bool(story.get("journal_open")):
+		visible = false
 		return
-	_left -= delta
 	if _left <= 0.0:
 		visible = false
+		return
+	_left -= delta
+	visible = _left > 0.0

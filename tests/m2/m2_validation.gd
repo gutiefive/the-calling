@@ -132,7 +132,7 @@ func _play_search_branch() -> void:
 
 	await _tap("journal")
 	var journal := room.get_node("HUD/Journal")
-	var body := room.get_node("HUD/Journal/Body") as Label
+	var body := room.get_node("HUD/Journal/Scroll/Body") as Label
 	_check(journal.visible, "journal opens")
 	_check(body != null and body.text.contains("The Spare Keys"), "journal lists the quest")
 	_check(body != null and body.text.contains("sanctuary"), "journal shows the current objective (%s)" % _snippet(body.text if body != null else ""))
@@ -156,7 +156,7 @@ func _play_search_branch() -> void:
 	_check(NarrativeState.quest_step("spare_keys") == "search", "the quest step survives the sanctuary transition")
 	player = room.get_node("Props/Player") as Player
 	journal = room.get_node("HUD/Journal")
-	body = room.get_node("HUD/Journal/Body") as Label
+	body = room.get_node("HUD/Journal/Scroll/Body") as Label
 	await _tap("journal")
 	_check(journal.visible and body != null and body.text.contains("The Spare Keys"), "journal in the new room reads the same quest")
 	await _tap("journal")
@@ -193,7 +193,7 @@ func _play_search_branch() -> void:
 	await _tap("interact")
 	_check(not box.is_conversation_open(), "the return line closes")
 	await _tap("journal")
-	body = room.get_node("HUD/Journal/Body") as Label
+	body = room.get_node("HUD/Journal/Scroll/Body") as Label
 	_check(body != null and body.text.contains("No active quests."), "the journal clears the active list")
 	_check(body != null and body.text.contains("Completed") and body.text.contains("The Spare Keys"), "the journal lists the finished quest")
 	await _tap("journal")

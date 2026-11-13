@@ -1,7 +1,11 @@
 extends PanelContainer
-## Lists active and completed quests. J toggles it. Walking waits until it closes.
+## Lists story quests and community requests. J toggles it. Walking waits until it closes.
 
-@onready var _label: Label = $Body
+const STORY_EMPTY := "No active quests."
+const REQUEST_EMPTY := "No open asks."
+
+@onready var _scroll: ScrollContainer = $Scroll
+@onready var _label: Label = $Scroll/Body
 
 var _open: bool = false
 var _was_down: bool = false
@@ -11,9 +15,14 @@ func _ready() -> void:
 	add_to_group("journal_panel")
 	visible = false
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if _scroll != null:
+		_scroll.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	if _label != null:
 		_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		_label.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color(0.14, 0.11, 0.16, 0.94)
 	style.border_color = Color(0.45, 0.36, 0.28, 1.0)
@@ -30,8 +39,9 @@ func _physics_process(_delta: float) -> void:
 	if down and not _was_down:
 		_set_open(not _open)
 	_was_down = down
-	if _open and _label != null:
-		_label.text = _body_text()
+	if _open:
+		_refresh_text()
+		_scroll_with_move()
 
 
 func _exit_tree() -> void:
@@ -62,37 +72,47 @@ func _set_open(is_open: bool) -> void:
 		var threads := get_node_or_null("/root/StoryThreads")
 		if threads != null and threads.has_method("inspect_reece_key"):
 			threads.call("inspect_reece_key")
-		if _label != null:
-			_label.text = _body_text()
+		_refresh_text()
+		if _scroll != null:
+			_scroll.scroll_vertical = 0
+		_set_location_banners_visible(false)
+	else:
+		_set_location_banners_visible(true)
+
+
+func _set_location_banners_visible(shown: bool) -> void:
+	var tree := get_tree()
+	if tree == null:
+		return
+	for node in tree.get_nodes_in_group("location_banner"):
+		if node is CanvasItem:
+			if shown:
+				continue
+			(node as CanvasItem).visible = false
+
+
+func _refresh_text() -> void:
+	if _label != null:
+		_label.text = _body_text()
+
+
+func _scroll_with_move() -> void:
+	if _scroll == null:
+		return
+	var step := 12
+	if Input.is_action_pressed("move_down") or Input.is_action_pressed("ui_down"):
+		_scroll.scroll_vertical += step
+	if Input.is_action_pressed("move_up") or Input.is_action_pressed("ui_up"):
+		_scroll.scroll_vertical = maxi(_scroll.scroll_vertical - step, 0)
 
 
 func _body_text() -> String:
 	var lines: PackedStringArray = PackedStringArray()
 	lines.append("Journal")
 	lines.append("")
-	lines.append("Active")
-	var active := NarrativeState.active_quests()
-	if active.is_empty():
-		lines.append("No active quests.")
-	else:
-		for quest in active:
-			lines.append(str(quest.get("title", "")))
-			var objective := str(quest.get("objective", ""))
-			if not objective.is_empty():
-				lines.append(objective)
+	_append_section(lines, "Story", _story_lines(), STORY_EMPTY)
 	lines.append("")
-	lines.append("Requests")
-	var ask_lines := PackedStringArray()
-	var asks := get_node_or_null("/root/RequestState")
-	if asks != null and asks.has_method("journal_lines"):
-		var ask_raw: Variant = asks.call("journal_lines")
-		if ask_raw is PackedStringArray:
-			ask_lines = ask_raw
-	if ask_lines.is_empty():
-		lines.append("No open asks.")
-	else:
-		for line in ask_lines:
-			lines.append(line)
+	_append_section(lines, "Requests", _request_lines(), REQUEST_EMPTY)
 	lines.append("")
 	lines.append("Completed")
 	var done := NarrativeState.completed_quests()
@@ -135,3 +155,34 @@ func _body_text() -> String:
 	lines.append("")
 	lines.append("J or Esc  close")
 	return "\n".join(lines)
+
+
+func _story_lines() -> PackedStringArray:
+	var lines := PackedStringArray()
+	var active := NarrativeState.active_quests()
+	for quest in active:
+		lines.append(str(quest.get("title", "")))
+		var objective := str(quest.get("objective", ""))
+		if not objective.is_empty():
+			lines.append(objective)
+	return lines
+
+
+func _request_lines() -> PackedStringArray:
+	var ask_lines := PackedStringArray()
+	var asks := get_node_or_null("/root/RequestState")
+	if asks != null and asks.has_method("journal_lines"):
+		var ask_raw: Variant = asks.call("journal_lines")
+		if ask_raw is PackedStringArray:
+			ask_lines = ask_raw
+	return ask_lines
+
+
+func _append_section(lines: PackedStringArray, title: String, body: PackedStringArray, empty_message: String) -> void:
+	lines.append(title)
+	if body.is_empty():
+		if not empty_message.is_empty():
+			lines.append(empty_message)
+		return
+	for line in body:
+		lines.append(line)

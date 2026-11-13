@@ -434,6 +434,27 @@ static func garden_hose() -> Texture2D:
 	return _cached("garden_hose", StreetFrames.build_hose())
 
 
+static func water_barrel() -> Texture2D:
+	var authored := CropArt.prop_texture("water_barrel")
+	if authored != null:
+		return authored
+	return _cached("water_barrel", CropFrames.build("water_barrel"))
+
+
+static func wheelbarrow() -> Texture2D:
+	var authored := CropArt.prop_texture("wheelbarrow")
+	if authored != null:
+		return authored
+	return _cached("wheelbarrow", CropFrames.build("wheelbarrow"))
+
+
+static func compost_bin() -> Texture2D:
+	var authored := CropArt.prop_texture("compost_bin")
+	if authored != null:
+		return authored
+	return _cached("compost_bin", CropFrames.build("compost_bin"))
+
+
 static func dog_house() -> Texture2D:
 	var authored := EnvironmentArt.dog_house()
 	if authored != null:
