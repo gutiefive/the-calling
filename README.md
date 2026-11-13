@@ -3,8 +3,8 @@
 A story-driven, top-down pixel-art RPG made in **Godot 4.7**. You play a young pastor who arrives in
 the fictional town of **Oakridge** to lead **Grace Community Church**.
 
-> **Status (2026-11-12):** Milestone 5A is playable. The demo still runs from the title screen through the
-> first Sunday. You can sleep at the parsonage, walk Maple Lane, and step into the hardware store and Frank's bay.
+> **Status (2026-11-12):** Milestone 5B is playable. The demo still runs from the title screen through the
+> first Sunday. After the ledger you can stay in Oakridge. The clock then continues into Monday and a repeating week.
 > A suggested path is in `docs/PLAYTEST.md`.
 
 ## Play (Windows)
@@ -23,29 +23,30 @@ Continue appears when `user://the_calling_save.json` exists. In the editor, open
 | Action | Keys |
 |---|---|
 | Move | W A S D or arrow keys. Diagonals are normalized. |
-| Interact | E |
+| Interact | E. The prompt names who or what you are using. |
 | Advance dialogue / confirm a choice | E, Space, or Enter. The first press finishes a line that is still revealing. |
 | Move the dialogue selection | Up / Down, or W / S, while choices are on screen. |
-| Journal | J. Early on, a note names the lane east to Oak Street. |
-| Town map | M. Also the Map row on the pause menu. It shows the church grounds, the sanctuary, Oak Street, the parsonage, Maple Lane, the hardware store, Frank's bay, and where you are. |
-| Pause | Esc. Up / Down or W / S choose. E, Space, or Enter confirms Resume, Save, Load, or Map. |
-| Skip to the next part of the day | T (debug). Day starts at 6:00, evening at 5:00, night at 8:00. On Sunday before 10:00 a.m., T lands on 10:00. |
+| Journal | J. Esc closes it. Early on, a note names the lane east to Oak Street. |
+| Town map | M. Esc closes it. Also the Map row on the pause menu. It shows the church grounds, the sanctuary, Oak Street, the parsonage, Maple Lane, the hardware store, Frank's bay, and where you are. |
+| Pause | Esc, when the journal and the map are closed. Up / Down or W / S choose. E, Space, or Enter confirms Resume, Save, Load, or Map. |
+| Skip to the next part of the day | T (debug). Day starts at 6:00, evening at 5:00, night at 8:00. On the first Sunday before 10:00 a.m., T lands on 10:00. |
 | Sleep | E on the bed in the parsonage. The morning card closes with E, Space, or Enter. |
-| Title, sermon choice, and chapter ending | Up / Down or W / S choose. E, Space, or Enter confirms. |
+| Title, sermon choice, and chapter ending | Up / Down or W / S choose. E, Space, or Enter confirms. The ending offers Continue in Oakridge, Restart, and Quit. |
 
 The clock in the top right advances while you walk: four in-game minutes each real second.
 It holds still during dialogue, the journal, the morning card, pause, and the chapter ending. It starts Thursday at 2:00 p.m.
-and runs through Sunday night. Sleeping sets it to 6:00 a.m. Sunday after 6:00 a.m. does not add a Monday.
+Changing rooms fades briefly. Until you continue past the ledger, the clock stops on Sunday night, and sleeping on Sunday does not add a Monday.
+Continue in Oakridge keeps the story and lets sleep and the clock run into Monday, then a repeating week. Later Sunday mornings at the church are quiet.
 
 Walk up the path to the church. Stand near Margaret or the notice board and press E.
 You cannot walk while a conversation, the journal, the morning card, the town map, the Sunday service, or the chapter ending is open.
 
 Margaret's spare key ring is the first quest. Harold is in the sanctuary on Thursday.
-The east side of the lot walks to Oak Street. A sign and a path point that way. The street has the hardware store, Frank's bay, a cottage, a park, and a creek bank. The bridge sign past the shops opens onto Maple Lane. The store and the bay have doors. They are open during Thomas's and Frank's existing hours, and a shut door says when to come back. A few neighbors wander the sidewalks. Thursday, Friday, and Saturday each have one small moment you can find by looking around. The church walk can be tidied, and the Maple Lane garden can be cleared and replanted. None of that is required for Sunday.
+The east side of the lot walks to Oak Street. A sign and a path point that way. The street has the hardware store, Frank's bay, a cottage, a park, and a creek bank. The bridge sign past the shops opens onto Maple Lane. The store and the bay have doors. They are open while Thomas or Frank is inside, and a shut door says when to come back. During those hours they are behind the counter, not also on the sidewalk. A few neighbors wander the sidewalks. Thursday, Friday, and Saturday each have one small moment you can find by looking around. The church walk can be tidied, and the Maple Lane garden can be cleared and replanted. None of that is required for Sunday.
 The parsonage is on the church grounds. The bed sleeps until morning and shows a short card of things you might do.
 J lists the current objective and, under The church, a few words for how the week feels. Save and Load are on the pause menu. There is one slot, version 3.
 A version 1 or version 2 save still loads. On Sunday at 10:00 a.m., go into the sanctuary for the service.
-After it, talk to Margaret. The ledger is on the west table and ends the chapter. Frank's longer story is at the bay on Friday and again before Saturday afternoon. You can skip it.
+After it, talk to Margaret. The ledger is on the west table and ends the chapter. Continue keeps you in town. Restart returns to Thursday. Frank's longer story is at the bay on Friday and again before Saturday afternoon. You can skip it.
 
 ## Checks
 
@@ -57,6 +58,7 @@ godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m3/m3_va
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m4/m4_validation.tscn
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m4_5/m4_5_validation.tscn
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m5a/m5a_validation.tscn
+godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m5b/m5b_validation.tscn
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/toolchain/toolchain_test.tscn --quit-after 5
 ```
 
@@ -85,7 +87,7 @@ scripts/dialogue/                    conversation runner
 scripts/systems/                     scene router, narrative state, day clock, schedules, save, time of day
 scripts/services/                    Sunday gathering in the sanctuary
 scripts/world/                       room bootstrap, the church, Oak Street, Maple Lane, and the interiors
-scripts/ui/                          prompt, dialogue box, journal, pause, town map, morning card, title, chapter ending
+scripts/ui/                          prompt, dialogue box, journal, pause, town map, morning card, title, chapter ending, scene fade
 assets/                              png placeholders and the master palette
 tools/generate_placeholders.py       draws those pngs
 tests/toolchain/                     environment smoke test (leave it)
@@ -95,6 +97,7 @@ tests/m3/                            milestone 3 checks
 tests/m4/                            milestone 4 checks
 tests/m4_5/                          milestone 4.5 checks
 tests/m5a/                           milestone 5A checks
+tests/m5b/                           milestone 5B checks
 ```
 
 ## Documents

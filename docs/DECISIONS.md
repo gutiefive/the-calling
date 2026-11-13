@@ -137,7 +137,7 @@ Journal notes are an extra list inside the narrative dictionary. A file that has
 
 ## D29 — Sleep and the morning card (M5A)
 
-The parsonage is a small house on the church grounds, with a bed inside. E on the bed fades out, sets the clock to 6:00 a.m., and fades in. If it is already morning, that is this morning. Otherwise it is the next morning. Sunday after 6:00 a.m. does not invent a Monday. The week still ends Sunday night. The card names the weekday and up to three things you might do. It never says you must. E, Space, or Enter closes it. The clock holds while the card is up, the same way it holds for dialogue. T is still the debug skip. No new input action was added.
+The parsonage is a small house on the church grounds, with a bed inside. E on the bed fades out, sets the clock to 6:00 a.m., and fades in. If it is already morning, that is this morning. Otherwise it is the next morning. Sunday after 6:00 a.m. does not invent a Monday. The week still ends Sunday night. D37 lifts that cap after Continue. The card names the weekday and up to three things you might do. It never says you must. E, Space, or Enter closes it. The clock holds while the card is up, the same way it holds for dialogue. T is still the debug skip. No new input action was added.
 
 ## D30 — Maple Lane is open (M5A)
 
@@ -145,7 +145,7 @@ The bridge sign stays on Oak Street, and it still says the bridge was repaired. 
 
 ## D31 — Shops, without moving the sidewalk posts (M5A)
 
-Thomas and Frank still stand where the M3 checks look for them during shop hours. The interiors are extra. A clerk inside is not on the week schedule, so the sidewalk post is the one the presence checks see. The store door sits west of Thomas's post. Standing on him and pressing E talks to him. It does not walk into the shop. Hours come from the existing schedule: Thomas 9:00, Frank 8:00, and both are shut when that post is not on Oak Street. A shut door says when it opens. During open hours you can see the same person on the sidewalk and behind the counter. That duplicate is the cost of leaving the old posts where they are.
+Thomas and Frank stood on the Oak Street sidewalk during shop hours, and a second copy stood behind the counter. D36 removes that duplicate. The hours themselves are unchanged: Thomas from 9:00, Frank from 8:00. A shut door still says when to come back.
 
 ## D32 — Church growth is words (M5A)
 
@@ -162,6 +162,22 @@ Litter and the flower bed on the church walk, then the Maple Lane garden. Cleari
 ## D35 — Frank, listening first (M5A)
 
 After Thursday, a Friday morning visit only asks you to come back. The bay is quieter Friday afternoon or Saturday before 2:00. Listening learns about the hospital week and raises Frank and community trust. Pressing him toward Sunday does neither. Sunday says a different line for each. If you never start this, his old Sunday lines stay. The new condition is `hour_before`. It does not replace `hour_at_least`.
+
+## D36 — One place at a time (M5B)
+
+The week schedule is the only copy of a named person. During open hours Thomas is in the hardware store at the counter, and Frank is in the bay. The sidewalk nodes stay in the street scene and are hidden for those hours. Margaret, Harold, and Sarah were already a single window at a time. Dale and Ruth were too. Monday, Tuesday, and Wednesday reuse the Friday posts: Margaret and Harold split the morning grounds and the afternoon sanctuary, Thomas and Frank keep shop hours, and Sarah splits Oak Street and Maple Lane. Dale and Ruth keep their lane hours on those days as well. Harold's Friday gap from noon to 1:00 is closed, and Sarah's Friday hour on the lane now starts at noon, so neither vanishes between windows. The M3 checks that used to find Thomas and Frank on the sidewalk now find them inside. That suite prints 109 `CHECK OK` lines. The story check walks in through the shop doors.
+
+## D37 — The week continues (M5B)
+
+The ledger still opens the ending. The first row is Continue in Oakridge. Restart is the second row, which is why the M4 ending check presses Down once before E. Continue sets `week_continues` and closes the menu. It does not clear the story and it does not change rooms. Until that flag is set, Sunday after dawn still does not add a Monday, and the clock still stops at Sunday 11:59 p.m. After it, sleep and the clock keep going. Weekday numbers climb. Names repeat every seven days: 8 is Monday, 14 is the next Sunday. T on the first Sunday morning still lands on 10:00. Later Sundays do not. The save stays version 3. The flag lives in the narrative dictionary, so an older file simply has no continued week.
+
+## D38 — Later Sundays stay quiet (M5B)
+
+The first Sunday service is unchanged. A later Sunday does not start it again, and the twelve congregants do not stay in the pews after that first Sunday. From 6:00 a.m. until noon, a note in the sanctuary aisle reads that the room is quiet and the next chapter is still being written. The morning card can say the same. Margaret and Sarah no longer talk as if Sunday is still tomorrow once the week has continued. If the Oak Street errand is still "find Sarah on Friday" after Friday, the journal moves on to Saturday. If Saturday evening has passed, that quest completes so it does not stay active into Sunday.
+
+## D39 — Small fixes found in the pass (M5B)
+
+The shop, bay, and parsonage south door was a gap in the wall with nothing past it. A lip now stops a walk off the map. E on the door still leaves. Room changes fade for a fraction of a second. The fade does not delay the scene load. The interact prompt names the person when the line does not already. Esc closes the journal, and Esc closes the map, and neither of those opens the pause menu. Neighbors on Monday, Tuesday, and Wednesday use a weekday line instead of falling through to a Thursday sentence. Map regions already matched the interiors. Spawns in those rooms were already on open floor. New weekday posts reuse coordinates that already had a clear walk, and a blocked walk still teleports rather than cutting through a solid.
 
 ## Still open
 

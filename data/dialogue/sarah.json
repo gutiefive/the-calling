@@ -6,7 +6,7 @@
       "router": [
         {"if": {"quest_status": ["oak_street", "completed"]}, "next": "after"},
         {"if": {"quest_step": ["oak_street", "saturday"]}, "next": "thinking"},
-        {"if": {"quest_step": ["oak_street", "friday"]}, "next": "choice_line"},
+        {"if": {"quest_step": ["oak_street", "friday"]}, "next": "friday_gate"},
         {"next": "busy"}
       ]
     },
@@ -14,6 +14,12 @@
       "speaker": "Sarah",
       "text": "I've got a pickup line in my head already. Walk with me another day.",
       "end": true
+    },
+    "friday_gate": {
+      "router": [
+        {"if": {"weekday": "Friday"}, "next": "choice_line"},
+        {"next": "thinking"}
+      ]
     },
     "choice_line": {
       "speaker": "Sarah",
@@ -50,8 +56,25 @@
       "end": true
     },
     "after": {
+      "router": [
+        {"if": {"flag": "week_continues"}, "next": "after_week"},
+        {"if": {"weekday": "Sunday"}, "next": "after_sunday"},
+        {"next": "after_saturday"}
+      ]
+    },
+    "after_saturday": {
       "speaker": "Sarah",
       "text": "Sunday's tomorrow. I haven't decided. The kids know where the church is.",
+      "end": true
+    },
+    "after_sunday": {
+      "speaker": "Sarah",
+      "text": "I came. The kids know where the church is. That's as far as I've decided.",
+      "end": true
+    },
+    "after_week": {
+      "speaker": "Sarah",
+      "text": "The kids still know where the church is. I'm not making a new promise this week.",
       "end": true
     }
   }

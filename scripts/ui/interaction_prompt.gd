@@ -30,4 +30,4 @@ func _process(_delta: float) -> void:
 		visible = false
 		return
 	visible = true
-	_label.text = "E  %s" % item.prompt_text
+	_label.text = "E  %s" % item.prompt_label()

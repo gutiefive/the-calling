@@ -8,6 +8,7 @@ var _was_down: bool = false
 
 
 func _ready() -> void:
+	add_to_group("journal_panel")
 	visible = false
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	if _label != null:
@@ -40,6 +41,17 @@ func _exit_tree() -> void:
 	var story := get_node_or_null("/root/NarrativeState")
 	if story != null:
 		story.set("journal_open", false)
+
+
+func is_open() -> bool:
+	return _open
+
+
+func close() -> void:
+	if not _open:
+		return
+	_set_open(false)
+	_was_down = Input.is_action_pressed("journal")
 
 
 func _set_open(is_open: bool) -> void:
@@ -88,5 +100,5 @@ func _body_text() -> String:
 		for note in notes:
 			lines.append(note)
 	lines.append("")
-	lines.append("J  close")
+	lines.append("J or Esc  close")
 	return "\n".join(lines)

@@ -11,6 +11,7 @@ var _labels: Array[Label] = []
 var _up_was: bool = false
 var _down_was: bool = false
 var _confirm_was: bool = false
+var _pause_was: bool = false
 
 
 func _ready() -> void:
@@ -41,23 +42,11 @@ func _ready() -> void:
 	_refresh()
 
 
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_echo() or not event.is_action_pressed("pause"):
-		return
-	if NarrativeState.ending_open:
-		get_viewport().set_input_as_handled()
-		return
-	var tree := get_tree()
-	if tree == null:
-		return
-	var map := tree.get_first_node_in_group("town_map")
-	if map != null and map.has_method("is_open") and bool(map.call("is_open")):
-		return
-	toggle_pause()
-	get_viewport().set_input_as_handled()
-
-
 func _physics_process(_delta: float) -> void:
+	var pause_down := Input.is_action_pressed("pause")
+	if pause_down and not _pause_was:
+		_handle_pause()
+	_pause_was = pause_down
 	var tree := get_tree()
 	if tree == null or not tree.paused:
 		_sync_held()
@@ -76,6 +65,23 @@ func _physics_process(_delta: float) -> void:
 	_up_was = up
 	_down_was = down
 	_confirm_was = confirm
+
+
+func _handle_pause() -> void:
+	if NarrativeState.ending_open:
+		return
+	var tree := get_tree()
+	if tree == null:
+		return
+	var journal := tree.get_first_node_in_group("journal_panel")
+	if journal != null and journal.has_method("is_open") and bool(journal.call("is_open")):
+		journal.call("close")
+		return
+	var map := tree.get_first_node_in_group("town_map")
+	if map != null and map.has_method("is_open") and bool(map.call("is_open")):
+		map.call("close")
+		return
+	toggle_pause()
 
 
 func toggle_pause() -> void:

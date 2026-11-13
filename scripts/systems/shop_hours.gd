@@ -1,6 +1,11 @@
 class_name ShopHours
 extends RefCounted
-## A shop is open while that person's schedule still puts them on Oak Street.
+## A shop is open while that person's schedule puts them inside it.
+
+const WORKPLACE: Dictionary = {
+	"thomas": "hardware_interior",
+	"frank": "bay_interior",
+}
 
 
 static func is_open(npc_id: String) -> bool:
@@ -16,7 +21,10 @@ static func is_open(npc_id: String) -> bool:
 	var place := NpcSchedule.placement(npc_id, day, hour, minute)
 	if place.is_empty():
 		return false
-	return str(place.get("scene", "")) == "hardware_street"
+	var want := str(WORKPLACE.get(npc_id, ""))
+	if want.is_empty():
+		return false
+	return str(place.get("scene", "")) == want
 
 
 static func closed_line(npc_id: String) -> String:

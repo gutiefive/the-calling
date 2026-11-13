@@ -35,7 +35,8 @@ func _ready() -> void:
 	_add_region(STORE, Color(0.52, 0.40, 0.30, 1.0), "Hardware store")
 	_add_region(BAY, Color(0.42, 0.40, 0.38, 1.0), "Frank's bay")
 	var hint := Label.new()
-	hint.text = "M  close"
+	hint.name = "Hint"
+	hint.text = "M or Esc  close"
 	hint.position = Vector2(16, 338)
 	hint.add_theme_font_size_override("font_size", 14)
 	hint.add_theme_color_override("font_color", Color(0.78, 0.72, 0.62))
@@ -47,13 +48,6 @@ func _ready() -> void:
 	_marker.size = Vector2(8, 8)
 	_marker.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_marker)
-
-
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_echo() or not _open or not event.is_action_pressed("pause"):
-		return
-	close()
-	get_viewport().set_input_as_handled()
 
 
 func _physics_process(_delta: float) -> void:
@@ -73,7 +67,7 @@ func place_names() -> PackedStringArray:
 		if not child is Label:
 			continue
 		var label := child as Label
-		if label.text == "M  close":
+		if label.name == "Hint":
 			continue
 		names.append(label.text)
 	return names

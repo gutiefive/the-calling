@@ -72,6 +72,7 @@ func _place_props() -> void:
 	_place("Props/Harold", POS_HAROLD)
 	_place("Props/KeyRing", POS_KEYS)
 	_place("Props/Ledger", POS_LEDGER)
+	_add_quiet_note()
 	_place("Props/Thomas", Vector2(560, 520))
 	_place("Props/Frank", Vector2(400, 600))
 	_place("Props/Sarah", Vector2(400, 500))
@@ -94,6 +95,29 @@ func _place_props() -> void:
 	_place("Lighting/SconceL", POS_SCONCE_L)
 	_place("Lighting/SconceR", POS_SCONCE_R)
 	_place("Lighting/SconceN", POS_SCONCE_N)
+
+
+func _add_quiet_note() -> void:
+	var props := get_node_or_null("Props")
+	if props == null or props.get_node_or_null("QuietSunday") != null:
+		return
+	var note := SpeechProp.new()
+	note.name = "QuietSunday"
+	note.position = Vector2(480, 400)
+	note.sheet = PlaceholderArt.ledger()
+	note.frame_size = Vector2i(32, 32)
+	note.frame_count = 1
+	note.speaker_name = "Note"
+	note.prompt_text = "Read"
+	note.line = DayClock.LATER_SUNDAY_NOTE
+	note.radius = 36.0
+	note.visible = false
+	note.enabled = false
+	note.add_to_group("quiet_sunday")
+	var sprite := AnimatedSprite2D.new()
+	sprite.name = "Sprite"
+	note.add_child(sprite)
+	props.add_child(note)
 
 
 func _paint_ground() -> void:

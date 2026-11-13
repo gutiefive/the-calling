@@ -11,7 +11,8 @@ Status date: 2026-11-12. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md
 | M4 First Sunday vertical slice | Implemented. Sunday service, sermon theme, follow-ups, the ledger, and a title screen. |
 | M4.5 Living town | Implemented. Wayfinding to Oak Street, a wider street, people who move, and one optional moment each on Thursday, Friday, and Saturday. |
 | M5A A town to come home to | Implemented. Parsonage and sleep, Maple Lane, shop interiors, soft church growth, two optional tasks, and the first step of Frank's arc. |
-| M5B+ | Not started. Do not add another chapter, inventory, or audio until Nathan asks. |
+| M5B Polish | Implemented. One place for each person, a week that continues after Chapter 1, and a quiet later Sunday. |
+| Later | Not started. Do not add another chapter, inventory, or audio until Nathan asks. |
 
 ## M1 includes
 
@@ -59,4 +60,12 @@ A parsonage on the church grounds. The bed sleeps until the next morning, with a
 
 ## M5A does not include
 
-Another chapter, inventory, money, audio, a second Sunday, or a Monday past this week's cap.
+Another chapter, inventory, money, audio, or a Monday past this week's cap. M5B adds the Monday.
+
+## M5B includes
+
+A polish pass. Thomas and Frank keep shop hours inside the store and the bay, and the sidewalk copies are hidden for those hours. Margaret, Harold, Sarah, Dale, and Ruth were already one schedule entry at a time. The same posts now cover Monday, Tuesday, and Wednesday by reusing the Friday pattern. After the ledger, Continue in Oakridge sits with Restart and Quit. Continue keeps the story. Sleep and the clock then run into Monday and repeat the week. Later Sunday mornings in the sanctuary are quiet: no second sermon, and a short note that the next chapter is still being written. Room changes fade. The interact prompt names its target. Esc closes the journal and the map. A missed Friday or Saturday errand leaves the active journal list when that day has passed. Saves stay version 3. The new flag is `week_continues`.
+
+## M5B does not include
+
+Another chapter, a second sermon system, inventory, money, or audio.

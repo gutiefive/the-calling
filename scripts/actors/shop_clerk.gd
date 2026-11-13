@@ -6,8 +6,9 @@ extends DialogueNpc
 
 
 func _enter_tree() -> void:
-	# Leave npc_id empty so the street schedule is not pulled indoors.
-	npc_id = ""
+	# The week schedule is the only copy of this person. The sidewalk node hides while they are here.
+	if npc_id.is_empty():
+		npc_id = hours_id
 	super._enter_tree()
 	add_to_group("shop_clerk")
 
@@ -18,6 +19,9 @@ func _ready() -> void:
 
 
 func apply_clock() -> void:
+	# NpcSchedule already showed or hid this node. Do not turn the sidewalk hours back on.
+	if not npc_id.is_empty():
+		return
 	var open := ShopHours.is_open(hours_id)
 	visible = open
 	enabled = open

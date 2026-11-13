@@ -1,7 +1,7 @@
 extends CanvasLayer
-## Shown after the ledger. Restart clears the story. Quit leaves.
+## Shown after the ledger. Continue stays in Oakridge. Restart clears the story. Quit leaves.
 
-const CHOICES: PackedStringArray = ["Restart from the beginning", "Quit"]
+const CHOICES: PackedStringArray = ["Continue in Oakridge", "Restart from the beginning", "Quit"]
 
 var _index: int = 0
 var _shown: bool = false
@@ -75,6 +75,8 @@ func _build() -> void:
 func _process(_delta: float) -> void:
 	if _shown:
 		return
+	if NarrativeState.flag_is_true("week_continues"):
+		return
 	if not NarrativeState.flag_is_true("ledger_revealed"):
 		return
 	if NarrativeState.dialogue_open:
@@ -115,11 +117,21 @@ func _show() -> void:
 
 func _confirm() -> void:
 	if _index == 0:
+		continue_story()
+		return
+	if _index == 1:
 		restart_story()
 		return
 	var tree := get_tree()
 	if tree != null:
 		tree.quit()
+
+
+func continue_story() -> void:
+	NarrativeState.set_flag("week_continues", true)
+	NarrativeState.ending_open = false
+	_shown = false
+	visible = false
 
 
 func restart_story() -> void:

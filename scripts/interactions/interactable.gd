@@ -19,5 +19,15 @@ func _enter_tree() -> void:
 		add_to_group("solid_prop")
 
 
+func prompt_label() -> String:
+	var who := ""
+	var named: Variant = get("speaker_name")
+	if named != null:
+		who = str(named)
+	if who.is_empty() or prompt_text.findn(who) != -1:
+		return prompt_text
+	return "%s — %s" % [who, prompt_text]
+
+
 func interact(_actor: Node) -> void:
 	interacted.emit()

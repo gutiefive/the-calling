@@ -1,6 +1,6 @@
 class_name ScheduledDoor
 extends Door
-## Opens only while the named person is on their Oak Street hours.
+## Opens only while the named person is inside, on the week schedule.
 ## A shut door says when to come back and does not change rooms.
 
 @export var hours_id: String = ""

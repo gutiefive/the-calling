@@ -63,6 +63,8 @@ func _add_walls() -> void:
 			var door_gap := y == MAP_SIZE.y - 1 and (x == 9 or x == 10)
 			if border and not door_gap:
 				_add_rect(Vector2(x * 32 + 16, y * 32 + 16), Vector2(32, 32))
+	# The south gap is the door. A lip stops a walk off the map. E on the door still leaves.
+	_add_rect(Vector2(320, MAP_SIZE.y * 32 - 6), Vector2(64, 12))
 
 
 func _place_room() -> void:

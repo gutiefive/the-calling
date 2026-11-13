@@ -223,7 +223,7 @@ Launch with `godot --path .` from the repo, or press F5 in the editor.
 | ID | Do this | Expect |
 |---|---|---|
 | T39 | From the church grounds, enter the parsonage and press E on the bed. Close the card with E | The screen fades. It is 6:00 a.m. the next morning, or this morning if you were already up. A card names the weekday and a few things you might do. Nothing on it is required. |
-| T40 | On Sunday after the service, sleep again | The clock stays on Sunday. It does not invent a Monday. |
+| T40 | On the first Sunday, before the chapter ending, sleep again | The clock stays on Sunday. It does not invent a Monday. After Continue, the same sleep reaches Monday. See T48. |
 | T41 | Walk east on Oak Street to the bridge sign, then past it. Come back | The sign says the bridge is open. Maple Lane has houses, fences, a bus stop, and a garden. The banner names the lane. The return door puts you back on Oak Street. M shows the lane. |
 | T42 | On Friday morning, enter the hardware store and the bay. Press T until night and try the doors again | Thomas is at the counter in the morning, and the shelves can be read. Frank is in the bay. At night both doors stay shut and say when they open. |
 | T43 | Press J after a sermon, and again after tidying the church walk | The church section uses words such as Strained, Steady, or Growing. It does not show a score. |
@@ -233,4 +233,40 @@ Launch with `godot --path .` from the repo, or press F5 in the editor.
 
 ## M5A results
 
-On 2026-11-12, `Godot_v4.7.2-stable_win64_console.exe --headless --path . res://tests/m5a/m5a_validation.tscn` printed 103 `CHECK OK` lines and `M5A_OK`, and exited 0. The same binary printed `M1_OK` (74), `M2_OK` (113), `M3_OK` (108), `M4_OK` (90), and `M4_5_OK` (90), each exiting 0. T39–T46 were not played in a window.
+On 2026-11-12, `Godot_v4.7.2-stable_win64_console.exe --headless --path . res://tests/m5a/m5a_validation.tscn` printed 103 `CHECK OK` lines and `M5A_OK`, and exited 0. The same binary printed `M1_OK` (74), `M2_OK` (113), `M3_OK` (108), `M4_OK` (90), and `M4_5_OK` (90), each exiting 0. T39–T46 were not played in a window. M5B later moved the M3 count to 109. See D36.
+
+# Milestone 5B test plan
+
+The earlier lists still apply. These checks cover one place per person, the week after Chapter 1, and the small fixes in that pass.
+
+## Automated
+
+```powershell
+godot --headless --path . --import
+godot --headless --path . res://tests/m1/m1_validation.tscn
+godot --headless --path . res://tests/m2/m2_validation.tscn
+godot --headless --path . res://tests/m3/m3_validation.tscn
+godot --headless --path . res://tests/m4/m4_validation.tscn
+godot --headless --path . res://tests/m4_5/m4_5_validation.tscn
+godot --headless --path . res://tests/m5a/m5a_validation.tscn
+godot --headless --path . res://tests/m5b/m5b_validation.tscn
+```
+
+`m5b_validation.tscn` prints `CHECK OK` / `CHECK FAIL` lines and exits with `M5B_OK` or `M5B_FAIL`.
+It samples every named person on every weekday, including a second week, and checks that the schedule and the loaded rooms agree on at most one place. It continues past the ledger, sleeps through a full week into the next Monday, checks the quiet second Sunday, and round-trips a save on Friday of that second week. It also checks the shop-door lip, the named prompt, the fade, and Esc on the journal and the map.
+The M3 run still prints `Save is missing a version` before the check that rejects it. The M5A run prints `Save version 4 is not supported` before the check that rejects a newer file. Both suites then exit 0. M3 now prints 109 checks because the Friday shop check looks inside and also asserts the sidewalk copies are hidden.
+
+## Manual
+
+Launch with `godot --path .` from the repo, or press F5 in the editor.
+
+| ID | Do this | Expect |
+|---|---|---|
+| T47 | On Friday morning, look at the hardware sidewalk, then enter the store and the bay | Thomas is behind the counter, not also outside. Frank is in the bay, not also on the walk. |
+| T48 | Finish the ledger. Choose Continue in Oakridge. Sleep at the parsonage | You stay in town with the week you already lived. The next morning is Monday. Sleep again on each day, including the next Sunday. The clock keeps moving. |
+| T49 | On a later Sunday morning, enter the sanctuary | No sermon starts. A note says the next chapter is still being written. The pews are not filled with the first Sunday's crowd. |
+| T50 | Stand near someone and read the prompt. Open the journal and the map. Press Esc for each | The prompt includes their name. Esc closes the journal. Esc closes the map. Neither press opens the pause menu. Walking into a new room fades briefly. |
+
+## M5B results
+
+On 2026-11-12, `Godot_v4.7.2-stable_win64_console.exe --headless --path . res://tests/m5b/m5b_validation.tscn` printed 1311 `CHECK OK` lines and `M5B_OK`, and exited 0. The same binary then printed `M1_OK` (74), `M2_OK` (113), `M3_OK` (109), `M4_OK` (90), `M4_5_OK` (90), and `M5A_OK` (103), each exiting 0. T47–T50 were not played in a window.

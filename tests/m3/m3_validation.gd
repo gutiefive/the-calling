@@ -187,17 +187,22 @@ func _schedules() -> void:
 	DayClock.set_time(5, 10, 0)
 	var street := _instance("res://scenes/world/hardware_street.tscn")
 	church = _instance("res://scenes/world/church_exterior.tscn")
-	if street == null or church == null:
+	var store := _instance("res://scenes/world/hardware_interior.tscn")
+	var bay := _instance("res://scenes/world/bay_interior.tscn")
+	if street == null or church == null or store == null or bay == null:
 		return
 	var sarah: Node2D = street.get_node("Props/Sarah")
-	var thomas: Node2D = street.get_node("Props/Thomas")
-	var frank: Node2D = street.get_node("Props/Frank")
+	var thomas_out: Node2D = street.get_node("Props/Thomas")
+	var frank_out: Node2D = street.get_node("Props/Frank")
 	_check(_present(sarah, "sarah", "Friday", 10, 0), "Sarah is on Oak Street Friday morning")
-	_check(_present(thomas, "thomas", "Friday", 10, 0), "Thomas keeps Friday store hours")
-	_check(_present(frank, "frank", "Friday", 10, 0), "Frank is at the bay Friday morning")
+	_check(not thomas_out.visible and not frank_out.visible, "Thomas and Frank are not also on the sidewalk during shop hours")
+	_check(_present(store.get_node("Props/Thomas"), "thomas", "Friday", 10, 0), "Thomas keeps Friday store hours behind the counter")
+	_check(_present(bay.get_node("Props/Frank"), "frank", "Friday", 10, 0), "Frank is in the bay Friday morning")
 	_check(_present(church.get_node("Props/Harold"), "harold", "Friday", 10, 0), "Harold is on the grounds Friday morning")
 	street.free()
 	church.free()
+	store.free()
+	bay.free()
 
 	DayClock.set_time(5, 14, 0)
 	sanctuary = _instance("res://scenes/world/sanctuary.tscn")
@@ -390,20 +395,52 @@ func _story_to_saturday() -> void:
 	if room == null:
 		return
 	player = room.get_node("Props/Player") as Player
+	var store_door := room.get_node("Props/StoreDoor") as Node2D
+	if player == null or store_door == null:
+		_check(false, "Oak Street is missing the store door")
+		return
+	await _stand_at(player, store_door)
+	await _tap("interact")
+	room = await _wait_scene("HardwareInterior")
+	if room == null:
+		return
+	player = room.get_node("Props/Player") as Player
 	var thomas := room.get_node("Props/Thomas") as Node2D
 	box = room.get_node("HUD/Banner") as DialogueBox
 	label = room.get_node("HUD/Banner/Label") as RichTextLabel
 	if player == null or thomas == null or not thomas.visible or box == null or label == null:
-		_check(false, "Thomas is not on Oak Street Thursday afternoon")
+		_check(false, "Thomas is not behind the counter Thursday afternoon")
 		return
 	await _stand_at(player, thomas)
 	await _tap("interact")
 	_check(NarrativeState.quest_step("oak_street") == "frank", "Thomas points the story at Frank")
 	await _tap("advance_dialogue")
 	await _tap("interact")
+	var out := room.get_node("Props/Door") as Node2D
+	if out == null:
+		_check(false, "the store is missing its door")
+		return
+	await _stand_at(player, out)
+	await _tap("interact")
+	room = await _wait_scene("HardwareStreet")
+	if room == null:
+		return
+	player = room.get_node("Props/Player") as Player
+	var bay_door := room.get_node("Props/BayDoor") as Node2D
+	if player == null or bay_door == null:
+		_check(false, "Oak Street is missing the bay door")
+		return
+	await _stand_at(player, bay_door)
+	await _tap("interact")
+	room = await _wait_scene("BayInterior")
+	if room == null:
+		return
+	player = room.get_node("Props/Player") as Player
 	var frank := room.get_node("Props/Frank") as Node2D
-	if frank == null or not frank.visible:
-		_check(false, "Frank is not at the bay")
+	box = room.get_node("HUD/Banner") as DialogueBox
+	label = room.get_node("HUD/Banner/Label") as RichTextLabel
+	if player == null or frank == null or not frank.visible or box == null or label == null:
+		_check(false, "Frank is not in the bay")
 		return
 	await _stand_at(player, frank)
 	await _tap("interact")
@@ -414,6 +451,16 @@ func _story_to_saturday() -> void:
 	await _tap("advance_dialogue")
 	_check(label.text.contains("unheard"), "Frank's own line is the one that plays (%s)" % _snippet(label.text))
 	await _tap("interact")
+	out = room.get_node("Props/Door") as Node2D
+	if player == null or out == null:
+		_check(false, "the bay is missing its door")
+		return
+	await _stand_at(player, out)
+	await _tap("interact")
+	room = await _wait_scene("HardwareStreet")
+	if room == null:
+		return
+	player = room.get_node("Props/Player") as Player
 
 	DayClock.set_time(5, 10, 0)
 	await _pump(2)
@@ -517,6 +564,10 @@ func _scene_name(path: String) -> String:
 		return "Sanctuary"
 	if path.ends_with("hardware_street.tscn"):
 		return "HardwareStreet"
+	if path.ends_with("hardware_interior.tscn"):
+		return "HardwareInterior"
+	if path.ends_with("bay_interior.tscn"):
+		return "BayInterior"
 	return "ChurchExterior"
 
 

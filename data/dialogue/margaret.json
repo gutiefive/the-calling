@@ -137,8 +137,30 @@
       "end": true
     },
     "week_done": {
+      "router": [
+        {"if": {"flag": "week_continues"}, "next": "after_chapter"},
+        {"next": "week_sunday"}
+      ]
+    },
+    "week_sunday": {
       "speaker": "Margaret",
       "text": "Sunday's at ten. I'm not asking for a crowd. I'm asking us to show up.",
+      "end": true
+    },
+    "after_chapter": {
+      "router": [
+        {"if": {"weekday": "Sunday"}, "next": "later_sunday"},
+        {"next": "after_walk"}
+      ]
+    },
+    "later_sunday": {
+      "speaker": "Margaret",
+      "text": "No sermon this morning. We can sit with what we already said. The room does not need filling.",
+      "end": true
+    },
+    "after_walk": {
+      "speaker": "Margaret",
+      "text": "The first week is behind us. Walk if you want. Nothing new is due today.",
       "end": true
     }
   }

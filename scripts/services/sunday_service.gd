@@ -44,6 +44,7 @@ func on_clock() -> void:
 		return
 	_sync_crowd()
 	_sync_ledger()
+	_sync_quiet_note()
 	if _should_start():
 		_begin()
 
@@ -57,6 +58,7 @@ func _boot() -> void:
 	if NarrativeState.flag_is_true("service_complete"):
 		_sync_crowd()
 		_sync_ledger()
+		_sync_quiet_note()
 		return
 	# A theme was already chosen, so do not play the sermon again and add the relationships twice.
 	if str(NarrativeState.get_flag("sermon_theme", "")) != "":
@@ -69,6 +71,7 @@ func _boot() -> void:
 
 func _process(_delta: float) -> void:
 	_sync_ledger()
+	_sync_quiet_note()
 	if not _running:
 		return
 	var box := _box()
@@ -90,10 +93,14 @@ func _should_start() -> bool:
 		return false
 	if NarrativeState.dialogue_open:
 		return false
+	if _is_later_sunday():
+		return false
 	var clock := get_node_or_null("/root/DayClock")
 	if clock == null:
 		return false
 	if str(clock.call("weekday_name")) != "Sunday":
+		return false
+	if int(clock.get("weekday")) > 7:
 		return false
 	return int(clock.get("hour")) >= 10
 
@@ -214,7 +221,8 @@ func _sync_crowd() -> void:
 	var room := get_parent()
 	if room == null:
 		return
-	var show := _sunday_service_hour() or NarrativeState.flag_is_true("service_complete")
+	# The twelve sit for the first Sunday from 10:00 on. They do not stay into the next week.
+	var show := _sunday_service_hour() and not _is_later_sunday()
 	var tree := get_tree()
 	if tree == null:
 		return
@@ -233,6 +241,31 @@ func _sync_ledger() -> void:
 	var show := NarrativeState.flag_is_true("margaret_sunday") and not NarrativeState.flag_is_true("ledger_revealed")
 	ledger.visible = show
 	ledger.enabled = show
+
+
+func _sync_quiet_note() -> void:
+	var room := get_parent()
+	if room == null:
+		return
+	var clock := get_node_or_null("/root/DayClock")
+	var show := _is_later_sunday() and clock != null and int(clock.get("hour")) < 12
+	var tree := get_tree()
+	if tree == null:
+		return
+	for node in tree.get_nodes_in_group("quiet_sunday"):
+		if not room.is_ancestor_of(node):
+			continue
+		if node is CanvasItem:
+			(node as CanvasItem).visible = show
+		if node is Interactable:
+			(node as Interactable).enabled = show
+
+
+func _is_later_sunday() -> bool:
+	var clock := get_node_or_null("/root/DayClock")
+	if clock == null or not clock.has_method("is_later_sunday"):
+		return false
+	return bool(clock.call("is_later_sunday"))
 
 
 func _sunday_service_hour() -> bool:

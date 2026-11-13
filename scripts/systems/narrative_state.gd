@@ -149,8 +149,37 @@ func garden_stage() -> int:
 	return mini(2 + maxi(0, day - planted), 4)
 
 
+func reconcile_calendar() -> void:
+	# A Friday errand should not still be the active journal line on Saturday, or a Saturday errand on Sunday.
+	if quest_status("oak_street") != "active":
+		return
+	var clock := get_node_or_null("/root/DayClock")
+	if clock == null:
+		return
+	var day := int(clock.get("weekday"))
+	var step := quest_step("oak_street")
+	if step == "friday" and day > 5:
+		set_step("oak_street", "saturday")
+		step = "saturday"
+	if step == "saturday" and day >= 7:
+		if not flag_is_true("sunday_ready"):
+			set_flag("sunday_ready", true)
+		complete_quest("oak_street")
+
+
 func day_suggestions() -> PackedStringArray:
 	var lines: PackedStringArray = PackedStringArray()
+	var clock := get_node_or_null("/root/DayClock")
+	var day := 4
+	var hour := 14
+	var later_sunday := false
+	if clock != null:
+		day = int(clock.get("weekday"))
+		hour = int(clock.get("hour"))
+		if clock.has_method("is_later_sunday"):
+			later_sunday = bool(clock.call("is_later_sunday"))
+	if later_sunday and hour < 12:
+		lines.append("The sanctuary is quiet. The next chapter is still being written.")
 	if not flag_is_true("grounds_tidy"):
 		lines.append("The church walk could use a few minutes, if you want them.")
 	if not flag_is_true("garden_planted"):
@@ -158,11 +187,7 @@ func day_suggestions() -> PackedStringArray:
 	if lines.size() < 3 and not flag_is_true("frank_arc_heard"):
 		if flag_is_true("frank_listened") or flag_is_true("frank_invited"):
 			lines.append("Frank is at the bay during the day, if you feel like stopping.")
-	if lines.size() < 3 and not flag_is_true("sunday_ready"):
-		var clock := get_node_or_null("/root/DayClock")
-		var day := 4
-		if clock != null:
-			day = int(clock.get("weekday"))
+	if lines.size() < 3 and not flag_is_true("sunday_ready") and not flag_is_true("week_continues"):
 		if day < 7:
 			lines.append("Sunday is at ten, when the week gets there.")
 	if lines.is_empty():

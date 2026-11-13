@@ -140,6 +140,7 @@ func _service_themes() -> void:
 	var summary := str(ending.call("body_text"))
 	_check(summary.contains("oil") and summary.contains("hope"), "the ending summarizes the sermon and the money (%s)" % _snippet(summary))
 	_check(NarrativeState.movement_locked(), "the ending holds the player")
+	await _tap("dialogue_down")
 	await _tap("interact")
 	room = await _wait_scene("ChurchExterior")
 	_check(room != null, "restart returns to the church grounds")

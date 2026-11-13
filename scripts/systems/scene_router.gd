@@ -27,6 +27,9 @@ static func travel(tree: SceneTree, scene_path: String, spawn: StringName) -> vo
 	last_path = scene_path
 	if suppress_change:
 		return
+	var fade := tree.root.get_node_or_null("SceneFade")
+	if fade != null and fade.has_method("play"):
+		fade.call("play")
 	tree.change_scene_to_file(scene_path)
 
 

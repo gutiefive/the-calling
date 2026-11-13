@@ -12,12 +12,23 @@ static var _ok: bool = false
 static var debug_blocks: Array[Rect2] = []
 
 
-static func placement(npc_id: String, day_name: String, hour: int, minute: int) -> Dictionary:
+static func npc_ids() -> PackedStringArray:
 	if not _ensure():
-		return {}
+		return PackedStringArray()
+	var ids := PackedStringArray()
+	for key in _npcs.keys():
+		ids.append(str(key))
+	ids.sort()
+	return ids
+
+
+static func matches(npc_id: String, day_name: String, hour: int, minute: int) -> Array:
+	var found: Array = []
+	if not _ensure():
+		return found
 	var rows: Variant = _npcs.get(npc_id, [])
 	if not rows is Array:
-		return {}
+		return found
 	var now := hour * 60 + minute
 	for entry_v in rows as Array:
 		if not entry_v is Dictionary:
@@ -33,10 +44,20 @@ static func placement(npc_id: String, day_name: String, hour: int, minute: int) 
 		if not pos_v is Array or (pos_v as Array).size() < 2:
 			continue
 		var pos_a: Array = pos_v
-		return {
+		found.append({
 			"scene": str(entry.get("scene", "")),
 			"position": Vector2(float(pos_a[0]), float(pos_a[1])),
-		}
+		})
+	return found
+
+
+static func placement(npc_id: String, day_name: String, hour: int, minute: int) -> Dictionary:
+	var rows := matches(npc_id, day_name, hour, minute)
+	if rows.is_empty():
+		return {}
+	var first: Variant = rows[0]
+	if first is Dictionary:
+		return first
 	return {}
 
 
