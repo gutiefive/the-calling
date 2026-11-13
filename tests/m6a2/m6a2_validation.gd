@@ -88,7 +88,7 @@ func _scene_checks() -> void:
 	_check_tileset(church, "church grounds")
 	var ground := church.get_node_or_null("Ground") as TileMapLayer
 	if ground != null:
-		_check(ground.get_cell_atlas_coords(Vector2i(18, 12)) == TownTiles.PATH, "church path still uses atlas (2,0)")
+		_check(ground.get_cell_atlas_coords(GroundsLayout.PATH_CHURCH) == TownTiles.PATH, "church path still uses atlas (2,0)")
 		_check(ground.get_cell_source_id(Vector2i(0, 0)) != -1, "church grass is painted")
 	_check_authored_sprite(church, "Props/Church", "church_front.png", Vector2(384, 160))
 	_check_authored_sprite(church, "Props/Tree1", "tree.png", Vector2(48, 80))
@@ -181,10 +181,10 @@ func _check_notice(room: Node) -> void:
 
 
 func _check_church_collision(room: Node) -> void:
-	_check(_has_rect(room, Vector2(576, 206), Vector2(384, 132)), "church body collision is unchanged")
-	_check(_has_rect(room, Vector2(464, 286), Vector2(160, 28)), "church west jamb is unchanged")
-	_check(_has_rect(room, Vector2(688, 286), Vector2(160, 28)), "church east jamb is unchanged")
-	_check(_has_rect(room, Vector2(576, 8), Vector2(1152, 16)), "grounds north border is unchanged")
+	_check(_has_rect(room, GroundsLayout.church_body_center(), GroundsLayout.church_body_size()), "church body collision matches the church sprite")
+	_check(_has_rect(room, GroundsLayout.church_west_jamb_center(), GroundsLayout.church_jamb_size()), "church west jamb matches the doorway")
+	_check(_has_rect(room, GroundsLayout.church_east_jamb_center(), GroundsLayout.church_jamb_size()), "church east jamb matches the doorway")
+	_check(_has_rect(room, GroundsLayout.north_border_center(), GroundsLayout.north_border_size()), "grounds north border matches the map")
 
 
 func _check_block(room: Node, node_path: String, size: Vector2) -> void:

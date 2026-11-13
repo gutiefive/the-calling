@@ -1,0 +1,44 @@
+{
+  "plots": [
+    {
+      "id": "plot_residence",
+      "name": "Future Building Site",
+      "rect": [10, 3, 7, 5],
+      "inspect": "Margaret says this was meant for something, once.",
+      "project_id": "residence_hall",
+      "built_scene": ""
+    },
+    {
+      "id": "plot_chapel",
+      "name": "Future Building Site",
+      "rect": [19, 3, 7, 5],
+      "inspect": "Survey posts. Someone measured this years ago.",
+      "project_id": "side_chapel",
+      "built_scene": ""
+    },
+    {
+      "id": "plot_hall",
+      "name": "Future Building Site",
+      "rect": [28, 3, 7, 5],
+      "inspect": "A cleared lot. The grass has not come back.",
+      "project_id": "additional_hall",
+      "built_scene": ""
+    },
+    {
+      "id": "plot_farm",
+      "name": "Open Field",
+      "rect": [2, 14, 8, 6],
+      "inspect": "Stakes and string. An open field, waiting.",
+      "project_id": "farm_greenhouse",
+      "built_scene": ""
+    },
+    {
+      "id": "plot_workshop",
+      "name": "Future Building Site",
+      "rect": [48, 3, 7, 5],
+      "inspect": "String between the stakes. Nothing built yet.",
+      "project_id": "workshop",
+      "built_scene": ""
+    }
+  ]
+}

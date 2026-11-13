@@ -33,7 +33,10 @@ never say "cult". The previous pastor is Alden Reece.
   yet. Dale and Ruth keep weekday hours on the sidewalks. Evening puts a neighbor on a porch.
 - **Grace Community Church** — once ~200 attendees, now ~17 on Sundays. Tired building, members who feel unheard,
   low leadership trust, a sensitive history around the prior pastor's departure. A financial problem surfaces at the
-  end of Chapter 1.
+  end of Chapter 1. The grounds are a small campus behind a fence, with one main gate off Oak Street. A courtyard
+  faces the sanctuary. The Fellowship Hall sits on a west wing. The parsonage has its own yard. A parking lot, a
+  picnic lawn, a quiet memorial garden, and a utility shed fill the rest. Staked empty lots wait for later buildings
+  (dorms, a field, a workshop, another hall). They read as room to grow, not as a compound slogan.
 - **Protagonist** — neutral default presentation and placeholder name; no character customization yet.
 
 ## Design pillars

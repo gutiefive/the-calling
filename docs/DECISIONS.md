@@ -287,6 +287,16 @@ Playtest after M11B: hanging boards sat in front of the doors and two evening ne
 
 Each named storefront still has one name, now on a rooftop / parapet board above the facade, on the cornice. The hanging sign in front of the door is gone. Facades still have no painted duplicate. Evening townsfolk stand to the side on the sidewalk, off the signs and off the doors. Hardware, Bright's, and Frank's bay use the same rooftop style. No new story.
 
+## D51 — Church grounds campus (M12)
+
+Playtest: the lot felt open and chaotic. The grounds are now a small campus with a clear perimeter, one main gate off Oak Street, and a courtyard in front of the sanctuary.
+
+The sanctuary sits at the head of a paved plaza (paths, a cross, benches, flower beds). The Fellowship Hall is a west wing on a covered walk. The parsonage has its own hedged yard and a side gate. A parking lot sits by the entrance. A quiet memorial garden, a utility corner, and a picnic lawn fill the rest. Lamps, trees, and planters follow a regular rhythm. The Oak Street exit is a real drive with pillars and a monument sign reading Grace Community Church. No hanging board in front of a door.
+
+**Expansion plots.** Five empty lots live in `data/grounds/plots.json`: id, tile rect, a neutral display name, an inspect line, and optional `project_id` / `built_scene` for a later milestone. They paint as cleared ground with survey stakes and a small Future Site post. Inspecting one is a short line with no dollars, no counts, and no talk of followers or power. The Fellowship Hall repair stays the only funded project. A future milestone can attach "build dorms" (or the farm, workshop, chapel, extra hall) to a plot and swap in the building.
+
+The compound reading is the layout: a fence, one public gate, a courtyard, and staked lots waiting. Insiders still never say "cult".
+
 ## Still open
 
 | # | Question | Notes |

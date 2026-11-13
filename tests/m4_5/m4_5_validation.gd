@@ -75,10 +75,10 @@ func _wayfinding() -> void:
 	var ground := room.get_node_or_null("Ground") as TileMapLayer
 	var path_cell := Vector2i(-1, -1)
 	if ground != null:
-		path_cell = ground.get_cell_atlas_coords(Vector2i(32, 20))
+		path_cell = ground.get_cell_atlas_coords(GroundsLayout.PATH_TO_STREET)
 	_check(path_cell == Vector2i(2, 0), "path tiles lead to the east exit")
 	var camera := room.get_node_or_null("Props/Player/Camera2D") as Camera2D
-	_check(camera != null and camera.limit_right == 36 * 32 and camera.limit_bottom == 26 * 32, "the church lot keeps its M1 bounds")
+	_check(camera != null and camera.limit_right == GroundsLayout.MAP_SIZE.x * GroundsLayout.TILE and camera.limit_bottom == GroundsLayout.MAP_SIZE.y * GroundsLayout.TILE, "the church lot camera stays inside the grounds")
 	var banner := room.get_node_or_null("HUD/LocationBanner") as Label
 	_check(banner != null and banner.visible and banner.text == "Church grounds", "the location banner names the church grounds")
 	var flowers := room.get_node_or_null("Props/ThursdayFlowers") as CanvasItem
@@ -133,7 +133,7 @@ func _walking() -> void:
 	if room == null:
 		return
 	var margaret := room.get_node_or_null("Props/Margaret") as Node2D
-	_check(margaret != null and margaret.position.distance_to(Vector2(700, 360)) < 1.0, "Margaret starts at her Thursday afternoon post")
+	_check(margaret != null and margaret.position.distance_to(GroundsLayout.POS_MARGARET) < 1.0, "Margaret starts at her Thursday afternoon post")
 	if margaret == null:
 		room.free()
 		return
@@ -141,12 +141,12 @@ func _walking() -> void:
 	DayClock.set_time(4, 17, 0)
 	await _pump(20)
 	var walked := margaret.position.y > start_y + 3.0
-	var not_there := margaret.position.distance_to(Vector2(700, 520)) > 20.0
+	var not_there := margaret.position.distance_to(GroundsLayout.POS_MARGARET_EVENING) > 20.0
 	_check(walked and not_there and not bool(margaret.get_meta("schedule_fallback", false)), "Margaret walks toward her evening post instead of popping (%s)" % margaret.position)
 	room.free()
 	await _pump(1)
 
-	NpcSchedule.debug_blocks = [Rect2(Vector2(680, 380), Vector2(80, 180))]
+	NpcSchedule.debug_blocks = [Rect2(Vector2(1000, 700), Vector2(80, 180))]
 	DayClock.set_time(4, 14, 0)
 	room = _instance("res://scenes/world/church_exterior.tscn")
 	if room == null:
@@ -155,7 +155,7 @@ func _walking() -> void:
 	margaret = room.get_node_or_null("Props/Margaret") as Node2D
 	DayClock.set_time(4, 17, 0)
 	await _pump(2)
-	var landed := margaret != null and margaret.position.distance_to(Vector2(700, 520)) < 1.0
+	var landed := margaret != null and margaret.position.distance_to(GroundsLayout.POS_MARGARET_EVENING) < 1.0
 	var used_fallback := margaret != null and bool(margaret.get_meta("schedule_fallback", false))
 	_check(landed and used_fallback, "a blocked path teleports Margaret to the scheduled point")
 	NpcSchedule.debug_blocks = []

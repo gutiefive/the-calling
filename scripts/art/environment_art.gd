@@ -200,6 +200,46 @@ static func dog() -> Texture2D:
 	return _load(DOG)
 
 
+static func monument_sign() -> Texture2D:
+	return _load("res://assets/environments/church_monument.png")
+
+
+static func gate_pillar() -> Texture2D:
+	return _load("res://assets/environments/church_pillar.png")
+
+
+static func survey_stakes() -> Texture2D:
+	return _load("res://assets/environments/survey_stakes.png")
+
+
+static func future_site_sign() -> Texture2D:
+	return _load("res://assets/environments/future_site_sign.png")
+
+
+static func headstone() -> Texture2D:
+	return _load("res://assets/environments/headstone.png")
+
+
+static func memorial_wall() -> Texture2D:
+	return _load("res://assets/environments/memorial_wall.png")
+
+
+static func picnic_table() -> Texture2D:
+	return _load("res://assets/environments/picnic_table.png")
+
+
+static func courtyard_cross() -> Texture2D:
+	return _load("res://assets/environments/courtyard_cross.png")
+
+
+static func walkway_post() -> Texture2D:
+	return _load("res://assets/environments/walkway_post.png")
+
+
+static func church_bell() -> Texture2D:
+	return _load("res://assets/environments/church_bell.png")
+
+
 static func _load(path: String) -> Texture2D:
 	if path.is_empty() or not ResourceLoader.exists(path):
 		return null

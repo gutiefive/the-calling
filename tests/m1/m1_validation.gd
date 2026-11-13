@@ -77,11 +77,11 @@ func _check_exterior() -> void:
 	_check(player.interact_lock_active(), "interact lock is on at spawn")
 
 	var camera := player.get_node("Camera2D") as Camera2D
-	_check(camera.limit_right == 36 * 32 and camera.limit_bottom == 26 * 32, "camera stays inside the grounds")
+	_check(camera.limit_right == GroundsLayout.MAP_SIZE.x * GroundsLayout.TILE and camera.limit_bottom == GroundsLayout.MAP_SIZE.y * GroundsLayout.TILE, "camera stays inside the grounds")
 	_check(not camera.position_smoothing_enabled, "camera smoothing is off")
 	var ground := room.get_node("Ground") as TileMapLayer
 	_check(ground.get_cell_source_id(Vector2i(0, 0)) != -1, "grass is painted")
-	_check(ground.get_cell_atlas_coords(Vector2i(18, 12)) == Vector2i(2, 0), "path leads to the church")
+	_check(ground.get_cell_atlas_coords(GroundsLayout.PATH_CHURCH) == Vector2i(2, 0), "path leads to the church")
 	_check(_count_interactables(room) >= 2, "Margaret and the notice are still interactable")
 
 	var right_dist := await _travel(player, ["move_right"], 18)
@@ -89,7 +89,7 @@ func _check_exterior() -> void:
 	_check(right_dist > 8.0, "holding D moves the player (%s px)" % snappedf(right_dist, 0.1))
 	_check(diagonal_dist > 8.0, "diagonal movement moves the player")
 	_check(diagonal_dist < right_dist * 1.15, "diagonal is not faster (%s vs %s)" % [snappedf(diagonal_dist, 0.1), snappedf(right_dist, 0.1)])
-	player.global_position = Vector2(400, 640)
+	player.global_position = GroundsLayout.POS_SPAWN + Vector2(0, 80)
 	player.velocity = Vector2.ZERO
 	Input.action_press("move_left")
 	await get_tree().physics_frame
@@ -164,7 +164,7 @@ func _check_exterior() -> void:
 	await get_tree().process_frame
 	var prompt := room.get_node("HUD/Prompt")
 	_check(prompt.visible and player.get_focus() == margaret, "prompt appears beside Margaret")
-	player.global_position = Vector2(80, 760)
+	player.global_position = Vector2(80, 900)
 	await get_tree().process_frame
 	await get_tree().process_frame
 	_check(player.get_focus() == null and not prompt.visible, "prompt hides out of range")
@@ -262,7 +262,7 @@ func _instance(path: String) -> Node:
 
 func _travel(player: Player, actions: Array[String], frames: int) -> float:
 	_release()
-	player.global_position = Vector2(400, 640)
+	player.global_position = GroundsLayout.POS_SPAWN + Vector2(0, 80)
 	player.velocity = Vector2.ZERO
 	for action in actions:
 		Input.action_press(action)

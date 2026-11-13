@@ -655,3 +655,49 @@ It checks one rooftop sign per named storefront, that each sign sits above the d
 
 On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `M1_OK` (76), `M2_OK` (113), `M3_OK` (109), `M4_OK` (90), `M4_5_OK` (90), `M5A_OK` (103), `M5B_OK` (1491), `M6A_OK` (219), `M6A2_OK` (130), `M7_OK` (93), `M8_OK` (80), `M9_OK` (105), `M9B_OK` (156), `M10_OK` (91), `M11_OK` (210), `M11B_OK` (196), and `M11C_OK` (246), each exiting 0 with zero `CHECK FAIL`, `SCRIPT ERROR`, or Parse Error. `--quit-after 120` exited 0. `tests/m11c/capture_m11c.tscn` wrote after shots under `tests/m11c/shots/`. T73–T74 were not played in a window.
 
+# Milestone 12 test plan
+
+The lists above still apply. These checks cover the church grounds campus: perimeter and gate, courtyard, expansion plots, and the Fellowship Hall still swapping looks.
+
+## Automated
+
+```powershell
+godot --headless --path . --import
+godot --headless --path . res://tests/m1/m1_validation.tscn
+godot --headless --path . res://tests/m2/m2_validation.tscn
+godot --headless --path . res://tests/m3/m3_validation.tscn
+godot --headless --path . res://tests/m4/m4_validation.tscn
+godot --headless --path . res://tests/m4_5/m4_5_validation.tscn
+godot --headless --path . res://tests/m5a/m5a_validation.tscn
+godot --headless --path . res://tests/m5b/m5b_validation.tscn
+godot --headless --path . res://tests/m6a/m6a_validation.tscn
+godot --headless --path . res://tests/m6a2/m6a2_validation.tscn
+godot --headless --path . res://tests/m7/m7_validation.tscn
+godot --headless --path . res://tests/m8/m8_validation.tscn
+godot --headless --path . res://tests/m9/m9_validation.tscn
+godot --headless --path . res://tests/m9b/m9b_validation.tscn
+godot --headless --path . res://tests/m10/m10_validation.tscn
+godot --headless --path . res://tests/m11/m11_validation.tscn
+godot --headless --path . res://tests/m11b/m11b_validation.tscn
+godot --headless --path . res://tests/m11c/m11c_validation.tscn
+godot --headless --path . res://tests/m12/m12_validation.tscn
+godot --path . res://tests/m12/capture_grounds.tscn
+```
+
+`m12_validation.tscn` prints `CHECK OK` / `CHECK FAIL` lines and exits with `M12_OK` or `M12_FAIL`.
+It checks the fence except at the gates, that the east drive meets a sidewalk, that doors sit on the path network, that expansion plots load from data with number-free inspect lines, that the Fellowship Hall still swaps worn and repaired looks, that spawns stay outside door triggers, that NPC posts are walkable, that walls and cars still block, that the camera fits the new bounds, and that an old save inside the church snaps to a valid spawn.
+
+`capture_grounds.tscn` writes PNGs to `tests/m12/shots/` and needs a display.
+
+## Manual
+
+| ID | Do this | Expect |
+|---|---|---|
+| T75 | Walk the grounds from the Oak Street gate to the sanctuary, hall, and parsonage | One main gate, a courtyard in front of the church, connected paths, no floating buildings. |
+| T76 | Read the monument sign and a staked lot | The sign says Grace Community Church. A plot says something quiet and has no dollars. |
+| T77 | Press T through evening and night | Lamps and windows glow warm. The campus stays readable. |
+
+## M12 results
+
+On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `M1_OK` (76), `M2_OK` (113), `M3_OK` (109), `M4_OK` (90), `M4_5_OK` (90), `M5A_OK` (103), `M5B_OK` (1491), `M6A_OK` (219), `M6A2_OK` (130), `M7_OK` (93), `M8_OK` (80), `M9_OK` (105), `M9B_OK` (156), `M10_OK` (91), `M11_OK` (210), `M11B_OK` (196), `M11C_OK` (246), and `M12_OK` (165), each exiting 0 with zero `CHECK FAIL`, `SCRIPT ERROR`, or Parse Error. `--quit-after 120` exited 0. `tests/m12/capture_grounds.tscn` wrote before and after shots under `tests/m12/shots/`. T75–T77 were not played in a window.
+

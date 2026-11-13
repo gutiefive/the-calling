@@ -1,6 +1,6 @@
 # Roadmap — The Calling
 
-Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md`. This file is the current cut line. M11C (rooftop storefront signs) is implemented. Next: more enterable buildings, starting with Bright's Diner and one house. Chapter 2 storylines are not started.
+Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md`. This file is the current cut line. M12 (church grounds campus) is implemented. Next: attach the first expansion project to a staked plot. Chapter 2 storylines are not started.
 
 | Milestone | Status |
 |---|---|
@@ -22,7 +22,8 @@ Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md
 | M11 Oak south + Maple Lane | Implemented. South-side storefronts and civic buildings, larger hanging signs, Maple Lane as a residential street with houses and the garden kept. |
 | M11B Oak and Maple polish | Implemented. One name per shop, Maple lots filled, evening and night ambient people, warm windows. |
 | M11C Rooftop signs | Implemented. Storefront names sit on the parapet, not hanging in front of the door. Evening townsfolk stand off to the side. |
-| Planning board and Tier 1 | Not started. More projects, workshop and greenhouse. Dorms later. |
+| M12 Church grounds campus | Implemented. Perimeter and one main gate, courtyard, parking, garden, picnic lawn, and data-driven expansion plots. Fellowship Hall repair unchanged. |
+| Planning board and Tier 1 | Next. Attach the first expansion project to a plot (workshop, greenhouse, or dorms). |
 | Next story | Chapter 2 is not started. Full Chapter 2 storylines build on M9 leanings, threads, and the run seed. |
 | M11 Night layer | Not started. Spirit framework, two Lingerers, prayer-lights, steeple light. |
 | M12 Chapter 2, part A | Not started. June, the deposits, Reece's file box, Ostrow's favor, inner voice in play. |

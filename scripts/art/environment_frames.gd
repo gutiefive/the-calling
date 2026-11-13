@@ -842,6 +842,127 @@ static func build_hydrant() -> Image:
 	return Draw.outline(image)
 
 
+static func build_monument_sign() -> Image:
+	var image := Draw.canvas(128, 64)
+	Draw.rect(image, 24, 44, 80, 18, Draw.pal("brick"))
+	Draw.rect(image, 24, 44, 80, 4, Draw.pal("brick_l"))
+	for x in range(28, 100, 10):
+		Draw.rect(image, x, 48, 1, 12, Draw.pal("brick_d"))
+	Draw.rect(image, 36, 40, 8, 6, Draw.pal("grey_d"))
+	Draw.rect(image, 84, 40, 8, 6, Draw.pal("grey_d"))
+	Draw.rect(image, 6, 6, 116, 36, Draw.pal("wood_d"))
+	Draw.rect(image, 10, 10, 108, 28, Draw.pal("cream"))
+	Draw.rect(image, 10, 10, 108, 2, Draw.pal("paper"))
+	_stamp_text(image, "GRACE COMMUNITY", 14, 14, Draw.pal("wood_d"), 1)
+	_stamp_text(image, "CHURCH", 44, 26, Draw.pal("wood_d"), 1)
+	Draw.px(image, 28, 58, Draw.pal("moss"))
+	Draw.px(image, 92, 60, Draw.pal("moss"))
+	return Draw.outline(image)
+
+
+static func build_gate_pillar() -> Image:
+	var image := Draw.canvas(24, 56)
+	Draw.rect(image, 4, 8, 16, 44, Draw.pal("brick"))
+	Draw.rect(image, 4, 8, 16, 4, Draw.pal("brick_l"))
+	for y in range(14, 48, 8):
+		Draw.rect(image, 4, y, 16, 1, Draw.pal("brick_d"))
+	Draw.rect(image, 2, 4, 20, 6, Draw.pal("cream"))
+	Draw.rect(image, 6, 0, 12, 6, Draw.pal("grey_d"))
+	Draw.rect(image, 8, 50, 8, 4, Draw.pal("path_c"))
+	Draw.px(image, 10, 2, Draw.pal("gold"))
+	return Draw.outline(image)
+
+
+static func build_survey_stakes() -> Image:
+	var image := Draw.canvas(48, 24)
+	Draw.rect(image, 6, 4, 3, 18, Draw.pal("wood"))
+	Draw.rect(image, 39, 6, 3, 16, Draw.pal("wood_d"))
+	Draw.rect(image, 5, 2, 5, 4, Draw.pal("paper"))
+	Draw.rect(image, 38, 4, 5, 4, Draw.pal("paper"))
+	Draw.rect(image, 8, 8, 32, 1, Draw.pal("gold"))
+	Draw.px(image, 20, 7, Draw.pal("gold"))
+	Draw.px(image, 28, 9, Draw.pal("gold"))
+	Draw.rect(image, 5, 20, 6, 3, Draw.pal("path_c"))
+	Draw.rect(image, 38, 20, 6, 3, Draw.pal("path_c"))
+	return Draw.outline(image)
+
+
+static func build_future_site_sign() -> Image:
+	var image := Draw.canvas(64, 40)
+	Draw.rect(image, 30, 18, 4, 20, Draw.pal("wood_d"))
+	Draw.rect(image, 4, 4, 56, 20, Draw.pal("wood"))
+	Draw.rect(image, 6, 6, 52, 16, Draw.pal("paper"))
+	_stamp_text(image, "FUTURE", 10, 8, Draw.pal("wood_d"), 1)
+	_stamp_text(image, "SITE", 18, 16, Draw.pal("wood_d"), 1)
+	Draw.rect(image, 28, 36, 8, 3, Draw.pal("path_c"))
+	return Draw.outline(image)
+
+
+static func build_headstone() -> Image:
+	var image := Draw.canvas(24, 32)
+	Draw.ellipse(image, 12, 10, 8, 6, Draw.pal("grey"))
+	Draw.rect(image, 4, 10, 16, 16, Draw.pal("grey"))
+	Draw.rect(image, 6, 12, 12, 10, Draw.pal("grey_d"))
+	Draw.rect(image, 8, 14, 8, 1, Draw.pal("paper"))
+	Draw.rect(image, 9, 17, 6, 1, Draw.pal("paper"))
+	Draw.rect(image, 2, 26, 20, 4, Draw.pal("path_c"))
+	Draw.px(image, 6, 24, Draw.pal("moss"))
+	return Draw.outline(image)
+
+
+static func build_memorial_wall() -> Image:
+	var image := Draw.canvas(80, 32)
+	Draw.rect(image, 4, 10, 72, 16, Draw.pal("grey"))
+	Draw.rect(image, 4, 10, 72, 3, Draw.pal("grey_d"))
+	for x in range(10, 72, 12):
+		Draw.rect(image, x, 16, 8, 6, Draw.pal("paper"))
+		Draw.px(image, x + 2, 18, Draw.pal("cream_s"))
+	Draw.rect(image, 2, 26, 76, 4, Draw.pal("path_c"))
+	Draw.px(image, 12, 24, Draw.pal("moss"))
+	Draw.px(image, 60, 8, Draw.pal("flower"))
+	return Draw.outline(image)
+
+
+static func build_picnic_table() -> Image:
+	var image := Draw.canvas(48, 24)
+	Draw.rect(image, 8, 16, 4, 6, Draw.pal("wood_d"))
+	Draw.rect(image, 36, 16, 4, 6, Draw.pal("wood_d"))
+	Draw.rect(image, 4, 10, 40, 6, Draw.pal("wood"))
+	Draw.rect(image, 4, 10, 40, 2, Draw.pal("wood_l"))
+	Draw.rect(image, 2, 14, 10, 3, Draw.pal("wood_d"))
+	Draw.rect(image, 36, 14, 10, 3, Draw.pal("wood_d"))
+	Draw.px(image, 16, 12, Draw.pal("path_c"))
+	return Draw.outline(image)
+
+
+static func build_courtyard_cross() -> Image:
+	var image := Draw.canvas(16, 48)
+	Draw.rect(image, 6, 20, 4, 26, Draw.pal("grey_d"))
+	Draw.rect(image, 7, 4, 2, 28, Draw.pal("cream"))
+	Draw.rect(image, 2, 12, 12, 2, Draw.pal("cream"))
+	Draw.rect(image, 4, 44, 8, 3, Draw.pal("path_c"))
+	Draw.px(image, 8, 6, Draw.pal("gold"))
+	return Draw.outline(image)
+
+
+static func build_walkway_post() -> Image:
+	var image := Draw.canvas(12, 40)
+	Draw.rect(image, 4, 4, 4, 32, Draw.pal("wood_d"))
+	Draw.rect(image, 2, 2, 8, 6, Draw.pal("wood"))
+	Draw.rect(image, 3, 36, 6, 3, Draw.pal("path_c"))
+	return Draw.outline(image)
+
+
+static func build_church_bell() -> Image:
+	var image := Draw.canvas(16, 40)
+	Draw.rect(image, 6, 16, 4, 20, Draw.pal("wood_d"))
+	Draw.rect(image, 2, 6, 12, 12, Draw.pal("gold"))
+	Draw.rect(image, 4, 8, 8, 8, Draw.pal("lamp"))
+	Draw.px(image, 8, 18, Draw.pal("grey_d"))
+	Draw.rect(image, 5, 36, 6, 3, Draw.pal("path_c"))
+	return Draw.outline(image)
+
+
 static func _roof_box(image: Image, x: int, y: int, w: int, h: int, mid: Color, dark: Color, light: Color) -> void:
 	Draw.rect(image, x, y, w, h, dark)
 	Draw.rect(image, x + 4, y - 4, w - 8, h - 2, mid)

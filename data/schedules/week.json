@@ -3,29 +3,29 @@
     {
       "id": "margaret",
       "entries": [
-        {"days": ["Monday", "Tuesday", "Wednesday"], "from": "08:00", "until": "12:00", "scene": "church_exterior", "position": [700, 360]},
+        {"days": ["Monday", "Tuesday", "Wednesday"], "from": "08:00", "until": "12:00", "scene": "church_exterior", "position": [1040, 640]},
         {"days": ["Monday", "Tuesday", "Wednesday"], "from": "12:00", "until": "17:00", "scene": "sanctuary", "position": [150, 480]},
-        {"days": ["Monday", "Tuesday", "Wednesday"], "from": "17:00", "until": "20:00", "scene": "church_exterior", "position": [700, 520]},
-        {"days": ["Thursday"], "from": "00:00", "until": "17:00", "scene": "church_exterior", "position": [700, 360]},
-        {"days": ["Thursday"], "from": "17:00", "until": "20:00", "scene": "church_exterior", "position": [700, 520]},
-        {"days": ["Friday"], "from": "08:00", "until": "12:00", "scene": "church_exterior", "position": [700, 360]},
+        {"days": ["Monday", "Tuesday", "Wednesday"], "from": "17:00", "until": "20:00", "scene": "church_exterior", "position": [1040, 880]},
+        {"days": ["Thursday"], "from": "00:00", "until": "17:00", "scene": "church_exterior", "position": [1040, 640]},
+        {"days": ["Thursday"], "from": "17:00", "until": "20:00", "scene": "church_exterior", "position": [1040, 880]},
+        {"days": ["Friday"], "from": "08:00", "until": "12:00", "scene": "church_exterior", "position": [1040, 640]},
         {"days": ["Friday"], "from": "12:00", "until": "17:00", "scene": "sanctuary", "position": [150, 480]},
         {"days": ["Saturday"], "from": "09:00", "until": "17:00", "scene": "sanctuary", "position": [150, 480]},
-        {"days": ["Saturday"], "from": "17:00", "until": "21:00", "scene": "church_exterior", "position": [700, 360]},
-        {"days": ["Sunday"], "from": "06:00", "until": "10:00", "scene": "church_exterior", "position": [700, 360]},
+        {"days": ["Saturday"], "from": "17:00", "until": "21:00", "scene": "church_exterior", "position": [1040, 640]},
+        {"days": ["Sunday"], "from": "06:00", "until": "10:00", "scene": "church_exterior", "position": [1040, 640]},
         {"days": ["Sunday"], "from": "10:00", "until": "24:00", "scene": "sanctuary", "position": [560, 420]}
       ]
     },
     {
       "id": "harold",
       "entries": [
-        {"days": ["Monday", "Tuesday", "Wednesday"], "from": "09:00", "until": "12:00", "scene": "church_exterior", "position": [640, 420]},
+        {"days": ["Monday", "Tuesday", "Wednesday"], "from": "09:00", "until": "12:00", "scene": "church_exterior", "position": [848, 704]},
         {"days": ["Monday", "Tuesday", "Wednesday"], "from": "12:00", "until": "18:00", "scene": "sanctuary", "position": [220, 420]},
         {"days": ["Thursday"], "from": "00:00", "until": "24:00", "scene": "sanctuary", "position": [220, 420]},
-        {"days": ["Friday"], "from": "09:00", "until": "12:00", "scene": "church_exterior", "position": [640, 420]},
+        {"days": ["Friday"], "from": "09:00", "until": "12:00", "scene": "church_exterior", "position": [848, 704]},
         {"days": ["Friday"], "from": "12:00", "until": "18:00", "scene": "sanctuary", "position": [220, 420]},
         {"days": ["Saturday"], "from": "09:00", "until": "17:00", "scene": "sanctuary", "position": [220, 420]},
-        {"days": ["Saturday"], "from": "17:00", "until": "21:00", "scene": "church_exterior", "position": [620, 400]},
+        {"days": ["Saturday"], "from": "17:00", "until": "21:00", "scene": "church_exterior", "position": [848, 704]},
         {"days": ["Sunday"], "from": "06:00", "until": "10:00", "scene": "sanctuary", "position": [220, 420]},
         {"days": ["Sunday"], "from": "10:00", "until": "24:00", "scene": "sanctuary", "position": [400, 420]}
       ]
@@ -73,7 +73,7 @@
     {
       "id": "ostrow",
       "entries": [
-        {"days": ["Saturday"], "from": "09:00", "until": "17:00", "scene": "church_exterior", "position": [640, 520]}
+        {"days": ["Saturday"], "from": "09:00", "until": "17:00", "scene": "church_exterior", "position": [912, 800]}
       ]
     }
   ]

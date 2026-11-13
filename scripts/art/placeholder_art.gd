@@ -150,6 +150,76 @@ static func lamp_post() -> Texture2D:
 	return _cached("lamp", _lamp())
 
 
+static func monument_sign() -> Texture2D:
+	var authored := EnvironmentArt.monument_sign()
+	if authored != null:
+		return authored
+	return _cached("monument", _crate())
+
+
+static func gate_pillar() -> Texture2D:
+	var authored := EnvironmentArt.gate_pillar()
+	if authored != null:
+		return authored
+	return _cached("pillar", _crate())
+
+
+static func survey_stakes() -> Texture2D:
+	var authored := EnvironmentArt.survey_stakes()
+	if authored != null:
+		return authored
+	return _cached("stakes", _crate())
+
+
+static func future_site_sign() -> Texture2D:
+	var authored := EnvironmentArt.future_site_sign()
+	if authored != null:
+		return authored
+	return signpost()
+
+
+static func headstone() -> Texture2D:
+	var authored := EnvironmentArt.headstone()
+	if authored != null:
+		return authored
+	return _cached("headstone", _crate())
+
+
+static func memorial_wall() -> Texture2D:
+	var authored := EnvironmentArt.memorial_wall()
+	if authored != null:
+		return authored
+	return _cached("memorial", _crate())
+
+
+static func picnic_table() -> Texture2D:
+	var authored := EnvironmentArt.picnic_table()
+	if authored != null:
+		return authored
+	return bench()
+
+
+static func courtyard_cross() -> Texture2D:
+	var authored := EnvironmentArt.courtyard_cross()
+	if authored != null:
+		return authored
+	return lamp_post()
+
+
+static func walkway_post() -> Texture2D:
+	var authored := EnvironmentArt.walkway_post()
+	if authored != null:
+		return authored
+	return lamp_post()
+
+
+static func church_bell() -> Texture2D:
+	var authored := EnvironmentArt.church_bell()
+	if authored != null:
+		return authored
+	return mailbox()
+
+
 static func flowers() -> Texture2D:
 	return _cached("flowers", _flowers())
 

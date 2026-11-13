@@ -52,6 +52,26 @@ func _init() -> void:
 		failed = true
 	if not _write_image("res://assets/environments/fire_hydrant.png", Frames.build_hydrant(), Vector2i(16, 24)):
 		failed = true
+	if not _write_image("res://assets/environments/church_monument.png", Frames.build_monument_sign(), Vector2i(128, 64)):
+		failed = true
+	if not _write_image("res://assets/environments/church_pillar.png", Frames.build_gate_pillar(), Vector2i(24, 56)):
+		failed = true
+	if not _write_image("res://assets/environments/survey_stakes.png", Frames.build_survey_stakes(), Vector2i(48, 24)):
+		failed = true
+	if not _write_image("res://assets/environments/future_site_sign.png", Frames.build_future_site_sign(), Vector2i(64, 40)):
+		failed = true
+	if not _write_image("res://assets/environments/headstone.png", Frames.build_headstone(), Vector2i(24, 32)):
+		failed = true
+	if not _write_image("res://assets/environments/memorial_wall.png", Frames.build_memorial_wall(), Vector2i(80, 32)):
+		failed = true
+	if not _write_image("res://assets/environments/picnic_table.png", Frames.build_picnic_table(), Vector2i(48, 24)):
+		failed = true
+	if not _write_image("res://assets/environments/courtyard_cross.png", Frames.build_courtyard_cross(), Vector2i(16, 48)):
+		failed = true
+	if not _write_image("res://assets/environments/walkway_post.png", Frames.build_walkway_post(), Vector2i(12, 40)):
+		failed = true
+	if not _write_image("res://assets/environments/church_bell.png", Frames.build_church_bell(), Vector2i(16, 40)):
+		failed = true
 	if not _write_image("res://assets/environments/credit_union.png", Street.build_credit_union(), Vector2i(192, 128)):
 		failed = true
 	if not _write_image("res://assets/environments/pharmacy.png", Street.build_pharmacy(), Vector2i(176, 128)):
