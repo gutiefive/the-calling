@@ -1,6 +1,6 @@
 # Roadmap — The Calling
 
-Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md`. This file is the current cut line. M9 (branching foundation) is implemented; Chapter 2 storylines build on it and are not started.
+Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md`. This file is the current cut line. M10 (Oak Street redesign) is implemented. Next: more enterable buildings, starting with Bright's Diner. Chapter 2 storylines are not started.
 
 | Milestone | Status |
 |---|---|
@@ -17,7 +17,9 @@ Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md
 | M7 Seeds and influence | Implemented. Hidden Pull, save v4, Chapter 1 seeds, Dell Ostrow, inner voice, and the no-cult scan. Chapter 1 still plays start to finish. |
 | M8 Weekly loop, funds, first project | Implemented. Later Sundays run a short service, ChurchFunds and the ledger screen, save v5, and the Fellowship Hall repair. Chapter 1 still plays identically until Continue. |
 | M9 Branching foundation | Implemented. Hidden Shepherd / Builder / Skeptic leanings, story threads, a per-save run seed, and save v6. Chapter 1 still plays the same default path. A few Chapter 1 and weekly-loop branches prove the model. |
-| M10 Planning board and Tier 1 | Not started. More projects, workshop and greenhouse. Dorms later. |
+| M9B Walk-in doors | Implemented. Doors change rooms on contact. E still talks and inspects. |
+| M10 Oak Street redesign | Implemented. Two-lane asphalt, sidewalks, storefronts on a building line, Bright's Diner and filler shops, park and creek at the east end. Next: more enterable buildings, starting with Bright's Diner. |
+| Planning board and Tier 1 | Not started. More projects, workshop and greenhouse. Dorms later. |
 | Next story | Chapter 2 is not started. Full Chapter 2 storylines build on M9 leanings, threads, and the run seed. |
 | M11 Night layer | Not started. Spirit framework, two Lingerers, prayer-lights, steeple light. |
 | M12 Chapter 2, part A | Not started. June, the deposits, Reece's file box, Ostrow's favor, inner voice in play. |
@@ -98,4 +100,12 @@ A 32×32 outdoor tileset (`town_tiles.png` / `town_tiles.tres`) used on the chur
 
 ## M6A part 2 does not include
 
-Shop and house exteriors, sanctuary furniture, unnamed townsfolk, portraits, or a LibreSprite pass. Interiors still paint from the old placeholder atlas.
+Shop and house exteriors, sanctuary furniture, unnamed townsfolk, portraits, or a LibreSprite pass. Interiors still paint from the old placeholder atlas. M10 authors the Oak Street storefronts.
+
+## M10 includes
+
+Rebuild Oak Street as a two-lane asphalt main street with curbs, sidewalks, a crosswalk, and a Maple Lane T-junction. Hardware and Frank's bay stay enterable. Bright's Diner, a post office, a barber, and a for-lease shop fill the block. They are not enterable. Park and creek stay at the east end. Next: more enterable buildings, starting with Bright's Diner.
+
+## M10 does not include
+
+Diner, post office, barber, or vacant-shop interiors. No new story.

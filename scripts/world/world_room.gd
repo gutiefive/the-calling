@@ -166,6 +166,7 @@ func _spawn_player() -> void:
 		push_error("%s is missing Props/Player" % name)
 		return
 	if SceneRouter.apply_exact(player):
+		_snap_player_if_invalid(player)
 		return
 	var spawn_id := SceneRouter.consume_spawn()
 	var marker := get_node_or_null("Spawns/" + String(spawn_id)) as Node2D
@@ -177,6 +178,52 @@ func _spawn_player() -> void:
 	player.global_position = marker.global_position
 	if marker.has_meta("facing") and player.has_method("set_facing"):
 		player.set_facing(StringName(str(marker.get_meta("facing"))))
+	_snap_player_if_invalid(player)
+
+
+func _snap_player_if_invalid(player: Node2D) -> void:
+	if player == null or not _player_blocked(player.global_position):
+		return
+	var best := get_node_or_null("Spawns/default") as Node2D
+	var best_d := INF
+	var spawns := get_node_or_null("Spawns")
+	if spawns != null:
+		for child in spawns.get_children():
+			var marker := child as Node2D
+			if marker == null or _player_blocked(marker.global_position):
+				continue
+			var d := player.global_position.distance_to(marker.global_position)
+			if d < best_d:
+				best_d = d
+				best = marker
+	if best == null:
+		return
+	player.global_position = best.global_position
+	if player is CharacterBody2D:
+		(player as CharacterBody2D).velocity = Vector2.ZERO
+	if best.has_meta("facing") and player.has_method("set_facing"):
+		player.set_facing(StringName(str(best.get_meta("facing"))))
+
+
+func _player_blocked(pos: Vector2) -> bool:
+	var pad := 10.0
+	if pos.x < bounds.position.x + pad or pos.y < bounds.position.y + pad:
+		return true
+	if pos.x > bounds.end.x - pad or pos.y > bounds.end.y - pad:
+		return true
+	var solids := get_node_or_null("Solids") as StaticBody2D
+	if solids == null:
+		return false
+	var feet := Rect2(pos + Vector2(-6.0, -8.0), Vector2(12.0, 8.0))
+	for child in solids.get_children():
+		var shape_node := child as CollisionShape2D
+		if shape_node == null or not (shape_node.shape is RectangleShape2D):
+			continue
+		var rect := shape_node.shape as RectangleShape2D
+		var block := Rect2(shape_node.global_position - rect.size * 0.5, rect.size)
+		if block.intersects(feet):
+			return true
+	return false
 
 
 func _apply_camera() -> void:

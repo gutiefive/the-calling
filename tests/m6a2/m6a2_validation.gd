@@ -47,7 +47,7 @@ func _static_checks() -> void:
 	_check(FileAccess.file_exists("res://scripts/art/town_tiles.gd"), "tile atlas map exists")
 	if FileAccess.file_exists(TILESET_PNG):
 		var atlas := _load_png(TILESET_PNG)
-		_check(atlas != null and atlas.get_width() == 256 and atlas.get_height() == 64, "tileset PNG is 256x64")
+		_check(atlas != null and atlas.get_width() == 256 and atlas.get_height() == 128, "tileset PNG is 256x128")
 		if atlas != null:
 			var off := _first_off_palette(atlas, allowed)
 			_check(off.is_empty(), "tileset uses only palette colors%s" % ("" if off.is_empty() else " (%s)" % off))
@@ -62,6 +62,8 @@ func _static_checks() -> void:
 			_check(source.has_tile(Vector2i(5, 0)), "road tile exists")
 			_check(source.has_tile(Vector2i(7, 0)), "water tile exists")
 			_check(source.has_tile(Vector2i(3, 1)), "church floor tile exists")
+			_check(source.has_tile(Vector2i(0, 2)), "asphalt tile exists")
+			_check(source.has_tile(Vector2i(7, 2)), "crosswalk tile exists")
 	for i in PROP_PATHS.size():
 		var path := PROP_PATHS[i]
 		var size := PROP_SIZES[i]
@@ -115,7 +117,7 @@ func _scene_checks() -> void:
 	_check_tileset(street, "Oak Street")
 	var street_ground := street.get_node_or_null("Ground") as TileMapLayer
 	if street_ground != null:
-		_check(street_ground.get_cell_atlas_coords(Vector2i(60, 10)) == TownTiles.WATER, "creek still uses atlas (7,0)")
+		_check(street_ground.get_cell_atlas_coords(Vector2i(72, 10)) == TownTiles.WATER, "creek still uses atlas (7,0)")
 	_check_authored_sprite(street, "Props/Tree", "tree.png", Vector2(48, 80))
 	_check_authored_sprite(street, "Props/Bench", "bench.png", Vector2(48, 32))
 	_check_authored_sprite(street, "Props/Lamp", "lamp_post.png", Vector2(24, 56))

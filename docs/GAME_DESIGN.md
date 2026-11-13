@@ -19,6 +19,11 @@ never say "cult". The previous pastor is Alden Reece.
 ## Setting
 - **Oakridge** — fictional contemporary American small town (~2,400 residents): main street, diner, auto repair shop,
   hardware store, homes, park, small aging church. The game starts in a constrained neighborhood slice.
+- **Oak Street** — the small-town heart near the church. A two-lane asphalt road runs west–east: sidewalks and curbs on
+  both sides, a crosswalk at the church end, and Maple Lane branching south before the park. North of the sidewalk, west
+  to east: a cottage, the post office, Bright's Diner (Cal Bright; not enterable yet), Thomas's hardware store, an alley,
+  a barber, a for-lease shop, and Frank Miller's bay with a driveway apron. East of the bay are the park, the creek, and
+  the walk to Maple Lane. The west end continues as road and sidewalk back to the church grounds.
 - **Grace Community Church** — once ~200 attendees, now ~17 on Sundays. Tired building, members who feel unheard,
   low leadership trust, a sensitive history around the prior pastor's departure. A financial problem surfaces at the
   end of Chapter 1.

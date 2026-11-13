@@ -22,13 +22,25 @@ collision_mask = 0
 y_sort_enabled = true
 
 [node name="Cottage" type="Sprite2D" parent="Props"]
-position = Vector2(340, 300)
+position = Vector2(208, 416)
+
+[node name="PostOffice" type="Sprite2D" parent="Props"]
+position = Vector2(384, 416)
+
+[node name="Diner" type="Sprite2D" parent="Props"]
+position = Vector2(592, 416)
 
 [node name="Hardware" type="Sprite2D" parent="Props"]
-position = Vector2(680, 320)
+position = Vector2(816, 416)
+
+[node name="Barber" type="Sprite2D" parent="Props"]
+position = Vector2(1072, 416)
+
+[node name="Vacant" type="Sprite2D" parent="Props"]
+position = Vector2(1248, 416)
 
 [node name="Garage" type="Sprite2D" parent="Props"]
-position = Vector2(1080, 320)
+position = Vector2(1472, 416)
 
 [node name="Tree" type="Sprite2D" parent="Props"]
 position = Vector2(240, 640)
@@ -60,12 +72,32 @@ script = ExtResource("4_solid")
 block_size = Vector2(18, 10)
 
 [node name="Mailbox" type="Sprite2D" parent="Props"]
-position = Vector2(300, 430)
+position = Vector2(330, 440)
+script = ExtResource("4_solid")
+block_size = Vector2(12, 8)
+
+[node name="CarA" type="Sprite2D" parent="Props"]
+position = Vector2(544, 576)
+script = ExtResource("4_solid")
+block_size = Vector2(40, 14)
+
+[node name="CarB" type="Sprite2D" parent="Props"]
+position = Vector2(1056, 576)
+script = ExtResource("4_solid")
+block_size = Vector2(40, 14)
+
+[node name="Hydrant" type="Sprite2D" parent="Props"]
+position = Vector2(720, 440)
+script = ExtResource("4_solid")
+block_size = Vector2(10, 8)
+
+[node name="TrashCan" type="Sprite2D" parent="Props"]
+position = Vector2(960, 656)
 script = ExtResource("4_solid")
 block_size = Vector2(12, 8)
 
 [node name="Thomas" type="Node2D" parent="Props"]
-position = Vector2(680, 430)
+position = Vector2(816, 440)
 script = ExtResource("6_talk")
 prompt_text = "Speak with Thomas"
 radius = 40.0
@@ -81,7 +113,7 @@ npc_id = "thomas"
 [node name="Sprite" type="AnimatedSprite2D" parent="Props/Thomas"]
 
 [node name="Frank" type="Node2D" parent="Props"]
-position = Vector2(1000, 440)
+position = Vector2(1472, 440)
 script = ExtResource("6_talk")
 prompt_text = "Speak with Frank"
 radius = 40.0
@@ -97,7 +129,7 @@ npc_id = "frank"
 [node name="Sprite" type="AnimatedSprite2D" parent="Props/Frank"]
 
 [node name="Sarah" type="Node2D" parent="Props"]
-position = Vector2(480, 520)
+position = Vector2(592, 440)
 script = ExtResource("6_talk")
 prompt_text = "Speak with Sarah"
 radius = 40.0
@@ -113,7 +145,7 @@ npc_id = "sarah"
 [node name="Sprite" type="AnimatedSprite2D" parent="Props/Sarah"]
 
 [node name="ToChurch" type="Area2D" parent="Props"]
-position = Vector2(96, 500)
+position = Vector2(48, 544)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("5_door")
@@ -124,7 +156,7 @@ destination_scene = "res://scenes/world/church_exterior.tscn"
 destination_spawn = &"from_street"
 
 [node name="Player" parent="Props" instance=ExtResource("2_player")]
-position = Vector2(210, 500)
+position = Vector2(120, 544)
 
 [node name="Lighting" type="Node2D" parent="."]
 script = ExtResource("7_time")
@@ -158,12 +190,22 @@ texture_scale = 2.2
 
 [node name="GarageOccluder" type="LightOccluder2D" parent="Lighting"]
 
+[node name="DinerOccluder" type="LightOccluder2D" parent="Lighting"]
+
+[node name="PostOccluder" type="LightOccluder2D" parent="Lighting"]
+
+[node name="BarberOccluder" type="LightOccluder2D" parent="Lighting"]
+
+[node name="VacantOccluder" type="LightOccluder2D" parent="Lighting"]
+
+[node name="CottageOccluder" type="LightOccluder2D" parent="Lighting"]
+
 [node name="Spawns" type="Node2D" parent="."]
 
 [node name="default" type="Marker2D" parent="Spawns"]
-position = Vector2(210, 500)
+position = Vector2(120, 544)
 
 [node name="from_church" type="Marker2D" parent="Spawns"]
-position = Vector2(210, 500)
+position = Vector2(120, 544)
 
 [node name="HUD" parent="." instance=ExtResource("3_hud")]

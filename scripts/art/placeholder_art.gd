@@ -211,15 +211,73 @@ static func lane_gate() -> Texture2D:
 
 
 static func hardware_store() -> Texture2D:
+	var authored := EnvironmentArt.hardware_store()
+	if authored != null:
+		return authored
 	return _cached("hardware", _hardware())
 
 
 static func auto_shop() -> Texture2D:
+	var authored := EnvironmentArt.auto_shop()
+	if authored != null:
+		return authored
 	return _cached("garage", _garage())
 
 
 static func cottage() -> Texture2D:
+	var authored := EnvironmentArt.cottage()
+	if authored != null:
+		return authored
 	return _cached("cottage", _cottage())
+
+
+static func diner() -> Texture2D:
+	var authored := EnvironmentArt.diner()
+	if authored != null:
+		return authored
+	return hardware_store()
+
+
+static func post_office() -> Texture2D:
+	var authored := EnvironmentArt.post_office()
+	if authored != null:
+		return authored
+	return cottage()
+
+
+static func barber_shop() -> Texture2D:
+	var authored := EnvironmentArt.barber()
+	if authored != null:
+		return authored
+	return cottage()
+
+
+static func vacant_shop() -> Texture2D:
+	var authored := EnvironmentArt.vacant_shop()
+	if authored != null:
+		return authored
+	return cottage()
+
+
+static func parked_car(variant: int) -> Texture2D:
+	var authored := EnvironmentArt.parked_car(variant)
+	if authored != null:
+		return authored
+	return _cached("car%d" % variant, _crate())
+
+
+static func trash_can() -> Texture2D:
+	var authored := EnvironmentArt.trash_can()
+	if authored != null:
+		return authored
+	return crate()
+
+
+static func hydrant() -> Texture2D:
+	var authored := EnvironmentArt.hydrant()
+	if authored != null:
+		return authored
+	return mailbox()
 
 
 static func crate() -> Texture2D:

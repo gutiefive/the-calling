@@ -178,7 +178,7 @@ func _town_life() -> void:
 	var ground := room.get_node_or_null("Ground") as TileMapLayer
 	var water := Vector2i(-1, -1)
 	if ground != null:
-		water = ground.get_cell_atlas_coords(Vector2i(60, 10))
+		water = ground.get_cell_atlas_coords(Vector2i(72, 10))
 	_check(water == Vector2i(7, 0), "the creek uses the water tile")
 	var gate := room.get_node_or_null("Props/MapleGate") as SpeechProp
 	_check(gate != null and gate.line.contains("bridge"), "Maple Lane is gated with a reason (%s)" % (gate.line if gate != null else ""))

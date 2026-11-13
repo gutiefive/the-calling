@@ -27,7 +27,7 @@ The generator lives in `scripts/art/character_frames.gd`. It stamps a shared bod
 
 Tileset, 32×32 cells:
 
-- `assets/tilesets/town_tiles.png` (256×64, eight columns, two rows)
+- `assets/tilesets/town_tiles.png` (256×128, eight columns, four rows)
 - `assets/tilesets/town_tiles.tres`
 
 Church-lot props in `assets/environments/`:
@@ -44,7 +44,20 @@ C:\Tools\Godot\4.7.2\Godot_v4.7.2-stable_win64_console.exe --headless --path . -
 C:\Tools\Godot\4.7.2\Godot_v4.7.2-stable_win64_console.exe --headless --path . --import
 ```
 
-Maps and helpers live in `scripts/art/environment_frames.gd` and `scripts/art/pixel_draw.gd`. Atlas coordinates are `scripts/art/town_tiles.gd`. Sanctuary floors, shop interiors, unnamed townsfolk, and the remaining buildings still use `PlaceholderArt`.
+Oak Street buildings and street props in `assets/environments/`:
+
+- `hardware_store.png` (224×128)
+- `auto_shop.png` (256×128)
+- `cottage.png` (160×112)
+- `brights_diner.png` (224×128)
+- `post_office.png` (192×128)
+- `barber_shop.png` (160×128)
+- `vacant_shop.png` (192×128)
+- `parked_car_a.png` / `parked_car_b.png` (64×32)
+- `trash_can.png` (16×24)
+- `fire_hydrant.png` (16×24)
+
+Maps and helpers live in `scripts/art/environment_frames.gd` and `scripts/art/pixel_draw.gd`. Atlas coordinates are `scripts/art/town_tiles.gd`. Sanctuary floors, shop interiors, and unnamed townsfolk still use `PlaceholderArt`.
 
 ## LibreSprite is the source of truth for an edited PNG
 

@@ -44,7 +44,7 @@ Walk up the path into the church. Stand near Margaret or the notice board and pr
 You cannot walk while a conversation, the journal, the morning card, the town map, the ledger, the Sunday service, or the chapter ending is open.
 
 Margaret's spare key ring is the first quest. Harold is in the sanctuary on Thursday.
-The east side of the lot walks to Oak Street. A sign and a path point that way. The street has the hardware store, Frank's bay, a cottage, a park, and a creek bank. The bridge sign past the shops opens onto Maple Lane. Walk into the store and the bay. They are open while Thomas or Frank is inside, and a shut door says when to come back. During those hours they are behind the counter, not also on the sidewalk. A few neighbors wander the sidewalks. Thursday, Friday, and Saturday each have one small moment you can find by looking around. The church walk can be tidied, and the Maple Lane garden can be cleared and replanted. None of that is required for Sunday.
+The east side of the lot walks to Oak Street. A sign and a path point that way. Oak Street is a two-lane road with sidewalks: a cottage, the post office, Bright's Diner, the hardware store, an alley, a barber, a for-lease shop, and Frank's bay, then a park and creek. The bridge sign opens onto Maple Lane. Walk into the store and the bay. They are open while Thomas or Frank is inside, and a shut door says when to come back. During those hours they are behind the counter, not also on the sidewalk. A few neighbors wander the sidewalks. Thursday, Friday, and Saturday each have one small moment you can find by looking around. The church walk can be tidied, and the Maple Lane garden can be cleared and replanted. None of that is required for Sunday.
 The parsonage is on the church grounds. The bed sleeps until morning and shows a short card of things you might do.
 J lists the current objective, a Threads section in words, and under The church, a few words for how the week feels. L opens the ledger after Chapter 1. Save and Load are on the pause menu. There is one slot, version 6.
 A version 1, 2, 3, 4, or 5 save still loads. On Sunday at 10:00 a.m., go into the sanctuary for the service.
@@ -67,10 +67,11 @@ godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m7/m7_va
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m8/m8_validation.tscn
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m9/m9_validation.tscn
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m9b/m9b_validation.tscn
+godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m10/m10_validation.tscn
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/toolchain/toolchain_test.tscn --quit-after 5
 ```
 
-The manual list is `docs/PLAYTEST.md`. Named character sheets live in `assets/characters/` and are rebuilt by `tools/art/author_sprites.gd`. Outdoor tiles and church-lot props are rebuilt by `tools/art/author_environment.gd`. Remaining buildings still come from `scripts/art/placeholder_art.gd`.
+The manual list is `docs/PLAYTEST.md`. Named character sheets live in `assets/characters/` and are rebuilt by `tools/art/author_sprites.gd`. Outdoor tiles, church-lot props, and Oak Street buildings are rebuilt by `tools/art/author_environment.gd`. Unnamed townsfolk and interior furniture still come from `scripts/art/placeholder_art.gd`.
 
 ## Layout
 
@@ -78,7 +79,7 @@ The manual list is `docs/PLAYTEST.md`. Named character sheets live in `assets/ch
 scenes/main.tscn                     title screen (New Game / Continue / Quit)
 scenes/world/church_exterior.tscn    grounds, with the walk to Oak Street
 scenes/world/sanctuary.tscn          interior, Sunday service, ledger
-scenes/world/hardware_street.tscn    Oak Street: shops, park, creek, the bridge
+scenes/world/hardware_street.tscn    Oak Street: the main street, shops, park, creek, Maple Lane
 scenes/world/parsonage.tscn          the pastor's house
 scenes/world/maple_lane.tscn         houses, the bus stop, the community garden
 scenes/world/hardware_interior.tscn  Thomas's counter

@@ -251,6 +251,18 @@ The trigger fires only if the player is moving toward it. Arriving inside or nex
 
 Walk-in is ignored during dialogue, the journal, the town map, the morning card, the ledger, the chapter ending, and pause. Room changes still fade. A nearby door shows the place name on the prompt, with no E.
 
+## D47 — Oak Street redesign (M10)
+
+Playtest: the shops sat on grass, the road was a gravel strip, and the block did not read as a town street.
+
+Oak Street is now a two-lane asphalt road with a painted center line, curbs, sidewalks on both sides, a crosswalk at the church end, and a T-junction where Maple Lane heads south. The hardware store and Frank's bay stay the anchors. Between the west cottage and the bay, the north sidewalk fronts a post office, Bright's Diner, an alley, a barber, and a for-lease shop. Facades share a building line. Doors meet the sidewalk. Frank's bay has a driveway apron cut through the curb. The park and creek sit at the east end. Street trees sit in sidewalk planters, with lamps, benches, a hydrant, a mailbox, a trash can, and two parked cars.
+
+The outdoor tileset grew from 8×2 to 8×4 (256×128). Old atlas coordinates are unchanged: path is still `(2, 0)`, water is still `(7, 0)`. New cells cover asphalt, center lines, directional curbs, crosswalks, driveway, planters, foundation, parking, and alley. Storefronts, cars, the hydrant, and the trash can are authored PNGs from `scripts/art/environment_frames.gd`.
+
+Shop hours, walk-in doors, Thomas behind the counter, Frank in the bay, and the M5B one-person-one-place rule are unchanged. Sarah's Oak Street post moved onto the diner sidewalk. A loaded save whose Oak Street coordinates sit in a collider or off the map snaps to the nearest spawn.
+
+Bright's Diner is named and visible. It is not enterable yet.
+
 ## Still open
 
 | # | Question | Notes |

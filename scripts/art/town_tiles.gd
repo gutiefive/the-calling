@@ -1,6 +1,6 @@
 class_name TownTiles
 extends RefCounted
-## Atlas coordinates for assets/tilesets/town_tiles.png (32x32 cells, 8 by 2).
+## Atlas coordinates for assets/tilesets/town_tiles.png (32x32 cells, 8 by 4).
 ## Row 0 keeps the outdoor indices older rooms already paint: grass, path, sidewalk, water.
 
 const RESOURCE_PATH := "res://assets/tilesets/town_tiles.tres"
@@ -20,6 +20,24 @@ const FLOWER_BED := Vector2i(2, 1)
 const CHURCH_FLOOR := Vector2i(3, 1)
 const WOOD_FLOOR := Vector2i(4, 1)
 const WALL_BASE := Vector2i(5, 1)
+const PLANTER := Vector2i(6, 1)
+const FOUNDATION := Vector2i(7, 1)
+const ASPHALT := Vector2i(0, 2)
+const LINE_H := Vector2i(1, 2)
+const LINE_V := Vector2i(2, 2)
+const CURB_N := Vector2i(3, 2)
+const CURB_S := Vector2i(4, 2)
+const CURB_E := Vector2i(5, 2)
+const CURB_W := Vector2i(6, 2)
+const CROSSWALK_H := Vector2i(7, 2)
+const CROSSWALK_V := Vector2i(0, 3)
+const DRIVEWAY := Vector2i(1, 3)
+const CURB_NW := Vector2i(2, 3)
+const CURB_NE := Vector2i(3, 3)
+const CURB_SW := Vector2i(4, 3)
+const CURB_SE := Vector2i(5, 3)
+const PARKING := Vector2i(6, 3)
+const ALLEY := Vector2i(7, 3)
 
 
 static func apply_to(layer: TileMapLayer) -> bool:
@@ -39,3 +57,11 @@ static func grass_at(x: int, y: int) -> Vector2i:
 	if n == 1:
 		return GRASS_C
 	return GRASS_A
+
+
+static func is_sidewalk(atlas: Vector2i) -> bool:
+	return atlas == SIDEWALK or atlas == PLANTER
+
+
+static func is_road(atlas: Vector2i) -> bool:
+	return atlas == ROAD or atlas == ASPHALT or atlas == LINE_H or atlas == LINE_V or atlas == CROSSWALK_H or atlas == CROSSWALK_V or atlas == PARKING or atlas == DRIVEWAY

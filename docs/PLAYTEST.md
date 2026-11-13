@@ -323,14 +323,14 @@ godot --headless --path . res://tests/m6a2/m6a2_validation.tscn
 ```
 
 `m6a2_validation.tscn` prints `CHECK OK` / `CHECK FAIL` lines and exits with `M6A2_OK` or `M6A2_FAIL`.
-It checks that the tileset PNG is 256×64 and palette-only, that `town_tiles.tres` loads, that each environment PNG exists at its placeholder size and uses only palette colors, that the church grounds, Oak Street, and Maple Lane boot with that TileSet, and that church and prop collisions are unchanged.
+It checks that the tileset PNG is 256×128 and palette-only, that `town_tiles.tres` loads, that each environment PNG exists at its placeholder size and uses only palette colors, that the church grounds, Oak Street, and Maple Lane boot with that TileSet, and that church and prop collisions are unchanged.
 
 ## Manual
 
 | ID | Do this | Expect |
 |---|---|---|
 | T53 | Walk the church grounds | Grass, path, and sidewalk tiles. The church face, trees, bench, lamp, notice, and mailbox are PNGs. You still cannot walk through them. |
-| T54 | Walk Oak Street and Maple Lane | Road, curb, sidewalk, and the creek water tile. Shop buildings are still placeholders. |
+| T54 | Walk Oak Street and Maple Lane | Road, curb, sidewalk, and the creek water tile. Oak Street shops use authored storefronts from M10. |
 
 ## M6A2 results
 
@@ -483,3 +483,44 @@ It enumerates every scene door, walks in to the matching spawn, checks that arri
 ## M9B results
 
 On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `M1_OK` (76), `M2_OK` (113), `M3_OK` (109), `M4_OK` (90), `M4_5_OK` (90), `M5A_OK` (103), `M5B_OK` (1491), `M6A_OK` (219), `M6A2_OK` (128), `M7_OK` (93), `M8_OK` (80), `M9_OK` (105), and `M9B_OK` (156), each exiting 0. `--quit-after 120` exited 0 with no script errors. T66 was not played in a window. M1 gained two checks: walking in requests the sanctuary, and E on a door does not change rooms.
+
+# Milestone 10 test plan
+
+These checks cover the Oak Street redesign. The earlier lists still apply.
+
+## Automated
+
+```powershell
+godot --headless --path . --import
+godot --headless --path . res://tests/m1/m1_validation.tscn
+godot --headless --path . res://tests/m2/m2_validation.tscn
+godot --headless --path . res://tests/m3/m3_validation.tscn
+godot --headless --path . res://tests/m4/m4_validation.tscn
+godot --headless --path . res://tests/m4_5/m4_5_validation.tscn
+godot --headless --path . res://tests/m5a/m5a_validation.tscn
+godot --headless --path . res://tests/m5b/m5b_validation.tscn
+godot --headless --path . res://tests/m6a/m6a_validation.tscn
+godot --headless --path . res://tests/m6a2/m6a2_validation.tscn
+godot --headless --path . res://tests/m7/m7_validation.tscn
+godot --headless --path . res://tests/m8/m8_validation.tscn
+godot --headless --path . res://tests/m9/m9_validation.tscn
+godot --headless --path . res://tests/m9b/m9b_validation.tscn
+godot --headless --path . res://tests/m10/m10_validation.tscn
+godot --path . res://tests/m10/capture_oak.tscn
+```
+
+`m10_validation.tscn` prints `CHECK OK` / `CHECK FAIL` lines and exits with `M10_OK` or `M10_FAIL`.
+It checks road, sidewalk, and curb tiles, that shop doors sit on the sidewalk, that buildings do not overlap the road, that Oak Street doors and spawns still route, that NPC posts are walkable, that the player cannot walk through a shop or a parked car, that camera limits contain the street, and that an old in-wall save snaps to a spawn.
+
+`capture_oak.tscn` writes PNGs to `tests/m10/shots/` and needs a display.
+
+## Manual
+
+| ID | Do this | Expect |
+|---|---|---|
+| T67 | Walk Oak Street from the church gate to the creek | A two-lane road, sidewalks, a crosswalk, storefronts on the sidewalk, Bright's Diner, parked cars, then the park and creek. About 20–30 seconds end to end. |
+| T68 | Walk into the hardware store, Frank's bay, Maple Lane, and back to the church | The same doors as M9B, now at the new facades. Spawns sit outside the triggers. |
+
+## M10 results
+
+On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `M1_OK` (76), `M2_OK` (113), `M3_OK` (109), `M4_OK` (90), `M4_5_OK` (90), `M5A_OK` (103), `M5B_OK` (1491), `M6A_OK` (219), `M6A2_OK` (130), `M7_OK` (93), `M8_OK` (80), `M9_OK` (105), `M9B_OK` (156), and `M10_OK` (91), each exiting 0 with zero `CHECK FAIL`, `SCRIPT ERROR`, or Parse Error. `--quit-after 120` exited 0. `tests/m10/capture_oak.tscn` wrote before and after shots under `tests/m10/shots/`. T67–T68 were not played in a window.

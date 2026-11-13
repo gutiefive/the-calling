@@ -50,11 +50,11 @@
     {
       "id": "sarah",
       "entries": [
-        {"days": ["Monday", "Tuesday", "Wednesday"], "from": "09:00", "until": "12:00", "scene": "hardware_street", "position": [480, 520]},
+        {"days": ["Monday", "Tuesday", "Wednesday"], "from": "09:00", "until": "12:00", "scene": "hardware_street", "position": [592, 440]},
         {"days": ["Monday", "Tuesday", "Wednesday"], "from": "12:00", "until": "17:00", "scene": "maple_lane", "position": [400, 560]},
-        {"days": ["Friday"], "from": "09:00", "until": "12:00", "scene": "hardware_street", "position": [480, 520]},
+        {"days": ["Friday"], "from": "09:00", "until": "12:00", "scene": "hardware_street", "position": [592, 440]},
         {"days": ["Friday"], "from": "12:00", "until": "17:00", "scene": "maple_lane", "position": [400, 560]},
-        {"days": ["Saturday"], "from": "10:00", "until": "13:00", "scene": "hardware_street", "position": [480, 520]},
+        {"days": ["Saturday"], "from": "10:00", "until": "13:00", "scene": "hardware_street", "position": [592, 440]},
         {"days": ["Sunday"], "from": "10:00", "until": "24:00", "scene": "sanctuary", "position": [400, 500]}
       ]
     },
