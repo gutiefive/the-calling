@@ -230,12 +230,12 @@ func _save_roundtrip() -> void:
 		return
 	player.global_position = Vector2(420, 510)
 	var saved := SaveGame.save_to_disk(get_tree())
-	_check(saved, "a version 4 save writes")
+	_check(saved, "a current-version save writes")
 	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(SaveGame.SAVE_PATH))
 	_check(parsed is Dictionary, "the save file is an object")
 	var row: Dictionary = parsed if parsed is Dictionary else {}
-	_check(int(row.get("version", -1)) == 4, "the save file is version 4")
-	_check(row.has("influence") and row.has("chapter"), "version 4 stores influence and chapter")
+	_check(int(row.get("version", -1)) == SaveGame.SAVE_VERSION, "the save file is the current version")
+	_check(row.has("influence") and row.has("chapter"), "the save stores influence and chapter")
 	_check(str(row.get("chapter", "missing")) == "", "chapter is empty in Chapter 1")
 	var influence_v: Variant = row.get("influence", {})
 	var influence: Dictionary = influence_v if influence_v is Dictionary else {}
@@ -243,7 +243,7 @@ func _save_roundtrip() -> void:
 	NarrativeState.reset()
 	_check(int(inf.call("pull_total")) == 0, "reset clears Pull before load")
 	var loaded := SaveGame.read_file()
-	_check(int(loaded.get("version", 0)) == 4, "read_file keeps version 4")
+	_check(int(loaded.get("version", 0)) == SaveGame.SAVE_VERSION, "read_file keeps the current version")
 	SaveGame.apply_state(loaded)
 	_check(int(inf.call("pull_total")) == 3 and int(inf.call("pull_part", "seats")) == 1, "load restores Pull")
 	_check(str(inf.call("chapter")) == "", "load restores the empty chapter")
@@ -260,7 +260,7 @@ func _save_roundtrip() -> void:
 			"growth": {"community_trust": 1, "attendance": 17},
 		},
 	})
-	_check(int(from_v3.get("version", 0)) == 4, "a version 3 file migrates to version 4")
+	_check(int(from_v3.get("version", 0)) == SaveGame.SAVE_VERSION, "a version 3 file migrates to the current save")
 	var migrated_inf_v: Variant = from_v3.get("influence", {})
 	var migrated_inf: Dictionary = migrated_inf_v if migrated_inf_v is Dictionary else {}
 	_check(int(migrated_inf.get("total", -1)) == 0 and int(migrated_inf.get("stage", 0)) == 1, "v3 migration adds empty Pull at trust")
@@ -272,7 +272,7 @@ func _save_roundtrip() -> void:
 		if flags_v is Dictionary:
 			flags = flags_v
 	_check(bool(flags.get("frank_listened", false)), "v3 migration keeps the old story")
-	_check(SaveGame.migrate({"version": 5, "scene": "res://scenes/world/church_exterior.tscn"}).is_empty(), "a newer save is still rejected")
+	_check(SaveGame.migrate({"version": SaveGame.SAVE_VERSION + 1, "scene": "res://scenes/world/church_exterior.tscn"}).is_empty(), "a newer save is still rejected")
 	room.free()
 
 

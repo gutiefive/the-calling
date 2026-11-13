@@ -77,6 +77,10 @@ func _handle_pause() -> void:
 	if journal != null and journal.has_method("is_open") and bool(journal.call("is_open")):
 		journal.call("close")
 		return
+	var ledger := tree.get_first_node_in_group("ledger_screen")
+	if ledger != null and ledger.has_method("is_open") and bool(ledger.call("is_open")):
+		ledger.call("close")
+		return
 	var map := tree.get_first_node_in_group("town_map")
 	if map != null and map.has_method("is_open") and bool(map.call("is_open")):
 		map.call("close")

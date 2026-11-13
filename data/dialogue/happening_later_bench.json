@@ -1,0 +1,11 @@
+{
+  "id": "happening_later_bench",
+  "start": "open",
+  "nodes": {
+    "open": {
+      "speaker": "Note",
+      "text": "Someone left a pie tin on the bench with a napkin over it. Still warm. No name.",
+      "end": true
+    }
+  }
+}

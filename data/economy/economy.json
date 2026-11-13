@@ -1,0 +1,24 @@
+{
+  "starting_balance": 55,
+  "rng_seed": 8,
+  "attendance": {
+    "core_regulars": 15,
+    "min_attendance": 8,
+    "variance": 2,
+    "influence_nudge": 1
+  },
+  "giving": {
+    "per_person_min": 24,
+    "per_person_max": 34,
+    "sermon_fit_bonus": 35
+  },
+  "expenses": [
+    {"id": "utilities", "label": "Utilities", "amount": 70},
+    {"id": "upkeep", "label": "Upkeep", "amount": 40}
+  ],
+  "project": {
+    "id": "fellowship_hall",
+    "name": "Fellowship Hall repair",
+    "cost": 2500
+  }
+}

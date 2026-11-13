@@ -8,6 +8,8 @@ const BENCH := "res://assets/environments/bench.png"
 const LAMP := "res://assets/environments/lamp_post.png"
 const NOTICE := "res://assets/environments/notice_board.png"
 const MAILBOX := "res://assets/environments/mailbox.png"
+const HALL_WORN := "res://assets/environments/fellowship_hall_worn.png"
+const HALL_REPAIRED := "res://assets/environments/fellowship_hall_repaired.png"
 
 
 static func church_front() -> Texture2D:
@@ -32,6 +34,10 @@ static func notice_board() -> Texture2D:
 
 static func mailbox() -> Texture2D:
 	return _load(MAILBOX)
+
+
+static func fellowship_hall(repaired: bool) -> Texture2D:
+	return _load(HALL_REPAIRED if repaired else HALL_WORN)
 
 
 static func _load(path: String) -> Texture2D:

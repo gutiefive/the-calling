@@ -149,9 +149,20 @@
     },
     "after_chapter": {
       "router": [
-        {"if": {"weekday": "Sunday"}, "next": "later_sunday"},
+        {"if": {"weekday": "Sunday"}, "next": "later_sunday_gate"},
         {"next": "after_walk"}
       ]
+    },
+    "later_sunday_gate": {
+      "router": [
+        {"if": {"flag": "weekly_loop"}, "next": "later_sunday_loop"},
+        {"next": "later_sunday"}
+      ]
+    },
+    "later_sunday_loop": {
+      "speaker": "Margaret",
+      "text": "Ten o'clock still holds. The room is yours when you walk in.",
+      "end": true
     },
     "later_sunday": {
       "speaker": "Margaret",

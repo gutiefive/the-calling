@@ -241,6 +241,13 @@ static func parsonage() -> Texture2D:
 	return _cached("parsonage", _parsonage())
 
 
+static func fellowship_hall(repaired: bool) -> Texture2D:
+	var authored := EnvironmentArt.fellowship_hall(repaired)
+	if authored != null:
+		return authored
+	return _cached("hall_repaired" if repaired else "hall_worn", _fellowship_hall(repaired))
+
+
 static func fence() -> Texture2D:
 	return _cached("fence", _fence())
 
@@ -969,6 +976,10 @@ static func _ledger() -> Image:
 	_rect(image, 18, 16, 3, 1, GREY)
 	_rect(image, 8, 22, 16, 2, GOLD)
 	return _outline(image)
+
+
+static func _fellowship_hall(repaired: bool) -> Image:
+	return EnvironmentFrames.build_fellowship_hall(repaired)
 
 
 static func _parsonage() -> Image:

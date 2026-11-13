@@ -21,6 +21,10 @@ static func is_active(happening_id: String, day_name: String, hour: int, minute:
 			continue
 		if not _day_matches(row.get("days", []), day_name):
 			return false
+		if not _flag_ok(row.get("requires_flag", "")):
+			return false
+		if not _week_ok(row):
+			return false
 		var start := _minutes(str(row.get("from", "00:00")))
 		var until := _minutes(str(row.get("until", "24:00")))
 		return now >= start and now < until
@@ -54,6 +58,37 @@ static func _ensure() -> bool:
 	_rows = rows as Array
 	_ok = true
 	return true
+
+
+static func _flag_ok(flag_name: Variant) -> bool:
+	if flag_name == null:
+		return true
+	var key := str(flag_name)
+	if key.is_empty() or key == "<null>":
+		return true
+	var tree := Engine.get_main_loop() as SceneTree
+	if tree == null:
+		return false
+	var story := tree.root.get_node_or_null("NarrativeState")
+	if story == null or not story.has_method("flag_is_true"):
+		return false
+	return bool(story.call("flag_is_true", key))
+
+
+static func _week_ok(row: Dictionary) -> bool:
+	if not row.has("week_mod"):
+		return true
+	var modulus := int(row.get("week_mod", 0))
+	if modulus <= 0:
+		return true
+	var want := int(row.get("week_index", 0))
+	var week := 1
+	var tree := Engine.get_main_loop() as SceneTree
+	if tree != null:
+		var clock := tree.root.get_node_or_null("DayClock")
+		if clock != null and clock.has_method("week_number"):
+			week = int(clock.call("week_number"))
+	return (week % modulus) == want
 
 
 static func _day_matches(days_v: Variant, day_name: String) -> bool:

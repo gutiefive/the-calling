@@ -91,6 +91,87 @@ static func build_church() -> Image:
 	return Draw.outline(image)
 
 
+static func build_fellowship_hall(repaired: bool) -> Image:
+	var image := Draw.canvas(192, 112)
+	var roof := Draw.pal("roof")
+	var roof_d := Draw.pal("roof_d")
+	var roof_l := Draw.pal("roof_l")
+	var cream := Draw.pal("cream")
+	var cream_d := Draw.pal("cream_d")
+	var cream_s := Draw.pal("cream_s")
+	var brick := Draw.pal("brick")
+	var brick_d := Draw.pal("brick_d")
+	var wood := Draw.pal("wood")
+	var wood_d := Draw.pal("wood_d")
+	var wood_l := Draw.pal("wood_l")
+	var glass := Draw.pal("glass")
+	var glass_d := Draw.pal("glass_d")
+	var glass_h := Draw.pal("glass_h")
+	var moss := Draw.pal("moss")
+	var path := Draw.pal("path")
+	var flower := Draw.pal("flower")
+	var flower2 := Draw.pal("flower2")
+	for y in range(6, 44):
+		var inset: int = (44 - y) / 3
+		var tone: Color = roof if (y / 3) % 2 == 0 else roof_d
+		if repaired and absi((y / 4) - 5) < 1:
+			tone = roof_l
+		Draw.rect(image, inset, y, 192 - inset * 2, 1, tone)
+	if not repaired:
+		Draw.rect(image, 48, 18, 18, 8, cream_s)
+		Draw.rect(image, 130, 22, 14, 6, cream_d)
+		Draw.rect(image, 88, 14, 10, 5, cream_s)
+	Draw.rect(image, 16, 44, 160, 52, cream if repaired else cream_d)
+	Draw.rect(image, 16, 86, 160, 14, brick)
+	for x in range(20, 172, 10):
+		Draw.px(image, x, 92, brick_d)
+	_hall_window(image, 36, repaired, wood_d, wood, glass, glass_d, glass_h)
+	_hall_window(image, 128, repaired, wood_d, wood, glass, glass_d, glass_h)
+	Draw.rect(image, 80, 64, 32, 38, wood_d)
+	Draw.rect(image, 84, 68, 12, 30, wood if repaired else wood_d)
+	Draw.rect(image, 98, 68, 12, 30, wood_l if repaired else wood)
+	Draw.px(image, 94, 84, Draw.pal("gold") if repaired else wood_d)
+	Draw.rect(image, 72, 100, 48, 6, path)
+	if repaired:
+		Draw.rect(image, 32, 78, 28, 6, wood)
+		Draw.px(image, 36, 76, flower)
+		Draw.px(image, 44, 75, flower2)
+		Draw.px(image, 52, 76, flower)
+		Draw.rect(image, 132, 78, 28, 6, wood)
+		Draw.px(image, 138, 76, flower2)
+		Draw.px(image, 146, 75, flower)
+		Draw.rect(image, 20, 96, 10, 3, moss)
+	else:
+		Draw.rect(image, 22, 96, 16, 4, moss)
+		Draw.rect(image, 150, 94, 14, 4, moss)
+		Draw.crack(image, 50, 54, 8, cream_s)
+		Draw.crack(image, 118, 60, 7, cream_s, false)
+	return Draw.outline(image)
+
+
+static func _hall_window(
+	image: Image,
+	x: int,
+	repaired: bool,
+	wood_d: Color,
+	wood: Color,
+	glass: Color,
+	glass_d: Color,
+	glass_h: Color
+) -> void:
+	Draw.rect(image, x, 52, 28, 22, wood_d)
+	if repaired:
+		Draw.rect(image, x + 3, 55, 22, 16, glass_d)
+		Draw.rect(image, x + 5, 57, 18, 8, glass)
+		Draw.px(image, x + 8, 58, glass_h)
+		Draw.rect(image, x + 13, 55, 2, 16, wood)
+	else:
+		Draw.rect(image, x + 3, 55, 22, 16, wood)
+		Draw.rect(image, x + 5, 57, 18, 3, wood_d)
+		Draw.rect(image, x + 5, 64, 18, 3, wood_d)
+		Draw.rect(image, x + 9, 55, 3, 16, wood_d)
+
+
 static func build_tree() -> Image:
 	var image := Draw.canvas(48, 80)
 	var leaf := Draw.pal("leaf")

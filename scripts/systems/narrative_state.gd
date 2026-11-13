@@ -13,6 +13,7 @@ var journal_open: bool = false
 var ending_open: bool = false
 var map_open: bool = false
 var day_card_open: bool = false
+var ledger_open: bool = false
 
 var _flags: Dictionary = {}
 var _quests: Dictionary = {}
@@ -34,7 +35,7 @@ func _ready() -> void:
 
 
 func movement_locked() -> bool:
-	return dialogue_open or journal_open or ending_open or map_open or day_card_open
+	return dialogue_open or journal_open or ending_open or map_open or day_card_open or ledger_open
 
 
 func set_dialogue_open(is_open: bool) -> void:
@@ -60,9 +61,13 @@ func reset() -> void:
 	ending_open = false
 	map_open = false
 	day_card_open = false
+	ledger_open = false
 	var inf := get_node_or_null("/root/InfluenceState")
 	if inf != null and inf.has_method("reset"):
 		inf.call("reset")
+	var funds := get_node_or_null("/root/ChurchFunds")
+	if funds != null and funds.has_method("reset"):
+		funds.call("reset")
 
 
 func set_flag(key: String, value: Variant) -> void:
@@ -182,7 +187,17 @@ func day_suggestions() -> PackedStringArray:
 		if clock.has_method("is_later_sunday"):
 			later_sunday = bool(clock.call("is_later_sunday"))
 	if later_sunday and hour < 12:
-		lines.append("The sanctuary is quiet. The next chapter is still being written.")
+		if flag_is_true("weekly_loop"):
+			lines.append("Sunday is at ten, if you want the room.")
+		else:
+			lines.append("The sanctuary is quiet. The next chapter is still being written.")
+	if flag_is_true("weekly_loop") and flag_is_true("hall_proposed") and not flag_is_true("hall_repaired"):
+		if flag_is_true("hall_repairing"):
+			lines.append("Harold is working on the Fellowship Hall this week.")
+		else:
+			lines.append("The Fellowship Hall is still boarded, if you want to keep at it.")
+	if flag_is_true("hall_repaired") and not flag_is_true("hall_celebrated"):
+		lines.append("The Fellowship Hall is open. Harold left the door unlatched.")
 	if not flag_is_true("grounds_tidy"):
 		lines.append("The church walk could use a few minutes, if you want them.")
 	if not flag_is_true("garden_planted"):
@@ -306,6 +321,7 @@ func from_dictionary(data: Dictionary) -> void:
 	ending_open = false
 	map_open = false
 	day_card_open = false
+	ledger_open = false
 	var flags_v: Variant = data.get("flags", {})
 	_flags = (flags_v as Dictionary).duplicate(true) if flags_v is Dictionary else {}
 	_quests.clear()

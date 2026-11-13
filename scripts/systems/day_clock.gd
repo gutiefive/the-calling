@@ -105,8 +105,8 @@ func sleep_until_morning() -> void:
 func skip_ahead() -> void:
 	if at_cap():
 		return
-	# The first Sunday morning lands on the service. Later Sundays have no sermon to catch.
-	if is_opening_sunday() and hour < 10:
+	# The first Sunday morning lands on the service. Later Sundays do too once the weekly loop is on.
+	if hour < 10 and (is_opening_sunday() or (is_later_sunday() and weekly_loop())):
 		set_time(weekday, 10, 0)
 		return
 	var phase := phase_for_hour(hour)
@@ -150,6 +150,17 @@ func weekday_name() -> String:
 	if index < 0 or index >= WEEKDAYS.size():
 		return ""
 	return WEEKDAYS[index]
+
+
+func week_number() -> int:
+	return int((maxi(weekday, 1) - 1) / 7) + 1
+
+
+func weekly_loop() -> bool:
+	var story := get_node_or_null("/root/NarrativeState")
+	if story == null or not story.has_method("flag_is_true"):
+		return false
+	return bool(story.call("flag_is_true", "weekly_loop"))
 
 
 func clock_text() -> String:

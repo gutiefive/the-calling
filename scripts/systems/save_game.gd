@@ -2,7 +2,7 @@ class_name SaveGame
 extends RefCounted
 ## One save slot. Versioned JSON in user://. The migration stub is where older files will step forward.
 
-const SAVE_VERSION := 4
+const SAVE_VERSION := 5
 const SAVE_PATH := "user://the_calling_save.json"
 
 
@@ -68,6 +68,12 @@ static func capture(tree: SceneTree) -> Dictionary:
 			influence_data = inf_raw
 		if inf.has_method("chapter"):
 			chapter = str(inf.call("chapter"))
+	var funds_data: Dictionary = {}
+	var funds := tree.root.get_node_or_null("ChurchFunds")
+	if funds != null and funds.has_method("to_dictionary"):
+		var funds_raw: Variant = funds.call("to_dictionary")
+		if funds_raw is Dictionary:
+			funds_data = funds_raw
 	return {
 		"version": SAVE_VERSION,
 		"narrative": NarrativeState.to_dictionary(),
@@ -77,6 +83,7 @@ static func capture(tree: SceneTree) -> Dictionary:
 		"facing": facing,
 		"influence": influence_data,
 		"chapter": chapter,
+		"funds": funds_data,
 	}
 
 
@@ -103,6 +110,11 @@ static func apply_state(data: Dictionary) -> bool:
 		inf.call("from_dictionary", influence_data)
 		if inf.has_method("set_chapter"):
 			inf.call("set_chapter", str(data.get("chapter", influence_data.get("chapter", ""))))
+	var funds := tree.root.get_node_or_null("ChurchFunds") if tree != null else null
+	if funds != null and funds.has_method("from_dictionary"):
+		var funds_v: Variant = data.get("funds", {})
+		var funds_data: Dictionary = funds_v if funds_v is Dictionary else {}
+		funds.call("from_dictionary", funds_data)
 	var clock_v: Variant = data.get("clock", {})
 	if tree != null and clock_v is Dictionary:
 		var clock := tree.root.get_node_or_null("DayClock")
@@ -134,6 +146,9 @@ static func begin_new_game(tree: SceneTree) -> void:
 		var inf := tree.root.get_node_or_null("InfluenceState")
 		if inf != null and inf.has_method("reset"):
 			inf.call("reset")
+		var funds := tree.root.get_node_or_null("ChurchFunds")
+		if funds != null and funds.has_method("reset"):
+			funds.call("reset")
 	DayClock.held = false
 	if tree != null and tree.paused:
 		tree.paused = false
@@ -149,6 +164,8 @@ static func delete_save() -> void:
 
 
 static func _migrate_step(data: Dictionary, from_version: int) -> Dictionary:
+	if from_version == 4:
+		return _migrate_funds(data)
 	if from_version == 3:
 		return _migrate_influence(data)
 	if from_version == 2:
@@ -228,6 +245,53 @@ static func _migrate_influence(data: Dictionary) -> Dictionary:
 	data["influence"] = influence
 	if not data.has("chapter"):
 		data["chapter"] = str(influence.get("chapter", ""))
+	return data
+
+
+static func _migrate_funds(data: Dictionary) -> Dictionary:
+	# Version 5 adds church funds, the week project, and the weekly loop flag.
+	var funds: Dictionary = {
+		"balance": 55,
+		"last_service_week": 0,
+		"project_id": "fellowship_hall",
+		"project_progress": 0,
+		"project_state": "none",
+		"repair_week": 0,
+		"pending_week": 0,
+		"pending_offering": 0,
+		"pending_expenses": 0,
+		"pending_attendance": 0,
+		"pending_theme": "",
+		"pending_choice": "",
+		"history": [],
+	}
+	var funds_v: Variant = data.get("funds", {})
+	if funds_v is Dictionary:
+		for key in funds.keys():
+			if (funds_v as Dictionary).has(key):
+				funds[key] = (funds_v as Dictionary)[key]
+	data["funds"] = funds
+	var narrative: Dictionary = {}
+	var narrative_v: Variant = data.get("narrative", {})
+	if narrative_v is Dictionary:
+		narrative = (narrative_v as Dictionary).duplicate(true)
+	var flags: Dictionary = {}
+	var flags_v: Variant = narrative.get("flags", {})
+	if flags_v is Dictionary:
+		flags = (flags_v as Dictionary).duplicate(true)
+	if bool(flags.get("week_continues", false)) and not bool(flags.get("weekly_loop", false)):
+		flags["weekly_loop"] = true
+	narrative["flags"] = flags
+	data["narrative"] = narrative
+	if bool(flags.get("weekly_loop", false)):
+		if str(data.get("chapter", "")).is_empty():
+			data["chapter"] = "2"
+		var influence_v: Variant = data.get("influence", {})
+		if influence_v is Dictionary:
+			var influence: Dictionary = influence_v
+			if str(influence.get("chapter", "")).is_empty():
+				influence["chapter"] = "2"
+			data["influence"] = influence
 	return data
 
 

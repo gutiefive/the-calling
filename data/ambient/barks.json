@@ -8,6 +8,7 @@
         {"days": ["Friday"], "phases": ["Day"], "text": "Frank's got boxes on the walk. I'm stepping around them."},
         {"days": ["Saturday"], "phases": ["Day"], "text": "The park's the noisy end of the street this morning."},
         {"days": ["Sunday"], "phases": ["Day"], "text": "Quiet street. Most folks are up at the church or still in bed."},
+        {"days": ["Sunday"], "phases": ["Evening"], "text": "Somebody left the church walk swept. That's a small kindness."},
         {"days": ["Monday", "Tuesday", "Wednesday"], "phases": ["Day"], "text": "Weekday morning. Thomas is inside if the door's unlocked."},
         {"phases": ["Evening"], "text": "Porch lights are on. I'm heading in after this block."},
         {"phases": ["Night"], "text": "Didn't expect anyone out. The windows are the company."},
@@ -22,6 +23,7 @@
         {"days": ["Friday"], "phases": ["Day"], "text": "Delivery day. Don't trip on the crates by the store."},
         {"days": ["Saturday"], "phases": ["Day"], "text": "If you want quiet, the park is the wrong way until lunch."},
         {"days": ["Monday", "Tuesday", "Wednesday"], "phases": ["Day"], "text": "The lane west of here still finds the church. That's the whole of it."},
+        {"days": ["Sunday"], "phases": ["Day"], "text": "Bells carried this far. I stayed on the sidewalk. That's my Sunday."},
         {"phases": ["Evening"], "text": "Shop's shut. The lamps do the talking now."},
         {"phases": ["Night"], "text": "Street's empty. That's how I like the late hours."},
         {"text": "Just out for the air."}
@@ -35,6 +37,7 @@
         {"days": ["Friday"], "phases": ["Day"], "text": "Frank's been at those boxes since the truck left."},
         {"days": ["Saturday"], "phases": ["Day"], "text": "The kids claimed the park. I'm only the lookout."},
         {"days": ["Monday", "Tuesday", "Wednesday"], "phases": ["Day"], "text": "Nothing special on the block. That's a fine kind of morning."},
+        {"days": ["Sunday"], "phases": ["Day"], "text": "I heard singing from the lot. I'm only walking. That's enough."},
         {"phases": ["Evening"], "text": "I'm walking home while I can still see the curb."},
         {"phases": ["Night"], "text": "Even the creek sounds closer when the street is empty."},
         {"text": "Nice enough day to be outside."}

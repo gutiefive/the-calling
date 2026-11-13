@@ -211,6 +211,22 @@ The M5A checks that a migrated or fresh file "is version 3" now compare against 
 
 Chapter 1 still plays as before. The seeds are extra lines and one Saturday visitor, Dell Ostrow. Returning the spare keys sets `has_reece_key` for a file box that does not exist yet. Pull changes on the Frank and Sarah choices do not change those outcomes. Inner-voice thoughts are optional italic lines after a choice, default on, toggled from the pause menu after Map so Resume / Save / Load stay the first three rows.
 
+## D44 — Weekly loop, money visibility, and a quiet dark arc (M8)
+
+D43 already recorded M7, so the weekly loop is D44.
+
+After Continue in Oakridge, each later Sunday runs a short repeatable service: hope, forgiveness, or service, a described-in-words reaction, then the ledger screen. Attendance is core regulars plus people whose trust or invite flags qualify, plus a seeded variance. Offerings and weekly expenses live in `data/economy/economy.json`. Influence may nudge turnout; it is never shown.
+
+**Money.** Exact dollar amounts appear only on the ledger screen and on project costs. Dialogue never names amounts. Trust, Pull, and relationships stay words and tells.
+
+**The first project.** Margaret proposes repairing the Fellowship Hall on the first Sunday after Chapter 1, with no dollars in that conversation. The player sends none, half, or all of each week's surplus to the hall from the ledger. Around $2,500, tuned for about 4–6 decent weeks. When it is funded, Harold repairs it over the next week, the exterior swaps from boarded to open, and Wednesday can hold a potluck.
+
+**Dark arc.** No new cult hints, spirits, or Shepherd lines in this milestone. The ledger may keep one tiny neutral line about a deposit Margaret does not recognize. Insiders still never say "cult".
+
+**Saves.** Version 5 stores funds, week, and project state. Version 4 and 3 files migrate. Continue sets `weekly_loop` and chapter `"2"`. Chapter 1 still plays identically until that Continue.
+
+**Revisit after playtest:** starting balance, per-person giving, expenses, and the hall cost.
+
 ## Still open
 
 | # | Question | Notes |

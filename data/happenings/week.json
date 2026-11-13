@@ -20,6 +20,30 @@
       "from": "08:00",
       "until": "13:00",
       "scene": "hardware_street"
+    },
+    {
+      "id": "later_bench",
+      "days": ["Tuesday"],
+      "from": "09:00",
+      "until": "16:00",
+      "scene": "church_exterior",
+      "requires_flag": "week_continues"
+    },
+    {
+      "id": "later_park",
+      "days": ["Thursday"],
+      "from": "13:00",
+      "until": "17:00",
+      "scene": "hardware_street",
+      "requires_flag": "week_continues"
+    },
+    {
+      "id": "wednesday_potluck",
+      "days": ["Wednesday"],
+      "from": "11:00",
+      "until": "16:00",
+      "scene": "church_exterior",
+      "requires_flag": "hall_repaired"
     }
   ]
 }

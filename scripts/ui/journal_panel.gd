@@ -99,6 +99,9 @@ func _body_text() -> String:
 	else:
 		for note in notes:
 			lines.append(note)
+	if NarrativeState.flag_is_true("weekly_loop"):
+		lines.append("")
+		lines.append("L  church ledger")
 	lines.append("")
 	lines.append("J or Esc  close")
 	return "\n".join(lines)

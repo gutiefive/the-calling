@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/interaction_prompt.gd" id="1_prompt"]
 [ext_resource type="Script" path="res://scripts/ui/dialogue_box.gd" id="2_banner"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://scripts/ui/location_banner.gd" id="5_place"]
 [ext_resource type="Script" path="res://scripts/ui/town_map.gd" id="6_map"]
 [ext_resource type="Script" path="res://scripts/ui/day_card.gd" id="7_day"]
+[ext_resource type="PackedScene" path="res://scenes/ui/ledger_screen.tscn" id="8_ledger"]
 
 [node name="HUD" type="CanvasLayer"]
 layer = 10
@@ -175,3 +176,5 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("7_day")
+
+[node name="LedgerScreen" parent="." instance=ExtResource("8_ledger")]

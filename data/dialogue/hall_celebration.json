@@ -1,0 +1,18 @@
+{
+  "id": "hall_celebration",
+  "start": "open",
+  "nodes": {
+    "open": {
+      "speaker": "Harold",
+      "text": "Boards are down. The roof was honest enough once I got at it. The hall can hold a potluck now.",
+      "next": "close"
+    },
+    "close": {
+      "speaker": "Harold",
+      "text": "Wednesday, if anyone brings a dish. I am not cooking. I am done with the ladder.",
+      "set_flags": {"hall_celebrated": true},
+      "add_notes": ["The Fellowship Hall is open. Wednesday is a potluck, if you want it."],
+      "end": true
+    }
+  }
+}

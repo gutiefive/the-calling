@@ -1,6 +1,6 @@
 extends Node
 ## Hidden Pull. Three parts plus a general total. Never shown as a number.
-## Ladder stage 1 is person-by-person trust. Chapter stays empty until M8.
+## Ladder stage 1 is person-by-person trust. Chapter stays empty until Continue after Chapter 1.
 
 const STAGE_TRUST := 1
 const PARTS: PackedStringArray = ["seats", "storefronts", "dependents"]

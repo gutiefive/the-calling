@@ -210,6 +210,19 @@ func _add_living_town() -> void:
 		"happening_saturday",
 		"The kids wanted the park before the day got away."
 	)
+	_add_happening(
+		props,
+		"LaterPark",
+		"later_park",
+		Vector2(1180, 1000),
+		PlaceholderArt.townsfolk(2),
+		Vector2i(32, 48),
+		2,
+		"A neighbor",
+		"Watch the kite",
+		"happening_later_park",
+		"The kids found a kite in the creek grass."
+	)
 	_add_neighbor(props, "NeighborA", "ada", 0, 0, Vector2(420, 620))
 	_add_neighbor(props, "NeighborB", "ben", 1, 1, Vector2(860, 620))
 	_add_neighbor(props, "NeighborC", "cleo", 2, 2, Vector2(1280, 620))

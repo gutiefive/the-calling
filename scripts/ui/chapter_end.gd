@@ -129,6 +129,10 @@ func _confirm() -> void:
 
 func continue_story() -> void:
 	NarrativeState.set_flag("week_continues", true)
+	NarrativeState.set_flag("weekly_loop", true)
+	var inf := get_node_or_null("/root/InfluenceState")
+	if inf != null and inf.has_method("set_chapter"):
+		inf.call("set_chapter", "2")
 	NarrativeState.ending_open = false
 	_shown = false
 	visible = false

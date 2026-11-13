@@ -26,8 +26,10 @@ const CROWD: Array[Vector2] = [
 ]
 
 var _running: bool = false
+var _weekly_running: bool = false
 var _booted: bool = false
 var _restarts: int = 0
+var _weekly_restarts: int = 0
 var _crowd_built: bool = false
 
 
@@ -39,7 +41,7 @@ func _ready() -> void:
 func on_clock() -> void:
 	if not is_inside_tree():
 		return
-	if _running:
+	if _running or _weekly_running:
 		_seat_named(true)
 		return
 	_sync_crowd()
@@ -47,6 +49,8 @@ func on_clock() -> void:
 	_sync_quiet_note()
 	if _should_start():
 		_begin()
+	elif _should_start_weekly():
+		_begin_weekly()
 
 
 func _boot() -> void:
@@ -59,6 +63,8 @@ func _boot() -> void:
 		_sync_crowd()
 		_sync_ledger()
 		_sync_quiet_note()
+		if _should_start_weekly():
+			_begin_weekly()
 		return
 	# A theme was already chosen, so do not play the sermon again and add the relationships twice.
 	if str(NarrativeState.get_flag("sermon_theme", "")) != "":
@@ -72,10 +78,22 @@ func _boot() -> void:
 func _process(_delta: float) -> void:
 	_sync_ledger()
 	_sync_quiet_note()
+	var box := _box()
+	var box_open := box != null and box.has_method("is_conversation_open") and bool(box.call("is_conversation_open"))
+	if _weekly_running:
+		if box_open:
+			return
+		_weekly_running = false
+		var weekly_theme := str(NarrativeState.get_flag("weekly_sermon_theme", ""))
+		if weekly_theme.is_empty() and _weekly_restarts < 1:
+			_weekly_restarts += 1
+			_begin_weekly()
+			return
+		_finish_weekly()
+		return
 	if not _running:
 		return
-	var box := _box()
-	if box != null and box.has_method("is_conversation_open") and bool(box.call("is_conversation_open")):
+	if box_open:
 		return
 	_running = false
 	var theme := str(NarrativeState.get_flag("sermon_theme", ""))
@@ -103,6 +121,78 @@ func _should_start() -> bool:
 	if int(clock.get("weekday")) > 7:
 		return false
 	return int(clock.get("hour")) >= 10
+
+
+func _should_start_weekly() -> bool:
+	if not NarrativeState.flag_is_true("weekly_loop"):
+		return false
+	if NarrativeState.ending_open or NarrativeState.dialogue_open or NarrativeState.ledger_open:
+		return false
+	if _weekly_running or _running:
+		return false
+	if _weekly_done_this_week():
+		return false
+	if not _is_later_sunday():
+		return false
+	var clock := get_node_or_null("/root/DayClock")
+	if clock == null:
+		return false
+	# Morning gathering only. Chapter 1 still starts at 10:00 with no upper bound;
+	# later weeks do not reopen the sermon if the player is in the room after noon.
+	var hour := int(clock.get("hour"))
+	return hour >= 10 and hour < 12
+
+
+func _begin_weekly() -> void:
+	var box := _box()
+	var player := _player()
+	if box == null:
+		_finish_weekly()
+		return
+	_seat_named(true)
+	_sync_crowd()
+	var opened := false
+	if box.has_method("open_conversation"):
+		opened = bool(box.call("open_conversation", "weekly_service", player, true))
+	if not opened:
+		push_error("Weekly service could not open")
+		_weekly_running = false
+		_finish_weekly()
+		return
+	_weekly_running = true
+
+
+func _finish_weekly() -> void:
+	_seat_named(false)
+	var room := get_parent()
+	if room != null:
+		NpcSchedule.apply_room(room)
+	_apply_followups()
+	_sync_crowd()
+	var theme := str(NarrativeState.get_flag("weekly_sermon_theme", ""))
+	var funds := get_node_or_null("/root/ChurchFunds")
+	if funds != null and funds.has_method("settle_sunday"):
+		funds.call("settle_sunday", theme)
+	_open_ledger()
+
+
+func _weekly_done_this_week() -> bool:
+	var funds := get_node_or_null("/root/ChurchFunds")
+	if funds == null:
+		return false
+	var week := 0
+	if funds.has_method("week_number"):
+		week = int(funds.call("week_number"))
+	return int(funds.get("last_service_week")) == week and week > 0
+
+
+func _open_ledger() -> void:
+	var tree := get_tree()
+	if tree == null:
+		return
+	var ledger := tree.get_first_node_in_group("ledger_screen")
+	if ledger != null and ledger.has_method("open_from_service"):
+		ledger.call("open_from_service")
 
 
 func _begin() -> void:
@@ -221,8 +311,8 @@ func _sync_crowd() -> void:
 	var room := get_parent()
 	if room == null:
 		return
-	# The twelve sit for the first Sunday from 10:00 on. They do not stay into the next week.
-	var show := _sunday_service_hour() and not _is_later_sunday()
+	# The twelve sit for the first Sunday from 10:00 on. Later Sundays fill only after Continue.
+	var show := _sunday_service_hour() and (not _is_later_sunday() or NarrativeState.flag_is_true("weekly_loop"))
 	var tree := get_tree()
 	if tree == null:
 		return
@@ -249,6 +339,8 @@ func _sync_quiet_note() -> void:
 		return
 	var clock := get_node_or_null("/root/DayClock")
 	var show := _is_later_sunday() and clock != null and int(clock.get("hour")) < 12
+	if _weekly_running or _weekly_done_this_week():
+		show = false
 	var tree := get_tree()
 	if tree == null:
 		return

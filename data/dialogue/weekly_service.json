@@ -1,0 +1,93 @@
+{
+  "id": "weekly_service",
+  "start": "gathering",
+  "nodes": {
+    "gathering": {
+      "speaker": "Margaret",
+      "text": "Coats on the back pews. We start when you do.",
+      "next": "welcome"
+    },
+    "welcome": {
+      "speaker": "You",
+      "text": "Good morning. Thank you for coming. One short word, then we go.",
+      "next": "sermon"
+    },
+    "sermon": {
+      "speaker": "You",
+      "text": "The room can hold one honest thing this week.",
+      "choices": [
+        {
+          "text": "Hope. The tiredness is real, and so is the next morning.",
+          "next": "hope",
+          "set_flags": {"weekly_sermon_theme": "hope"}
+        },
+        {
+          "text": "Forgiveness. No names. The hurt in the room is still allowed.",
+          "next": "forgiveness",
+          "set_flags": {"weekly_sermon_theme": "forgiveness"}
+        },
+        {
+          "text": "Service. Faith that picks up a screwdriver.",
+          "next": "service",
+          "set_flags": {"weekly_sermon_theme": "service"}
+        }
+      ]
+    },
+    "hope": {
+      "speaker": "",
+      "text": "The room sits a little taller. Nobody claps. A child swings their feet and stays.",
+      "next": "after"
+    },
+    "forgiveness": {
+      "speaker": "",
+      "text": "Frank looks at the floor, then at the window. The hymn book stays in his lap.",
+      "next": "after"
+    },
+    "service": {
+      "speaker": "",
+      "text": "Harold nods once, the way he does at a list. Thomas is already counting chairs.",
+      "next": "after"
+    },
+    "after": {
+      "router": [
+        {"if": {"flag": "hall_proposed"}, "next": "close"},
+        {"next": "hall_ask"}
+      ]
+    },
+    "hall_ask": {
+      "speaker": "Margaret",
+      "text": "The Fellowship Hall has been boarded since before you arrived. If we put the plate toward it, Harold can make it hold people again.",
+      "next": "hall_choice"
+    },
+    "hall_choice": {
+      "speaker": "Margaret",
+      "text": "I'm not asking you to promise a cathedral. I'm asking whether the hall is worth opening.",
+      "choices": [
+        {
+          "text": "Let's open it.",
+          "next": "hall_yes",
+          "set_flags": {"hall_proposed": true}
+        },
+        {
+          "text": "Not this week.",
+          "next": "hall_wait"
+        }
+      ]
+    },
+    "hall_yes": {
+      "speaker": "Margaret",
+      "text": "Good. The ledger is the place for the rest. I will not read numbers in the aisle.",
+      "end": true
+    },
+    "hall_wait": {
+      "speaker": "Margaret",
+      "text": "Then it waits. The ledger is still on the west table when you want it.",
+      "end": true
+    },
+    "close": {
+      "speaker": "Margaret",
+      "text": "The ledger is on the west table. Same as last week. We keep saying it out loud.",
+      "end": true
+    }
+  }
+}

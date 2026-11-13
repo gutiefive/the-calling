@@ -42,9 +42,11 @@ Trust, forgiveness, service, stewardship, grief, legacy, community, honesty, gro
 NPCs may be faithful, skeptical, wounded, uninterested, or undecided, and all have agency.
 
 ## Gameplay
-**Weekly loop:** start a day and review a few priorities → explore and meet people/events → talk, investigate, do
-practical tasks, complete quests → make choices with consequences → return home/church, advance time, see changes →
-**Sunday** service and post-service conversations as the week's culmination.
+**Weekly loop (M8):** after Chapter 1, the week repeats. Start a morning (the card names Week N) → explore town, talk,
+and optionally invite people → **Sunday** at ten: a short service (hope, forgiveness, or service), a described reaction,
+then the ledger. Attendance comes from regulars plus people you have built trust with or invited. The plate and
+weekly expenses are dollars on the ledger only. Surplus can go toward a church project. The first project is
+repairing the Fellowship Hall. Dialogue never names dollar amounts. Trust, Pull, and relationships stay words.
 
 - **Exploration:** smooth movement on a top-down map; readable interactables (doors, notes, supplies, people, benches,
   bulletin boards); contextual prompt; y-sort occlusion; buildings as separate scenes via doors.
@@ -53,9 +55,9 @@ practical tasks, complete quests → make choices with consequences → return h
 - **Quests (M4):** the spare key ring, Oak Street through Saturday, then First Sunday. Schedules and one save slot are in.
 - **Sundays (M4):** one narrative service. The sermon theme is hope, forgiveness, or service. Outcomes change a few
   lines and relationships. None of the three is a best choice. Perseverance is not in this chapter.
-- **Church growth as narrative (future):** congregation health, community trust, community impact, attendance (rough
-  signal only), facility condition — shown through visible world changes (cleaned grounds, reopened classroom,
-  community garden, busier Sundays), not dashboards.
+- **Church growth as narrative:** congregation health, community trust, community impact, and the building stay
+  Strained / Steady / Growing in the journal. Attendance is a rough signal, never a score on screen. Facility
+  condition also moves when the Fellowship Hall is repaired. Later projects, dorms, and Chapter 2 story wait.
 
 ## Story outline
 1. **The Arrival / The First Sunday** — Thursday arrival, locked door, meet Margaret; walk to the hardware store, meet

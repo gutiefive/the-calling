@@ -124,7 +124,7 @@ func _close_card() -> void:
 
 func _body() -> String:
 	var lines: PackedStringArray = PackedStringArray()
-	lines.append(DayClock.weekday_name())
+	lines.append("%s. Week %d." % [DayClock.weekday_name(), DayClock.week_number()])
 	lines.append("Morning. A few things you might do, if you feel like it.")
 	for suggestion in NarrativeState.day_suggestions():
 		lines.append(suggestion)

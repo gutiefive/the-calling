@@ -1,0 +1,11 @@
+{
+  "id": "happening_potluck",
+  "start": "open",
+  "nodes": {
+    "open": {
+      "speaker": "Margaret",
+      "text": "Casseroles on the long table. Harold made coffee and will not admit it. Stay if you want a plate.",
+      "end": true
+    }
+  }
+}

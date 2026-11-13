@@ -25,6 +25,10 @@ func _init() -> void:
 		failed = true
 	if not _write_image("res://assets/environments/mailbox.png", Frames.build_mailbox(), Vector2i(32, 40)):
 		failed = true
+	if not _write_image("res://assets/environments/fellowship_hall_worn.png", Frames.build_fellowship_hall(false), Vector2i(192, 112)):
+		failed = true
+	if not _write_image("res://assets/environments/fellowship_hall_repaired.png", Frames.build_fellowship_hall(true), Vector2i(192, 112)):
+		failed = true
 	if not _write_tileset():
 		failed = true
 	quit(1 if failed else 0)

@@ -1,0 +1,11 @@
+{
+  "id": "happening_later_park",
+  "start": "open",
+  "nodes": {
+    "open": {
+      "speaker": "Neighbor",
+      "text": "The kids found a kite in the creek grass. It flies about as well as you'd think. They're laughing anyway.",
+      "end": true
+    }
+  }
+}

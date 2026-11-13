@@ -30,6 +30,7 @@ func _build() -> void:
 	_place_props()
 	_add_wayfinding()
 	_add_home()
+	_add_fellowship_hall()
 	_add_grounds_work()
 	_paint_ground()
 	_clear_solids()
@@ -119,6 +120,16 @@ func _apply_grounds_look() -> void:
 	for node in get_tree().get_nodes_in_group("day_world"):
 		if is_ancestor_of(node) and node.has_method("apply_clock"):
 			node.call("apply_clock")
+
+
+func _add_fellowship_hall() -> void:
+	var props := get_node_or_null("Props")
+	if props == null or props.get_node_or_null("FellowshipHall") != null:
+		return
+	var hall := FellowshipHall.new()
+	hall.name = "FellowshipHall"
+	hall.position = Vector2(150, 310)
+	props.add_child(hall)
 
 
 func _add_home() -> void:
@@ -281,6 +292,32 @@ func _add_wayfinding() -> void:
 		"Look at the flowers",
 		"happening_thursday",
 		"Margaret looks up from the watering can."
+	)
+	_add_happening(
+		props,
+		"LaterBench",
+		"later_bench",
+		Vector2(340, 510),
+		PlaceholderArt.crate(),
+		Vector2i(32, 32),
+		1,
+		"Note",
+		"Look at the tin",
+		"happening_later_bench",
+		"Someone left a pie tin on the bench."
+	)
+	_add_happening(
+		props,
+		"WednesdayPotluck",
+		"wednesday_potluck",
+		Vector2(150, 360),
+		PlaceholderArt.crate(),
+		Vector2i(32, 32),
+		1,
+		"Margaret",
+		"Join the potluck",
+		"happening_potluck",
+		"Casseroles on the long table."
 	)
 
 
