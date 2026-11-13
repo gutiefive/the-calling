@@ -61,11 +61,11 @@ static func _frame(who: String, facing: String, col: int) -> Image:
 		right_dx = -swap
 	var kit := _kit(who)
 	var image := _new(CELL_W, CELL_H)
-	_shadow(image)
 	_stamp(image, _body(str(kit["body"]), draw_facing), MAP_X, MAP_Y + bob, kit, left_dx, right_dx)
 	_stamp(image, _hair(who, draw_facing), MAP_X, MAP_Y + bob - 2, kit, 0, 0)
 	_stamp(image, _extra(who, draw_facing), MAP_X, MAP_Y + bob - 2, kit, 0, 0)
 	var framed := _outline(image)
+	_shadow(framed)
 	if mirror:
 		framed = _mirror(framed)
 	return framed
@@ -202,7 +202,23 @@ static func _stamp(
 static func _shadow(image: Image) -> void:
 	var ink := _swatch("outline")
 	ink.a = 90.0 / 255.0
-	_ellipse(image, 16, 45, 6, 2, ink)
+	# Shoes land near y 31–32 in the 32x48 cell. Sit the ellipse under the feet,
+	# and skip pixels the outline already filled so the shadow does not ring.
+	var cx := 16
+	var cy := 34
+	var rx := 6
+	var ry := 2
+	for y in range(cy - ry, cy + ry + 1):
+		for x in range(cx - rx, cx + rx + 1):
+			var nx := float(x - cx) / float(rx)
+			var ny := float(y - cy) / float(ry)
+			if nx * nx + ny * ny > 1.0:
+				continue
+			if x < 0 or y < 0 or x >= image.get_width() or y >= image.get_height():
+				continue
+			if image.get_pixel(x, y).a > 0.5:
+				continue
+			image.set_pixel(x, y, ink)
 
 
 static func _outline(image: Image) -> Image:
@@ -242,17 +258,6 @@ static func _blit(dst: Image, src: Image, ox: int, oy: int) -> void:
 			if pixel.a == 0.0:
 				continue
 			_px(dst, ox + x, oy + y, pixel)
-
-
-static func _ellipse(image: Image, cx: int, cy: int, rx: int, ry: int, color: Color) -> void:
-	if rx <= 0 or ry <= 0:
-		return
-	for y in range(cy - ry, cy + ry + 1):
-		for x in range(cx - rx, cx + rx + 1):
-			var nx := float(x - cx) / float(rx)
-			var ny := float(y - cy) / float(ry)
-			if nx * nx + ny * ny <= 1.0:
-				_px(image, x, y, color)
 
 
 static func _px(image: Image, x: int, y: int, color: Color) -> void:

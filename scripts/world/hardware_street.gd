@@ -94,34 +94,34 @@ func _place_props() -> void:
 
 func _paint_ground() -> void:
 	var layer := get_node_or_null("Ground") as TileMapLayer
-	var tex := PlaceholderArt.grounds_atlas()
-	if layer == null or tex == null:
+	if layer == null or not TownTiles.apply_to(layer):
 		push_error("Oak Street ground is missing")
 		return
-	layer.tile_set = _make_tileset(tex)
 	for y in MAP_SIZE.y:
 		for x in MAP_SIZE.x:
-			var alt := (x * 13 + y * 7) % 11 == 0
-			layer.set_cell(Vector2i(x, y), 0, Vector2i(1 if alt else 0, 0))
+			layer.set_cell(Vector2i(x, y), 0, TownTiles.grass_at(x, y))
 	# The street runs east from the church gate and stops at the creek bank.
-	for y in range(13, 18):
+	for x in range(1, 57):
+		layer.set_cell(Vector2i(x, 12), 0, TownTiles.CURB)
+		layer.set_cell(Vector2i(x, 17), 0, TownTiles.CURB)
+	for y in range(13, 17):
 		for x in range(1, 57):
-			layer.set_cell(Vector2i(x, y), 0, Vector2i(2, 0))
+			layer.set_cell(Vector2i(x, y), 0, TownTiles.ROAD)
 	for y in range(18, 22):
 		for x in range(8, 56):
-			layer.set_cell(Vector2i(x, y), 0, Vector2i(3, 0))
+			layer.set_cell(Vector2i(x, y), 0, TownTiles.SIDEWALK)
 	# Maple Lane, a short stub south of the street. The gate sits on it.
 	for y in range(17, 36):
 		for x in range(46, 50):
-			layer.set_cell(Vector2i(x, y), 0, Vector2i(2, 0))
+			layer.set_cell(Vector2i(x, y), 0, TownTiles.PATH)
 	# A park path south of the shops.
 	for x in range(16, 42):
-		layer.set_cell(Vector2i(x, 28), 0, Vector2i(2, 0))
+		layer.set_cell(Vector2i(x, 28), 0, TownTiles.PATH)
 	for y in range(24, 34):
-		layer.set_cell(Vector2i(28, y), 0, Vector2i(2, 0))
+		layer.set_cell(Vector2i(28, y), 0, TownTiles.PATH)
 	for y in range(4, 38):
 		for x in range(58, 64):
-			layer.set_cell(Vector2i(x, y), 0, Vector2i(7, 0))
+			layer.set_cell(Vector2i(x, y), 0, TownTiles.WATER)
 
 
 func _add_buildings() -> void:
@@ -398,13 +398,3 @@ func _add_happening(
 	props.add_child(spot)
 
 
-func _make_tileset(tex: Texture2D) -> TileSet:
-	var atlas := TileSetAtlasSource.new()
-	atlas.texture = tex
-	atlas.texture_region_size = Vector2i(32, 32)
-	for i in 8:
-		atlas.create_tile(Vector2i(i, 0))
-	var tileset := TileSet.new()
-	tileset.tile_size = Vector2i(32, 32)
-	tileset.add_source(atlas, 0)
-	return tileset

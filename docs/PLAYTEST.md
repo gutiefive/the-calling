@@ -302,3 +302,36 @@ It checks that each sheet exists, is 192×192, uses only master-palette colors, 
 ## M6A results
 
 On 2026-11-12, `Godot_v4.7.2-stable_win64_console.exe --headless --path . res://tests/m6a/m6a_validation.tscn` printed 219 `CHECK OK` lines and `M6A_OK`, and exited 0. The same binary printed `M1_OK`, `M2_OK`, `M3_OK`, `M4_OK`, `M4_5_OK`, `M5A_OK`, `M5B_OK`, and `TOOLCHAIN_OK`, each exiting 0. T51–T52 were not played in a window.
+
+# Milestone 6A part 2 test plan
+
+These checks cover the outdoor tileset and church-lot props. The earlier lists still apply.
+
+## Automated
+
+```powershell
+godot --headless --path . --import
+godot --headless --path . res://tests/m1/m1_validation.tscn
+godot --headless --path . res://tests/m2/m2_validation.tscn
+godot --headless --path . res://tests/m3/m3_validation.tscn
+godot --headless --path . res://tests/m4/m4_validation.tscn
+godot --headless --path . res://tests/m4_5/m4_5_validation.tscn
+godot --headless --path . res://tests/m5a/m5a_validation.tscn
+godot --headless --path . res://tests/m5b/m5b_validation.tscn
+godot --headless --path . res://tests/m6a/m6a_validation.tscn
+godot --headless --path . res://tests/m6a2/m6a2_validation.tscn
+```
+
+`m6a2_validation.tscn` prints `CHECK OK` / `CHECK FAIL` lines and exits with `M6A2_OK` or `M6A2_FAIL`.
+It checks that the tileset PNG is 256×64 and palette-only, that `town_tiles.tres` loads, that each environment PNG exists at its placeholder size and uses only palette colors, that the church grounds, Oak Street, and Maple Lane boot with that TileSet, and that church and prop collisions are unchanged.
+
+## Manual
+
+| ID | Do this | Expect |
+|---|---|---|
+| T53 | Walk the church grounds | Grass, path, and sidewalk tiles. The church face, trees, bench, lamp, notice, and mailbox are PNGs. You still cannot walk through them. |
+| T54 | Walk Oak Street and Maple Lane | Road, curb, sidewalk, and the creek water tile. Shop buildings are still placeholders. |
+
+## M6A2 results
+
+On 2026-11-12, `Godot_v4.7.2-stable_win64_console.exe --headless --path . res://tests/m6a2/m6a2_validation.tscn` printed 128 `CHECK OK` lines and `M6A2_OK`, and exited 0. The same binary printed `M1_OK`, `M2_OK`, `M3_OK`, `M4_OK`, `M4_5_OK`, `M5A_OK`, `M5B_OK`, `M6A_OK`, and `TOOLCHAIN_OK`, each exiting 0. T53–T54 were not played in a window.

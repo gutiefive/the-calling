@@ -1,26 +1,49 @@
-# Character art
+# Authored art
 
-Milestone 6A part 1 writes six 32×48 character sheets:
+Headless generators write PNG files from palette-only pixel maps. Do not copy another game's art.
 
-- `assets/characters/player_sheet.png`
-- `assets/characters/npc_margaret_sheet.png`
-- `assets/characters/npc_harold_sheet.png`
-- `assets/characters/npc_thomas_sheet.png`
-- `assets/characters/npc_frank_sheet.png`
-- `assets/characters/npc_sarah_sheet.png`
+## Characters (M6A part 1)
+
+Six 32×48 sheets at `assets/characters/`:
+
+- `player_sheet.png`
+- `npc_margaret_sheet.png`
+- `npc_harold_sheet.png`
+- `npc_thomas_sheet.png`
+- `npc_frank_sheet.png`
+- `npc_sarah_sheet.png`
 
 Each sheet is 192×192: four rows (down, up, left, right) and six columns (idle, idle, walk ×4). Colors come from `assets/source/palette/the_calling_master.gpl`.
-
-## Regenerate
-
-From the repo root, with the Godot 4.7.2 console binary:
 
 ```powershell
 C:\Tools\Godot\4.7.2\Godot_v4.7.2-stable_win64_console.exe --headless --path . --script res://tools/art/author_sprites.gd
 C:\Tools\Godot\4.7.2\Godot_v4.7.2-stable_win64_console.exe --headless --path . --import
 ```
 
-The generator lives in `scripts/art/character_frames.gd`. It stamps a shared body, then hair and a small extra (collar, glasses, apron, bag, cap). Walk frames offset the marked limbs. Do not copy another game's sprites.
+The generator lives in `scripts/art/character_frames.gd`. It stamps a shared body, then hair and a small extra (collar, glasses, apron, bag, cap). Walk frames offset the marked limbs. The drop shadow sits under the feet.
+
+## Environment (M6A part 2)
+
+Tileset, 32×32 cells:
+
+- `assets/tilesets/town_tiles.png` (256×64, eight columns, two rows)
+- `assets/tilesets/town_tiles.tres`
+
+Church-lot props in `assets/environments/`:
+
+- `church_front.png` (384×160)
+- `tree.png` (48×80)
+- `bench.png` (48×32)
+- `lamp_post.png` (24×56)
+- `notice_board.png` (32×48)
+- `mailbox.png` (32×40)
+
+```powershell
+C:\Tools\Godot\4.7.2\Godot_v4.7.2-stable_win64_console.exe --headless --path . --script res://tools/art/author_environment.gd
+C:\Tools\Godot\4.7.2\Godot_v4.7.2-stable_win64_console.exe --headless --path . --import
+```
+
+Maps and helpers live in `scripts/art/environment_frames.gd` and `scripts/art/pixel_draw.gd`. Atlas coordinates are `scripts/art/town_tiles.gd`. Sanctuary floors, shop interiors, unnamed townsfolk, and the remaining buildings still use `PlaceholderArt`.
 
 ## LibreSprite is the source of truth for an edited PNG
 

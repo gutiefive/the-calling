@@ -202,26 +202,27 @@ func _place_marker(id: String, pos: Vector2, facing: StringName) -> void:
 
 func _paint_ground() -> void:
 	var layer := get_node_or_null("Ground") as TileMapLayer
-	var tex := PlaceholderArt.grounds_atlas()
-	if layer == null or tex == null:
+	if layer == null or not TownTiles.apply_to(layer):
 		push_error("Church exterior ground is missing")
 		return
-	layer.tile_set = _make_tileset(tex)
 	for y in MAP_SIZE.y:
 		for x in MAP_SIZE.x:
-			var alt := (x * 13 + y * 7) % 11 == 0
-			layer.set_cell(Vector2i(x, y), 0, Vector2i(1 if alt else 0, 0))
+			layer.set_cell(Vector2i(x, y), 0, TownTiles.grass_at(x, y))
 	# Path from the south edge up to the church door (door sits on tile column 18).
 	for y in range(9, 24):
 		for x in range(16, 20):
-			layer.set_cell(Vector2i(x, y), 0, Vector2i(2, 0))
+			layer.set_cell(Vector2i(x, y), 0, TownTiles.PATH)
 	for y in range(16, 24):
 		for x in range(20, 33):
-			layer.set_cell(Vector2i(x, y), 0, Vector2i(3, 0))
+			layer.set_cell(Vector2i(x, y), 0, TownTiles.SIDEWALK)
 	# A lighter strip so the east lane reads as the way out to Oak Street.
 	for y in range(19, 21):
 		for x in range(20, 35):
-			layer.set_cell(Vector2i(x, y), 0, Vector2i(2, 0))
+			layer.set_cell(Vector2i(x, y), 0, TownTiles.PATH)
+	for y in range(9, 12):
+		for x in range(25, 29):
+			if layer.get_cell_atlas_coords(Vector2i(x, y)) != TownTiles.PATH:
+				layer.set_cell(Vector2i(x, y), 0, TownTiles.FLOWER_BED)
 
 
 func _add_church_collision() -> void:
@@ -363,13 +364,3 @@ func _add_happening(
 	props.add_child(spot)
 
 
-func _make_tileset(tex: Texture2D) -> TileSet:
-	var atlas := TileSetAtlasSource.new()
-	atlas.texture = tex
-	atlas.texture_region_size = Vector2i(32, 32)
-	for i in 7:
-		atlas.create_tile(Vector2i(i, 0))
-	var tileset := TileSet.new()
-	tileset.tile_size = Vector2i(32, 32)
-	tileset.add_source(atlas, 0)
-	return tileset

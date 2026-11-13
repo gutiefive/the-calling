@@ -100,6 +100,9 @@ static func grounds_atlas() -> Texture2D:
 
 
 static func church_front() -> Texture2D:
+	var authored := EnvironmentArt.church_front()
+	if authored != null:
+		return authored
 	return _cached("church", _church())
 
 
@@ -120,18 +123,30 @@ static func key_ring() -> Texture2D:
 
 
 static func tree(kind: int) -> Texture2D:
+	var authored := EnvironmentArt.tree()
+	if authored != null:
+		return authored
 	return _cached("tree%d" % kind, _tree(kind))
 
 
 static func bench() -> Texture2D:
+	var authored := EnvironmentArt.bench()
+	if authored != null:
+		return authored
 	return _cached("bench", _bench())
 
 
 static func notice_board() -> Texture2D:
+	var authored := EnvironmentArt.notice_board()
+	if authored != null:
+		return authored
 	return _cached("notice", _notice())
 
 
 static func lamp_post() -> Texture2D:
+	var authored := EnvironmentArt.lamp_post()
+	if authored != null:
+		return authored
 	return _cached("lamp", _lamp())
 
 
@@ -212,6 +227,9 @@ static func crate() -> Texture2D:
 
 
 static func mailbox() -> Texture2D:
+	var authored := EnvironmentArt.mailbox()
+	if authored != null:
+		return authored
 	return _cached("mailbox", _mailbox())
 
 

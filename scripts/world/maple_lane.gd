@@ -27,22 +27,22 @@ func rebuild_collision() -> void:
 
 func _paint_ground() -> void:
 	var layer := get_node_or_null("Ground") as TileMapLayer
-	var tex := PlaceholderArt.grounds_atlas()
-	if layer == null or tex == null:
+	if layer == null or not TownTiles.apply_to(layer):
 		push_error("Maple Lane ground is missing")
 		return
-	layer.tile_set = _make_tileset(tex)
 	for y in MAP_SIZE.y:
 		for x in MAP_SIZE.x:
-			var alt := (x * 5 + y * 9) % 11 == 0
-			layer.set_cell(Vector2i(x, y), 0, Vector2i(1 if alt else 0, 0))
+			layer.set_cell(Vector2i(x, y), 0, TownTiles.grass_at(x, y))
 	for y in range(2, 30):
 		for x in range(9, 13):
-			layer.set_cell(Vector2i(x, y), 0, Vector2i(2, 0))
+			layer.set_cell(Vector2i(x, y), 0, TownTiles.PATH)
 	for x in range(13, 28):
-		layer.set_cell(Vector2i(x, 16), 0, Vector2i(3, 0))
+		layer.set_cell(Vector2i(x, 16), 0, TownTiles.SIDEWALK)
 	for y in range(16, 26):
-		layer.set_cell(Vector2i(26, y), 0, Vector2i(3, 0))
+		layer.set_cell(Vector2i(26, y), 0, TownTiles.SIDEWALK)
+	for y in range(4, 14):
+		layer.set_cell(Vector2i(6, y), 0, TownTiles.HEDGE)
+		layer.set_cell(Vector2i(7, y), 0, TownTiles.HEDGE)
 
 
 func _place_lane() -> void:
@@ -202,13 +202,3 @@ func _place_marker(id: String, pos: Vector2, facing: StringName) -> void:
 	marker.set_meta("facing", facing)
 
 
-func _make_tileset(tex: Texture2D) -> TileSet:
-	var atlas := TileSetAtlasSource.new()
-	atlas.texture = tex
-	atlas.texture_region_size = Vector2i(32, 32)
-	for i in 8:
-		atlas.create_tile(Vector2i(i, 0))
-	var tileset := TileSet.new()
-	tileset.tile_size = Vector2i(32, 32)
-	tileset.add_source(atlas, 0)
-	return tileset

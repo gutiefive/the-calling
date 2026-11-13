@@ -187,7 +187,17 @@ Pixels come from `scripts/art/character_frames.gd`: one body template per silhou
 
 If a sheet is opened in LibreSprite (`C:\Tools\LibreSprite`) and saved over that PNG, the PNG is the source of truth. Do not re-run the generator for that file unless the hand edits are meant to be discarded.
 
-Tiles, buildings, and unnamed townsfolk still use `PlaceholderArt`. Those are a later art pass.
+Tiles, buildings, and unnamed townsfolk still used `PlaceholderArt` until D41.
+
+## D41 — Outdoor tiles and church-lot props (M6A part 2)
+
+Church grounds, Oak Street, and Maple Lane paint from `assets/tilesets/town_tiles.tres` (32×32 cells). The atlas is 8×2 so older path and water coordinates stay put: dirt path is still `(2, 0)`, water is still `(7, 0)`. Grass has three variants. Sidewalk, cracked road, curb, wood fence, hedge, flower bed, church floor, wood floor, and an interior wall base sit in the same sheet. Sanctuary and shop interiors still use the old `PlaceholderArt` atlas.
+
+The church face, one tree, the bench, the lamp post, the notice board, and the mailbox are PNGs under `assets/environments/`. They keep the placeholder pixel sizes so church collision, occluders, and prop `block_size` values do not change. Origins stay at the feet. Pixels come from `scripts/art/environment_frames.gd` plus `scripts/art/pixel_draw.gd`. The headless writer is `tools/art/author_environment.gd`.
+
+Character drop shadows moved up from a few pixels below the shoes to sit under the feet. The outline still runs first so the shadow does not get a hard ring.
+
+Unnamed townsfolk, remaining buildings, and interior furniture stay on `PlaceholderArt`.
 
 ## Still open
 

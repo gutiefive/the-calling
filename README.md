@@ -3,9 +3,10 @@
 A story-driven, top-down pixel-art RPG made in **Godot 4.7**. You play a young pastor who arrives in
 the fictional town of **Oakridge** to lead **Grace Community Church**.
 
-> **Status (2026-11-12):** Milestone 6A part 1 is playable. The player and the five named people use
-> authored 32×48 sheets. Buildings and tiles are still the old placeholders. After the ledger you can stay
-> in Oakridge. A suggested path is in `docs/PLAYTEST.md`.
+> **Status (2026-11-12):** Milestone 6A part 2 is playable. Named people use authored 32×48 sheets.
+> The church grounds, Oak Street, and Maple Lane use the outdoor tileset. The church face, trees, benches,
+> lamps, the notice board, and mailboxes are PNGs. Remaining buildings stay placeholders. After the ledger
+> you can stay in Oakridge. A suggested path is in `docs/PLAYTEST.md`.
 
 ## Play (Windows)
 
@@ -60,10 +61,11 @@ godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m4_5/m4_
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m5a/m5a_validation.tscn
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m5b/m5b_validation.tscn
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m6a/m6a_validation.tscn
+godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m6a2/m6a2_validation.tscn
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/toolchain/toolchain_test.tscn --quit-after 5
 ```
 
-The manual list is `docs/PLAYTEST.md`. Named character sheets live in `assets/characters/` and are rebuilt by `tools/art/author_sprites.gd`. Buildings and tiles are still drawn in code by `scripts/art/placeholder_art.gd` when a room starts.
+The manual list is `docs/PLAYTEST.md`. Named character sheets live in `assets/characters/` and are rebuilt by `tools/art/author_sprites.gd`. Outdoor tiles and church-lot props are rebuilt by `tools/art/author_environment.gd`. Remaining buildings still come from `scripts/art/placeholder_art.gd`.
 
 ## Layout
 
@@ -89,8 +91,8 @@ scripts/systems/                     scene router, narrative state, day clock, s
 scripts/services/                    Sunday gathering in the sanctuary
 scripts/world/                       room bootstrap, the church, Oak Street, Maple Lane, and the interiors
 scripts/ui/                          prompt, dialogue box, journal, pause, town map, morning card, title, chapter ending, scene fade
-assets/                              character sheets, png placeholders, and the master palette
-tools/art/                           character sheet generator (see tools/art/README.md)
+assets/                              character sheets, outdoor tiles, church-lot props, and the master palette
+tools/art/                           character and environment generators (see tools/art/README.md)
 tools/generate_placeholders.py       draws the older placeholder pngs
 tests/toolchain/                     environment smoke test (leave it)
 tests/m1/                            milestone 1 checks and screenshot capture
@@ -100,7 +102,8 @@ tests/m4/                            milestone 4 checks
 tests/m4_5/                          milestone 4.5 checks
 tests/m5a/                           milestone 5A checks
 tests/m5b/                           milestone 5B checks
-tests/m6a/                           milestone 6A character-sheet checks
+tests/m6a/                           milestone 6A part 1 character-sheet checks
+tests/m6a2/                          milestone 6A part 2 environment-art checks
 ```
 
 ## Documents
@@ -126,7 +129,7 @@ tests/m6a/                           milestone 6A character-sheet checks
 
 ## Limitations
 
-- The player and the five named people use authored 32×48 sheets. Buildings, tiles, and unnamed townsfolk are still the original blockout drawn in code. There are no `.ase` sources yet.
+- The player and the five named people use authored 32×48 sheets. Outdoor tiles, the church face, trees, benches, lamps, the notice board, and mailboxes are authored PNGs. Remaining buildings, sanctuary furniture, and unnamed townsfolk are still the original blockout drawn in code. There are no `.ase` sources yet.
 - The notice board is still one line. There is no inventory or audio.
 - One save slot, `user://the_calling_save.json`, version 3. A version 1 or version 2 file loads. Esc, then Save or Load. New Game does not delete the slot. Restart on the chapter screen does.
 - The clock enters Sunday and stops at Sunday 11:59 p.m. T is a debug skip. Before 10:00 a.m. on Sunday it stops at 10:00. A single frame never moves the clock more than one minute.
