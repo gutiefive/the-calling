@@ -308,6 +308,32 @@ func _add_wayfinding() -> void:
 	)
 	_add_happening(
 		props,
+		"LeanWalk",
+		"lean_walk",
+		Vector2(420, 540),
+		PlaceholderArt.townsfolk(0),
+		Vector2i(32, 48),
+		2,
+		"A neighbor",
+		"Say hello",
+		"happening_lean_walk",
+		"Somebody left a bulletin on the walk."
+	)
+	_add_happening(
+		props,
+		"SeedPorch",
+		"seed_porch",
+		Vector2(220, 620),
+		PlaceholderArt.crate(),
+		Vector2i(32, 32),
+		1,
+		"Note",
+		"Look at the card",
+		"happening_seed_porch",
+		"A folded card on the parsonage step."
+	)
+	_add_happening(
+		props,
 		"WednesdayPotluck",
 		"wednesday_potluck",
 		Vector2(150, 360),

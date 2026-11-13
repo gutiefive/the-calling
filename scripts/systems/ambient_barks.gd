@@ -29,6 +29,8 @@ static func line(person_id: String, day_name: String, phase_name: String) -> Str
 			continue
 		if not _listed(row.get("phases", null), phase_name):
 			continue
+		if not _condition_ok(row):
+			continue
 		return text
 	return fallback
 
@@ -56,6 +58,15 @@ static func _ensure() -> bool:
 		_people[person_id] = lines if lines is Array else []
 	_ok = true
 	return true
+
+
+static func _condition_ok(row: Dictionary) -> bool:
+	if not row.has("if"):
+		return true
+	var condition_v: Variant = row.get("if", null)
+	if not condition_v is Dictionary:
+		return true
+	return StoryQuery.holds(condition_v)
 
 
 static func _listed(filter_v: Variant, value: String) -> bool:

@@ -1,0 +1,23 @@
+{
+  "id": "lean_nudge",
+  "start": "choice",
+  "nodes": {
+    "choice": {
+      "speaker": "You",
+      "text": "nudge?",
+      "choices": [
+        {
+          "text": "yes",
+          "next": "done",
+          "nudge": {"leaning": "shepherd", "amount": 1, "reason": "lean_check"},
+          "thread": {"id": "reece_mystery", "open": true}
+        }
+      ]
+    },
+    "done": {
+      "speaker": "You",
+      "text": "nudged",
+      "end": true
+    }
+  }
+}

@@ -25,6 +25,10 @@ static func is_active(happening_id: String, day_name: String, hour: int, minute:
 			return false
 		if not _week_ok(row):
 			return false
+		if not _seed_ok(row):
+			return false
+		if not _condition_ok(row):
+			return false
 		var start := _minutes(str(row.get("from", "00:00")))
 		var until := _minutes(str(row.get("until", "24:00")))
 		return now >= start and now < until
@@ -73,6 +77,31 @@ static func _flag_ok(flag_name: Variant) -> bool:
 	if story == null or not story.has_method("flag_is_true"):
 		return false
 	return bool(story.call("flag_is_true", key))
+
+
+static func _seed_ok(row: Dictionary) -> bool:
+	if not row.has("seed_mod"):
+		return true
+	var modulus := int(row.get("seed_mod", 0))
+	if modulus <= 0:
+		return true
+	var want := int(row.get("seed_index", 0))
+	var seed := 8
+	var tree := Engine.get_main_loop() as SceneTree
+	if tree != null:
+		var path := tree.root.get_node_or_null("PastorPath")
+		if path != null and path.has_method("run_seed"):
+			seed = int(path.call("run_seed"))
+	return posmod(seed, modulus) == want
+
+
+static func _condition_ok(row: Dictionary) -> bool:
+	if not row.has("if"):
+		return true
+	var condition_v: Variant = row.get("if", null)
+	if not condition_v is Dictionary:
+		return true
+	return StoryQuery.holds(condition_v)
 
 
 static func _week_ok(row: Dictionary) -> bool:

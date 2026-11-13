@@ -1,0 +1,11 @@
+{
+  "id": "happening_seed_creek",
+  "start": "open",
+  "nodes": {
+    "open": {
+      "speaker": "Neighbor",
+      "text": "The creek took a toy boat this morning. The kids are arguing about whose it was. I'm only the witness.",
+      "end": true
+    }
+  }
+}

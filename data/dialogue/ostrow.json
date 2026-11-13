@@ -12,11 +12,76 @@
       "speaker": "Dell Ostrow",
       "text": "Councilman Dell Ostrow. Pastor Reece and I got a lot done together. You need anything at the hall, you call me first.",
       "set_flags": {"ostrow_met": true},
+      "choices": [
+        {
+          "text": "I'll keep that in mind.",
+          "next": "cool_ack",
+          "thread": {"id": "ostrow_alliance", "state": "cool"}
+        },
+        {
+          "text": "I'd be glad of the support.",
+          "next": "warm_ack",
+          "thread": {"id": "ostrow_alliance", "state": "open"},
+          "nudge": {"leaning": "builder", "amount": 1, "reason": "ostrow_warm"}
+        },
+        {
+          "text": "I'll find my own way at the hall.",
+          "next": "wary_ack",
+          "thread": {"id": "ostrow_alliance", "state": "guarded"},
+          "nudge": {"leaning": "skeptic", "amount": 1, "reason": "ostrow_wary"}
+        }
+      ]
+    },
+    "cool_ack": {
+      "speaker": "Dell Ostrow",
+      "text": "That's all I needed to say. I'm on the walk a minute.",
+      "end": true
+    },
+    "warm_ack": {
+      "speaker": "Dell Ostrow",
+      "text": "Good. Churches that grow need friends who already know the hall. We'll talk when you're settled.",
+      "end": true
+    },
+    "wary_ack": {
+      "speaker": "Dell Ostrow",
+      "text": "Fair. Reece used to say the same, the first week. The number still stands.",
       "end": true
     },
     "later": {
+      "router": [
+        {"if": {"flag": "week_continues"}, "next": "week_gate"},
+        {"next": "later_ch1"}
+      ]
+    },
+    "later_ch1": {
       "speaker": "Dell Ostrow",
       "text": "I'm only on the walk a minute. Reece knew how to get a week moving. You'll get there.",
+      "end": true
+    },
+    "week_gate": {
+      "router": [
+        {"if": {"flag": "ostrow_week_said"}, "next": "later_ch1"},
+        {"if": {"thread_is": ["ostrow_alliance", "open"]}, "next": "week_warm"},
+        {"if": {"thread_is": ["ostrow_alliance", "guarded"]}, "next": "week_wary"},
+        {"next": "week_cool"}
+      ]
+    },
+    "week_cool": {
+      "speaker": "Dell Ostrow",
+      "text": "Still settling in. That's fine. Call if the hall needs a hand. I'm not writing anything down.",
+      "set_flags": {"ostrow_week_said": true},
+      "end": true
+    },
+    "week_warm": {
+      "speaker": "Dell Ostrow",
+      "text": "If the hall opens, I know people who like to see a church doing well. We can talk when you're ready. No figures on the sidewalk.",
+      "set_flags": {"ostrow_week_said": true},
+      "end": true
+    },
+    "week_wary": {
+      "speaker": "Dell Ostrow",
+      "text": "I said call me first. You seemed unsure. That's your business. The hall still has my number.",
+      "set_flags": {"ostrow_week_said": true},
       "end": true
     }
   }

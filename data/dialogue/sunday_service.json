@@ -27,7 +27,14 @@
           "set_flags": {"sermon_theme": "hope"},
           "add_relationships": {"sarah": 1},
           "add_growth": {"congregation_health": 1},
-          "thought": "They listened. That felt good. Maybe too good."
+          "thought": {
+            "text": "They listened. That felt good. Maybe too good.",
+            "by_dominant": {
+              "shepherd": "They sat. You hope nobody needed more from you than that.",
+              "builder": "They listened. A room that full could be a start.",
+              "skeptic": "They listened. You are not sure you believed the next morning either."
+            }
+          }
         },
         {
           "text": "Forgiveness. No names. The hurt in the room is still allowed.",
@@ -35,7 +42,14 @@
           "set_flags": {"sermon_theme": "forgiveness"},
           "add_relationships": {"frank": 1},
           "add_growth": {"community_trust": 1},
-          "thought": "They listened. That felt good. Maybe too good."
+          "thought": {
+            "text": "They listened. That felt good. Maybe too good.",
+            "by_dominant": {
+              "shepherd": "They sat. You hope nobody needed more from you than that.",
+              "builder": "They listened. A room that full could be a start.",
+              "skeptic": "They listened. You are not sure you believed the next morning either."
+            }
+          }
         },
         {
           "text": "Service. Faith that picks up a screwdriver.",
@@ -43,13 +57,21 @@
           "set_flags": {"sermon_theme": "service"},
           "add_relationships": {"harold": 1, "thomas": 1},
           "add_growth": {"community_impact": 1},
-          "thought": "They listened. That felt good. Maybe too good."
+          "thought": {
+            "text": "They listened. That felt good. Maybe too good.",
+            "by_dominant": {
+              "shepherd": "They sat. You hope nobody needed more from you than that.",
+              "builder": "They listened. A room that full could be a start.",
+              "skeptic": "They listened. You are not sure you believed the next morning either."
+            }
+          }
         }
       ]
     },
     "preach_hope": {
       "speaker": "You",
       "text": "You talk about a small church that is still worth opening. You do not promise a crowd.",
+      "nudge": {"leaning": "shepherd", "amount": 1, "reason": "sermon_hope"},
       "next": "closing_hope"
     },
     "closing_hope": {
@@ -62,6 +84,7 @@
     "preach_forgiveness": {
       "speaker": "You",
       "text": "You talk about forgiveness without naming Alden Reece. You do not ask anyone to be finished.",
+      "nudge": {"leaning": "skeptic", "amount": 1, "reason": "sermon_forgiveness"},
       "next": "closing_forgiveness"
     },
     "closing_forgiveness": {
@@ -74,6 +97,7 @@
     "preach_service": {
       "speaker": "You",
       "text": "You name the nursery, the side door, and the front step. Work the room can see.",
+      "nudge": {"leaning": "builder", "amount": 1, "reason": "sermon_service"},
       "next": "closing_service"
     },
     "closing_service": {

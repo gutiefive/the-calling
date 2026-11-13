@@ -3,9 +3,10 @@
 A story-driven, top-down pixel-art RPG made in **Godot 4.7**. You play a young pastor who arrives in
 the fictional town of **Oakridge** to lead **Grace Community Church**.
 
-> **Status (2026-11-13):** Milestone 8 is playable. After Chapter 1 you can Continue in Oakridge and keep
-> a weekly loop: talk during the week, a short Sunday service, then the church ledger. Surplus can go toward
-> repairing the Fellowship Hall. A suggested path is in `docs/PLAYTEST.md`.
+> **Status (2026-11-13):** Milestone 9 is playable. Chapter 1 still plays start to finish. Choices now leave
+> hidden leanings and story threads, and a per-save seed varies small town texture. After Chapter 1 you can
+> Continue in Oakridge and keep a weekly loop. A suggested path, including two contrasting runs, is in
+> `docs/PLAYTEST.md`.
 
 ## Play (Windows)
 
@@ -45,8 +46,8 @@ You cannot walk while a conversation, the journal, the morning card, the town ma
 Margaret's spare key ring is the first quest. Harold is in the sanctuary on Thursday.
 The east side of the lot walks to Oak Street. A sign and a path point that way. The street has the hardware store, Frank's bay, a cottage, a park, and a creek bank. The bridge sign past the shops opens onto Maple Lane. The store and the bay have doors. They are open while Thomas or Frank is inside, and a shut door says when to come back. During those hours they are behind the counter, not also on the sidewalk. A few neighbors wander the sidewalks. Thursday, Friday, and Saturday each have one small moment you can find by looking around. The church walk can be tidied, and the Maple Lane garden can be cleared and replanted. None of that is required for Sunday.
 The parsonage is on the church grounds. The bed sleeps until morning and shows a short card of things you might do.
-J lists the current objective and, under The church, a few words for how the week feels. L opens the ledger after Chapter 1. Save and Load are on the pause menu. There is one slot, version 5.
-A version 1, 2, 3, or 4 save still loads. On Sunday at 10:00 a.m., go into the sanctuary for the service.
+J lists the current objective, a Threads section in words, and under The church, a few words for how the week feels. L opens the ledger after Chapter 1. Save and Load are on the pause menu. There is one slot, version 6.
+A version 1, 2, 3, 4, or 5 save still loads. On Sunday at 10:00 a.m., go into the sanctuary for the service.
 After it, talk to Margaret. The ledger is on the west table and ends the chapter. Continue keeps you in town. Restart returns to Thursday. Frank's longer story is at the bay on Friday and again before Saturday afternoon. You can skip it.
 
 ## Checks
@@ -64,6 +65,7 @@ godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m6a/m6a_
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m6a2/m6a2_validation.tscn
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m7/m7_validation.tscn
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m8/m8_validation.tscn
+godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m9/m9_validation.tscn
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/toolchain/toolchain_test.tscn --quit-after 5
 ```
 
@@ -86,6 +88,7 @@ scripts/actors/                      player, prop collision
 data/dialogue/                       weekday lines, the Sunday service, follow-ups, and the ledger
 data/schedules/week.json             where each of them stands, by day and time, including Sunday
 data/quests/                         quest titles and objectives
+data/story/                          named story threads for the journal
 data/interactions/                   the spare key ring
 scripts/interactions/                interactable, door, one-line speech, dialogue, key ring
 scripts/dialogue/                    conversation runner
@@ -108,6 +111,7 @@ tests/m6a/                           milestone 6A part 1 character-sheet checks
 tests/m6a2/                          milestone 6A part 2 environment-art checks
 tests/m7/                            milestone 7 checks
 tests/m8/                            milestone 8 weekly loop, funds, and hall checks
+tests/m9/                            milestone 9 branching, leanings, threads, and save v6
 ```
 
 ## Documents
@@ -135,7 +139,7 @@ tests/m8/                            milestone 8 weekly loop, funds, and hall ch
 
 - The player, the five named townspeople, and Dell Ostrow use authored 32×48 sheets. Outdoor tiles, the church face, trees, benches, lamps, the notice board, and mailboxes are authored PNGs. Remaining buildings, sanctuary furniture, and unnamed townsfolk are still the original blockout drawn in code. There are no `.ase` sources yet.
 - The notice board is still one line. There is no inventory or audio.
-- One save slot, `user://the_calling_save.json`, version 5. A version 1, 2, 3, or 4 file loads. Esc, then Save or Load. Inner voice is a pause-menu toggle after Map. L opens the church ledger after Chapter 1. New Game does not delete the slot. Restart on the chapter screen does.
+- One save slot, `user://the_calling_save.json`, version 6. A version 1, 2, 3, 4, or 5 file loads. Esc, then Save or Load. Inner voice is a pause-menu toggle after Map. L opens the church ledger after Chapter 1. New Game does not delete the slot. Restart on the chapter screen does.
 - The clock enters Sunday and stops at Sunday 11:59 p.m. T is a debug skip. Before 10:00 a.m. on Sunday it stops at 10:00. A single frame never moves the clock more than one minute.
 - The Sunday service and the chapter ending use the same confirm keys as dialogue. There is no settings menu, no text-speed slider, and no controller bindings.
 - Unnamed congregants are placeholders. They do not speak. Named people use a seated bust during the service and their standing sheet afterward.

@@ -469,6 +469,9 @@ func _starting_balance() -> int:
 
 
 func _rng_seed() -> int:
+	var path := get_node_or_null("/root/PastorPath")
+	if path != null and path.has_method("run_seed"):
+		return int(path.call("run_seed"))
 	return int(_config.get("rng_seed", 8))
 
 

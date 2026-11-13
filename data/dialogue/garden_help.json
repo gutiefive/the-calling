@@ -26,6 +26,7 @@
       "speaker": "A neighbor",
       "text": "It's in the ground. Give it a couple of mornings. Don't hover.",
       "set_flags": {"garden_planted": true, "garden_helped": true},
+      "thread": {"id": "garden_growth", "open": true},
       "add_growth": {"community_impact": 1},
       "add_notes": ["The community garden on Maple Lane is planted."],
       "end": true

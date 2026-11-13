@@ -1,6 +1,6 @@
 # Roadmap — The Calling
 
-Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md`. This file is the current cut line.
+Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md`. This file is the current cut line. M9 (branching foundation) is implemented; Chapter 2 storylines build on it and are not started.
 
 | Milestone | Status |
 |---|---|
@@ -15,9 +15,10 @@ Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md
 | M6A part 1 Character sprites | Implemented. Player plus Margaret, Harold, Thomas, Frank, and Sarah use 32×48 sheets. |
 | M6A part 2 Environment art | Implemented. Outdoor tileset plus church face, tree, bench, lamp, notice board, and mailbox. Remaining buildings and unnamed townsfolk stay placeholder. |
 | M7 Seeds and influence | Implemented. Hidden Pull, save v4, Chapter 1 seeds, Dell Ostrow, inner voice, and the no-cult scan. Chapter 1 still plays start to finish. |
-| M8 / M9 Weekly loop, funds, first project | Implemented. Later Sundays run a short service, ChurchFunds and the ledger screen, save v5, and the Fellowship Hall repair. Chapter 1 still plays identically until Continue. |
+| M8 Weekly loop, funds, first project | Implemented. Later Sundays run a short service, ChurchFunds and the ledger screen, save v5, and the Fellowship Hall repair. Chapter 1 still plays identically until Continue. |
+| M9 Branching foundation | Implemented. Hidden Shepherd / Builder / Skeptic leanings, story threads, a per-save run seed, and save v6. Chapter 1 still plays the same default path. A few Chapter 1 and weekly-loop branches prove the model. |
 | M10 Planning board and Tier 1 | Not started. More projects, workshop and greenhouse. Dorms later. |
-| Next story | Chapter 2 is not started. |
+| Next story | Chapter 2 is not started. Full Chapter 2 storylines build on M9 leanings, threads, and the run seed. |
 | M11 Night layer | Not started. Spirit framework, two Lingerers, prayer-lights, steeple light. |
 | M12 Chapter 2, part A | Not started. June, the deposits, Reece's file box, Ostrow's favor, inner voice in play. |
 | M13 Gathered v1 | Not started. Town helpers, notice board, Garden and Upkeep roles. |

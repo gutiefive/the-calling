@@ -44,6 +44,34 @@
       "until": "16:00",
       "scene": "church_exterior",
       "requires_flag": "hall_repaired"
+    },
+    {
+      "id": "lean_walk",
+      "days": ["Friday"],
+      "from": "09:00",
+      "until": "16:00",
+      "scene": "church_exterior",
+      "requires_flag": "week_continues"
+    },
+    {
+      "id": "seed_porch",
+      "days": ["Monday"],
+      "from": "09:00",
+      "until": "16:00",
+      "scene": "church_exterior",
+      "requires_flag": "week_continues",
+      "seed_mod": 2,
+      "seed_index": 0
+    },
+    {
+      "id": "seed_creek",
+      "days": ["Monday"],
+      "from": "09:00",
+      "until": "16:00",
+      "scene": "hardware_street",
+      "requires_flag": "week_continues",
+      "seed_mod": 2,
+      "seed_index": 1
     }
   ]
 }

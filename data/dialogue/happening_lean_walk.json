@@ -1,0 +1,34 @@
+{
+  "id": "happening_lean_walk",
+  "start": "start",
+  "nodes": {
+    "start": {
+      "router": [
+        {"if": {"dominant_is": "builder"}, "next": "builder"},
+        {"if": {"dominant_is": "shepherd"}, "next": "shepherd"},
+        {"if": {"dominant_is": "skeptic"}, "next": "skeptic"},
+        {"next": "plain"}
+      ]
+    },
+    "shepherd": {
+      "speaker": "A neighbor",
+      "text": "I left a note on the walk. Mrs. Hale isn't coming Sunday. She asked if someone would sit with her, not if you'd fill a pew.",
+      "end": true
+    },
+    "builder": {
+      "speaker": "A neighbor",
+      "text": "The street looks like a church that means to grow. People notice a front that stays swept. That's how a week gets bigger.",
+      "end": true
+    },
+    "skeptic": {
+      "speaker": "A neighbor",
+      "text": "You looked like you were still deciding, up there. That's allowed. I'm not asking you to sound sure.",
+      "end": true
+    },
+    "plain": {
+      "speaker": "A neighbor",
+      "text": "Somebody left a bulletin on the walk. I picked it up. That's the news.",
+      "end": true
+    }
+  }
+}

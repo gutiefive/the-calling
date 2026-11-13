@@ -1,0 +1,40 @@
+{
+  "id": "lean_check",
+  "start": "start",
+  "nodes": {
+    "start": {
+      "router": [
+        {"if": {"dominant_is": "builder"}, "next": "builder"},
+        {"if": {"lean_at_least": ["shepherd", 1]}, "next": "shepherd"},
+        {"if": {"thread_is": ["frank_grief", "open"]}, "next": "grief"},
+        {"next": "none"}
+      ]
+    },
+    "builder": {
+      "speaker": "You",
+      "text": "builder lead",
+      "end": true
+    },
+    "shepherd": {
+      "speaker": "You",
+      "text": "shepherd lean",
+      "end": true
+    },
+    "grief": {
+      "speaker": "You",
+      "text": "grief open",
+      "end": true
+    },
+    "none": {
+      "speaker": "You",
+      "text": "no lean",
+      "end": true
+    },
+    "nudge_node": {
+      "speaker": "You",
+      "text": "nudged",
+      "nudge": {"leaning": "shepherd", "amount": 1, "reason": "lean_check"},
+      "end": true
+    }
+  }
+}

@@ -68,10 +68,20 @@ func reset() -> void:
 	var funds := get_node_or_null("/root/ChurchFunds")
 	if funds != null and funds.has_method("reset"):
 		funds.call("reset")
+	var path := get_node_or_null("/root/PastorPath")
+	if path != null and path.has_method("reset"):
+		path.call("reset")
+	var threads := get_node_or_null("/root/StoryThreads")
+	if threads != null and threads.has_method("reset"):
+		threads.call("reset")
 
 
 func set_flag(key: String, value: Variant) -> void:
 	_flags[key] = value
+	if key == "garden_planted" and value is bool and bool(value):
+		var threads := get_node_or_null("/root/StoryThreads")
+		if threads != null and threads.has_method("open"):
+			threads.call("open", "garden_growth")
 	if key != "garden_planted" or not (value is bool) or not bool(value):
 		return
 	if _flags.has("garden_planted_on"):

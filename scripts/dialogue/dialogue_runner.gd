@@ -181,6 +181,8 @@ func _matches(condition: Dictionary) -> bool:
 	if condition.has("influence_stage_at_least"):
 		var inf := _influence()
 		return inf != null and bool(inf.call("influence_stage_at_least", int(condition["influence_stage_at_least"])))
+	if condition.has("lean_at_least") or condition.has("dominant_is") or condition.has("thread_is") or condition.has("thread_open") or condition.has("thread_missed"):
+		return StoryQuery.holds(condition)
 	return false
 
 
@@ -198,6 +200,65 @@ func _influence() -> Node:
 	return tree.root.get_node_or_null("InfluenceState")
 
 
+func _pastor_path() -> Node:
+	var tree := Engine.get_main_loop() as SceneTree
+	if tree == null:
+		return null
+	return tree.root.get_node_or_null("PastorPath")
+
+
+func _threads() -> Node:
+	var tree := Engine.get_main_loop() as SceneTree
+	if tree == null:
+		return null
+	return tree.root.get_node_or_null("StoryThreads")
+
+
+func _apply_nudge(nudge_v: Variant) -> void:
+	var leaning := ""
+	var amount := 1
+	var reason := ""
+	if nudge_v is Dictionary:
+		var row: Dictionary = nudge_v
+		leaning = str(row.get("leaning", ""))
+		amount = int(row.get("amount", 1))
+		reason = str(row.get("reason", ""))
+	elif nudge_v is Array and (nudge_v as Array).size() >= 2:
+		var pair: Array = nudge_v
+		leaning = str(pair[0])
+		amount = int(pair[1])
+		if pair.size() >= 3:
+			reason = str(pair[2])
+	if leaning.is_empty():
+		return
+	var path := _pastor_path()
+	if path != null and path.has_method("nudge"):
+		path.call("nudge", leaning, amount, reason)
+
+
+func _apply_thread(row: Dictionary) -> void:
+	var thread_id := str(row.get("id", ""))
+	if thread_id.is_empty():
+		return
+	var threads := _threads()
+	if threads == null:
+		return
+	if bool(row.get("miss", false)) and threads.has_method("miss"):
+		threads.call("miss", thread_id)
+		return
+	if bool(row.get("close", false)) and threads.has_method("close_thread"):
+		threads.call("close_thread", thread_id)
+		return
+	if bool(row.get("advance", false)) and threads.has_method("advance"):
+		threads.call("advance", thread_id)
+		return
+	if row.has("state") and threads.has_method("set_state"):
+		threads.call("set_state", thread_id, str(row.get("state", "")))
+		return
+	if bool(row.get("open", false)) and threads.has_method("open"):
+		threads.call("open", thread_id)
+
+
 func _thought_text(data: Dictionary) -> String:
 	if not GameSettings.thought_enabled():
 		return ""
@@ -206,17 +267,28 @@ func _thought_text(data: Dictionary) -> String:
 		return ""
 	var text := ""
 	var need := 0
+	var gated := false
 	if thought_v is Dictionary:
 		var row: Dictionary = thought_v
 		text = str(row.get("text", ""))
-		need = int(row.get("pull_at_least", 0))
+		if row.has("pull_at_least"):
+			need = int(row.get("pull_at_least", 0))
+			gated = true
+		var by_v: Variant = row.get("by_dominant", null)
+		if by_v is Dictionary:
+			var path := _pastor_path()
+			if path != null and path.has_method("dominant"):
+				var lead := str(path.call("dominant"))
+				if not lead.is_empty() and (by_v as Dictionary).has(lead):
+					text = str((by_v as Dictionary)[lead])
 	else:
 		text = str(thought_v)
 	if text.is_empty():
 		return ""
-	var inf := _influence()
-	if inf != null and inf.has_method("pull_at_least") and not bool(inf.call("pull_at_least", need)):
-		return ""
+	if gated:
+		var inf := _influence()
+		if inf != null and inf.has_method("pull_at_least") and not bool(inf.call("pull_at_least", need)):
+			return ""
 	return text
 
 
@@ -253,6 +325,12 @@ func _apply(data: Dictionary) -> void:
 		var inf := _influence()
 		if inf != null and inf.has_method("add_pull"):
 			inf.call("add_pull", amount, part)
+	var nudge_v: Variant = data.get("nudge", null)
+	if nudge_v != null:
+		_apply_nudge(nudge_v)
+	var thread_v: Variant = data.get("thread", null)
+	if thread_v is Dictionary:
+		_apply_thread(thread_v)
 	var quest_v: Variant = data.get("quest", null)
 	if not quest_v is Dictionary:
 		return

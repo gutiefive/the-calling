@@ -58,8 +58,12 @@ func _set_open(is_open: bool) -> void:
 	_open = is_open
 	visible = is_open
 	NarrativeState.set_journal_open(is_open)
-	if is_open and _label != null:
-		_label.text = _body_text()
+	if is_open:
+		var threads := get_node_or_null("/root/StoryThreads")
+		if threads != null and threads.has_method("inspect_reece_key"):
+			threads.call("inspect_reece_key")
+		if _label != null:
+			_label.text = _body_text()
 
 
 func _body_text() -> String:
@@ -91,6 +95,19 @@ func _body_text() -> String:
 	lines.append("The church")
 	for measure in NarrativeState.growth_lines():
 		lines.append(measure)
+	lines.append("")
+	lines.append("Threads")
+	var thread_lines := PackedStringArray()
+	var threads := get_node_or_null("/root/StoryThreads")
+	if threads != null and threads.has_method("journal_lines"):
+		var raw: Variant = threads.call("journal_lines")
+		if raw is PackedStringArray:
+			thread_lines = raw
+	if thread_lines.is_empty():
+		lines.append("Nothing unfolding yet.")
+	else:
+		for line in thread_lines:
+			lines.append(line)
 	lines.append("")
 	lines.append("Notes")
 	var notes := NarrativeState.journal_notes()

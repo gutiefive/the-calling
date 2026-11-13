@@ -31,12 +31,16 @@
           "set_flags": {"sarah_heard": true},
           "add_relationships": {"sarah": 1},
           "add_growth": {"community_impact": 1},
-          "add_pull": -1
+          "add_pull": -1,
+          "thread": {"id": "sarah_belonging", "state": "open"},
+          "nudge": {"leaning": "shepherd", "amount": 1, "reason": "sarah_welcome"}
         },
         {
           "text": "Sunday is at ten, if you want it.",
           "next": "invited",
-          "add_pull": 1
+          "add_pull": 1,
+          "thread": {"id": "sarah_belonging", "state": "invited"},
+          "nudge": {"leaning": "builder", "amount": 1, "reason": "sarah_invite"}
         }
       ]
     },
@@ -75,6 +79,17 @@
       "end": true
     },
     "after_week": {
+      "router": [
+        {"if": {"thread_is": ["sarah_belonging", "open"]}, "next": "after_week_belong"},
+        {"next": "after_week_note"}
+      ]
+    },
+    "after_week_belong": {
+      "speaker": "Sarah",
+      "text": "The kids asked if the nursery smells any better. I told them I'd look. That's new.",
+      "end": true
+    },
+    "after_week_note": {
       "speaker": "Sarah",
       "text": "The kids still know where the church is. I'm not making a new promise this week.",
       "end": true

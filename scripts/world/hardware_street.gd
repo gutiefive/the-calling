@@ -212,6 +212,19 @@ func _add_living_town() -> void:
 	)
 	_add_happening(
 		props,
+		"SeedCreek",
+		"seed_creek",
+		Vector2(1500, 980),
+		PlaceholderArt.townsfolk(0),
+		Vector2i(32, 48),
+		2,
+		"A neighbor",
+		"Watch the creek",
+		"happening_seed_creek",
+		"The creek took a toy boat this morning."
+	)
+	_add_happening(
+		props,
 		"LaterPark",
 		"later_park",
 		Vector2(1180, 1000),

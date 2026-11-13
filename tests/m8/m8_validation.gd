@@ -277,18 +277,18 @@ func _save_roundtrip() -> void:
 		return
 	player.global_position = Vector2(420, 510)
 	var saved := SaveGame.save_to_disk(get_tree())
-	_check(saved, "a version 5 save writes")
+	_check(saved, "a current-version save writes")
 	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(SaveGame.SAVE_PATH))
 	_check(parsed is Dictionary, "the save file is an object")
 	var row: Dictionary = parsed if parsed is Dictionary else {}
-	_check(int(row.get("version", -1)) == 5, "the save file is version 5")
-	_check(row.has("funds"), "version 5 stores funds")
+	_check(int(row.get("version", -1)) == SaveGame.SAVE_VERSION, "the save file is the current version")
+	_check(row.has("funds"), "the save stores funds")
 	var funds_row: Dictionary = row.get("funds", {}) if row.get("funds", {}) is Dictionary else {}
 	_check(int(funds_row.get("balance", -1)) == 220 and int(funds_row.get("project_progress", -1)) == 400, "the save round-trips funds")
 	NarrativeState.reset()
 	_check(int(funds.get("balance")) == 55, "reset restores the Chapter 1 starting balance")
 	var loaded := SaveGame.read_file()
-	_check(int(loaded.get("version", 0)) == 5, "read_file keeps version 5")
+	_check(int(loaded.get("version", 0)) == SaveGame.SAVE_VERSION, "read_file keeps the current version")
 	SaveGame.apply_state(loaded)
 	_check(int(funds.get("balance")) == 220 and int(funds.get("project_progress")) == 400, "load restores funds")
 	_check(NarrativeState.flag_is_true("weekly_loop"), "load restores the weekly loop")
@@ -308,7 +308,7 @@ func _save_roundtrip() -> void:
 			"growth": {"community_trust": 1, "attendance": 17},
 		},
 	})
-	_check(int(from_v4.get("version", 0)) == 5, "a version 4 file migrates to version 5")
+	_check(int(from_v4.get("version", 0)) == SaveGame.SAVE_VERSION, "a version 4 file migrates to the current save")
 	var migrated_funds_v: Variant = from_v4.get("funds", {})
 	var migrated_funds: Dictionary = migrated_funds_v if migrated_funds_v is Dictionary else {}
 	_check(int(migrated_funds.get("balance", -1)) == 55 and str(migrated_funds.get("project_state", "")) == "none", "v4 migration adds starting funds")
@@ -326,8 +326,8 @@ func _save_roundtrip() -> void:
 		"scene": "res://scenes/world/church_exterior.tscn",
 		"narrative": {"flags": {"frank_listened": true}, "quests": {}, "relationships": {}},
 	})
-	_check(int(from_v3.get("version", 0)) == 5, "a version 3 file migrates to version 5")
-	_check(SaveGame.migrate({"version": 6, "scene": "res://scenes/world/church_exterior.tscn"}).is_empty(), "a newer save is still rejected")
+	_check(int(from_v3.get("version", 0)) == SaveGame.SAVE_VERSION, "a version 3 file migrates to the current save")
+	_check(SaveGame.migrate({"version": SaveGame.SAVE_VERSION + 1, "scene": "res://scenes/world/church_exterior.tscn"}).is_empty(), "a newer save is still rejected")
 	room.free()
 
 

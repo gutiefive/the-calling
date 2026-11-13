@@ -1,0 +1,43 @@
+{
+  "threads": [
+    {
+      "id": "frank_grief",
+      "title": "Frank",
+      "summaries": {
+        "open": "Frank mentioned a hospital week. He is not asking you to fix it.",
+        "advanced": "Frank told you about the porch light she used to leave on."
+      }
+    },
+    {
+      "id": "sarah_belonging",
+      "title": "Sarah",
+      "summaries": {
+        "open": "Sarah talked about the nursery and the side door. Sunday is still a maybe.",
+        "invited": "Sarah wrote Sunday down. A note, she said, not a yes."
+      }
+    },
+    {
+      "id": "ostrow_alliance",
+      "title": "Dell Ostrow",
+      "summaries": {
+        "open": "Ostrow offered to help at the hall, and you sounded interested.",
+        "cool": "Ostrow offered his number. You kept it polite.",
+        "guarded": "Ostrow offered a shortcut. You kept some distance."
+      }
+    },
+    {
+      "id": "reece_mystery",
+      "title": "The extra key",
+      "summaries": {
+        "open": "An extra key on the ring. Margaret said Pastor Reece kept it on him. It fits nothing here."
+      }
+    },
+    {
+      "id": "garden_growth",
+      "title": "The garden",
+      "summaries": {
+        "open": "The community garden is in the ground. A few mornings will show whether it takes."
+      }
+    }
+  ]
+}

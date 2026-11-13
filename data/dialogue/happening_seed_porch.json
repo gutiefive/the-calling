@@ -1,0 +1,11 @@
+{
+  "id": "happening_seed_porch",
+  "start": "open",
+  "nodes": {
+    "open": {
+      "speaker": "Note",
+      "text": "A folded card on the parsonage step. 'The coffee's on if you're walking by. No speech required.' No name.",
+      "end": true
+    }
+  }
+}

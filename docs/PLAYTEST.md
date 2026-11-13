@@ -408,4 +408,42 @@ It checks seeded attendance and offering math, weekly expenses, none/half/all pr
 
 ## M8 results
 
-On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `M1_OK` (74), `M2_OK` (113), `M3_OK` (109), `M4_OK` (90), `M4_5_OK` (90), `M5A_OK` (103), `M5B_OK` (1491), `M6A_OK` (219), `M6A2_OK` (128), `M7_OK` (93), and `M8_OK` (80), each exiting 0. `--quit-after 120` exited 0 with no script errors. T61–T63 were not played in a window. The M3 run still prints `Save is missing a version` before the check that rejects it. The M5A and M8 runs print `Save version 6 is not supported` before the check that rejects a newer file.
+On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `M1_OK` (74), `M2_OK` (113), `M3_OK` (109), `M4_OK` (90), `M4_5_OK` (90), `M5A_OK` (103), `M5B_OK` (1491), `M6A_OK` (219), `M6A2_OK` (128), `M7_OK` (93), and `M8_OK` (80), each exiting 0. `--quit-after 120` exited 0 with no script errors. T61–T63 were not played in a window. The M3 run still prints `Save is missing a version` before the check that rejects it. As of M9, the M5A and M8 runs print `Save version 7 is not supported` before the check that rejects a newer file.
+
+# Milestone 9 test plan
+
+The lists above still apply. These checks cover hidden leanings, story threads, a per-save run seed, and save v6.
+
+## Automated
+
+```powershell
+godot --headless --path . --import
+godot --headless --path . res://tests/m1/m1_validation.tscn
+godot --headless --path . res://tests/m2/m2_validation.tscn
+godot --headless --path . res://tests/m3/m3_validation.tscn
+godot --headless --path . res://tests/m4/m4_validation.tscn
+godot --headless --path . res://tests/m4_5/m4_5_validation.tscn
+godot --headless --path . res://tests/m5a/m5a_validation.tscn
+godot --headless --path . res://tests/m5b/m5b_validation.tscn
+godot --headless --path . res://tests/m6a/m6a_validation.tscn
+godot --headless --path . res://tests/m6a2/m6a2_validation.tscn
+godot --headless --path . res://tests/m7/m7_validation.tscn
+godot --headless --path . res://tests/m8/m8_validation.tscn
+godot --headless --path . res://tests/m9/m9_validation.tscn
+```
+
+`m9_validation.tscn` prints `CHECK OK` / `CHECK FAIL` lines and exits with `M9_OK` or `M9_FAIL`.
+It checks nudge / dominant logic, dialogue conditions and effects, a Shepherd playthrough vs a Builder playthrough, thread open / advance / miss, the journal Threads section, run-seed determinism, save v6 plus v5 / v4 / v3 migration, no "cult" in insider lines, no dollar amounts in dialogue, and that the default Chapter 1 path is unchanged.
+
+## Manual
+
+| ID | Do this | Expect |
+|---|---|---|
+| T64 | Play Chapter 1 gently: listen to Frank, ask Sarah what the week needs, stay polite with Ostrow, preach hope. Open J after the spare keys. Continue into week 2 or 3. | Frank may later mention a porch light. Sarah's later line remembers the nursery. The journal Threads page is words, not numbers. A Friday neighbor on the church walk talks about sitting with someone rather than filling a pew. |
+| T65 | New Game. Play Chapter 1 pushy: ask Frank to come Sunday, invite Sarah, welcome Ostrow's help, preach service. Continue into week 2 or 3. | Frank does not share the porch-light memory. Ostrow hints at people who like to see a church doing well, with no amounts. The Friday walk line is about a church that means to grow. Compare with T64; the two weeks should not feel identical. |
+
+Leanings, Pull, and relationships stay hidden. Dollars stay on the ledger.
+
+## M9 results
+
+On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `M1_OK` (74), `M2_OK` (113), `M3_OK` (109), `M4_OK` (90), `M4_5_OK` (90), `M5A_OK` (103), `M5B_OK` (1491), `M6A_OK` (219), `M6A2_OK` (128), `M7_OK` (93), `M8_OK` (80), and `M9_OK` (105), each exiting 0. `--quit-after 120` exited 0 with no script errors. T64–T65 were not played in a window. The M3 run still prints `Save is missing a version` before the check that rejects it. The M5A, M8, and M9 runs print `Save version 7 is not supported` before the check that rejects a newer file.

@@ -36,16 +36,19 @@
     "hope": {
       "speaker": "",
       "text": "The room sits a little taller. Nobody claps. A child swings their feet and stays.",
+      "nudge": {"leaning": "shepherd", "amount": 1, "reason": "weekly_hope"},
       "next": "after"
     },
     "forgiveness": {
       "speaker": "",
       "text": "Frank looks at the floor, then at the window. The hymn book stays in his lap.",
+      "nudge": {"leaning": "skeptic", "amount": 1, "reason": "weekly_forgiveness"},
       "next": "after"
     },
     "service": {
       "speaker": "",
       "text": "Harold nods once, the way he does at a list. Thomas is already counting chairs.",
+      "nudge": {"leaning": "builder", "amount": 1, "reason": "weekly_service"},
       "next": "after"
     },
     "after": {

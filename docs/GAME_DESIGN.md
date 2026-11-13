@@ -59,6 +59,27 @@ repairing the Fellowship Hall. Dialogue never names dollar amounts. Trust, Pull,
   Strained / Steady / Growing in the journal. Attendance is a rough signal, never a score on screen. Facility
   condition also moves when the Fellowship Hall is repaired. Later projects, dorms, and Chapter 2 story wait.
 
+## Choices and replayability
+
+Chapter 1 and the weekly loop already branch. Hidden leanings (Shepherd / Builder / Skeptic) and named story
+threads (`frank_grief`, `sarah_belonging`, `ostrow_alliance`, `reece_mystery`, `garden_growth`) remember what
+happened. A per-save run seed varies small town texture. None of those integers appear on screen. Trust, Pull,
+leanings, and relationships stay words. Dollar amounts stay on the ledger. Chapter 2 storylines should use this
+foundation rather than inventing a second flag system.
+
+**How to author a new branch in JSON**
+
+1. Keep the existing line as the first choice or the last router fallback. Tests and the default Chapter 1 path
+   depend on it.
+2. On the new choice, add a `nudge` and/or a `thread` effect. Example:
+   `{"nudge": {"leaning": "shepherd", "amount": 1, "reason": "frank_listen"}, "thread": {"id": "frank_grief", "open": true}}`
+3. Later, route with `"if": {"lean_at_least": ["shepherd", 1]}`, `{"dominant_is": "builder"}`, or
+   `{"thread_is": ["frank_grief", "open"]}`.
+4. If it is a named thread, add a one-line summary under `data/story/threads.json`. The journal prints that line.
+   Never print the integers. A missed thread (`"thread": {"id": "frank_grief", "miss": true}`) never reopens.
+5. Seeded texture (which neighbor, which Monday happening) reads `PastorPath.run_seed()`. Do not use `randi()`
+   in dialogue.
+
 ## Story outline
 1. **The Arrival / The First Sunday** — Thursday arrival, locked door, meet Margaret; walk to the hardware store, meet
    Frank; inspect building, practical task, sermon theme, first Sunday; Margaret reveals financial trouble.

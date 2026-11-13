@@ -37,7 +37,12 @@ func apply_clock() -> void:
 		keep = 1
 	elif phase == "Night":
 		keep = 0
-	var out := crowd_index < keep
+	var shift := 0
+	var path := get_node_or_null("/root/PastorPath")
+	if path != null and path.has_method("crowd_shift"):
+		shift = int(path.call("crowd_shift"))
+	var rotated := posmod(crowd_index + shift, 3)
+	var out := rotated < keep
 	visible = out
 	enabled = out
 

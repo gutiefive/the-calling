@@ -227,6 +227,20 @@ After Continue in Oakridge, each later Sunday runs a short repeatable service: h
 
 **Revisit after playtest:** starting balance, per-person giving, expenses, and the hall cost.
 
+## D45 — Branching foundation (M9)
+
+Replayability is three hidden systems, not a visible alignment meter.
+
+**Leanings.** `PastorPath` (its own autoload, not `InfluenceState`) tracks three small integer tracks: Shepherd (listening, humility, quiet help), Builder (growth, pressing, alliances), Skeptic (honest questions, privately wavering faith). `nudge(leaning, amount, reason_id)` is idempotent on `reason_id`. `dominant()` returns the unique leader, or `""` on a tie or when all are at zero. Dialogue may use `lean_at_least` and `dominant_is`. Effects may use `nudge`. The integers never print.
+
+**Sermon mapping.** Hope nudges Shepherd. Forgiveness nudges Skeptic. Service nudges Builder. The first Sunday applies the nudge on the preach node, after the inner-voice thought, so the default thought stays "They listened. That felt good. Maybe too good." when no leaning leads yet. Weekly sermons use the same mapping with separate reason ids.
+
+**Threads.** `data/story/threads.json` plus `StoryThreads`. A thread can be opened, advanced, closed, or permanently missed. Missed threads never reopen. The journal's Threads section lists open threads as one line of words each. Chapter 1 seeds: `frank_grief` (listen opens, press misses; a later memory of Frank's wife if it stays open), `sarah_belonging` (welcome vs invite), `ostrow_alliance` (cool / open / guarded), `reece_mystery` (inspecting the extra key in the journal), `garden_growth` (planting the plot).
+
+**Run seed.** New Game rolls a per-save seed. It varies which unnamed neighbor stays out in the evening, which of two Monday happenings appears, and the slight attendance swing already in `ChurchFunds`. Tests set the seed. Reset restores seed 8 so older attendance checks stay deterministic.
+
+**Saves.** Version 6 stores `pastor_path`, `threads`, and `run_seed`. Version 5, 4, and 3 files migrate. A newer file is still rejected.
+
 ## Still open
 
 | # | Question | Notes |

@@ -2,7 +2,7 @@ class_name SaveGame
 extends RefCounted
 ## One save slot. Versioned JSON in user://. The migration stub is where older files will step forward.
 
-const SAVE_VERSION := 5
+const SAVE_VERSION := 6
 const SAVE_PATH := "user://the_calling_save.json"
 
 
@@ -74,6 +74,21 @@ static func capture(tree: SceneTree) -> Dictionary:
 		var funds_raw: Variant = funds.call("to_dictionary")
 		if funds_raw is Dictionary:
 			funds_data = funds_raw
+	var path_data: Dictionary = {}
+	var run_seed := 8
+	var pastor := tree.root.get_node_or_null("PastorPath")
+	if pastor != null and pastor.has_method("to_dictionary"):
+		var path_raw: Variant = pastor.call("to_dictionary")
+		if path_raw is Dictionary:
+			path_data = path_raw
+		if pastor.has_method("run_seed"):
+			run_seed = int(pastor.call("run_seed"))
+	var thread_data: Dictionary = {}
+	var threads := tree.root.get_node_or_null("StoryThreads")
+	if threads != null and threads.has_method("to_dictionary"):
+		var thread_raw: Variant = threads.call("to_dictionary")
+		if thread_raw is Dictionary:
+			thread_data = thread_raw
 	return {
 		"version": SAVE_VERSION,
 		"narrative": NarrativeState.to_dictionary(),
@@ -84,6 +99,9 @@ static func capture(tree: SceneTree) -> Dictionary:
 		"influence": influence_data,
 		"chapter": chapter,
 		"funds": funds_data,
+		"pastor_path": path_data,
+		"threads": thread_data,
+		"run_seed": run_seed,
 	}
 
 
@@ -115,6 +133,19 @@ static func apply_state(data: Dictionary) -> bool:
 		var funds_v: Variant = data.get("funds", {})
 		var funds_data: Dictionary = funds_v if funds_v is Dictionary else {}
 		funds.call("from_dictionary", funds_data)
+	var pastor := tree.root.get_node_or_null("PastorPath") if tree != null else null
+	if pastor != null and pastor.has_method("from_dictionary"):
+		var path_v: Variant = data.get("pastor_path", {})
+		var path_data: Dictionary = path_v if path_v is Dictionary else {}
+		pastor.call("from_dictionary", path_data)
+		if pastor.has_method("set_seed"):
+			var seed_value := int(data.get("run_seed", path_data.get("seed", 8)))
+			pastor.call("set_seed", seed_value)
+	var threads := tree.root.get_node_or_null("StoryThreads") if tree != null else null
+	if threads != null and threads.has_method("from_dictionary"):
+		var thread_v: Variant = data.get("threads", {})
+		var thread_data: Dictionary = thread_v if thread_v is Dictionary else {}
+		threads.call("from_dictionary", thread_data)
 	var clock_v: Variant = data.get("clock", {})
 	if tree != null and clock_v is Dictionary:
 		var clock := tree.root.get_node_or_null("DayClock")
@@ -149,6 +180,14 @@ static func begin_new_game(tree: SceneTree) -> void:
 		var funds := tree.root.get_node_or_null("ChurchFunds")
 		if funds != null and funds.has_method("reset"):
 			funds.call("reset")
+		var pastor := tree.root.get_node_or_null("PastorPath")
+		if pastor != null and pastor.has_method("reset"):
+			pastor.call("reset")
+		if pastor != null and pastor.has_method("roll_seed"):
+			pastor.call("roll_seed")
+		var threads := tree.root.get_node_or_null("StoryThreads")
+		if threads != null and threads.has_method("reset"):
+			threads.call("reset")
 	DayClock.held = false
 	if tree != null and tree.paused:
 		tree.paused = false
@@ -164,6 +203,8 @@ static func delete_save() -> void:
 
 
 static func _migrate_step(data: Dictionary, from_version: int) -> Dictionary:
+	if from_version == 5:
+		return _migrate_branching(data)
 	if from_version == 4:
 		return _migrate_funds(data)
 	if from_version == 3:
@@ -292,6 +333,35 @@ static func _migrate_funds(data: Dictionary) -> Dictionary:
 			if str(influence.get("chapter", "")).is_empty():
 				influence["chapter"] = "2"
 			data["influence"] = influence
+	return data
+
+
+static func _migrate_branching(data: Dictionary) -> Dictionary:
+	# Version 6 adds hidden leanings, story threads, and a per-save run seed.
+	var path_data: Dictionary = {
+		"shepherd": 0,
+		"builder": 0,
+		"skeptic": 0,
+		"history": [],
+		"seed": 8,
+	}
+	var path_v: Variant = data.get("pastor_path", {})
+	if path_v is Dictionary:
+		for key in path_data.keys():
+			if (path_v as Dictionary).has(key):
+				path_data[key] = (path_v as Dictionary)[key]
+	var seed := int(path_data.get("seed", 8))
+	if data.has("run_seed"):
+		seed = int(data.get("run_seed", seed))
+		path_data["seed"] = seed
+	data["pastor_path"] = path_data
+	data["run_seed"] = seed
+	var threads: Dictionary = {}
+	var thread_v: Variant = data.get("threads", {})
+	if thread_v is Dictionary:
+		for key in (thread_v as Dictionary).keys():
+			threads[str(key)] = str((thread_v as Dictionary)[key])
+	data["threads"] = threads
 	return data
 
 

@@ -5,7 +5,7 @@
     "start": {
       "router": [
         {"if": {"quest_step": ["oak_street", "frank"]}, "next": "ask"},
-        {"if": {"flag": "frank_arc_heard"}, "next": "arc_settled"},
+        {"if": {"flag": "frank_arc_heard"}, "next": "arc_settled_gate"},
         {"if": {"flag": "frank_arc_pushed"}, "next": "arc_pushed_later"},
         {"if": {"flag": "frank_arc_wait"}, "next": "arc_ready"},
         {"if": {"flag": "frank_listened"}, "next": "arc_open"},
@@ -17,8 +17,28 @@
     "arc_open": {
       "router": [
         {"if": {"weekday": "Friday"}, "next": "arc_friday"},
+        {"if": {"thread_is": ["frank_grief", "open"]}, "next": "grief_later_gate"},
         {"next": "later_listened"}
       ]
+    },
+    "grief_later_gate": {
+      "router": [
+        {"if": {"flag": "service_complete"}, "next": "wife_memory"},
+        {"if": {"flag": "week_continues"}, "next": "wife_memory"},
+        {"next": "later_listened"}
+      ]
+    },
+    "arc_settled_gate": {
+      "router": [
+        {"if": {"thread_is": ["frank_grief", "open"]}, "next": "wife_memory"},
+        {"next": "arc_settled"}
+      ]
+    },
+    "wife_memory": {
+      "speaker": "Frank",
+      "text": "She used to leave the porch light on until I got in from the bay. I still reach for the switch. That's all I'm saying.",
+      "thread": {"id": "frank_grief", "advance": true},
+      "end": true
     },
     "arc_open_invited": {
       "router": [
@@ -72,6 +92,8 @@
       "add_relationships": {"frank": 1},
       "add_growth": {"community_trust": 1},
       "add_pull": -1,
+      "thread": {"id": "frank_grief", "open": true},
+      "nudge": {"leaning": "shepherd", "amount": 1, "reason": "frank_arc_listen"},
       "end": true
     },
     "arc_pushed": {
@@ -79,6 +101,8 @@
       "text": "That's the pitch again. The bay is still mine. Come by for parts, not for Sunday.",
       "set_flags": {"frank_arc_pushed": true},
       "add_pull": 1,
+      "thread": {"id": "frank_grief", "miss": true},
+      "nudge": {"leaning": "builder", "amount": 1, "reason": "frank_arc_press"},
       "end": true
     },
     "arc_settled": {
@@ -106,13 +130,17 @@
           "set_flags": {"frank_listened": true},
           "add_relationships": {"frank": 1},
           "add_growth": {"community_trust": 1},
-          "add_pull": -1
+          "add_pull": -1,
+          "thread": {"id": "frank_grief", "open": true},
+          "nudge": {"leaning": "shepherd", "amount": 1, "reason": "frank_listen"}
         },
         {
           "text": "We could use you on Sunday.",
           "next": "pitched",
           "set_flags": {"frank_invited": true},
-          "add_pull": 1
+          "add_pull": 1,
+          "thread": {"id": "frank_grief", "miss": true},
+          "nudge": {"leaning": "builder", "amount": 1, "reason": "frank_press"}
         }
       ]
     },
