@@ -82,6 +82,18 @@ func _init() -> void:
 		failed = true
 	if not _write_image("res://assets/environments/picket_fence.png", Street.build_picket_fence(), Vector2i(64, 32)):
 		failed = true
+	if not _write_image("res://assets/environments/garden_shed.png", Street.build_garden_shed(0), Vector2i(48, 40)):
+		failed = true
+	if not _write_image("res://assets/environments/garden_shed_b.png", Street.build_garden_shed(1), Vector2i(48, 40)):
+		failed = true
+	if not _write_image("res://assets/environments/hedge_bush.png", Street.build_hedge_bush(0), Vector2i(32, 24)):
+		failed = true
+	if not _write_image("res://assets/environments/hedge_bush_b.png", Street.build_hedge_bush(1), Vector2i(32, 24)):
+		failed = true
+	if not _write_image("res://assets/environments/for_sale_sign.png", Street.build_for_sale_sign(), Vector2i(48, 40)):
+		failed = true
+	if not _write_image("res://assets/environments/dog.png", Street.build_dog(), Vector2i(20, 16)):
+		failed = true
 	for variant in range(6):
 		if not _write_image("res://assets/environments/house_%d_east.png" % variant, Street.build_house(variant, true), Vector2i(144, 96)):
 			failed = true

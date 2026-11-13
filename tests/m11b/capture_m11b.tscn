@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://tests/m11b/capture_m11b.gd" id="1_script"]
+
+[node name="CaptureM11B" type="Node"]
+script = ExtResource("1_script")

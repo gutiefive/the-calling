@@ -28,8 +28,9 @@ never say "cult". The previous pastor is Alden Reece.
   East of the bay are the park, the creek, and the walk to Maple Lane. The west end continues as road and sidewalk back
   to the church grounds.
 - **Maple Lane** — a quiet residential street south of Oak Street. A narrower road with no center line, sidewalks on
-  both sides, six houses with front yards, mailboxes, and mixed fences, and the community garden as a fenced lot with a
-  gate onto the east sidewalk. Houses are not enterable yet. Dale and Ruth keep weekday hours on the sidewalks.
+  both sides, seven houses with front yards, mailboxes, mixed fences, backyard hedges and sheds, a vacant lot with a
+  for-sale sign, and the community garden as a fenced lot with a gate onto the east sidewalk. Houses are not enterable
+  yet. Dale and Ruth keep weekday hours on the sidewalks. Evening puts a neighbor on a porch.
 - **Grace Community Church** — once ~200 attendees, now ~17 on Sundays. Tired building, members who feel unheard,
   low leadership trust, a sensitive history around the prior pastor's departure. A financial problem surfaces at the
   end of Chapter 1.

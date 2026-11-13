@@ -7,6 +7,8 @@ const SPEED := 28.0
 @export var person_id: String = ""
 @export var crowd_index: int = 0
 @export var art_variant: int = 0
+@export var appear_phases: PackedStringArray = PackedStringArray()
+@export var leads_dog: bool = false
 
 var _points: Array[Vector2] = []
 var _cursor: int = 0
@@ -32,6 +34,15 @@ func apply_clock() -> void:
 	var phase := "Day"
 	if clock != null:
 		phase = TimeOfDay.phase_name()
+	if appear_phases.size() > 0:
+		var listed := false
+		for item in appear_phases:
+			if str(item) == phase:
+				listed = true
+				break
+		visible = listed
+		enabled = listed
+		return
 	var keep := 3
 	if phase == "Evening":
 		keep = 1
@@ -104,3 +115,17 @@ func _build_sprite() -> void:
 	sprite.centered = true
 	sprite.offset = Vector2(0, -24)
 	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	var dog := get_node_or_null("Dog") as Sprite2D
+	if leads_dog:
+		if dog == null:
+			dog = Sprite2D.new()
+			dog.name = "Dog"
+			add_child(dog)
+		dog.texture = PlaceholderArt.dog()
+		dog.centered = true
+		dog.offset = Vector2(0, -8)
+		dog.position = Vector2(14, 6)
+		dog.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		dog.visible = true
+	elif dog != null:
+		dog.visible = false

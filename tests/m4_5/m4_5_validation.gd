@@ -185,7 +185,7 @@ func _town_life() -> void:
 	var window := room.get_node_or_null("Lighting/CottageWindow") as PointLight2D
 	_check(window != null, "the cottage has a window light")
 	var day_windows := window.energy if window != null else -1.0
-	_check(_visible_count(room, "ambient_townsfolk") == 5, "neighbors are out on Oak Street during the day")
+	_check(_named_visible(room, ["NeighborA", "NeighborB", "NeighborC", "NeighborD", "NeighborE"]) == 5, "neighbors are out on Oak Street during the day")
 	var neighbor := room.get_node_or_null("Props/NeighborA") as AmbientTownsfolk
 	var player := room.get_node_or_null("Props/Player") as Player
 	if neighbor != null and player != null:
@@ -213,12 +213,12 @@ func _town_life() -> void:
 	_check(not _spot_visible(room, "FridayDelivery") and not _spot_visible(room, "SaturdayPark"), "Oak Street's day moments are absent on Thursday")
 	DayClock.set_time(4, 18, 0)
 	await _pump(2)
-	_check(_visible_count(room, "ambient_townsfolk") == 1, "evening leaves one neighbor out")
+	_check(_named_visible(room, ["NeighborA", "NeighborB", "NeighborC", "NeighborD", "NeighborE"]) == 1, "evening leaves one neighbor out")
 	if window != null:
 		_check(window.energy > day_windows, "windows light up in the evening")
 	DayClock.set_time(4, 20, 30)
 	await _pump(2)
-	_check(_visible_count(room, "ambient_townsfolk") == 0, "night sends the neighbors inside")
+	_check(_named_visible(room, ["NeighborA", "NeighborB", "NeighborC", "NeighborD", "NeighborE"]) == 0, "night sends the neighbors inside")
 	if window != null:
 		_check(window.energy > day_windows, "windows stay lit at night")
 	room.free()
@@ -357,6 +357,15 @@ func _visible_count(room: Node, group_name: String) -> int:
 		return 0
 	for node in tree.get_nodes_in_group(group_name):
 		if node is CanvasItem and room.is_ancestor_of(node) and (node as CanvasItem).visible:
+			count += 1
+	return count
+
+
+func _named_visible(room: Node, names: Array) -> int:
+	var count := 0
+	for node_name in names:
+		var node := room.get_node_or_null("Props/" + str(node_name)) as CanvasItem
+		if node != null and node.visible:
 			count += 1
 	return count
 

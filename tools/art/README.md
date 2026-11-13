@@ -64,6 +64,7 @@ M11 south-side shops, hanging signs, houses, and street props:
 - `sign_*.png` hanging signs (128×32)
 - `house_0_east.png` through `house_5_west.png` (144×96)
 - `newspaper_box.png`, `bike_rack.png`, `flower_box.png`, `swing_set.png`, `kids_bike.png`, `garden_hose.png`, `dog_house.png`, `rocking_chair.png`, `picket_fence.png`
+- `garden_shed.png`, `garden_shed_b.png`, `hedge_bush.png`, `hedge_bush_b.png`, `for_sale_sign.png`, `dog.png`
 
 Maps and helpers live in `scripts/art/environment_frames.gd`, `scripts/art/street_frames.gd`, and `scripts/art/pixel_draw.gd`. Atlas coordinates are `scripts/art/town_tiles.gd`. Sanctuary floors, shop interiors, and unnamed townsfolk still use `PlaceholderArt`.
 

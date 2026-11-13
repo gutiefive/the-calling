@@ -273,6 +273,14 @@ Maple Lane is a quiet north–south street off the Oak T-junction: two lanes, no
 
 Shop hours, walk-in travel, Thomas at the counter, Frank at the bay, and one-person-one-place stay as they were. A loaded save whose coordinates sit in a collider still snaps to the nearest spawn, on both streets.
 
+## D49 — Oak and Maple polish (M11B)
+
+Playtest after M11: south-side shops showed the name twice (facade paint plus hanging sign), Maple Lane still read as empty grass, and evenings looked like the old street.
+
+Each storefront keeps one name, on the hanging or awning sign. Facade art lost the duplicate letters and gained windows, transoms, and trim. Maple Lane fills the lots: backyard hedges and a back path, sheds, tree clusters, a vacant lot with a for-sale sign, and a seventh house on the west side. Garden, doors, the T-junction, and NPC walks stay clear. Collisions follow the new fences and props.
+
+Evening adds unnamed people with the existing ambient system: a dog walker and diner-goers on Oak Street, a neighbor on a Maple porch. Night keeps two of them out. Storefront and house windows use the existing `tod_window` lights. Lines are short greetings. No new story, no dollar amounts, no cult or power talk. Named people stay one-place.
+
 ## Still open
 
 | # | Question | Notes |

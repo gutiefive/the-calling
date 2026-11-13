@@ -389,6 +389,52 @@ func _add_living_town() -> void:
 			Vector2(1500, Y_SOUTH_WALK),
 		]
 	)
+	_add_neighbor(
+		props,
+		"NeighborDog",
+		"gina",
+		10,
+		3,
+		Vector2(800, Y_SOUTH_WALK + 24),
+		[
+			Vector2(800, Y_SOUTH_WALK + 24),
+			Vector2(960, Y_SOUTH_WALK + 24),
+			Vector2(960, Y_SOUTH_WALK + 40),
+			Vector2(800, Y_SOUTH_WALK + 40),
+		],
+		PackedStringArray(["Evening"]),
+		true
+	)
+	_add_neighbor(
+		props,
+		"NeighborDinerA",
+		"hale",
+		11,
+		4,
+		Vector2(520, Y_DOOR),
+		[
+			Vector2(520, Y_DOOR),
+			Vector2(660, Y_DOOR),
+			Vector2(660, Y_DOOR + 20),
+			Vector2(520, Y_DOOR + 20),
+		],
+		PackedStringArray(["Evening"])
+	)
+	_add_neighbor(
+		props,
+		"NeighborDinerB",
+		"ivy",
+		12,
+		2,
+		Vector2(560, Y_SPAWN),
+		[
+			Vector2(560, Y_SPAWN),
+			Vector2(640, Y_SPAWN),
+			Vector2(640, Y_DOOR),
+			Vector2(560, Y_DOOR),
+		],
+		PackedStringArray(["Evening", "Night"])
+	)
 	_add_south_street(props)
 	_add_facade_details(props)
 
@@ -526,7 +572,9 @@ func _add_neighbor(
 	index: int,
 	variant: int,
 	pos: Vector2,
-	route_points: Array = []
+	route_points: Array = [],
+	phases: PackedStringArray = PackedStringArray(),
+	with_dog: bool = false
 ) -> void:
 	if props.get_node_or_null(node_name) != null:
 		return
@@ -535,6 +583,8 @@ func _add_neighbor(
 	person.person_id = person_id
 	person.crowd_index = index
 	person.art_variant = variant
+	person.appear_phases = phases
+	person.leads_dog = with_dog
 	person.position = pos
 	person.prompt_text = "Say hello"
 	person.radius = 40.0

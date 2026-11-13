@@ -385,6 +385,34 @@ static func picket_fence() -> Texture2D:
 	return _cached("picket_fence", StreetFrames.build_picket_fence())
 
 
+static func garden_shed(variant: int) -> Texture2D:
+	var authored := EnvironmentArt.garden_shed(variant)
+	if authored != null:
+		return authored
+	return _cached("garden_shed%d" % variant, StreetFrames.build_garden_shed(variant))
+
+
+static func hedge_bush(variant: int) -> Texture2D:
+	var authored := EnvironmentArt.hedge_bush(variant)
+	if authored != null:
+		return authored
+	return _cached("hedge_bush%d" % variant, StreetFrames.build_hedge_bush(variant))
+
+
+static func for_sale_sign() -> Texture2D:
+	var authored := EnvironmentArt.for_sale_sign()
+	if authored != null:
+		return authored
+	return _cached("for_sale_sign", StreetFrames.build_for_sale_sign())
+
+
+static func dog() -> Texture2D:
+	var authored := EnvironmentArt.dog()
+	if authored != null:
+		return authored
+	return _cached("dog", StreetFrames.build_dog())
+
+
 static func house(variant: int, door_east: bool) -> Texture2D:
 	var authored := EnvironmentArt.house(variant, door_east)
 	if authored != null:

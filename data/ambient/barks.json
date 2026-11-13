@@ -62,6 +62,40 @@
         {"phases": ["Evening"], "text": "The bench is wet with dew already. I'm done for the day."},
         {"text": "Morning's the quiet end of the lane."}
       ]
+    },
+    {
+      "id": "gina",
+      "outsider": true,
+      "lines": [
+        {"phases": ["Evening"], "text": "Just giving her the evening walk."},
+        {"text": "She knows every lamp on this block."}
+      ]
+    },
+    {
+      "id": "hale",
+      "outsider": true,
+      "lines": [
+        {"phases": ["Evening"], "text": "Heading to Cal's. The windows are already warm."},
+        {"text": "Evening's when this street smells like coffee."}
+      ]
+    },
+    {
+      "id": "ivy",
+      "outsider": true,
+      "lines": [
+        {"phases": ["Evening"], "text": "I'm going in. Save me a booth if you see one."},
+        {"phases": ["Night"], "text": "Cal leaves a light on. I'm just saying goodnight through the glass."},
+        {"text": "The diner's the last warm door on the block."}
+      ]
+    },
+    {
+      "id": "nora",
+      "outsider": true,
+      "lines": [
+        {"phases": ["Evening"], "text": "Nice night to sit. Don't mind me."},
+        {"phases": ["Night"], "text": "I'll go in when the kettle clicks. Not yet."},
+        {"text": "Porch is the best seat on the lane."}
+      ]
     }
   ]
 }

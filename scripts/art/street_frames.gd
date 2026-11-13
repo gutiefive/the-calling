@@ -19,8 +19,10 @@ static func build_credit_union() -> Image:
 	Draw.rect(image, 132, 62, 32, 28, Draw.pal("glass"))
 	Draw.px(image, 136, 64, Draw.pal("glass_h"))
 	Frames._door(image, 80, 78, 36, 42)
-	Frames._sign_board(image, 36, 14, 120, 22, Draw.pal("shirt_d"), Draw.pal("shirt"))
-	Frames._stamp_text(image, "CREDIT", 48, 18, Draw.pal("paper"), 2)
+	Frames._transom(image, 80, 64, 36)
+	Draw.rect(image, 36, 14, 8, 24, Draw.pal("paper"))
+	Draw.rect(image, 148, 14, 8, 24, Draw.pal("paper"))
+	Frames._fascia_glass(image, 48, 16, 96, 16)
 	Draw.rect(image, 18, 116, 12, 4, Draw.pal("moss"))
 	return Draw.outline(image)
 
@@ -35,8 +37,9 @@ static func build_pharmacy() -> Image:
 	Frames._window(image, 18, 66, 36, 28)
 	Frames._window(image, 122, 66, 36, 28)
 	Frames._door(image, 70, 78, 36, 42)
-	Frames._sign_board(image, 24, 14, 128, 22, Draw.pal("carpet_d"), Draw.pal("lamp"))
-	Frames._stamp_text(image, "PEARL'S", 36, 18, Draw.pal("wood_d"), 2)
+	Frames._transom(image, 70, 64, 36)
+	Frames._window_goods(image, 22, 72, 0)
+	Frames._window_goods(image, 126, 72, 1)
 	Draw.px(image, 48, 100, Draw.pal("flower"))
 	Draw.px(image, 132, 100, Draw.pal("leaf"))
 	return Draw.outline(image)
@@ -53,8 +56,8 @@ static func build_thrift() -> Image:
 	Draw.rect(image, 20, 72, 10, 8, Draw.pal("shirt"))
 	Draw.rect(image, 116, 74, 12, 6, Draw.pal("carpet"))
 	Frames._door(image, 64, 78, 32, 42)
-	Frames._sign_board(image, 20, 16, 120, 22, Draw.pal("wood_d"), Draw.pal("wood_l"))
-	Frames._stamp_text(image, "THRIFT", 32, 20, Draw.pal("paper"), 2)
+	Frames._transom(image, 64, 64, 32)
+	Draw.rect(image, 10, 38, 140, 4, Draw.pal("wood"))
 	Draw.rect(image, 16, 116, 10, 3, Draw.pal("moss"))
 	return Draw.outline(image)
 
@@ -70,8 +73,11 @@ static func build_feed_store() -> Image:
 	Draw.rect(image, 144, 64, 20, 16, Draw.pal("path"))
 	Draw.rect(image, 144, 84, 20, 16, Draw.pal("path_d"))
 	Frames._door(image, 80, 78, 36, 42)
-	Frames._sign_board(image, 52, 14, 88, 22, Draw.pal("wood_d"), Draw.pal("cream"))
-	Frames._stamp_text(image, "FEED", 64, 18, Draw.pal("wood_d"), 2)
+	Frames._transom(image, 80, 64, 36)
+	Draw.rect(image, 56, 16, 80, 18, Draw.pal("wood_d"))
+	Draw.rect(image, 60, 20, 28, 10, Draw.pal("path"))
+	Draw.rect(image, 92, 20, 28, 10, Draw.pal("path_d"))
+	Draw.rect(image, 124, 20, 8, 10, Draw.pal("wood"))
 	Draw.rect(image, 18, 116, 14, 4, Draw.pal("moss"))
 	return Draw.outline(image)
 
@@ -90,8 +96,12 @@ static func build_town_hall() -> Image:
 	Frames._window(image, 28, 60, 32, 28)
 	Frames._window(image, 148, 60, 32, 28)
 	Frames._door(image, 86, 74, 40, 46)
-	Frames._sign_board(image, 28, 14, 152, 22, Draw.pal("shirt_d"), Draw.pal("shirt"))
-	Frames._stamp_text(image, "TOWN HALL", 40, 18, Draw.pal("paper"), 2)
+	Frames._transom(image, 86, 60, 40)
+	Draw.rect(image, 70, 14, 16, 22, Draw.pal("cream"))
+	Draw.rect(image, 122, 14, 16, 22, Draw.pal("cream"))
+	Draw.rect(image, 92, 16, 24, 18, Draw.pal("wood_d"))
+	Draw.rect(image, 96, 20, 16, 10, Draw.pal("glass"))
+	Draw.px(image, 104, 24, Draw.pal("gold"))
 	Draw.rect(image, 20, 114, 12, 4, Draw.pal("moss"))
 	return Draw.outline(image)
 
@@ -110,8 +120,9 @@ static func build_boarded_shop() -> Image:
 	Draw.rect(image, 124, 62, 12, 24, Draw.pal("wood"))
 	Frames._door(image, 64, 78, 32, 42)
 	Draw.rect(image, 68, 82, 24, 22, Draw.pal("wood"))
-	Frames._sign_board(image, 20, 16, 120, 22, Draw.pal("grey_d"), Draw.pal("grey"))
-	Frames._stamp_text(image, "CLOSED", 32, 20, Draw.pal("paper"), 2)
+	Draw.rect(image, 20, 16, 120, 10, Draw.pal("grey_d"))
+	Draw.rect(image, 28, 18, 40, 6, Draw.pal("wood"))
+	Draw.rect(image, 76, 18, 40, 6, Draw.pal("wood_d"))
 	Draw.crack(image, 40, 90, 8, Draw.pal("cream_s"))
 	Draw.rect(image, 16, 116, 14, 4, Draw.pal("moss"))
 	return Draw.outline(image)
@@ -316,4 +327,59 @@ static func build_picket_fence() -> Image:
 		Draw.px(image, x + 1, 6, Draw.pal("cream"))
 		Draw.px(image, x + 2, 6, Draw.pal("cream"))
 		Draw.rect(image, x, 26, 4, 4, Draw.pal("wood_d"))
+	return Draw.outline(image)
+
+
+static func build_garden_shed(variant: int) -> Image:
+	var image := Draw.canvas(48, 40)
+	var wall: Color = Draw.pal("wood") if variant % 2 == 0 else Draw.pal("grey")
+	var wall_d: Color = Draw.pal("wood_d") if variant % 2 == 0 else Draw.pal("grey_d")
+	var roof: Color = Draw.pal("roof") if variant % 3 != 1 else Draw.pal("path_d")
+	for y in range(2, 14):
+		var inset: int = (14 - y) / 2
+		Draw.rect(image, inset, y, 48 - inset * 2, 1, roof if y % 2 == 0 else Draw.pal("roof_d"))
+	Draw.rect(image, 6, 14, 36, 22, wall)
+	Draw.rect(image, 6, 14, 36, 3, wall_d)
+	Draw.rect(image, 18, 20, 12, 16, Draw.pal("outline"))
+	Draw.rect(image, 20, 22, 8, 12, wall_d)
+	Draw.px(image, 26, 28, Draw.pal("gold"))
+	if variant % 2 == 1:
+		Draw.rect(image, 8, 18, 8, 6, Draw.pal("glass_d"))
+	Draw.rect(image, 8, 34, 32, 4, Draw.pal("path_c"))
+	return Draw.outline(image)
+
+
+static func build_hedge_bush(variant: int) -> Image:
+	var image := Draw.canvas(32, 24)
+	var leaf: Color = Draw.pal("leaf") if variant % 2 == 0 else Draw.pal("moss")
+	var dark: Color = Draw.pal("leaf_d")
+	Draw.rect(image, 4, 10, 24, 12, leaf)
+	Draw.rect(image, 8, 6, 16, 10, leaf)
+	Draw.rect(image, 6, 18, 20, 4, dark)
+	Draw.px(image, 10, 8, Draw.pal("leaf_l") if variant % 3 == 0 else Draw.pal("flower"))
+	Draw.px(image, 18, 7, Draw.pal("leaf_l"))
+	if variant % 2 == 1:
+		Draw.px(image, 22, 12, Draw.pal("flower2"))
+	return Draw.outline(image)
+
+
+static func build_for_sale_sign() -> Image:
+	var image := Draw.canvas(48, 40)
+	Draw.rect(image, 22, 18, 4, 20, Draw.pal("wood_d"))
+	Draw.rect(image, 4, 2, 40, 22, Draw.pal("paper"))
+	Draw.rect(image, 6, 4, 36, 18, Draw.pal("shirt"))
+	Frames._stamp_text(image, "FOR", 14, 6, Draw.pal("paper"), 1)
+	Frames._stamp_text(image, "SALE", 10, 14, Draw.pal("paper"), 1)
+	Draw.rect(image, 20, 36, 8, 3, Draw.pal("path_c"))
+	return Draw.outline(image)
+
+
+static func build_dog() -> Image:
+	var image := Draw.canvas(20, 16)
+	Draw.rect(image, 4, 8, 12, 5, Draw.pal("wood"))
+	Draw.rect(image, 12, 4, 6, 6, Draw.pal("wood_l"))
+	Draw.rect(image, 2, 10, 3, 3, Draw.pal("wood_d"))
+	Draw.rect(image, 14, 10, 3, 3, Draw.pal("wood_d"))
+	Draw.px(image, 16, 6, Draw.pal("outline"))
+	Draw.px(image, 4, 9, Draw.pal("wood_d"))
 	return Draw.outline(image)

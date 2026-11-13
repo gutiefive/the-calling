@@ -71,6 +71,18 @@
       "flavor": "Kids' shoes by the door. Nobody answers.",
       "destination_scene": "",
       "destination_spawn": "from_street"
+    },
+    {
+      "id": "whitaker",
+      "node": "HouseWhitaker",
+      "resident": "the Whitakers",
+      "variant": 1,
+      "side": "west",
+      "x": 384,
+      "y": 1456,
+      "flavor": "A rake leans on the step. Nobody answers.",
+      "destination_scene": "",
+      "destination_spawn": "from_street"
     }
   ]
 }

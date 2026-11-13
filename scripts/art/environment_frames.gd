@@ -665,8 +665,8 @@ static func build_hardware_store() -> Image:
 	_window(image, 28, 66, 36, 28)
 	_window(image, 160, 66, 36, 28)
 	_door(image, 86, 78, 52, 44)
-	_sign_board(image, 48, 18, 128, 22, Draw.pal("cream_d"), Draw.pal("cream"))
-	_stamp_text(image, "HARDWARE", 56, 22, Draw.pal("wood_d"), 2)
+	_transom(image, 86, 64, 52)
+	_fascia_glass(image, 56, 18, 112, 16)
 	Draw.rect(image, 18, 118, 16, 4, Draw.pal("moss"))
 	Draw.crack(image, 48, 92, 7, Draw.pal("wood_d"))
 	return Draw.outline(image)
@@ -686,8 +686,11 @@ static func build_auto_shop() -> Image:
 	Draw.rect(image, 96, 82, 28, 12, Draw.pal("brick"))
 	_window(image, 186, 54, 44, 26)
 	_door(image, 188, 84, 40, 36)
-	_sign_board(image, 52, 14, 152, 22, Draw.pal("grey_d"), Draw.pal("grey"))
-	_stamp_text(image, "MILLER BAY", 60, 18, Draw.pal("paper"), 2)
+	_transom(image, 188, 70, 40)
+	Draw.rect(image, 52, 14, 152, 8, Draw.pal("grey_d"))
+	Draw.rect(image, 60, 18, 40, 12, Draw.pal("glass_d"))
+	Draw.rect(image, 108, 18, 40, 12, Draw.pal("glass"))
+	Draw.rect(image, 156, 18, 36, 12, Draw.pal("grey"))
 	Draw.rect(image, 20, 116, 18, 4, Draw.pal("moss"))
 	return Draw.outline(image)
 
@@ -723,8 +726,9 @@ static func build_diner() -> Image:
 	Draw.rect(image, 76, 72, 72, 22, Draw.pal("glass"))
 	Draw.px(image, 84, 76, Draw.pal("glass_h"))
 	_door(image, 96, 86, 32, 34)
-	_sign_board(image, 40, 10, 144, 24, Draw.pal("carpet_d"), Draw.pal("lamp"))
-	_stamp_text(image, "BRIGHT'S", 52, 15, Draw.pal("wood_d"), 2)
+	_transom(image, 96, 72, 32)
+	_window_goods(image, 28, 74, 2)
+	_window_goods(image, 160, 74, 0)
 	Draw.rect(image, 18, 116, 14, 4, Draw.pal("moss"))
 	return Draw.outline(image)
 
@@ -741,8 +745,9 @@ static func build_post_office() -> Image:
 	_window(image, 24, 62, 32, 28)
 	_window(image, 136, 62, 32, 28)
 	_door(image, 76, 78, 40, 40)
-	_sign_board(image, 36, 14, 120, 22, Draw.pal("shirt_d"), Draw.pal("shirt"))
-	_stamp_text(image, "POST", 70, 18, Draw.pal("paper"), 2)
+	_transom(image, 76, 64, 40)
+	Draw.rect(image, 84, 88, 24, 6, Draw.pal("outline"))
+	_fascia_glass(image, 48, 16, 96, 14)
 	Draw.rect(image, 16, 114, 12, 4, Draw.pal("moss"))
 	return Draw.outline(image)
 
@@ -760,8 +765,11 @@ static func build_barber() -> Image:
 	for y in range(72, 104, 6):
 		var band: Color = Draw.pal("carpet") if (y / 6) % 2 == 0 else Draw.pal("paper")
 		Draw.rect(image, 118, y, 8, 3, band)
-	_sign_board(image, 24, 16, 112, 22, Draw.pal("cream_d"), Draw.pal("cream"))
-	_stamp_text(image, "BARBER", 36, 20, Draw.pal("wood_d"), 2)
+	_transom(image, 68, 64, 32)
+	Draw.rect(image, 24, 16, 112, 8, Draw.pal("cream_d"))
+	Draw.rect(image, 32, 20, 20, 10, Draw.pal("glass"))
+	Draw.rect(image, 60, 20, 20, 10, Draw.pal("glass_d"))
+	Draw.rect(image, 88, 20, 20, 10, Draw.pal("glass"))
 	Draw.px(image, 24, 114, Draw.pal("moss"))
 	return Draw.outline(image)
 
@@ -780,8 +788,9 @@ static func build_vacant_shop() -> Image:
 	Draw.rect(image, 148, 62, 16, 24, Draw.pal("wood"))
 	_door(image, 80, 78, 32, 40)
 	Draw.rect(image, 84, 82, 24, 20, Draw.pal("wood"))
-	_sign_board(image, 28, 16, 136, 22, Draw.pal("paper"), Draw.pal("cream"))
-	_stamp_text(image, "FOR LEASE", 36, 20, Draw.pal("wood_d"), 2)
+	Draw.rect(image, 28, 16, 136, 8, Draw.pal("cream_s"))
+	Draw.rect(image, 40, 18, 48, 6, Draw.pal("paper"))
+	Draw.rect(image, 100, 18, 48, 6, Draw.pal("grey"))
 	Draw.crack(image, 40, 88, 8, Draw.pal("cream_s"))
 	Draw.rect(image, 18, 114, 16, 4, Draw.pal("moss"))
 	return Draw.outline(image)
@@ -867,6 +876,42 @@ static func _door(image: Image, x: int, y: int, w: int, h: int) -> void:
 static func _sign_board(image: Image, x: int, y: int, w: int, h: int, back: Color, face: Color) -> void:
 	Draw.rect(image, x, y, w, h, back)
 	Draw.rect(image, x + 2, y + 2, w - 4, h - 4, face)
+
+
+static func _transom(image: Image, x: int, y: int, w: int) -> void:
+	Draw.rect(image, x, y, w, 12, Draw.pal("wood_d"))
+	Draw.rect(image, x + 3, y + 2, w - 6, 8, Draw.pal("glass"))
+	Draw.rect(image, x + int(w / 2) - 1, y + 2, 2, 8, Draw.pal("wood_d"))
+	Draw.px(image, x + 5, y + 3, Draw.pal("glass_h"))
+
+
+static func _fascia_glass(image: Image, x: int, y: int, w: int, h: int) -> void:
+	Draw.rect(image, x, y, w, h, Draw.pal("wood_d"))
+	var pane := maxi(10, int((w - 8) / 4))
+	var cursor := x + 3
+	var toggle := 0
+	while cursor + pane <= x + w - 3:
+		var glass: Color = Draw.pal("glass") if toggle % 2 == 0 else Draw.pal("glass_d")
+		Draw.rect(image, cursor, y + 2, pane - 2, h - 4, glass)
+		Draw.px(image, cursor + 1, y + 3, Draw.pal("glass_h"))
+		cursor += pane
+		toggle += 1
+
+
+static func _window_goods(image: Image, x: int, y: int, variant: int) -> void:
+	match variant % 3:
+		1:
+			Draw.rect(image, x, y, 8, 10, Draw.pal("carpet"))
+			Draw.rect(image, x + 10, y + 2, 6, 8, Draw.pal("shirt"))
+			Draw.px(image, x + 2, y - 2, Draw.pal("gold"))
+		2:
+			Draw.rect(image, x, y, 10, 6, Draw.pal("wood"))
+			Draw.rect(image, x + 2, y - 4, 6, 6, Draw.pal("lamp"))
+			Draw.rect(image, x + 12, y, 8, 8, Draw.pal("cream"))
+		_:
+			Draw.rect(image, x, y, 6, 10, Draw.pal("glass_h"))
+			Draw.rect(image, x + 8, y + 2, 6, 8, Draw.pal("carpet_l"))
+			Draw.px(image, x + 1, y + 1, Draw.pal("paper"))
 
 
 static func _stamp_text(image: Image, text: String, x: int, y: int, color: Color, scale: int = 1) -> void:

@@ -36,6 +36,12 @@ const HOSE := "res://assets/environments/garden_hose.png"
 const DOG_HOUSE := "res://assets/environments/dog_house.png"
 const ROCKER := "res://assets/environments/rocking_chair.png"
 const PICKET := "res://assets/environments/picket_fence.png"
+const SHED := "res://assets/environments/garden_shed.png"
+const SHED_B := "res://assets/environments/garden_shed_b.png"
+const HEDGE_BUSH := "res://assets/environments/hedge_bush.png"
+const HEDGE_BUSH_B := "res://assets/environments/hedge_bush_b.png"
+const FOR_SALE := "res://assets/environments/for_sale_sign.png"
+const DOG := "res://assets/environments/dog.png"
 
 
 static func church_front() -> Texture2D:
@@ -176,6 +182,22 @@ static func hanging_sign(sign_id: String) -> Texture2D:
 	if sign_id.is_empty():
 		return null
 	return _load("res://assets/environments/sign_%s.png" % sign_id)
+
+
+static func garden_shed(variant: int) -> Texture2D:
+	return _load(SHED_B if variant % 2 == 1 else SHED)
+
+
+static func hedge_bush(variant: int) -> Texture2D:
+	return _load(HEDGE_BUSH_B if variant % 2 == 1 else HEDGE_BUSH)
+
+
+static func for_sale_sign() -> Texture2D:
+	return _load(FOR_SALE)
+
+
+static func dog() -> Texture2D:
+	return _load(DOG)
 
 
 static func _load(path: String) -> Texture2D:
