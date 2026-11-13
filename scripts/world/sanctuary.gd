@@ -15,6 +15,7 @@ func _on_time_changed() -> void:
 
 func _build() -> void:
 	bounds = InteriorLayout.sanctuary_bounds()
+	_ensure_pews()
 	_assign_art()
 	_place_props()
 	_add_furniture()
@@ -39,7 +40,8 @@ func _assign_art() -> void:
 	_set_sprite("Props/Cross", InteriorArt.texture("cross"))
 	_set_sprite("Props/Altar", InteriorArt.texture("altar"))
 	_set_sprite("Props/Chairs", InteriorArt.texture("stacked_chairs"))
-	for i in 4:
+	var pew_count := InteriorLayout.pew_rows().size()
+	for i in pew_count:
 		_set_sprite("Props/PewL%d" % (i + 1), InteriorArt.texture("pew"))
 		_set_sprite("Props/PewR%d" % (i + 1), InteriorArt.texture("pew"))
 	_set_light_texture("Lighting/SconceL")
@@ -68,8 +70,8 @@ func _place_props() -> void:
 	_place("Props/Sarah", InteriorLayout.POS_SANCT_SARAH)
 	var pew_ys := InteriorLayout.pew_rows()
 	for i in pew_ys.size():
-		_place("Props/PewL%d" % (i + 1), Vector2(480, pew_ys[i]))
-		_place("Props/PewR%d" % (i + 1), Vector2(992, pew_ys[i]))
+		_place("Props/PewL%d" % (i + 1), Vector2(InteriorLayout.PEW_LEFT_X, pew_ys[i]))
+		_place("Props/PewR%d" % (i + 1), Vector2(InteriorLayout.PEW_RIGHT_X, pew_ys[i]))
 		_feet_offset("Props/PewL%d" % (i + 1))
 		_feet_offset("Props/PewR%d" % (i + 1))
 		_set_pew_block("Props/PewL%d" % (i + 1))
@@ -85,12 +87,15 @@ func _place_props() -> void:
 	_place("Lighting/SconceL", Vector2(420, 1000))
 	_place("Lighting/SconceR", Vector2(1050, 1000))
 	_place("Lighting/SconceN", Vector2(736, 360))
+	for node_name in PackedStringArray(["Altar", "Cross", "Chairs", "Window", "Ledger", "KeyRing"]):
+		_mark_prop(get_node_or_null("Props/%s" % node_name))
 
 
 func _set_pew_block(node_path: String) -> void:
 	var pew := get_node_or_null(node_path)
 	if pew != null and "block_size" in pew:
-		pew.set("block_size", Vector2(200, 12))
+		pew.set("block_size", InteriorLayout.PEW_BLOCK)
+	_mark_prop(pew)
 
 
 func _refresh_living() -> void:
@@ -149,23 +154,13 @@ func _add_furniture() -> void:
 	var props := get_node_or_null("Props")
 	if props == null:
 		return
-	_add_solid(props, "Pulpit", "pulpit", InteriorLayout.POS_SANCT_PULPIT, Vector2(28, 12))
-	_add_solid(props, "Platform", "platform", Vector2(736, 348), Vector2(140, 10))
-	_add_solid(props, "SideCandles", "candles", Vector2(680, 352), Vector2(12, 8))
-	_add_solid(props, "AltarCandles", "candles", Vector2(780, 352), Vector2(12, 8))
-	_add_solid(props, "WelcomeTable", "welcome_table", Vector2(560, 980), Vector2(64, 12))
-	_add_solid(props, "CoatRack", "coat_rack", Vector2(400, 960), Vector2(14, 10))
-	_add_solid(props, "NarthexBench", "bench", Vector2(1000, 1020), Vector2(44, 10))
-	_add_solid(props, "OfficeDesk", "desk", Vector2(192, 140), Vector2(56, 14))
-	_add_solid(props, "OfficeChair", "office_chair", Vector2(192, 176), Vector2(14, 10))
-	_add_solid(props, "OfficeShelf", "bookshelf", Vector2(80, 80), Vector2(28, 14))
-	_add_solid(props, "OfficeFiling", "filing", Vector2(300, 80), Vector2(18, 12))
-	_add_solid(props, "OfficeLamp", "lamp", Vector2(120, 100), Vector2(10, 8))
-	_add_solid(props, "Kneeler", "kneeler", Vector2(500, 120), Vector2(22, 10))
-	_add_solid(props, "PrayerBench", "bench", Vector2(600, 150), Vector2(44, 10))
-	_add_solid(props, "PrayerCandles", "candles", Vector2(460, 80), Vector2(12, 8))
-	_add_solid(props, "ChoirPiano", "piano", Vector2(820, 100), Vector2(56, 14))
-	_add_solid(props, "ChoirSupplies", "folding_tables", Vector2(1248, 120), Vector2(36, 12))
+	_add_narthex(props)
+	_add_worship(props)
+	_add_office_room(props)
+	_add_prayer_room(props)
+	_add_choir_room(props)
+	_add_storage_room(props)
+	_add_hallway_clutter(props)
 	_add_glass(props, "GlassE1", "stained_glass_b", Vector2(1220, 360))
 	_add_glass(props, "GlassE2", "stained_glass_c", Vector2(1220, 520))
 	_add_glass(props, "GlassE3", "stained_glass_b", Vector2(1220, 680))
@@ -173,7 +168,148 @@ func _add_furniture() -> void:
 	_add_glass(props, "GlassW2", "stained_glass", Vector2(250, 680))
 	_add_stain_pool(props, "StainE", Vector2(1180, 500))
 	_add_stain_pool(props, "StainW", Vector2(280, 500))
+	_add_aisle_color(props)
 	_add_office_window(props)
+
+
+func _add_narthex(props: Node) -> void:
+	_add_solid(props, "WelcomeTable", "welcome_table", Vector2(560, 980), Vector2(64, 12))
+	_add_solid(props, "CoatRack", "coat_rack", Vector2(400, 960), Vector2(14, 10))
+	_add_solid(props, "NarthexBench", "bench", Vector2(1000, 1020), Vector2(44, 10))
+	_add_solid(props, "CoatHooks", "coat_hooks", Vector2(360, 930), Vector2(18, 10))
+	_add_solid(props, "UmbrellaStand", "umbrella_stand", Vector2(380, 1040), Vector2(12, 10))
+	_add_solid(props, "NarthexPlantW", "plant_tall", Vector2(340, 1000), Vector2(12, 10))
+	_add_solid(props, "NarthexPlantE", "plant", Vector2(1120, 1100), Vector2(12, 10))
+	_add_solid(props, "TractRack", "tract_rack", Vector2(840, 980), Vector2(16, 12))
+	_add_solid(props, "DonationBox", "donation_box", Vector2(500, 1040), Vector2(16, 10))
+	_add_solid(props, "NarthexSideTable", "side_table", Vector2(1080, 980), Vector2(22, 10))
+	_add_deco(props, "NarthexLamp", "lamp", Vector2(1080, 968), 1)
+	_add_rug(props, "NarthexRug", "rug_narthex", Vector2(736, 1040))
+	_add_rug(props, "NarthexRugW", "rug_narthex", Vector2(520, 1100))
+	_add_rug(props, "NarthexRugE", "rug_narthex", Vector2(960, 1100))
+	_add_solid(props, "NarthexBenchW", "bench", Vector2(460, 1100), Vector2(44, 10))
+	_add_solid(props, "NarthexPlantS", "plant", Vector2(1120, 1020), Vector2(12, 10))
+	_add_deco(props, "NarthexDoormat", "doormat", Vector2(736, 1156), -2)
+	_add_deco(props, "LostUmbrella", "lost_umbrella", Vector2(1060, 1108), 0)
+	_add_deco(props, "NarthexPhotoA", "photo", Vector2(480, 920), 0)
+	_add_deco(props, "NarthexPhotoB", "photo", Vector2(980, 920), 0)
+	_add_lamp_light("NarthexGlow", Vector2(736, 1040), Color(1, 0.86, 0.62), 0.55)
+	_add_lamp_light("NarthexLampGlow", Vector2(1080, 968), Color(1, 0.86, 0.62), 0.45)
+
+
+func _add_worship(props: Node) -> void:
+	_add_solid(props, "Pulpit", "pulpit", InteriorLayout.POS_SANCT_PULPIT, Vector2(28, 12))
+	_add_solid(props, "Platform", "platform", Vector2(736, 348), Vector2(140, 10))
+	_add_solid(props, "SideCandles", "candles", Vector2(680, 352), Vector2(12, 8))
+	_add_solid(props, "AltarCandles", "candles", Vector2(780, 352), Vector2(12, 8))
+	_add_solid(props, "CandleStandL", "candle_stand", Vector2(600, 360), Vector2(10, 8))
+	_add_solid(props, "CandleStandR", "candle_stand", Vector2(870, 360), Vector2(10, 8))
+	_add_solid(props, "PlatformChairA", "platform_chair", Vector2(800, 372), Vector2(12, 8))
+	_add_solid(props, "PlatformChairB", "platform_chair", Vector2(832, 372), Vector2(12, 8))
+	_add_solid(props, "BaptismFont", "baptism_font", Vector2(1188, 360), Vector2(20, 12))
+	_add_solid(props, "FlowerStandE", "flower_stand", Vector2(1210, 520), Vector2(12, 10))
+	_add_solid(props, "FlowerStandW", "flower_stand", Vector2(250, 620), Vector2(12, 10))
+	_add_solid(props, "WorshipPlantE", "plant_tall", Vector2(1210, 620), Vector2(12, 10))
+	_add_solid(props, "WorshipPlantW", "plant", Vector2(250, 440), Vector2(12, 10))
+	_add_solid(props, "SoundDesk", "sound_desk", Vector2(300, 800), Vector2(48, 12))
+	_add_solid(props, "PianoBench", "piano_bench", Vector2(1080, 412), Vector2(22, 8))
+	_add_deco(props, "SheetMusic", "sheet_music", Vector2(1080, 400), 1)
+	_add_deco(props, "ProjectorScreen", "projector_screen", Vector2(736, 318), 0)
+	_add_deco(props, "BannerW", "sanctuary_banner", Vector2(320, 360), 0)
+	_add_deco(props, "BannerE", "sanctuary_banner", Vector2(1150, 360), 0)
+	_add_deco(props, "SconceSpriteW1", "sconce", Vector2(230, 480), 0)
+	_add_deco(props, "SconceSpriteW2", "sconce", Vector2(230, 640), 0)
+	_add_deco(props, "SconceSpriteE1", "sconce", Vector2(1240, 480), 0)
+	_add_deco(props, "SconceSpriteE2", "sconce", Vector2(1240, 640), 0)
+	_add_rug(props, "SideRugW", "rug_hall", Vector2(260, 560))
+	_add_rug(props, "SideRugE", "rug_hall", Vector2(1180, 560))
+	_add_deco(props, "HymnalA", "hymnal", Vector2(400, 440), 1)
+	_add_deco(props, "HymnalB", "bible", Vector2(500, 536), 1)
+	_add_deco(props, "HymnalC", "hymnal", Vector2(1040, 440), 1)
+	_add_deco(props, "HymnalD", "bible", Vector2(1100, 632), 1)
+	_add_lamp_light("WorshipSconceW1", Vector2(250, 500), Color(1, 0.82, 0.55), 0.5)
+	_add_lamp_light("WorshipSconceW2", Vector2(250, 660), Color(1, 0.82, 0.55), 0.5)
+	_add_lamp_light("WorshipSconceE1", Vector2(1220, 500), Color(1, 0.82, 0.55), 0.5)
+	_add_lamp_light("WorshipSconceE2", Vector2(1220, 660), Color(1, 0.82, 0.55), 0.5)
+
+
+func _add_office_room(props: Node) -> void:
+	_add_solid(props, "OfficeDesk", "desk", Vector2(192, 140), Vector2(56, 14))
+	_add_solid(props, "OfficeChair", "office_chair", Vector2(192, 176), Vector2(14, 10))
+	_add_solid(props, "OfficeShelf", "bookshelf", Vector2(80, 80), Vector2(28, 14))
+	_add_solid(props, "OfficeShelfB", "bookshelf", Vector2(40, 50), Vector2(28, 14))
+	_add_solid(props, "OfficeFiling", "filing", Vector2(300, 80), Vector2(18, 12))
+	_add_solid(props, "OfficeLamp", "lamp", Vector2(120, 100), Vector2(10, 8))
+	_add_solid(props, "OfficeArmchair", "armchair", Vector2(300, 150), Vector2(20, 10))
+	_add_solid(props, "OfficePlant", "plant", Vector2(320, 110), Vector2(10, 8))
+	_add_solid(props, "OfficeRadiator", "radiator", Vector2(150, 50), Vector2(28, 8))
+	_add_deco(props, "OfficeMug", "coffee_mug", Vector2(210, 128), 1)
+	_add_deco(props, "OfficePapers", "paper_stack", Vector2(170, 128), 1)
+	_add_deco(props, "OfficeBooks", "book_stack", Vector2(250, 128), 1)
+	_add_deco(props, "OfficeCoat", "coat_hook", Vector2(40, 70), 0)
+	_add_deco(props, "OfficeCalendar", "calendar", Vector2(250, 48), 0)
+	_add_rug(props, "OfficeRug", "rug_office", Vector2(192, 150))
+
+
+func _add_prayer_room(props: Node) -> void:
+	_add_solid(props, "Kneeler", "kneeler", Vector2(500, 120), Vector2(22, 10))
+	_add_solid(props, "PrayerBench", "bench", Vector2(620, 150), Vector2(44, 10))
+	_add_solid(props, "PrayerCandles", "candles", Vector2(460, 80), Vector2(12, 8))
+	_add_solid(props, "PrayerCandlesB", "candles", Vector2(430, 90), Vector2(12, 8))
+	_add_solid(props, "PrayerTable", "side_table", Vector2(580, 80), Vector2(20, 10))
+	_add_solid(props, "PrayerPlant", "plant", Vector2(640, 80), Vector2(10, 8))
+	_add_deco(props, "PrayerBoard", "prayer_board", Vector2(420, 55), 0)
+	_add_deco(props, "PrayerBook", "open_book", Vector2(580, 70), 1)
+	_add_rug(props, "PrayerRug", "rug_prayer", Vector2(530, 130))
+	_add_lamp_light("PrayerGlow", Vector2(520, 110), Color(1, 0.82, 0.55), 0.5)
+
+
+func _add_choir_room(props: Node) -> void:
+	_add_solid(props, "ChoirPiano", "piano", Vector2(820, 100), Vector2(56, 14))
+	_add_solid(props, "ChoirChairA", "platform_chair", Vector2(740, 150), Vector2(12, 8))
+	_add_solid(props, "ChoirChairB", "platform_chair", Vector2(770, 150), Vector2(12, 8))
+	_add_solid(props, "ChoirChairC", "platform_chair", Vector2(800, 150), Vector2(12, 8))
+	_add_solid(props, "ChoirChairD", "platform_chair", Vector2(740, 175), Vector2(12, 8))
+	_add_solid(props, "ChoirChairE", "platform_chair", Vector2(770, 175), Vector2(12, 8))
+	_add_solid(props, "MusicStandA", "music_stand", Vector2(900, 90), Vector2(10, 8))
+	_add_solid(props, "MusicStandB", "music_stand", Vector2(930, 90), Vector2(10, 8))
+	_add_solid(props, "RobeRack", "robe_rack", Vector2(1000, 80), Vector2(18, 12))
+	_add_solid(props, "FolderShelf", "folder_shelf", Vector2(740, 80), Vector2(24, 10))
+	_add_deco(props, "ChoirMusic", "sheet_music", Vector2(820, 88), 1)
+	_add_lamp_light("ChoirGlow", Vector2(860, 110), Color(1, 0.86, 0.62), 0.45)
+
+
+func _add_storage_room(props: Node) -> void:
+	_add_solid(props, "ChoirSupplies", "folding_tables", Vector2(1248, 120), Vector2(36, 12))
+	_add_solid(props, "StorageShelfA", "storage_shelf", Vector2(1120, 80), Vector2(28, 14))
+	_add_solid(props, "StorageShelfB", "storage_shelf", Vector2(1348, 80), Vector2(28, 14))
+	_add_solid(props, "StorageBoxA", "cardboard_box", Vector2(1180, 140), Vector2(16, 10))
+	_add_solid(props, "StorageBoxB", "cardboard_box", Vector2(1220, 150), Vector2(16, 10))
+	_add_solid(props, "Vacuum", "vacuum", Vector2(1320, 140), Vector2(14, 10))
+	_add_solid(props, "XmasBin", "decoration_bin", Vector2(1360, 150), Vector2(18, 10))
+	_add_solid(props, "StorageMop", "mop_bucket", Vector2(1140, 150), Vector2(12, 10))
+	_add_lamp_light("StorageGlow", Vector2(1240, 110), Color(1, 0.86, 0.62), 0.4)
+
+
+func _add_hallway_clutter(props: Node) -> void:
+	_add_deco(props, "HallPhotoA", "photo", Vector2(200, 228), 0)
+	_add_deco(props, "HallPhotoB", "photo", Vector2(400, 228), 0)
+	_add_deco(props, "HallPhotoC", "photo", Vector2(1000, 228), 0)
+	_add_deco(props, "HallCoatRack", "coat_rack", Vector2(1320, 248), 0)
+	_add_deco(props, "HallExtinguisher", "fire_extinguisher", Vector2(1280, 228), 0)
+	_add_deco(props, "HallPlant", "plant", Vector2(960, 248), 0)
+	_add_deco(props, "HallFountain", "water_fountain", Vector2(80, 248), 0)
+
+
+func _add_aisle_color(props: Node) -> void:
+	_add_stain_pool(props, "AisleStain1", Vector2(736, 430), "stain_pool_aisle")
+	_add_stain_pool(props, "AisleStain2", Vector2(736, 530), "stain_pool_aisle")
+	_add_stain_pool(props, "AisleStain3", Vector2(736, 640), "stain_pool_aisle")
+	_add_stain_pool(props, "AisleStain4", Vector2(736, 740), "stain_pool_aisle")
+	_add_stained_light("AisleStain1Light", Vector2(736, 430), Color(0.86, 0.38, 0.42))
+	_add_stained_light("AisleStain2Light", Vector2(736, 530), Color(0.42, 0.52, 0.92))
+	_add_stained_light("AisleStain3Light", Vector2(736, 640), Color(0.95, 0.74, 0.36))
+	_add_stained_light("AisleStain4Light", Vector2(736, 740), Color(0.86, 0.38, 0.42))
 
 
 func _add_flavor_props() -> void:
@@ -239,6 +375,9 @@ func _paint_ground() -> void:
 	_fill_rect(layer, InteriorLayout.SANCT_HALLWAY, InteriorLayout.TILE_WOOD)
 	_fill_rect(layer, InteriorLayout.SANCT_WORSHIP, InteriorLayout.TILE_CARPET)
 	_fill_rect(layer, InteriorLayout.SANCT_NARTHEX, InteriorLayout.TILE_STONE)
+	for y in range(InteriorLayout.SANCT_NARTHEX.position.y, InteriorLayout.SANCT_NARTHEX.end.y):
+		layer.set_cell(Vector2i(22, y), 0, InteriorLayout.TILE_RUNNER)
+		layer.set_cell(Vector2i(23, y), 0, InteriorLayout.TILE_RUNNER)
 	for cell in InteriorLayout.sanctuary_doorways():
 		layer.set_cell(cell, 0, InteriorLayout.TILE_WOOD)
 	for y in range(InteriorLayout.SANCT_WORSHIP.position.y, InteriorLayout.SANCT_WORSHIP.end.y):
@@ -249,6 +388,8 @@ func _paint_ground() -> void:
 		layer.set_cell(Vector2i(7, y), 0, InteriorLayout.TILE_STAIN)
 		layer.set_cell(Vector2i(38, y), 0, InteriorLayout.TILE_STAIN)
 		layer.set_cell(Vector2i(39, y), 0, InteriorLayout.TILE_STAIN)
+		layer.set_cell(Vector2i(22, y), 0, InteriorLayout.TILE_STAIN)
+		layer.set_cell(Vector2i(23, y), 0, InteriorLayout.TILE_STAIN)
 
 
 func _add_walls() -> void:
@@ -279,6 +420,28 @@ func _make_tileset(tex: Texture2D) -> TileSet:
 	return tileset
 
 
+func _ensure_pews() -> void:
+	var props := get_node_or_null("Props")
+	if props == null:
+		return
+	var rows := InteriorLayout.pew_rows()
+	for i in rows.size():
+		_ensure_pew(props, "PewL%d" % (i + 1), Vector2(InteriorLayout.PEW_LEFT_X, rows[i]))
+		_ensure_pew(props, "PewR%d" % (i + 1), Vector2(InteriorLayout.PEW_RIGHT_X, rows[i]))
+
+
+func _ensure_pew(props: Node, node_name: String, pos: Vector2) -> void:
+	if props.get_node_or_null(node_name) != null:
+		return
+	var pew := SolidProp.new()
+	pew.name = node_name
+	pew.position = pos
+	pew.block_size = InteriorLayout.PEW_BLOCK
+	pew.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_mark_prop(pew)
+	props.add_child(pew)
+
+
 func _add_solid(props: Node, node_name: String, frame_id: String, pos: Vector2, block: Vector2) -> void:
 	if props.get_node_or_null(node_name) != null:
 		return
@@ -291,7 +454,43 @@ func _add_solid(props: Node, node_name: String, frame_id: String, pos: Vector2, 
 	sprite.position = pos
 	sprite.block_size = block
 	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_mark_prop(sprite)
 	props.add_child(sprite)
+
+
+func _add_deco(props: Node, node_name: String, frame_id: String, pos: Vector2, z: int) -> void:
+	if props.get_node_or_null(node_name) != null:
+		return
+	var sprite := Sprite2D.new()
+	sprite.name = node_name
+	sprite.texture = InteriorArt.texture(frame_id)
+	sprite.centered = true
+	if sprite.texture != null:
+		sprite.offset = Vector2(0, -sprite.texture.get_height() * 0.5)
+	sprite.position = pos
+	sprite.z_index = z
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_mark_prop(sprite)
+	props.add_child(sprite)
+
+
+func _add_rug(props: Node, node_name: String, frame_id: String, pos: Vector2) -> void:
+	if props.get_node_or_null(node_name) != null:
+		return
+	var sprite := Sprite2D.new()
+	sprite.name = node_name
+	sprite.texture = InteriorArt.texture(frame_id)
+	sprite.centered = true
+	sprite.z_index = -2
+	sprite.position = pos
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_mark_prop(sprite)
+	props.add_child(sprite)
+
+
+func _mark_prop(node: Node) -> void:
+	if node != null and not node.is_in_group("interior_prop"):
+		node.add_to_group("interior_prop")
 
 
 func _add_glass(props: Node, node_name: String, frame_id: String, pos: Vector2) -> void:
@@ -307,18 +506,21 @@ func _add_glass(props: Node, node_name: String, frame_id: String, pos: Vector2) 
 	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	props.add_child(sprite)
 	_add_stained_light(node_name + "Light", pos + Vector2(0, 36), _glass_color(frame_id))
+	var inward := -80.0 if pos.x > 736.0 else 80.0
+	_add_stained_light(node_name + "FloorLight", pos + Vector2(inward, 70), _glass_color(frame_id))
 
 
-func _add_stain_pool(props: Node, node_name: String, pos: Vector2) -> void:
+func _add_stain_pool(props: Node, node_name: String, pos: Vector2, frame_id: String = "stain_pool") -> void:
 	if props.get_node_or_null(node_name) != null:
 		return
 	var sprite := Sprite2D.new()
 	sprite.name = node_name
-	sprite.texture = InteriorArt.texture("stain_pool")
+	sprite.texture = InteriorArt.texture(frame_id)
 	sprite.centered = true
 	sprite.z_index = -1
 	sprite.position = pos
 	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_mark_prop(sprite)
 	props.add_child(sprite)
 
 
@@ -369,6 +571,7 @@ func _add_flavor(
 	var sprite := AnimatedSprite2D.new()
 	sprite.name = "Sprite"
 	prop.add_child(sprite)
+	_mark_prop(prop)
 	props.add_child(prop)
 
 
@@ -421,9 +624,9 @@ func _add_stained_light(light_name: String, pos: Vector2, color: Color) -> void:
 	lamp.name = light_name
 	lamp.position = pos
 	lamp.color = color
-	lamp.energy = 0.9
+	lamp.energy = 0.95
 	lamp.texture = PlaceholderArt.glow()
-	lamp.texture_scale = 2.8
+	lamp.texture_scale = 3.4
 	lamp.shadow_enabled = false
 	lamp.add_to_group("tod_stained")
 	lighting.add_child(lamp)

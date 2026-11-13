@@ -1007,4 +1007,37 @@ After the hall is repaired, walk into the Fellowship Hall. The main room has tab
 
 On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `M13_OK` (189 `CHECK OK`) with zero `CHECK FAIL`. Every existing suite still printed its `_OK` line and exited 0: `M1_OK` (76), `M2_OK` (113), `M3_OK` (109), `M4_OK` (90), `M4_5_OK` (90), `M5A_OK` (103), `M5B_OK` (1491), `M6A_OK` (219), `M6A2_OK` (130), `M7_OK` (93), `M8_OK` (80), `M9_OK` (105), `M9B_OK` (176), `M10_OK` (91), `M11_OK` (210), `M11B_OK` (196), `M11C_OK` (246), `M12_OK` (165), `GPA_OK` (204), `GPB_OK` (125), `GPC_OK` (126), `GPC2_OK` (101), `GPD_OK` (148), `GPD2_OK` (100), `GPE_OK` (131), `GPF_OK` (119). `--quit-after 120` exited 0. `tests/m13/capture_m13.tscn` wrote `sanctuary_worship.png`, `sanctuary_narthex.png`, `sanctuary_office.png`, `sanctuary_prayer.png`, `sanctuary_overview.png`, `fellowship_main.png`, `fellowship_potluck.png`, `fellowship_kitchen.png`, `fellowship_classroom.png`, and `fellowship_overview.png` under `tests/m13/shots/`. T117–T121 were not played in a window.
 
+# Milestone 13B — Furniture and clutter density
+
+The lists above still apply. These checks cover denser rooms, right-sized Fellowship Hall, aisle light, and the old gameplay hooks.
+
+## Automated
+
+```powershell
+godot --headless --path . --import
+godot --headless --path . res://tests/m13b/m13b_validation.tscn
+godot --path . res://tests/m13b/capture_m13b.tscn
+```
+
+`m13b_validation.tscn` prints `CHECK OK` / `CHECK FAIL` lines and exits with `M13B_OK` or `M13B_FAIL`.
+It checks a minimum decorative-prop count and a maximum bare-floor ratio per room, every room still reachable, doorways and the aisle clear, interactables and spawn/NPC posts not inside collision, Sunday seating anchors on pew rows, potluck prep still swaps, and save stays v11.
+
+`capture_m13b.tscn` writes PNGs to `tests/m13b/shots/` and needs a display. It skips with `CAPTURE_SKIPPED` under `--headless`. Shots: both overviews, worship hall, narthex, office, prayer room, choir, storage, fellowship main (normal day), fellowship potluck, kitchen, classroom.
+
+## Manual walkthrough
+
+Walk the sanctuary. The narthex and north rooms should feel furnished, not empty. Colored light should sit on the center aisle. Sit through Sunday: people still occupy the pews. After Continue, walk the Fellowship Hall on a Monday and on Wednesday potluck. Tables are out on a normal day; potluck still adds dishes, flowers, lights, extra chairs, and guests.
+
+| ID | Do this | Expect |
+|---|---|---|
+| T122 | Walk narthex, worship, office, prayer, choir, storage | Furniture is character-scale. Doorways and the aisle stay open. |
+| T123 | Stand in the worship aisle at midday | Soft stained-glass color on the runner, not only under the windows. |
+| T124 | Sunday 10:00 | Service still runs. Named people and twelve congregants sit in the pews. Ledger still in the office afterward. |
+| T125 | Fellowship Hall on a weekday | Round and long tables, stage, kitchen island, classroom cubbies. Not a bare wood floor. |
+| T126 | Wednesday potluck with full prep | Dishes, centerpieces, lights, extra chairs, extra guests still swap. Sarah's two framings still exist. |
+
+## M13B results
+
+On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `M13B_OK` (310 `CHECK OK`) with zero `CHECK FAIL`. Every existing suite still printed its `_OK` line and exited 0: `M1_OK`, `M2_OK`, `M3_OK`, `M4_OK`, `M4_5_OK`, `M5A_OK`, `M5B_OK`, `M6A_OK`, `M6A2_OK`, `M7_OK`, `M8_OK`, `M9_OK`, `M9B_OK`, `M10_OK`, `M11_OK`, `M11B_OK`, `M11C_OK`, `M12_OK`, `M13_OK`, `GPA_OK`, `GPB_OK`, `GPC_OK`, `GPC2_OK`, `GPD_OK`, `GPD2_OK`, `GPE_OK`, `GPF_OK`. `--quit-after 120` exited 0. `tests/m13b/capture_m13b.tscn` wrote `sanctuary_worship.png`, `sanctuary_narthex.png`, `sanctuary_office.png`, `sanctuary_prayer.png`, `sanctuary_choir.png`, `sanctuary_storage.png`, `sanctuary_overview.png`, `fellowship_main.png`, `fellowship_potluck.png`, `fellowship_kitchen.png`, `fellowship_classroom.png`, and `fellowship_overview.png` under `tests/m13b/shots/`. T122–T126 were not played in a window.
+
 

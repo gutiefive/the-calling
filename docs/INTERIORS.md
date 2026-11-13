@@ -1,6 +1,6 @@
-# Interiors — Sanctuary and Fellowship Hall (M13)
+# Interiors — Sanctuary and Fellowship Hall (M13 / M13B)
 
-Status: implemented 2026-11-13. One scene per building. Doorways, not separate rooms. Save stays v11.
+Status: M13 implemented 2026-11-13. M13B furniture and clutter density pass implemented 2026-11-13. One scene per building. Doorways, not separate rooms. Save stays v11.
 
 ## Sanctuary (`scenes/world/sanctuary.tscn`)
 
@@ -8,33 +8,33 @@ Walk in from the courtyard. South door returns to the grounds.
 
 | Room | What's in it |
 |---|---|
-| Narthex | Entry, welcome table with bulletins, coat rack, guest book, community bulletin, a bench |
-| Worship hall | Center aisle and carpet runner, four pew rows, platform, altar, pulpit, wooden cross, stained-glass windows and colored light on the floor, piano, hymn board, candles, Margaret's flowers when that ask is done |
-| Pastor's office | Desk, chair, bookshelf, filing cabinet, **the church ledger**, window, lamp, framed picnic photo, a pencil sketch of extra wings |
-| Prayer room | Kneeler, candles, a quiet bench. Someone may be praying. Not frightening. |
-| Choir | Piano, stacked chairs, the spare key ring |
-| Storage | Folding tables and supplies |
-| Hallway | Connects the north rooms. A restroom door that does not open |
+| Narthex | Doormat, rug, welcome table, coat rack and wall hooks with coats, umbrella stand, plants, a tract rack, a donation box (no dollar text), framed photos, a lost umbrella, a side table with a lamp, guest book, community bulletin, a bench |
+| Worship hall | Center aisle and carpet runner with stained-glass color on the floor, five pew rows with hymnals, side-aisle rugs, plants and flower stands, wall sconces, a baptism font, a sound desk at the back, banners, a projector screen, candle stands, piano and bench with sheet music, chairs on the platform, pulpit, altar, wooden cross, Margaret's flowers when that ask is done |
+| Pastor's office | Rug, desk, chair, visitor armchair, two bookshelves, filing cabinet, **the church ledger**, lamp, mug and papers, a coat on a hook, wall calendar, radiator, plant, window, framed picnic photo, a pencil sketch of extra wings |
+| Prayer room | Rug, kneeler, candles, a quiet bench, prayer request board with pinned notes, a small table with an open book, a plant. Someone may be praying. Not frightening. |
+| Choir | Piano, chairs in rows, music stands, a robe rack, a shelf of folders, the spare key ring |
+| Storage | Shelves, boxes, folding tables, a vacuum, Christmas decoration bins, a mop and bucket |
+| Hallway | Framed photos, a coat rack, a fire extinguisher, a plant, a water fountain. A restroom door that does not open |
 
 Sunday still seats the named people and twelve congregants in the pews. After the service they stand in the south of the worship hall, off the aisle door. Harold's weekday post is the west side of the pews (tidying hymnals). Margaret's is the east window (the flowers).
 
 ## Fellowship Hall (`scenes/world/fellowship_hall.tscn`)
 
-Walk in from the west-wing door after the hall is repaired and celebrated. South door returns to the grounds. The two interiors do not connect to each other.
+Walk in from the west-wing door after the hall is repaired and celebrated. South door returns to the grounds. The two interiors do not connect to each other. The main hall is a little shorter than the M13 placeholder so the furniture can fill it.
 
 | Room | What's in it |
 |---|---|
-| Main hall | Wood floor, round and long tables, chairs, a podium, bulletin, windows, coffee station, lost-and-found, a speaker, stacked chairs. Potluck dishes, centerpieces, lights, banner, and extra chairs still swap with prep |
-| Kitchen | Counters, stove, fridge, sink, pots, cooler, serving table at the pass-through |
-| Classroom | Small tables, kids' chairs, chalkboard, crayons, a bookshelf |
-| Storage | Folding tables and a supply crate (the M8 happening crate stays outside by the hall door) |
-| Hallway | Connects kitchen, storage, classroom, and the main hall |
+| Main hall | Wood floor with rugs, round and long tables with chairs (normal-day layout that the potluck dresses up), stacked chair carts, a small stage with a curtain, podium, piano, bulletin, coffee station, lost-and-found, speaker, craft table, puzzle table, water cooler, trash and recycling, plants, windows, kids' art and banners. Potluck dishes, centerpieces, lights, banner, and extra chairs still swap with prep |
+| Kitchen | Counters, upper cabinets, stove with pots, fridge, sink with a dish rack, microwave, mixer, an island, pantry, cooler, mop, serving table at the pass-through |
+| Classroom | Small tables, kids' chairs, chalkboard, crayons, cubbies, a reading rug, beanbags, a toy bin, a globe, a teacher's desk, wall art, a bookshelf |
+| Storage | Shelves, boxes, folding tables, a vacuum, Christmas bins, a supply crate (the M8 happening crate stays outside by the hall door) |
+| Hallway | Photos, a coat rack, a fire extinguisher, a plant, a water fountain |
 
 Wednesday 11:00–16:00 still holds the potluck. Margaret, Harold, and Sarah stand in the main hall near the serving table. Invited neighbors join them.
 
 ## Ambient neighbors
 
-They use the existing unnamed-townsfolk art and a small idle loop. They do not block doorways.
+They use the existing unnamed-townsfolk art and a small idle loop. They do not block doorways or stand inside furniture.
 
 | Who | Where | When |
 |---|---|---|
@@ -49,4 +49,4 @@ Bulletin, guest book, piano, stained glass, hymn board, office sketch, office ph
 
 ## Lighting
 
-Warm interior `CanvasModulate` already followed the clock. Sconces and lamps still brighten at night. Stained-glass lights are brighter in the day and dim at night, and they tint the worship floor.
+Warm interior `CanvasModulate` already followed the clock. Sconces and lamps still brighten at night. Stained-glass lights are brighter in the day and dim at night, and they tint the worship floor including the center aisle.

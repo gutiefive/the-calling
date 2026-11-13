@@ -405,6 +405,16 @@ Playtest: both interiors were one-room placeholders. The player spends a lot of 
 
 **Save.** Version 11. No migration. Sunday, the ledger, the potluck, M8, and the Chapter 1 ending keep their flags.
 
+## D61 — Furniture and clutter density (M13B)
+
+The M13 rooms read clearly but felt tidy and empty. This pass fills them and slightly shortens the Fellowship main hall (19 tiles tall to 16) so the furniture can occupy the floor. Sanctuary room rects and the aisle cell stay put.
+
+**Sanctuary.** Longer pews plus a front row; narthex rugs, coats, umbrella stand, tract rack, donation box, plants; worship side rugs, sconces, baptism font, sound desk, banners, piano bench; office armchair, second shelf, papers, calendar, radiator; prayer board and extra candles; choir chairs, stands, robe rack; storage shelves and bins. Stained-glass color now pools on the center aisle too.
+
+**Fellowship Hall.** Normal-day tables and chairs (the potluck still dresses Table A/B), a stage and curtain, piano, craft and puzzle tables, water cooler, trash/recycling, kitchen island and upper cabinets, classroom cubbies, rug, and beanbags.
+
+**Collision.** Big furniture blocks; small clutter does not. Doorways, the aisle, potluck table access, the ledger, and the spare keys stay clear. NPC idle posts stay off furniture. Save stays v11. No story, Pull, attendance, or ChurchFunds changes.
+
 ## Still open
 
 | # | Question | Notes |

@@ -1,6 +1,6 @@
 # Roadmap — The Calling
 
-Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md`. This file is the current cut line. M12 (church grounds campus) is implemented. Gameplay A–F (inventory through the connected weekly loop) are implemented. M13 (sanctuary and Fellowship Hall interiors) is implemented. Next: planning board / Tier 1 unless Nathan sends the work elsewhere. Chapter 2 storylines are not started.
+Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md`. This file is the current cut line. M12 (church grounds campus) is implemented. Gameplay A–F (inventory through the connected weekly loop) are implemented. M13 (sanctuary and Fellowship Hall interiors) is implemented. M13B (furniture and clutter density) is implemented. Next: planning board / Tier 1 unless Nathan sends the work elsewhere. Chapter 2 storylines are not started.
 
 | Milestone | Status |
 |---|---|
@@ -30,6 +30,7 @@ Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md
 | Gameplay E Weekly potluck | Implemented. Fellowship Hall gathering, optional prep, Sarah's framing, save v11. See `docs/GAMEPLAY_LOOPS.md`. |
 | Gameplay F Integration and polish | Implemented. Full-loop playthrough, DayClock review, balance review, HUD and worksite polish, Dale and Ruth sheets. Save stays v11. See `docs/GAMEPLAY_LOOPS.md`. |
 | Sanctuary + Fellowship Hall interiors | Implemented. Multi-room sanctuary and Fellowship Hall, ambient neighbors, flavor props, stained-glass light. Save stays v11. See `docs/INTERIORS.md`. |
+| M13B Furniture and clutter | Implemented. Denser rooms, a slightly shorter Fellowship main hall, aisle stained-glass pools, extra pews and tables. Save stays v11. See `docs/INTERIORS.md`. |
 | Planning board and Tier 1 | Later. Attach the first expansion project to a plot (workshop, greenhouse, or dorms). |
 | Next story | Chapter 2 is not started. Full Chapter 2 storylines build on M9 leanings, threads, and the run seed. |
 | M11 Night layer | Not started. Spirit framework, two Lingerers, prayer-lights, steeple light. |
@@ -196,6 +197,10 @@ A sanctuary or Fellowship Hall interior redesign. That is M13. No save bump, no 
 ## M13 includes
 
 A complete interior redesign of the sanctuary (narthex, worship hall, pastor's office, prayer room, choir, storage, hallway) and the Fellowship Hall (main hall, kitchen, classroom, storage, hallway). Ambient neighbors on short idle loops. Short flavor lines. Warm interior light and stained-glass color in the sanctuary. Sunday seating, the ledger, Margaret's flowers, the potluck, M8, and the Chapter 1 ending stay in place.
+
+## M13B includes
+
+A furniture and clutter density pass on those interiors. Rooms stay reachable. The Fellowship main hall is a little shorter. Props are character-scale. Big furniture blocks; small clutter does not. Sunday seating, the ledger, flowers, potluck prep, M8, and the Chapter 1 ending stay in place. Save stays v11.
 
 ## M13 does not include
 

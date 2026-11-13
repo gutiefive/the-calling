@@ -108,6 +108,9 @@ static func build(frame_id: String) -> Image:
 		"stain_pool":
 			return _stain_pool()
 		_:
+			var clutter: Image = InteriorClutterFrames.build(frame_id)
+			if clutter != null:
+				return clutter
 			return _desk()
 
 
@@ -197,14 +200,17 @@ static func _stain() -> Image:
 
 
 static func _pew() -> Image:
-	var image := Draw.canvas(224, 32)
-	Draw.rect(image, 6, 18, 212, 10, Draw.pal("wood"))
-	Draw.rect(image, 6, 18, 212, 3, Draw.pal("wood_l"))
-	Draw.rect(image, 8, 8, 208, 8, Draw.pal("wood_d"))
-	Draw.rect(image, 8, 8, 208, 2, Draw.pal("wood_l"))
+	var image := Draw.canvas(288, 32)
+	Draw.rect(image, 6, 18, 276, 10, Draw.pal("wood"))
+	Draw.rect(image, 6, 18, 276, 3, Draw.pal("wood_l"))
+	Draw.rect(image, 8, 8, 272, 8, Draw.pal("wood_d"))
+	Draw.rect(image, 8, 8, 272, 2, Draw.pal("wood_l"))
 	Draw.rect(image, 10, 10, 4, 16, Draw.pal("wood_d"))
-	Draw.rect(image, 210, 10, 4, 16, Draw.pal("wood_d"))
-	Draw.rect(image, 108, 12, 8, 4, Draw.pal("carpet_d"))
+	Draw.rect(image, 274, 10, 4, 16, Draw.pal("wood_d"))
+	Draw.rect(image, 40, 12, 10, 5, Draw.pal("paper"))
+	Draw.rect(image, 88, 12, 10, 5, Draw.pal("brick"))
+	Draw.rect(image, 188, 12, 10, 5, Draw.pal("paper"))
+	Draw.rect(image, 240, 12, 10, 5, Draw.pal("carpet_d"))
 	return Draw.outline(image)
 
 

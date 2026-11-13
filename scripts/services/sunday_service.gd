@@ -2,13 +2,6 @@ extends Node
 ## Sunday 10:00 gathering in the sanctuary. The beats live in data/dialogue/sunday_service.json.
 ## Named people sit for the service, then stand for follow-up. Twelve unnamed congregants fill the pews.
 
-const SEATS: Dictionary = {
-	"harold": Vector2(420, 448),
-	"margaret": Vector2(1030, 448),
-	"sarah": Vector2(420, 544),
-	"thomas": Vector2(1030, 544),
-	"frank": Vector2(420, 736),
-}
 const FOLLOWUPS: Dictionary = {
 	"margaret": "margaret_sunday",
 	"harold": "harold_sunday",
@@ -16,14 +9,6 @@ const FOLLOWUPS: Dictionary = {
 	"sarah": "sarah_sunday",
 	"thomas": "thomas_sunday",
 }
-const CROWD: Array[Vector2] = [
-	Vector2(500, 448), Vector2(1100, 448),
-	Vector2(500, 544), Vector2(1100, 544),
-	Vector2(420, 640), Vector2(500, 640),
-	Vector2(1030, 640), Vector2(1100, 640),
-	Vector2(500, 736), Vector2(1030, 736),
-	Vector2(1100, 736), Vector2(560, 736),
-]
 
 var _running: bool = false
 var _weekly_running: bool = false
@@ -251,14 +236,15 @@ func _seat_named(seated: bool) -> void:
 	var room := get_parent()
 	if room == null:
 		return
-	for npc_id in SEATS.keys():
+	var seats: Dictionary = InteriorLayout.sunday_seats()
+	for npc_id in seats.keys():
 		var npc := _npc(room, str(npc_id))
 		if npc == null:
 			continue
 		var standing := npc.get_node_or_null("Sprite") as CanvasItem
 		var portrait := _seated_sprite(npc, str(npc_id))
 		if seated:
-			var pos_v: Variant = SEATS[npc_id]
+			var pos_v: Variant = seats[npc_id]
 			if pos_v is Vector2:
 				npc.position = pos_v
 			npc.visible = true
@@ -294,14 +280,15 @@ func _build_crowd() -> void:
 	if props == null:
 		return
 	_crowd_built = true
-	for i in CROWD.size():
+	var crowd: Array[Vector2] = InteriorLayout.sunday_crowd()
+	for i in crowd.size():
 		var sprite := Sprite2D.new()
 		sprite.name = "Congregant%d" % (i + 1)
 		sprite.texture = PlaceholderArt.congregant(i)
 		sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 		sprite.centered = true
 		sprite.offset = Vector2(0, -16)
-		sprite.position = CROWD[i]
+		sprite.position = crowd[i]
 		sprite.visible = false
 		sprite.add_to_group("congregant")
 		props.add_child(sprite)

@@ -245,7 +245,7 @@ New Game / Restart call `Inventory.reset()`, `GardenState.reset()`, `RequestStat
 
 ## Interiors (M13)
 
-The sanctuary and Fellowship Hall are multi-room interiors the player walks through. Rooms are doorways inside one scene each, same pattern as the parsonage. Sunday seating, the office ledger, Margaret's flowers, the potluck tables, and the grounds doors stay hooked to the old systems. Ambient neighbors idle off the doorways. Flavor lines are short and never name dollars. Save stays v11.
+The sanctuary and Fellowship Hall are multi-room interiors the player walks through. Rooms are doorways inside one scene each, same pattern as the parsonage. M13B fills those rooms with furniture and clutter and shortens the Fellowship main hall. Sunday seating, the office ledger, Margaret's flowers, the potluck tables, and the grounds doors stay hooked to the old systems. Ambient neighbors idle off the doorways. Flavor lines are short and never name dollars. Save stays v11.
 
 ## Future expansion (do not build)
 
