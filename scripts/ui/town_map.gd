@@ -54,7 +54,7 @@ func _physics_process(_delta: float) -> void:
 	# Polled, like the journal, so a test can press the action without a window event.
 	var down := Input.is_action_pressed("town_map")
 	if down and not _was_down:
-		if not NarrativeState.ending_open and not NarrativeState.dialogue_open and not NarrativeState.journal_open and not NarrativeState.day_card_open:
+		if not NarrativeState.ending_open and not NarrativeState.dialogue_open and not NarrativeState.journal_open and not NarrativeState.day_card_open and not NarrativeState.inventory_open and not NarrativeState.shop_open and not NarrativeState.ledger_open:
 			toggle()
 	_was_down = down
 	if _open:

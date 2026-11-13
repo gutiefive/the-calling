@@ -231,17 +231,17 @@ func _save_roundtrip() -> void:
 		return
 	player.global_position = Vector2(420, 510)
 	var saved := SaveGame.save_to_disk(get_tree())
-	_check(saved, "a version 6 save writes")
+	_check(saved, "a current-version save writes")
 	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(SaveGame.SAVE_PATH))
 	_check(parsed is Dictionary, "the save file is an object")
 	var row: Dictionary = parsed if parsed is Dictionary else {}
-	_check(int(row.get("version", -1)) == 6, "the save file is version 6")
-	_check(row.has("pastor_path") and row.has("threads") and row.has("run_seed"), "version 6 stores pastor_path, threads, and run_seed")
+	_check(int(row.get("version", -1)) == SaveGame.SAVE_VERSION, "the save file is the current version")
+	_check(row.has("pastor_path") and row.has("threads") and row.has("run_seed"), "the save stores pastor_path, threads, and run_seed")
 	_check(int(row.get("run_seed", 0)) == 42, "the save stores the run seed")
 	NarrativeState.reset()
 	_check(str(path.call("dominant")) == "" and int(path.call("run_seed")) == 8, "reset clears path before load")
 	var loaded := SaveGame.read_file()
-	_check(int(loaded.get("version", 0)) == 6, "read_file keeps version 6")
+	_check(int(loaded.get("version", 0)) == SaveGame.SAVE_VERSION, "read_file keeps the current version")
 	SaveGame.apply_state(loaded)
 	_check(str(path.call("dominant")) == "shepherd", "load restores shepherd")
 	_check(int(path.call("run_seed")) == 42, "load restores the run seed")
@@ -252,7 +252,7 @@ func _save_roundtrip() -> void:
 		"funds": {"balance": 80, "project_state": "none", "project_progress": 0},
 		"narrative": {"flags": {"frank_listened": true}, "quests": {}, "relationships": {}},
 	})
-	_check(int(from_v5.get("version", 0)) == 6, "a version 5 file migrates to version 6")
+	_check(int(from_v5.get("version", 0)) == SaveGame.SAVE_VERSION, "a version 5 file migrates to the current save")
 	_check(int(from_v5.get("run_seed", 0)) == 8, "v5 migration adds the default run seed")
 	var migrated_path_v: Variant = from_v5.get("pastor_path", {})
 	var migrated_path: Dictionary = migrated_path_v if migrated_path_v is Dictionary else {}
@@ -262,15 +262,15 @@ func _save_roundtrip() -> void:
 		"scene": "res://scenes/world/church_exterior.tscn",
 		"narrative": {"flags": {"week_continues": true, "frank_listened": true}, "quests": {}, "relationships": {}},
 	})
-	_check(int(from_v4.get("version", 0)) == 6, "a version 4 file migrates to version 6")
+	_check(int(from_v4.get("version", 0)) == SaveGame.SAVE_VERSION, "a version 4 file migrates to the current save")
 	_check(from_v4.has("funds") and from_v4.has("pastor_path"), "v4 migration adds funds and branching")
 	var from_v3 := SaveGame.migrate({
 		"version": 3,
 		"scene": "res://scenes/world/church_exterior.tscn",
 		"narrative": {"flags": {"frank_listened": true}, "quests": {}, "relationships": {}},
 	})
-	_check(int(from_v3.get("version", 0)) == 6, "a version 3 file migrates to version 6")
-	_check(SaveGame.migrate({"version": 7, "scene": "res://scenes/world/church_exterior.tscn"}).is_empty(), "a newer save is still rejected")
+	_check(int(from_v3.get("version", 0)) == SaveGame.SAVE_VERSION, "a version 3 file migrates to the current save")
+	_check(SaveGame.migrate({"version": SaveGame.SAVE_VERSION + 1, "scene": "res://scenes/world/church_exterior.tscn"}).is_empty(), "a newer save is still rejected")
 	room.free()
 	NarrativeState.reset()
 

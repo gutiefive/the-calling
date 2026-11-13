@@ -68,6 +68,15 @@ M11 south-side shops, rooftop signs, houses, and street props:
 
 Maps and helpers live in `scripts/art/environment_frames.gd`, `scripts/art/street_frames.gd`, and `scripts/art/pixel_draw.gd`. Atlas coordinates are `scripts/art/town_tiles.gd`. Sanctuary floors, shop interiors, and unnamed townsfolk still use `PlaceholderArt`.
 
+## Items (Gameplay A)
+
+16×16 icons in `assets/items/`, one PNG per catalog id. Maps live in `scripts/art/item_frames.gd`. `author_environment.gd` writes them with the rest of the outdoor set. To write only items:
+
+```powershell
+C:\Tools\Godot\4.7.2\Godot_v4.7.2-stable_win64_console.exe --headless --path . --script res://tools/art/author_items.gd
+C:\Tools\Godot\4.7.2\Godot_v4.7.2-stable_win64_console.exe --headless --path . --import
+```
+
 ## LibreSprite is the source of truth for an edited PNG
 
 If you open a sheet in LibreSprite (`C:\Tools\LibreSprite`) and save over that PNG, the PNG is now the source of truth. Do not re-run the generator for that file unless you mean to throw the hand edits away. Record that in `docs/DECISIONS.md`.

@@ -91,9 +91,10 @@ func _place_room() -> void:
 		_add_bed(props, Vector2(200, 180))
 		_add_solid_sprite(props, "Table", PlaceholderArt.counter(), Vector2(430, 220), Vector2(64, 14))
 		_add_flavor(props, "WindowNote", PlaceholderArt.notice_board(), Vector2(480, 150), Vector2i(32, 48), 1, "Note", "Read", "The spare key hangs on the kitchen nail. Margaret wrote that down.")
+		_add_toolbox(props, Vector2(320, 220))
 	elif _kind() == "hardware":
 		_add_solid_sprite(props, "Counter", PlaceholderArt.counter(), Vector2(300, 200), Vector2(72, 16))
-		_add_solid_sprite(props, "Shelf", PlaceholderArt.shelf(), Vector2(140, 160), Vector2(48, 16))
+		_add_shop(props, Vector2(140, 160))
 		_add_flavor(props, "Screws", PlaceholderArt.crate(), Vector2(460, 240), Vector2i(32, 32), 1, "Bin", "Look", "Number eights, same as the church step. Thomas keeps them in paper bags.")
 		_add_flavor(props, "Paint", PlaceholderArt.shelf(), Vector2(480, 150), Vector2i(64, 48), 1, "Shelf", "Look", "The paint labels are sun-faded. He'll tell you which can is which.")
 		_add_clerk(props, "Thomas", "thomas", "thomas", Vector2(300, 250))
@@ -117,6 +118,47 @@ func _add_door(props: Node, node_name: String, pos: Vector2, prompt: String, sce
 	door.destination_scene = scene_path
 	door.destination_spawn = spawn
 	props.add_child(door)
+
+
+func _add_toolbox(props: Node, pos: Vector2) -> void:
+	if props.get_node_or_null("Toolbox") != null:
+		return
+	var crate := ItemPickup.new()
+	crate.name = "Toolbox"
+	crate.position = pos
+	crate.starter_id = "tools"
+	crate.speaker_name = "Toolbox"
+	crate.take_line = "A watering can, a hoe, and a small kit of hand tools. Margaret left them with the house."
+	crate.empty_line = "The crate is empty. You already took what was left."
+	crate.sheet = PlaceholderArt.tools()
+	crate.frame_size = Vector2i(32, 32)
+	crate.prompt_text = "Take"
+	crate.radius = 36.0
+	crate.blocks_movement = true
+	crate.block_size = Vector2(16, 10)
+	var sprite := Sprite2D.new()
+	sprite.name = "Sprite"
+	crate.add_child(sprite)
+	props.add_child(crate)
+
+
+func _add_shop(props: Node, pos: Vector2) -> void:
+	if props.get_node_or_null("ShopShelves") != null:
+		return
+	var shop := ShopCounter.new()
+	shop.name = "ShopShelves"
+	shop.position = pos
+	shop.speaker_name = "Shelves"
+	shop.sheet = PlaceholderArt.shelf()
+	shop.frame_size = Vector2i(64, 48)
+	shop.prompt_text = "Browse"
+	shop.radius = 40.0
+	shop.blocks_movement = true
+	shop.block_size = Vector2(48, 16)
+	var sprite := Sprite2D.new()
+	sprite.name = "Sprite"
+	shop.add_child(sprite)
+	props.add_child(shop)
 
 
 func _add_bed(props: Node, pos: Vector2) -> void:

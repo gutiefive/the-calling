@@ -5,6 +5,7 @@ extends SceneTree
 
 const Frames := preload("res://scripts/art/environment_frames.gd")
 const Street := preload("res://scripts/art/street_frames.gd")
+const Items := preload("res://scripts/art/item_frames.gd")
 
 const TILESET_PNG := "res://assets/tilesets/town_tiles.png"
 const TILESET_TRES := "res://assets/tilesets/town_tiles.tres"
@@ -141,6 +142,8 @@ func _init() -> void:
 			failed = true
 	if not _write_tileset():
 		failed = true
+	if not _write_items():
+		failed = true
 	quit(1 if failed else 0)
 
 
@@ -155,6 +158,39 @@ func _write_image(rel: String, image: Image, size: Vector2i) -> bool:
 		return false
 	print("WROTE ", rel, " ", image.get_width(), "x", image.get_height())
 	return true
+
+
+func _write_items() -> bool:
+	var dir := DirAccess.open("res://assets")
+	if dir == null:
+		print("AUTHOR FAIL items dir")
+		return false
+	if not dir.dir_exists("items"):
+		var err := dir.make_dir("items")
+		if err != OK:
+			print("AUTHOR FAIL items mkdir ", err)
+			return false
+	var ids: PackedStringArray = [
+		"watering_can",
+		"hoe",
+		"hand_tools",
+		"lettuce_seeds",
+		"carrot_seeds",
+		"tomato_seeds",
+		"flower_seeds",
+		"lettuce",
+		"carrots",
+		"tomatoes",
+		"flowers",
+		"wood",
+		"nails",
+		"scrap",
+	]
+	var ok := true
+	for item_id in ids:
+		if not _write_image("res://assets/items/%s.png" % item_id, Items.build(item_id), Vector2i(16, 16)):
+			ok = false
+	return ok
 
 
 func _write_tileset() -> bool:

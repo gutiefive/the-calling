@@ -701,3 +701,33 @@ It checks the fence except at the gates, that the east drive meets a sidewalk, t
 
 On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `M1_OK` (76), `M2_OK` (113), `M3_OK` (109), `M4_OK` (90), `M4_5_OK` (90), `M5A_OK` (103), `M5B_OK` (1491), `M6A_OK` (219), `M6A2_OK` (130), `M7_OK` (93), `M8_OK` (80), `M9_OK` (105), `M9B_OK` (156), `M10_OK` (91), `M11_OK` (210), `M11B_OK` (196), `M11C_OK` (246), and `M12_OK` (165), each exiting 0 with zero `CHECK FAIL`, `SCRIPT ERROR`, or Parse Error. `--quit-after 120` exited 0. `tests/m12/capture_grounds.tscn` wrote before and after shots under `tests/m12/shots/`. T75–T77 were not played in a window.
 
+# Gameplay A — Inventory and items
+
+The lists above still apply. These checks cover the pack, the personal wallet, the hardware shop, starter grants, and save v7.
+
+## Automated
+
+```powershell
+godot --headless --path . --import
+godot --headless --path . res://tests/gpa/gpa_validation.tscn
+godot --path . res://tests/gpa/capture_gpa.tscn
+```
+
+`gpa_validation.tscn` prints `CHECK OK` / `CHECK FAIL` lines and exits with `GPA_OK` or `GPA_FAIL`.
+It checks add / remove / stack limits / capacity / invalid items, wallet vs ChurchFunds, shop purchase and overspend, starter grants firing exactly once, save/load, and version-6 migration.
+
+`capture_gpa.tscn` writes PNGs to `tests/gpa/shots/` and needs a display. It skips with `CAPTURE_SKIPPED` under `--headless`.
+
+## Manual
+
+| ID | Do this | Expect |
+|---|---|---|
+| T78 | Walk into the parsonage. E on the toolbox, then I | Watering Can, Hoe, and Basic Hand Tools are in the pack. The wallet shows $20. Taking the crate again does nothing. |
+| T79 | Walk to the Maple Lane garden crate, E, then I | Four seed packets are in the pack. The Chapter 1 weeds are still there until you tend the plot. |
+| T80 | Walk into the hardware store. E on the shelves. Buy wood. Try to buy with too little cash | The wallet drops. Wood is in the pack. Overspend is refused. Thomas's talk still has no prices. |
+| T81 | Esc, Save, Load | The pack and wallet come back. Church ledger money is unchanged. |
+
+## Gameplay A results
+
+On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `GPA_OK` with zero `CHECK FAIL` (the expected `Save version 8 is not supported` push_error before the newer-save rejection, matching M8/M9). Every existing suite still printed its `_OK` line and exited 0: `M1_OK`, `M2_OK`, `M3_OK`, `M4_OK`, `M4_5_OK`, `M5A_OK`, `M5B_OK`, `M6A_OK`, `M6A2_OK`, `M7_OK`, `M8_OK`, `M9_OK`, `M9B_OK`, `M10_OK`, `M11_OK`, `M11B_OK`, `M11C_OK`, `M12_OK`. `--quit-after 120` exited 0. `tests/gpa/capture_gpa.tscn` wrote `inventory_ui.png` and `shop_ui.png` under `tests/gpa/shots/`. T78–T81 were not played in a window.
+

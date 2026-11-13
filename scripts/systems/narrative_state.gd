@@ -14,6 +14,8 @@ var ending_open: bool = false
 var map_open: bool = false
 var day_card_open: bool = false
 var ledger_open: bool = false
+var inventory_open: bool = false
+var shop_open: bool = false
 
 var _flags: Dictionary = {}
 var _quests: Dictionary = {}
@@ -35,7 +37,7 @@ func _ready() -> void:
 
 
 func movement_locked() -> bool:
-	return dialogue_open or journal_open or ending_open or map_open or day_card_open or ledger_open
+	return dialogue_open or journal_open or ending_open or map_open or day_card_open or ledger_open or inventory_open or shop_open
 
 
 func set_dialogue_open(is_open: bool) -> void:
@@ -50,6 +52,14 @@ func set_map_open(is_open: bool) -> void:
 	map_open = is_open
 
 
+func set_inventory_open(is_open: bool) -> void:
+	inventory_open = is_open
+
+
+func set_shop_open(is_open: bool) -> void:
+	shop_open = is_open
+
+
 func reset() -> void:
 	_flags.clear()
 	_quests.clear()
@@ -62,6 +72,8 @@ func reset() -> void:
 	map_open = false
 	day_card_open = false
 	ledger_open = false
+	inventory_open = false
+	shop_open = false
 	var inf := get_node_or_null("/root/InfluenceState")
 	if inf != null and inf.has_method("reset"):
 		inf.call("reset")
@@ -74,6 +86,9 @@ func reset() -> void:
 	var threads := get_node_or_null("/root/StoryThreads")
 	if threads != null and threads.has_method("reset"):
 		threads.call("reset")
+	var pack := get_node_or_null("/root/Inventory")
+	if pack != null and pack.has_method("reset"):
+		pack.call("reset")
 
 
 func set_flag(key: String, value: Variant) -> void:
@@ -332,6 +347,8 @@ func from_dictionary(data: Dictionary) -> void:
 	map_open = false
 	day_card_open = false
 	ledger_open = false
+	inventory_open = false
+	shop_open = false
 	var flags_v: Variant = data.get("flags", {})
 	_flags = (flags_v as Dictionary).duplicate(true) if flags_v is Dictionary else {}
 	_quests.clear()

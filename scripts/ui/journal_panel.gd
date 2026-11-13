@@ -24,7 +24,7 @@ func _ready() -> void:
 
 func _physics_process(_delta: float) -> void:
 	var down := Input.is_action_pressed("journal")
-	if NarrativeState.ending_open or NarrativeState.day_card_open:
+	if NarrativeState.ending_open or NarrativeState.day_card_open or NarrativeState.inventory_open or NarrativeState.shop_open or NarrativeState.dialogue_open or NarrativeState.ledger_open:
 		_was_down = down
 		return
 	if down and not _was_down:

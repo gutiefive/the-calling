@@ -150,6 +150,7 @@ func _place_lane() -> void:
 	_add_houses(props)
 	_add_yard_life(props)
 	_add_garden(props)
+	_add_seed_crate(props)
 	_add_helper(props)
 	_add_person(props, "Sarah", "sarah", "sarah", Vector2(EAST_WALK, 720))
 	_add_person(props, "Thomas", "thomas", "thomas", Vector2(WEST_WALK, 500))
@@ -352,6 +353,28 @@ func _add_garden(props: Node) -> void:
 	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	plot.add_child(sprite)
 	props.add_child(plot)
+
+
+func _add_seed_crate(props: Node) -> void:
+	if props.get_node_or_null("SeedCrate") != null:
+		return
+	var crate := ItemPickup.new()
+	crate.name = "SeedCrate"
+	crate.position = POS_GARDEN + Vector2(72, -40)
+	crate.starter_id = "seeds"
+	crate.speaker_name = "Seed crate"
+	crate.take_line = "Paper packets: lettuce, carrot, tomato, and flower. Enough to start the beds."
+	crate.empty_line = "The crate holds a little dirt and nothing else."
+	crate.sheet = PlaceholderArt.crate()
+	crate.frame_size = Vector2i(32, 32)
+	crate.prompt_text = "Take"
+	crate.radius = 36.0
+	crate.blocks_movement = true
+	crate.block_size = Vector2(16, 10)
+	var sprite := Sprite2D.new()
+	sprite.name = "Sprite"
+	crate.add_child(sprite)
+	props.add_child(crate)
 
 
 func _add_helper(props: Node) -> void:

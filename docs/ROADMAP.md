@@ -1,6 +1,6 @@
 # Roadmap — The Calling
 
-Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md`. This file is the current cut line. M12 (church grounds campus) is implemented. Next: attach the first expansion project to a staked plot. Chapter 2 storylines are not started.
+Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md`. This file is the current cut line. M12 (church grounds campus) is implemented. Gameplay A (inventory and items) is implemented. Next: Gameplay B (Maple Lane gardening) unless Nathan sends the work elsewhere. Chapter 2 storylines are not started.
 
 | Milestone | Status |
 |---|---|
@@ -23,7 +23,13 @@ Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md
 | M11B Oak and Maple polish | Implemented. One name per shop, Maple lots filled, evening and night ambient people, warm windows. |
 | M11C Rooftop signs | Implemented. Storefront names sit on the parapet, not hanging in front of the door. Evening townsfolk stand off to the side. |
 | M12 Church grounds campus | Implemented. Perimeter and one main gate, courtyard, parking, garden, picnic lawn, and data-driven expansion plots. Fellowship Hall repair unchanged. |
-| Planning board and Tier 1 | Next. Attach the first expansion project to a plot (workshop, greenhouse, or dorms). |
+| Gameplay A Inventory and items | Implemented. Data-driven catalog, pack, personal wallet, I-panel, hardware shop, starter tools and seeds, save v7. See `docs/GAMEPLAY_LOOPS.md`. |
+| Gameplay B Gardening | Not started. Maple Lane plots, hoe / seed / water / harvest, morning growth. |
+| Gameplay C Community requests | Not started. Sarah, Margaret, Harold, garden hands. Journal tracking. |
+| Gameplay D Interactive repairs | Not started. Fence, weeds, litter, flower bed. Keep GroundsChore flags. |
+| Gameplay E Weekly potluck | Not started. Extend the M8 happening; do not duplicate Sunday. |
+| Gameplay F Integration and polish | Not started. Full-loop playthrough, balance, regression. |
+| Planning board and Tier 1 | Later. Attach the first expansion project to a plot (workshop, greenhouse, or dorms). |
 | Next story | Chapter 2 is not started. Full Chapter 2 storylines build on M9 leanings, threads, and the run seed. |
 | M11 Night layer | Not started. Spirit framework, two Lingerers, prayer-lights, steeple light. |
 | M12 Chapter 2, part A | Not started. June, the deposits, Reece's file box, Ostrow's favor, inner voice in play. |
@@ -137,3 +143,11 @@ Storefront names on a rooftop / parapet board above the facade. One sign per bui
 ## M11C does not include
 
 Enterable interiors, new story flags, or changes to named NPC schedules.
+
+## Gameplay A includes
+
+A data-driven item catalog, a 16-slot pack, a personal wallet separate from ChurchFunds, an I-key inventory, a small equipped-tool strip, starter tools in the parsonage, starter seeds at the Maple Lane garden crate, and a hardware-store buy UI for seeds, Wood, and Nails. Saves are version 7. A version 6 file loads with an empty pack and starting cash. Chapter 1 lines, flags, and leanings are unchanged. Dollars never appear in dialogue.
+
+## Gameplay A does not include
+
+Planting, watering, harvest, community requests, staged repairs, or the potluck. Those are B–E. Scrap has no source yet.

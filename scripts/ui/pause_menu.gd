@@ -77,6 +77,14 @@ func _handle_pause() -> void:
 	if journal != null and journal.has_method("is_open") and bool(journal.call("is_open")):
 		journal.call("close")
 		return
+	var inventory := tree.get_first_node_in_group("inventory_panel")
+	if inventory != null and inventory.has_method("is_open") and bool(inventory.call("is_open")):
+		inventory.call("close")
+		return
+	var shop := tree.get_first_node_in_group("shop_panel")
+	if shop != null and shop.has_method("is_open") and bool(shop.call("is_open")):
+		shop.call("close")
+		return
 	var ledger := tree.get_first_node_in_group("ledger_screen")
 	if ledger != null and ledger.has_method("is_open") and bool(ledger.call("is_open")):
 		ledger.call("close")

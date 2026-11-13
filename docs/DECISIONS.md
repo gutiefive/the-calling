@@ -297,6 +297,22 @@ The sanctuary sits at the head of a paved plaza (paths, a cross, benches, flower
 
 The compound reading is the layout: a fence, one public gate, a courtyard, and staked lots waiting. Insiders still never say "cult".
 
+## D52 — Inventory, wallet, and the hardware shop (Gameplay A)
+
+The first repeatable loop needs a pack before it needs a farm. Phase A adds items and a personal wallet without touching Chapter 1 lines, ChurchFunds, or the ledger.
+
+**Catalog.** `data/items/catalog.json` is the only item list: three tools, four seed packets, four crops, wood, nails, scrap. No extras. Stacks and capacity (16 slots) live in that file.
+
+**Wallet.** Personal cash starts at `$20` on the `Inventory` autoload. `ChurchFunds` is never read or written by add, remove, or buy. Dollar amounts print on the inventory panel, the shop, and the wallet line. Dialogue JSON still has none.
+
+**How you get things.** Starter tools come from a toolbox in the parsonage (the kit Margaret left with the house). Starter seeds come from a crate beside the Maple Lane garden plot. Each grant sets `starter_tools_taken` or `starter_seeds_taken` and will not fire again. Thomas's spoken lines are unchanged; a shelf interactable inside the store opens a small buy UI for seeds, Wood, and Nails at fixed prices.
+
+**UI.** I toggles the pack. Keyboard highlight, descriptions, a Tool vs consumable tag, and capacity. A small equipped-tool strip sits at the bottom left; 1/2/3 pick among carried tools. Esc closes inventory and shop before pause, same as the journal.
+
+**Save.** Version 7. A version 6 file gains an empty pack and starting cash. Flags, funds, leanings, and threads pass through.
+
+Phases B–F (garden plots, requests, repairs, potluck) are specified in `docs/GAMEPLAY_LOOPS.md` and are not built.
+
 ## Still open
 
 | # | Question | Notes |

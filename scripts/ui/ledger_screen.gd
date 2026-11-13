@@ -70,7 +70,7 @@ func close() -> void:
 func _physics_process(_delta: float) -> void:
 	var ledger_down := Input.is_action_pressed("ledger")
 	var pause_down := Input.is_action_pressed("pause")
-	if NarrativeState.ending_open or NarrativeState.day_card_open or NarrativeState.dialogue_open:
+	if NarrativeState.ending_open or NarrativeState.day_card_open or NarrativeState.dialogue_open or NarrativeState.inventory_open or NarrativeState.shop_open:
 		_was_ledger = ledger_down
 		_was_pause = pause_down
 		return

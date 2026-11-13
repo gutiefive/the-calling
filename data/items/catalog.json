@@ -1,0 +1,150 @@
+{
+  "capacity": 16,
+  "starting_cash": 20,
+  "items": [
+    {
+      "id": "watering_can",
+      "name": "Watering Can",
+      "description": "Fills from the tap. The garden still needs someone to carry it.",
+      "category": "Tools",
+      "max_stack": 1,
+      "icon": "watering_can"
+    },
+    {
+      "id": "hoe",
+      "name": "Hoe",
+      "description": "Turns weeds into soil. Reusable; it does not wear out.",
+      "category": "Tools",
+      "max_stack": 1,
+      "icon": "hoe"
+    },
+    {
+      "id": "hand_tools",
+      "name": "Basic Hand Tools",
+      "description": "A hammer, a saw, and a pouch of bits. Enough for a fence board.",
+      "category": "Tools",
+      "max_stack": 1,
+      "icon": "hand_tools"
+    },
+    {
+      "id": "lettuce_seeds",
+      "name": "Lettuce Seeds",
+      "description": "A paper packet of lettuce. Quick to come up if the bed is watered.",
+      "category": "Seeds",
+      "max_stack": 20,
+      "icon": "lettuce_seeds"
+    },
+    {
+      "id": "carrot_seeds",
+      "name": "Carrot Seeds",
+      "description": "A paper packet of carrot seed. Fine for a kitchen or a neighbor's table.",
+      "category": "Seeds",
+      "max_stack": 20,
+      "icon": "carrot_seeds"
+    },
+    {
+      "id": "tomato_seeds",
+      "name": "Tomato Seeds",
+      "description": "A paper packet of tomato seed. Slow, then suddenly too many.",
+      "category": "Seeds",
+      "max_stack": 20,
+      "icon": "tomato_seeds"
+    },
+    {
+      "id": "flower_seeds",
+      "name": "Flower Seeds",
+      "description": "Mixed annuals. For a porch, a sanctuary sill, or a thank-you.",
+      "category": "Seeds",
+      "max_stack": 20,
+      "icon": "flower_seeds"
+    },
+    {
+      "id": "lettuce",
+      "name": "Lettuce",
+      "description": "A picked head. Best eaten soon.",
+      "category": "Crops",
+      "max_stack": 20,
+      "icon": "lettuce"
+    },
+    {
+      "id": "carrots",
+      "name": "Carrots",
+      "description": "Pulled this morning. Still has the greens on.",
+      "category": "Crops",
+      "max_stack": 20,
+      "icon": "carrots"
+    },
+    {
+      "id": "tomatoes",
+      "name": "Tomatoes",
+      "description": "Warm from the vine. Enough for a pan of sauce.",
+      "category": "Crops",
+      "max_stack": 20,
+      "icon": "tomatoes"
+    },
+    {
+      "id": "flowers",
+      "name": "Flowers",
+      "description": "A small bunch. They last a few days in a jar.",
+      "category": "Crops",
+      "max_stack": 20,
+      "icon": "flowers"
+    },
+    {
+      "id": "wood",
+      "name": "Wood",
+      "description": "A short pine board. Thomas cuts them to fence length.",
+      "category": "Materials",
+      "max_stack": 50,
+      "icon": "wood"
+    },
+    {
+      "id": "nails",
+      "name": "Nails",
+      "description": "A paper bag of nails. Number eights, same as the church step.",
+      "category": "Materials",
+      "max_stack": 50,
+      "icon": "nails"
+    },
+    {
+      "id": "scrap",
+      "name": "Scrap",
+      "description": "Bent metal and usable offcuts. Not pretty, still useful.",
+      "category": "Materials",
+      "max_stack": 50,
+      "icon": "scrap"
+    }
+  ],
+  "shop": {
+    "id": "hardware",
+    "title": "Oak Street Hardware",
+    "keeper": "Thomas",
+    "stock": [
+      {"id": "lettuce_seeds", "price": 2},
+      {"id": "carrot_seeds", "price": 2},
+      {"id": "tomato_seeds", "price": 3},
+      {"id": "flower_seeds", "price": 3},
+      {"id": "wood", "price": 4},
+      {"id": "nails", "price": 3}
+    ]
+  },
+  "starters": {
+    "tools": {
+      "flag": "starter_tools_taken",
+      "items": [
+        {"id": "watering_can", "qty": 1},
+        {"id": "hoe", "qty": 1},
+        {"id": "hand_tools", "qty": 1}
+      ]
+    },
+    "seeds": {
+      "flag": "starter_seeds_taken",
+      "items": [
+        {"id": "lettuce_seeds", "qty": 4},
+        {"id": "carrot_seeds", "qty": 4},
+        {"id": "tomato_seeds", "qty": 3},
+        {"id": "flower_seeds", "qty": 3}
+      ]
+    }
+  }
+}
