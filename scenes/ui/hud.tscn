@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3]
+[gd_scene load_steps=13 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/interaction_prompt.gd" id="1_prompt"]
 [ext_resource type="Script" path="res://scripts/ui/dialogue_box.gd" id="2_banner"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" path="res://scripts/ui/inventory_panel.gd" id="9_inv"]
 [ext_resource type="Script" path="res://scripts/ui/shop_panel.gd" id="10_shop"]
 [ext_resource type="Script" path="res://scripts/ui/hotbar.gd" id="11_hot"]
+[ext_resource type="Script" path="res://scripts/ui/action_toast.gd" id="12_toast"]
 
 [node name="HUD" type="CanvasLayer"]
 layer = 10
@@ -214,3 +215,8 @@ script = ExtResource("10_shop")
 [node name="Hotbar" type="Control" parent="."]
 mouse_filter = 2
 script = ExtResource("11_hot")
+
+[node name="ActionToast" type="PanelContainer" parent="."]
+visible = false
+mouse_filter = 2
+script = ExtResource("12_toast")

@@ -4,11 +4,36 @@
   "nodes": {
     "start": {
       "router": [
+        {"if": {"potluck_live": true}, "next": "potluck_table"},
         {"if": {"request_active": "garden_needs_hands"}, "next": "progress"},
+        {"if": {"potluck_can_invite": "ruth"}, "next": "invite_offer"},
         {"if": {"request_available": "garden_needs_hands"}, "next": "offer"},
         {"if": {"request_completed": "garden_needs_hands"}, "next": "done"},
         {"next": "quiet"}
       ]
+    },
+    "invite_offer": {
+      "speaker": "Ruth",
+      "text": "Wednesday in the hall. I don't usually go. Is it a meal, or is it a meeting that pretends to be one?",
+      "choices": [
+        {"text": "It's a meal. Come if you want.", "next": "invite_yes", "invite": "ruth"},
+        {"text": "No pressure.", "next": "invite_no"}
+      ]
+    },
+    "invite_yes": {
+      "speaker": "Ruth",
+      "text": "I'll walk over. I won't stay if it turns into a list.",
+      "end": true
+    },
+    "invite_no": {
+      "speaker": "Ruth",
+      "text": "That's fine. The garden doesn't mind.",
+      "end": true
+    },
+    "potluck_table": {
+      "speaker": "Ruth",
+      "text": "I came. The plates are honest. That's rarer than people think.",
+      "end": true
     },
     "quiet": {
       "speaker": "Ruth",

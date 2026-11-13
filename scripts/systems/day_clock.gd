@@ -48,6 +48,9 @@ func is_exploring() -> bool:
 	var story := get_node_or_null("/root/NarrativeState")
 	if story != null and story.has_method("movement_locked") and bool(story.call("movement_locked")):
 		return false
+	var events := get_node_or_null("/root/EventState")
+	if events != null and events.has_method("holds_clock") and bool(events.call("holds_clock")):
+		return false
 	return true
 
 

@@ -906,3 +906,35 @@ It checks fence-stage pixel deltas, a 2+ tile stretch that does not overlap the 
 
 On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `GPD2_OK` (100 `CHECK OK`) with zero `CHECK FAIL`. Every existing suite still printed its `_OK` line and exited 0: `M1_OK` (76), `M2_OK` (113), `M3_OK` (109), `M4_OK` (90), `M4_5_OK` (90), `M5A_OK` (103), `M5B_OK` (1491), `M6A_OK` (219), `M6A2_OK` (130), `M7_OK` (93), `M8_OK` (80), `M9_OK` (105), `M9B_OK` (156), `M10_OK` (91), `M11_OK` (210), `M11B_OK` (196), `M11C_OK` (246), `M12_OK` (165), `GPA_OK` (204), `GPB_OK` (125), `GPC_OK` (126), `GPC2_OK` (101), `GPD_OK` (148). `--quit-after 120` exited 0. `tests/gpd2/capture_gpd2.tscn` wrote fence stages plus weeds / litter / bed before-and-after under `tests/gpd2/shots/`. T101–T104 were not played in a window.
 
+# Gameplay E — Weekly potluck
+
+The lists above still apply. These checks cover the Fellowship Hall gathering, optional prep, Sarah's framing, small action toasts, and save v11. No Phase F.
+
+## Automated
+
+```powershell
+godot --headless --path . --import
+godot --headless --path . res://tests/gpe/gpe_validation.tscn
+godot --path . res://tests/gpe/capture_gpe.tscn
+```
+
+`gpe_validation.tscn` prints `CHECK OK` / `CHECK FAIL` lines and exits with `GPE_OK` or `GPE_FAIL`.
+It checks unlock timing, each prep category, skip and recurrence, no-prep vs full-prep visuals, both framing branches, no Pull for success, no duplicate rewards, Sunday / M8 / Chapter 1 isolation, save/load, and v10→v11. Toasts must last at most 1.5s, replace in place, and ignore the mouse.
+
+`capture_gpe.tscn` writes PNGs to `tests/gpe/shots/` and needs a display. It skips with `CAPTURE_SKIPPED` under `--headless`.
+
+## Manual
+
+| ID | Do this | Expect |
+|---|---|---|
+| T105 | Till, water, or pick up an item | A small one-line toast at the bottom-left, about a second, then gone. Walking still works. A new line replaces the old one. Dialogue boxes are unchanged. |
+| T106 | Continue, repair the hall, wait for Harold's celebration, walk in on Wednesday after 11 | Margaret, Harold, and Sarah are at a modest table. No extra guests, flowers, lights, or extra chairs if you skipped prep. |
+| T107 | Deliver Sarah vegetables, set sanctuary flowers, tend the grounds, restore the picnic bed, and invite Ostrow, Ruth, and Dale | Varied dishes, centerpieces, lights, extra chairs, and those three neighbors. |
+| T108 | Talk to Sarah after the hall is repaired | Two unlabeled framings: open to everyone, or church-centered. The journal does not print Pull or a score. |
+| T109 | Skip Wednesday, then come back the next Wednesday | The gathering is there again. One attendance note per week. |
+| T110 | Save on Wednesday, load, then go to Sunday | The hall state survives. Sunday service and the Chapter 1 ending are unchanged. |
+
+## Gameplay E results
+
+On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `GPE_OK` (131 `CHECK OK`) with zero `CHECK FAIL` (the expected `Save version 12 is not supported` push_error before the newer-save rejection). Every existing suite still printed its `_OK` line and exited 0: `M1_OK` (76), `M2_OK` (113), `M3_OK` (109), `M4_OK` (90), `M4_5_OK` (90), `M5A_OK` (103), `M5B_OK` (1491), `M6A_OK` (219), `M6A2_OK` (130), `M7_OK` (93), `M8_OK` (80), `M9_OK` (105), `M9B_OK`, `M10_OK` (91), `M11_OK` (210), `M11B_OK` (196), `M11C_OK` (246), `M12_OK` (165), `GPA_OK` (204), `GPB_OK` (125), `GPC_OK` (126), `GPC2_OK` (101), `GPD_OK` (148), `GPD2_OK` (100). `--quit-after 120` exited 0. `tests/gpe/capture_gpe.tscn` wrote `toast_till.png`, `potluck_none.png`, `potluck_full.png`, and `sarah_choice.png` under `tests/gpe/shots/`. T105–T110 were not played in a window.
+

@@ -63,9 +63,4 @@ func _refresh() -> void:
 
 
 func _say(text: String) -> void:
-	var tree := get_tree()
-	if tree == null or text.is_empty():
-		return
-	var banner := tree.get_first_node_in_group("speech_banner")
-	if banner != null and banner.has_method("show_line"):
-		banner.show_line("", text)
+	ActionToast.say(get_tree(), text)

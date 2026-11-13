@@ -30,6 +30,11 @@ func set_route(points: Array[Vector2]) -> void:
 
 
 func apply_clock() -> void:
+	var events := get_node_or_null("/root/EventState")
+	if events != null and events.has_method("is_present") and bool(events.call("is_present", person_id)):
+		visible = false
+		enabled = false
+		return
 	var clock := get_node_or_null("/root/DayClock")
 	var phase := "Day"
 	if clock != null:
@@ -74,7 +79,9 @@ func bark_text() -> String:
 
 func interact(_actor: Node) -> void:
 	super.interact(_actor)
-	if person_id == "ruth" and _open_request_talk():
+	if person_id == "ruth" and _open_named_talk("ruth"):
+		return
+	if person_id == "dale" and _open_named_talk("dale"):
 		return
 	var text := bark_text()
 	if text.is_empty():
@@ -87,16 +94,8 @@ func interact(_actor: Node) -> void:
 		banner.show_line("Neighbor", text)
 
 
-func _open_request_talk() -> bool:
-	var asks := get_node_or_null("/root/RequestState")
-	if asks == null:
-		return false
-	var open_ask := false
-	if asks.has_method("is_available") and bool(asks.call("is_available", "garden_needs_hands")):
-		open_ask = true
-	if asks.has_method("is_active") and bool(asks.call("is_active", "garden_needs_hands")):
-		open_ask = true
-	if not open_ask:
+func _open_named_talk(who: String) -> bool:
+	if not _should_open_named(who):
 		return false
 	var tree := get_tree()
 	if tree == null:
@@ -108,7 +107,26 @@ func _open_request_talk() -> bool:
 		return true
 	if box.has_method("closed_this_frame") and bool(box.call("closed_this_frame")):
 		return true
-	return bool(box.call("open_conversation", "ruth", self))
+	return bool(box.call("open_conversation", who, self))
+
+
+func _should_open_named(who: String) -> bool:
+	var events := get_node_or_null("/root/EventState")
+	if events != null:
+		if events.has_method("can_invite") and bool(events.call("can_invite", who)):
+			return true
+		if events.has_method("is_invited") and bool(events.call("is_invited", who)):
+			return true
+	if who != "ruth":
+		return false
+	var asks := get_node_or_null("/root/RequestState")
+	if asks == null:
+		return false
+	if asks.has_method("is_available") and bool(asks.call("is_available", "garden_needs_hands")):
+		return true
+	if asks.has_method("is_active") and bool(asks.call("is_active", "garden_needs_hands")):
+		return true
+	return false
 
 
 func _physics_process(delta: float) -> void:

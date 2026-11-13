@@ -171,6 +171,8 @@ func _region_id(room: WorldRoom) -> String:
 		return "street"
 	if base == "church_exterior":
 		return "church"
+	if base == "fellowship_hall":
+		return "church"
 	if base == "parsonage":
 		return "parsonage"
 	if base == "maple_lane":

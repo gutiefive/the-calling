@@ -95,6 +95,15 @@ C:\Tools\Godot\4.7.2\Godot_v4.7.2-stable_win64_console.exe --headless --path . -
 C:\Tools\Godot\4.7.2\Godot_v4.7.2-stable_win64_console.exe --headless --path . --import
 ```
 
+## Potluck (Gameplay E)
+
+Tables, dishes, flowers, lights, a banner, and chairs in `assets/potluck/`. Maps live in `scripts/art/potluck_frames.gd`.
+
+```powershell
+C:\Tools\Godot\4.7.2\Godot_v4.7.2-stable_win64_console.exe --headless --path . --script res://tools/art/author_potluck.gd
+C:\Tools\Godot\4.7.2\Godot_v4.7.2-stable_win64_console.exe --headless --path . --import
+```
+
 ## LibreSprite is the source of truth for an edited PNG
 
 If you open a sheet in LibreSprite (`C:\Tools\LibreSprite`) and save over that PNG, the PNG is now the source of truth. Do not re-run the generator for that file unless you mean to throw the hand edits away. Record that in `docs/DECISIONS.md`.

@@ -38,12 +38,15 @@ func apply_clock() -> void:
 	if repaired and not NarrativeState.flag_is_true("hall_celebrated"):
 		prompt_text = "Talk"
 		speaker_name = "Harold"
+		enabled = true
 	elif repaired:
 		prompt_text = "Look in"
 		speaker_name = "Fellowship Hall"
+		enabled = false
 	else:
 		prompt_text = "Look at the hall"
 		speaker_name = "Fellowship Hall"
+		enabled = true
 
 
 func interact(actor: Node) -> void:

@@ -1,0 +1,50 @@
+{
+  "id": "wednesday_potluck",
+  "title": "Wednesday table",
+  "happening_id": "wednesday_potluck",
+  "unlock_flags": ["week_continues", "hall_repaired"],
+  "day": "Wednesday",
+  "from": "11:00",
+  "until": "16:00",
+  "core_guests": ["margaret", "harold", "sarah"],
+  "invite_guests": ["ostrow", "ruth", "dale"],
+  "prep": [
+    {
+      "id": "vegetables",
+      "flag": "potluck_vegetables",
+      "journal": "Sarah has everything she needs for Sunday.",
+      "visible": "dishes"
+    },
+    {
+      "id": "flowers",
+      "flag": "sanctuary_flowers_set",
+      "journal": "Flowers are ready for the table.",
+      "visible": "centerpieces"
+    },
+    {
+      "id": "grounds",
+      "flag": "grounds_cared_for",
+      "journal": "The grounds look tended.",
+      "visible": "lights"
+    },
+    {
+      "id": "repair",
+      "flag": "picnic_bed_restored",
+      "journal": "The picnic bed is restored.",
+      "visible": "chairs"
+    },
+    {
+      "id": "invites",
+      "journal": "A few neighbors said they would come.",
+      "visible": "guests"
+    }
+  ],
+  "posts": {
+    "margaret": [220, 210],
+    "harold": [300, 250],
+    "sarah": [380, 210],
+    "ostrow": [180, 300],
+    "ruth": [430, 290],
+    "dale": [320, 330]
+  }
+}

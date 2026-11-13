@@ -25,12 +25,7 @@ func interact(actor: Node) -> void:
 		else:
 			line = "The pack is too full for what's in here."
 	_refresh_prompt()
-	var tree := get_tree()
-	if tree == null:
-		return
-	var banner := tree.get_first_node_in_group("speech_banner")
-	if banner != null and banner.has_method("show_line"):
-		banner.call("show_line", speaker_name, line)
+	ActionToast.say(get_tree(), line)
 
 
 func _refresh_prompt() -> void:

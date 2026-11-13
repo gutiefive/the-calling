@@ -192,6 +192,18 @@ func _matches(condition: Dictionary) -> bool:
 	if condition.has("request_slots_full"):
 		var asks := _requests()
 		return asks != null and asks.has_method("slots_full") and bool(asks.call("slots_full"))
+	if condition.has("potluck_unlocked"):
+		return _event_flag("is_unlocked")
+	if condition.has("potluck_live"):
+		return _event_flag("is_live")
+	if condition.has("potluck_needs_framing"):
+		return _event_flag("needs_framing")
+	if condition.has("potluck_framing"):
+		return _event_str("framing") == str(condition["potluck_framing"])
+	if condition.has("potluck_can_invite"):
+		return _event_call("can_invite", str(condition.get("potluck_can_invite", "")))
+	if condition.has("potluck_invited"):
+		return _event_call("is_invited", str(condition.get("potluck_invited", "")))
 	if condition.has("lean_at_least") or condition.has("dominant_is") or condition.has("thread_is") or condition.has("thread_open") or condition.has("thread_missed"):
 		return StoryQuery.holds(condition)
 	return false
@@ -230,6 +242,34 @@ func _requests() -> Node:
 	if tree == null:
 		return null
 	return tree.root.get_node_or_null("RequestState")
+
+
+func _events() -> Node:
+	var tree := Engine.get_main_loop() as SceneTree
+	if tree == null:
+		return null
+	return tree.root.get_node_or_null("EventState")
+
+
+func _event_flag(method_name: String) -> bool:
+	var events := _events()
+	if events == null or not events.has_method(method_name):
+		return false
+	return bool(events.call(method_name))
+
+
+func _event_str(method_name: String) -> String:
+	var events := _events()
+	if events == null or not events.has_method(method_name):
+		return ""
+	return str(events.call(method_name))
+
+
+func _event_call(method_name: String, arg: String) -> bool:
+	var events := _events()
+	if events == null or not events.has_method(method_name):
+		return false
+	return bool(events.call(method_name, arg))
 
 
 func _request_flag(method_name: String, request_id: String) -> bool:
@@ -366,6 +406,16 @@ func _apply(data: Dictionary) -> void:
 		var asks := _requests()
 		if asks != null and asks.has_method("deliver"):
 			asks.call("deliver", deliver_id)
+	var framing := str(data.get("set_framing", ""))
+	if not framing.is_empty():
+		var events := _events()
+		if events != null and events.has_method("set_framing"):
+			events.call("set_framing", framing)
+	var invite_id := str(data.get("invite", ""))
+	if not invite_id.is_empty():
+		var events := _events()
+		if events != null and events.has_method("invite"):
+			events.call("invite", invite_id)
 	var quest_v: Variant = data.get("quest", null)
 	if not quest_v is Dictionary:
 		return

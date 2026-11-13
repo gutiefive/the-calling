@@ -147,11 +147,66 @@
     },
     "request_fresh_gate": {
       "router": [
+        {"if": {"potluck_live": true}, "next": "potluck_table"},
+        {"if": {"potluck_needs_framing": true}, "next": "potluck_choice"},
         {"if": {"request_active": "fresh_for_the_table"}, "next": "request_fresh_progress"},
         {"if": {"request_available": "fresh_for_the_table"}, "next": "request_fresh_offer"},
         {"if": {"request_completed": "fresh_for_the_table"}, "next": "request_fresh_done"},
         {"next": "after_week_hold"}
       ]
+    },
+    "potluck_choice": {
+      "speaker": "Sarah",
+      "text": "Some of the neighbors have never sat at this table. I can ask them. How do you want that to sound?",
+      "choices": [
+        {
+          "text": "Open the gathering to everyone.",
+          "next": "potluck_open",
+          "set_framing": "open",
+          "add_relationships": {"sarah": 1},
+          "nudge": {"leaning": "shepherd", "amount": 1, "reason": "potluck_open"}
+        },
+        {
+          "text": "Make it a church-centered gathering.",
+          "next": "potluck_church",
+          "set_framing": "church",
+          "add_pull": 1,
+          "nudge": {"leaning": "builder", "amount": 1, "reason": "potluck_church"}
+        }
+      ]
+    },
+    "potluck_open": {
+      "speaker": "Sarah",
+      "text": "Then it is a meal. I'll tell them they can come without promising Sunday. That's easier to say out loud.",
+      "end": true
+    },
+    "potluck_church": {
+      "speaker": "Sarah",
+      "text": "I'll mention Grace. Not a sermon. Just that the door is there if they want it later.",
+      "end": true
+    },
+    "potluck_table": {
+      "router": [
+        {"if": {"potluck_needs_framing": true}, "next": "potluck_choice"},
+        {"if": {"potluck_framing": "open"}, "next": "potluck_open_table"},
+        {"if": {"potluck_framing": "church"}, "next": "potluck_church_table"},
+        {"next": "potluck_plain_table"}
+      ]
+    },
+    "potluck_open_table": {
+      "speaker": "Sarah",
+      "text": "Nobody asked them about pews. They're eating. That's the whole point.",
+      "end": true
+    },
+    "potluck_church_table": {
+      "speaker": "Sarah",
+      "text": "I told two of them where the sanctuary door is. I didn't walk them there.",
+      "end": true
+    },
+    "potluck_plain_table": {
+      "speaker": "Sarah",
+      "text": "It's a table. Sit if you want. The kids already did.",
+      "end": true
     },
     "after_week_hold": {
       "speaker": "Sarah",

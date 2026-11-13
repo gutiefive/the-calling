@@ -367,6 +367,20 @@ A polish pass on Phase D. No new systems and no save bump. Phase E is not starte
 
 **Hint.** Facing a worksite in range tints the sprite slightly. The existing `E  …` prompt is unchanged. No map markers.
 
+## D58 — Weekly Fellowship Hall potluck (Gameplay E)
+
+The M8 Wednesday happening stays. The gathering itself is a walk-in Fellowship Hall interior after Continue and after the hall is repaired. Prep is optional. A modest table with Margaret, Harold, and Sarah is already a gathering.
+
+**Prep.** Vegetables (Sarah's ask), sanctuary flowers, tended grounds, the picnic flower bed, and talking Ostrow / Ruth / Dale into coming. At least dishes, centerpieces, lights, extra chairs, and extra guests change the room. Journal lines stay short. Prep is not a failure state.
+
+**Framing.** Sarah asks once whether the table is open to everyone or leans toward Grace. Open nudges Shepherd and Sarah's relationship. Church-centered nudges Builder and can add one Pull. No new meter, no visible score, no Pull for showing up. `ChurchFunds` are untouched. Later dialogue can read `potluck_framing_open` / `potluck_framing_church`.
+
+**Recurrence.** Wednesday 11:00–16:00. First live window is the first continuing Wednesday. Attendance and skips are stored by week id. One journal note per attended week. The clock holds inside the hall during the window; walking is not locked.
+
+**Save.** Version 11. A version 10 file loads.
+
+**Toasts.** Farming, repair, chore, and pickup lines use a small bottom-left toast (about 1.2s, then fade). Dialogue boxes are unchanged.
+
 ## Still open
 
 | # | Question | Notes |

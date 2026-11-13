@@ -342,18 +342,18 @@ func _persistence() -> void:
 		return
 	player.global_position = Vector2(420, 510)
 	var saved := SaveGame.save_to_disk(get_tree())
-	_check(saved, "a version 10 save writes")
+	_check(saved, "a current-version save writes")
 	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(SaveGame.SAVE_PATH))
 	_check(parsed is Dictionary, "the save file is an object")
 	var row: Dictionary = parsed if parsed is Dictionary else {}
-	_check(int(row.get("version", -1)) == 10, "the save file is version 10")
+	_check(int(row.get("version", -1)) == SaveGame.SAVE_VERSION, "the save file is the current version")
 	_check(row.has("repairs"), "the save stores repairs")
 	room.free()
 	await _pump(1)
 	NarrativeState.reset()
 	_check(int(_repairs().call("stage_of", "church_fence")) == 0, "reset clears worksites")
 	var loaded := SaveGame.read_file()
-	_check(int(loaded.get("version", 0)) == 10, "read_file keeps version 10")
+	_check(int(loaded.get("version", 0)) == SaveGame.SAVE_VERSION, "read_file keeps the current version")
 	SaveGame.apply_state(loaded)
 	_check(int(_repairs().call("stage_of", "church_fence")) == 2, "load restores a mid-repair fence")
 	_check(int(pack.call("quantity", "wood")) == 0, "load keeps the consumed wood gone")
@@ -394,7 +394,7 @@ func _old_save_migration() -> void:
 			"growth": {"community_trust": 1, "attendance": 17},
 		},
 	})
-	_check(int(from_v9.get("version", 0)) == 10, "a version 9 file migrates to version 10")
+	_check(int(from_v9.get("version", 0)) == SaveGame.SAVE_VERSION, "a version 9 file migrates to the current save")
 	var repair_v: Variant = from_v9.get("repairs", {})
 	var repair_row: Dictionary = repair_v if repair_v is Dictionary else {}
 	var sites_v: Variant = repair_row.get("sites", {})
@@ -405,7 +405,7 @@ func _old_save_migration() -> void:
 		if fence_v is Dictionary:
 			fence_done = bool((fence_v as Dictionary).get("done", false)) and int((fence_v as Dictionary).get("stage", 0)) == 3
 	_check(fence_done, "v9 church_fence_mended becomes a finished fence")
-	_check(SaveGame.migrate({"version": 11, "scene": "res://scenes/world/church_exterior.tscn"}).is_empty(), "a newer save is still rejected")
+	_check(SaveGame.migrate({"version": SaveGame.SAVE_VERSION + 1, "scene": "res://scenes/world/church_exterior.tscn"}).is_empty(), "a newer save is still rejected")
 	NarrativeState.reset()
 	SaveGame.apply_state(from_v9)
 	_check(bool(_repairs().call("is_finished", "church_fence")), "applying a migrated v9 save finishes the fence")

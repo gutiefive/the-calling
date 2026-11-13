@@ -113,6 +113,11 @@ func _body_text() -> String:
 	_append_section(lines, "Story", _story_lines(), STORY_EMPTY)
 	lines.append("")
 	_append_section(lines, "Requests", _request_lines(), REQUEST_EMPTY)
+	var gathering := _gathering_lines()
+	if not gathering.is_empty():
+		lines.append("")
+		for line in gathering:
+			lines.append(line)
 	lines.append("")
 	lines.append("Completed")
 	var done := NarrativeState.completed_quests()
@@ -176,6 +181,16 @@ func _request_lines() -> PackedStringArray:
 		if ask_raw is PackedStringArray:
 			ask_lines = ask_raw
 	return ask_lines
+
+
+func _gathering_lines() -> PackedStringArray:
+	var events := get_node_or_null("/root/EventState")
+	if events == null or not events.has_method("journal_lines"):
+		return PackedStringArray()
+	var raw: Variant = events.call("journal_lines")
+	if raw is PackedStringArray:
+		return raw
+	return PackedStringArray()
 
 
 func _append_section(lines: PackedStringArray, title: String, body: PackedStringArray, empty_message: String) -> void:

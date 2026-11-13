@@ -4,7 +4,7 @@ extends RefCounted
 
 const Catalog := preload("res://scripts/systems/item_catalog.gd")
 
-const SAVE_VERSION := 10
+const SAVE_VERSION := 11
 const SAVE_PATH := "user://the_calling_save.json"
 
 
@@ -115,6 +115,12 @@ static func capture(tree: SceneTree) -> Dictionary:
 		var repair_raw: Variant = repairs.call("to_dictionary")
 		if repair_raw is Dictionary:
 			repair_data = repair_raw
+	var event_data: Dictionary = {}
+	var events := tree.root.get_node_or_null("EventState")
+	if events != null and events.has_method("to_dictionary"):
+		var event_raw: Variant = events.call("to_dictionary")
+		if event_raw is Dictionary:
+			event_data = event_raw
 	return {
 		"version": SAVE_VERSION,
 		"narrative": NarrativeState.to_dictionary(),
@@ -132,6 +138,7 @@ static func capture(tree: SceneTree) -> Dictionary:
 		"garden": garden_data,
 		"requests": request_data,
 		"repairs": repair_data,
+		"event": event_data,
 	}
 
 
@@ -196,6 +203,11 @@ static func apply_state(data: Dictionary) -> bool:
 		var repair_v: Variant = data.get("repairs", {})
 		var repair_data: Dictionary = repair_v if repair_v is Dictionary else {}
 		repairs.call("from_dictionary", repair_data)
+	var events := tree.root.get_node_or_null("EventState") if tree != null else null
+	if events != null and events.has_method("from_dictionary"):
+		var event_v: Variant = data.get("event", {})
+		var event_data: Dictionary = event_v if event_v is Dictionary else {}
+		events.call("from_dictionary", event_data)
 	var clock_v: Variant = data.get("clock", {})
 	if tree != null and clock_v is Dictionary:
 		var clock := tree.root.get_node_or_null("DayClock")
@@ -250,6 +262,9 @@ static func begin_new_game(tree: SceneTree) -> void:
 		var repairs := tree.root.get_node_or_null("RepairState")
 		if repairs != null and repairs.has_method("reset"):
 			repairs.call("reset")
+		var events := tree.root.get_node_or_null("EventState")
+		if events != null and events.has_method("reset"):
+			events.call("reset")
 	DayClock.held = false
 	if tree != null and tree.paused:
 		tree.paused = false
@@ -265,6 +280,8 @@ static func delete_save() -> void:
 
 
 static func _migrate_step(data: Dictionary, from_version: int) -> Dictionary:
+	if from_version == 10:
+		return _migrate_event(data)
 	if from_version == 9:
 		return _migrate_repairs(data)
 	if from_version == 8:
@@ -526,6 +543,41 @@ static func _migrate_repairs(data: Dictionary) -> Dictionary:
 			"done": true,
 		}
 	data["repairs"] = {"sites": sites}
+	return data
+
+
+static func _migrate_event(data: Dictionary) -> Dictionary:
+	# Version 11 adds the weekly potluck. Prep flags already on the story stay.
+	var event: Dictionary = {
+		"framing": "",
+		"invited": [],
+		"last_window_week": 0,
+		"last_window_day": 0,
+		"last_reward_week": 0,
+		"attended_weeks": [],
+		"skipped_weeks": [],
+		"vegetables": false,
+		"last_seen_day": 0,
+	}
+	var event_v: Variant = data.get("event", {})
+	if event_v is Dictionary:
+		var existing: Dictionary = event_v
+		for key in event.keys():
+			if existing.has(key):
+				event[key] = existing[key]
+	var flags: Dictionary = {}
+	var narrative_v: Variant = data.get("narrative", {})
+	if narrative_v is Dictionary:
+		var flags_v: Variant = (narrative_v as Dictionary).get("flags", {})
+		if flags_v is Dictionary:
+			flags = flags_v
+	if bool(flags.get("potluck_vegetables", false)):
+		event["vegetables"] = true
+	if bool(flags.get("potluck_framing_open", false)):
+		event["framing"] = "open"
+	elif bool(flags.get("potluck_framing_church", false)):
+		event["framing"] = "church"
+	data["event"] = event
 	return data
 
 

@@ -62,7 +62,7 @@ func interact(actor: Node) -> void:
 	if kind != "noop" and field != null and field.has_method("flash_at"):
 		field.call("flash_at", kind, global_position, message)
 	if not message.is_empty():
-		_say("Garden", message)
+		ActionToast.say(get_tree(), message)
 
 
 func _follow_player() -> void:
@@ -97,15 +97,6 @@ func _hide() -> void:
 	if _indicator != null:
 		_indicator.visible = false
 	global_position = Vector2(-1000, -1000)
-
-
-func _say(speaker: String, line: String) -> void:
-	var tree := get_tree()
-	if tree == null:
-		return
-	var banner := tree.get_first_node_in_group("speech_banner")
-	if banner != null and banner.has_method("show_line"):
-		banner.show_line(speaker, line)
 
 
 func _player() -> Node2D:

@@ -1,6 +1,6 @@
 # Gameplay loops — The Calling
 
-Status: Phase D implemented 2026-11-13. Gameplay D2 (worksite art polish) implemented 2026-11-13. Phases A–D remain. Phase E (weekly potluck) is specified here so it can plug in; it is not built yet.
+Status: Phase E implemented 2026-11-13. Gameplay D2 (worksite art polish) implemented 2026-11-13. Phases A–E remain. Phase F (integration and polish) is next.
 
 ## Baseline (before Phase A)
 
@@ -21,7 +21,7 @@ These existing systems stay in place. Phase A hooks them; it does not replace th
 | `DayClock` | autoload | Inventory and shop set `NarrativeState` locks so the clock holds still, same as the journal and ledger. | B: `GardenState` ticks growth on `time_changed` when the weekday advances past 6:00 a.m., guarded by `last_processed_day`. |
 | `NarrativeState` | autoload | New UI flags `inventory_open` / `shop_open` join `movement_locked()`. Starter grants use new flags only (`starter_tools_taken`, `starter_seeds_taken`). Existing story flags, quests, leanings, and threads are untouched. | C: request accept/complete flags. D: repair flags mapped from `grounds_tidy` / `garden_*` when safe. |
 | `ChurchFunds` | autoload | Never spent on personal items. Personal cash is `Inventory` wallet. Dollar amounts stay out of dialogue JSON. | E: potluck prep does not siphon the plate. |
-| `SaveGame` | `scripts/systems/save_game.gd` | Version 10. Migration from 9 adds worksites and finishes the garden fence if `church_fence_mended` is already set. Versions 6–8 still gain pack, garden, and requests on the way through. | E: extra blob (`event`) with the same migrate-forward rule. |
+| `SaveGame` | `scripts/systems/save_game.gd` | Version 11. Migration from 10 adds the gathering blob. Versions 6–9 still gain pack, garden, requests, and worksites on the way through. | F: no further blob unless a later loop needs one. |
 | Dialogue | `data/dialogue/`, `DialogueRunner` | Thomas, Margaret, garden_help, and Chapter 1 lines are unchanged. No `$` or dollar words in JSON. Shop is a separate UI, not a dialogue tree. | C: request accept nodes added beside existing routers, existing first choices kept. |
 | Maple Lane garden | `GardenPlot`, `garden_help.json` | Unchanged Chapter 1 clear/plant beat. Weeds, `garden_cleared`, `garden_planted`, and `garden_growth` stay on this plot. The Phase A seed crate moved to the church garden. | C: garden-needs-hands request can read the same flags. |
 | Hardware store | `building_interior.gd` HardwareInterior | Thomas still talks. A shelf interactable opens the shop UI (seeds, Wood, Nails). | D: same shop sells repair stock. |
@@ -31,7 +31,7 @@ These existing systems stay in place. Phase A hooks them; it does not replace th
 | Art pipeline | `scripts/art`, `tools/art/author_environment.gd` | 16×16 item icons, palette-only, written to `assets/items/`. | B–E: soil, crop stages, water, repair, potluck props through the same pipeline. |
 | Church grounds chores | `GroundsChore` | Untouched. | D: left as the Chapter 1 walk cleanup. Phase D worksites are new spots and keep those flags. |
 
-Signals: `item_added`, `item_consumed` (A), `crop_watered`, `crop_harvested`, `garden_action` (B), `request_accepted`, `request_completed`, `request_expired` (C), `repair_finished` (D). Reserved for later: `event_prepared`.
+Signals: `item_added`, `item_consumed` (A), `crop_watered`, `crop_harvested`, `garden_action` (B), `request_accepted`, `request_completed`, `request_expired` (C), `repair_finished` (D), `event_prepared`, `potluck_started`, `potluck_ended` (E).
 
 ---
 
@@ -123,7 +123,7 @@ Data-driven in `data/requests/catalog.json`, shown in the journal, up to three a
 
 | Id | Title | Who | Need | Reward |
 |---|---|---|---|---|
-| `fresh_for_the_table` | Fresh for the Table | Sarah | 2 Lettuce, 2 Carrots | Thank-you, small personal tip, `potluck_vegetables` for Phase E |
+| `fresh_for_the_table` | Fresh for the Table | Sarah | 2 Lettuce, 2 Carrots | Thank-you, small personal tip, `potluck_vegetables` for the Wednesday table |
 | `sanctuary_flowers` | Flowers for the Sanctuary | Margaret | 3 Flowers | Thank-you, a seed packet, flowers by the sanctuary window |
 | `broken_fence` | The Broken Fence | Harold | 3 Wood, 2 Nails | Thank-you, a bit of scrap, a mended stretch of garden fence |
 | `garden_needs_hands` | The Garden Needs Hands | Ruth | Maple Lane `garden_planted` | Thank-you, carrot seeds, a remembered kindness |
@@ -151,9 +151,31 @@ Data-driven in `data/repairs/catalog.json`. Autoload `RepairState`. Short E pres
 
 **Story.** Repairs do not raise Pull, attendance, dependents, loyalty, or ChurchFunds, and they never spend church money. Effects are a neighbor's remark when two or more sites are done, the grounds looking cared for, and hidden kindness flags. Trust is never a number. No decay across sleep, scene changes, save/load, or the weekly rollover.
 
-## Weekly potluck (Phase E, not built)
+## Weekly potluck (Phase E)
 
-Extend the existing M8 potluck happening. Optional prep (food, flowers, grounds, invites) changes the room. Moral choice on who is invited uses existing hidden leanings. Do not duplicate Sunday or the Chapter 1 ending.
+Extend the M8 Wednesday happening. Do not duplicate Sunday or the Chapter 1 ending.
+
+**Unlock.** Continue in Oakridge (`week_continues`) plus a repaired Fellowship Hall (`hall_repaired`). After Harold's celebration the west-wing door is a walk-in. The first gathering is Wednesday 11:00–16:00 of the first continuing week (weekday 10). Later Wednesdays repeat. Missing the window records a skip for that week. Walking in during the window counts as attending, once.
+
+**Prep (optional).** Tracked in `EventState` from `data/events/potluck.json`. A modest table is already enough.
+
+| Category | How | Visible at the table |
+|---|---|---|
+| Vegetables | Sarah's `fresh_for_the_table` delivery (`potluck_vegetables`) | Varied dishes |
+| Flowers | Sanctuary flowers (`sanctuary_flowers_set`) | Centerpieces |
+| Grounds | `grounds_cared_for` | String lights and a banner |
+| Repair | Picnic flower bed (`picnic_bed_restored`) | Extra chairs |
+| Invites | Talk to Ostrow, Ruth, or Dale after Sarah's framing | Those neighbors attend |
+
+Journal lines stay short, like "Sarah has everything she needs for Sunday." Prep clears when the Wednesday window ends. Invites and vegetables do not carry into the next week. Framing stays.
+
+**The room.** `scenes/world/fellowship_hall.tscn` is a small interior. Margaret, Harold, and Sarah are there whenever the gathering is live. Tables, simple dishes, and chairs are out with no prep. The M8 happening crate stays on the grounds by the hall door and points inside.
+
+**Sarah's framing.** Once, after the hall is repaired: open the gathering to everyone (Shepherd, Sarah +1, no Pull) or make it church-centered (Builder, +1 Pull). Neither line is labeled good or evil. A successful gathering does not raise Pull and does not touch `ChurchFunds`. The clock holds while you are inside during the window; walking is still free. Dialogue still holds the clock.
+
+**Art.** Procedural palette-only frames in `assets/potluck/`: modest and full tables, simple and varied dishes, a centerpiece, string lights, a banner, a chair, and extra chairs.
+
+**Save.** Version **11**. `capture()` writes `event`. A version 10 file gains an empty gathering blob and copies `potluck_vegetables` / framing flags if they already exist. Week and day ids guard attendance, skips, and the one attendance note. A version 12 file is rejected.
 
 ## Story integration
 
@@ -161,17 +183,17 @@ Growing food is neutral. Giving food, repairing public space, and how those thin
 
 ## Save changes
 
-Version **10**. `capture()` writes `inventory`, `garden`, `requests`, and `repairs: { sites }`. Migration from 9 starts with empty worksites, except an already-mended fence (`church_fence_mended`) lands on the finished stage. Migration from 8 still fills requests and garden tiles on the way through 9. Church funds, narrative, clock, influence, pastor path, and threads pass through. A version 11 file is rejected until a later bump.
+Version **11**. `capture()` writes `inventory`, `garden`, `requests`, `repairs: { sites }`, and `event`. Migration from 10 starts with an empty gathering and copies `potluck_vegetables` / framing flags if they are already set. Migration from 9 still fills worksites (and an already-mended fence) on the way through 10. Church funds, narrative, clock, influence, pastor path, and threads pass through. A version 12 file is rejected until a later bump.
 
-New Game / Restart call `Inventory.reset()`, `GardenState.reset()`, `RequestState.reset()`, and `RepairState.reset()` from `NarrativeState.reset()`.
+New Game / Restart call `Inventory.reset()`, `GardenState.reset()`, `RequestState.reset()`, `RepairState.reset()`, and `EventState.reset()` from `NarrativeState.reset()`.
 
-## Limitations (Phase D)
+## Limitations (Phase E)
 
-- Potluck prep flags (`potluck_vegetables`, sanctuary flowers, `grounds_cared_for`) wait for Phase E to change the room.
 - Scrap comes from Harold's thank-you and from the weed and litter worksites. The shop does not sell it.
 - The shop does not sell tools (you already have them) or crops.
 - No energy bar, no durability, no drag-and-drop mouse inventory, no quest markers.
-- Item icons are procedural 16×16 PNGs scaled up in the pack. Crop stages and in-ground soil are procedural PNGs in `assets/garden/`. Repair stages are procedural PNGs in `assets/repairs/`. No LibreSprite `.ase` sources.
+- Item icons are procedural 16×16 PNGs scaled up in the pack. Crop stages and in-ground soil are procedural PNGs in `assets/garden/`. Repair stages are procedural PNGs in `assets/repairs/`. Potluck props are procedural PNGs in `assets/potluck/`. No LibreSprite `.ase` sources.
+- Till / water / harvest / repair / pickup feedback is a small toast (about 1.2s, then a short fade), not the dialogue banner.
 
 ## Future expansion (do not build)
 

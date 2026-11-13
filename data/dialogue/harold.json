@@ -43,11 +43,17 @@
     },
     "after": {
       "router": [
+        {"if": {"potluck_live": true}, "next": "potluck_table"},
         {"if": {"request_active": "broken_fence"}, "next": "request_fence_progress"},
         {"if": {"request_available": "broken_fence"}, "next": "request_fence_offer"},
         {"if": {"request_completed": "broken_fence"}, "next": "request_fence_done"},
         {"next": "after_lock"}
       ]
+    },
+    "potluck_table": {
+      "speaker": "Harold",
+      "text": "I made the coffee. I will not discuss it. Eat if you're hungry.",
+      "end": true
     },
     "after_lock": {
       "speaker": "Harold",

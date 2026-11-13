@@ -149,9 +149,15 @@
     },
     "after_chapter": {
       "router": [
+        {"if": {"potluck_live": true}, "next": "potluck_table"},
         {"if": {"weekday": "Sunday"}, "next": "later_sunday_gate"},
         {"next": "after_walk"}
       ]
+    },
+    "potluck_table": {
+      "speaker": "Margaret",
+      "text": "Coffee's honest today. Stay as long as the plates last.",
+      "end": true
     },
     "request_flowers_offer": {
       "router": [

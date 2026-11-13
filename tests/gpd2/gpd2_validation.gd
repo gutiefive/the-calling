@@ -131,7 +131,7 @@ func _flags_and_saves() -> void:
 			"flags": {"church_fence_mended": true, "week_continues": true},
 		},
 	})
-	_check(int(from_v9.get("version", 0)) == 10, "v9 still migrates to v10")
+	_check(int(from_v9.get("version", 0)) == SaveGame.SAVE_VERSION, "v9 still migrates to the current save")
 	NarrativeState.reset()
 	SaveGame.apply_state(from_v9)
 	_check(bool(_repairs().call("is_finished", "church_fence")), "a v9 mended flag still finishes the fence")

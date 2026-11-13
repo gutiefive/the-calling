@@ -1,6 +1,6 @@
 # Roadmap — The Calling
 
-Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md`. This file is the current cut line. M12 (church grounds campus) is implemented. Gameplay A–D (inventory, garden, requests, interactive repairs) are implemented. Next: Gameplay E (weekly potluck) unless Nathan sends the work elsewhere. Chapter 2 storylines are not started.
+Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md`. This file is the current cut line. M12 (church grounds campus) is implemented. Gameplay A–E (inventory, garden, requests, interactive repairs, weekly potluck) are implemented. Next: Gameplay F (integration and polish) unless Nathan sends the work elsewhere. Chapter 2 storylines are not started.
 
 | Milestone | Status |
 |---|---|
@@ -27,7 +27,7 @@ Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md
 | Gameplay B Gardening | Implemented. Nine church-grounds plots east of the picnic lawn, hoe / seed / water / harvest, morning growth, save v8. Maple Lane Chapter 1 plot unchanged. See `docs/GAMEPLAY_LOOPS.md`. |
 | Gameplay C Community requests | Implemented. Four optional asks, journal tracking, in-ground church garden tiles, save v9. See `docs/GAMEPLAY_LOOPS.md`. |
 | Gameplay D Interactive repairs | Implemented. Data-driven worksites, staged garden fence, weeds, litter, flower bed, save v10. GroundsChore flags kept. See `docs/GAMEPLAY_LOOPS.md`. |
-| Gameplay E Weekly potluck | Not started. Extend the M8 happening; do not duplicate Sunday. |
+| Gameplay E Weekly potluck | Implemented. Fellowship Hall gathering, optional prep, Sarah's framing, save v11. See `docs/GAMEPLAY_LOOPS.md`. |
 | Gameplay F Integration and polish | Not started. Full-loop playthrough, balance, regression. |
 | Planning board and Tier 1 | Later. Attach the first expansion project to a plot (workshop, greenhouse, or dorms). |
 | Next story | Chapter 2 is not started. Full Chapter 2 storylines build on M9 leanings, threads, and the run seed. |
@@ -175,3 +175,11 @@ A data-driven worksite catalog: clearing picnic weeds, picking up utility litter
 ## Gameplay D does not include
 
 The weekly potluck. That is E. Insiders still never say "cult".
+
+## Gameplay E includes
+
+The M8 Wednesday happening, extended into a walk-in Fellowship Hall interior after Continue and after the hall is repaired. Optional prep (vegetables, flowers, grounds, the picnic bed, invites) changes dishes, centerpieces, lights, chairs, and guests. Sarah's once-only framing (open vs church-centered) uses hidden leanings. A successful gathering does not raise Pull and does not touch ChurchFunds. Small action toasts replace the old full-width farming banners. Saves are version 11. A version 10 file loads.
+
+## Gameplay E does not include
+
+A second Sunday, a Chapter 1 rewrite, a morality meter, or Phase F's full-loop balance pass. Insiders still never say "cult".

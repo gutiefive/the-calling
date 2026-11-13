@@ -28,6 +28,7 @@ Inventory="*res://scripts/systems/inventory.gd"
 GardenState="*res://scripts/systems/garden_state.gd"
 RequestState="*res://scripts/systems/request_state.gd"
 RepairState="*res://scripts/systems/repair_state.gd"
+EventState="*res://scripts/systems/event_state.gd"
 SceneFade="*res://scripts/ui/scene_fade.gd"
 
 [beckett]

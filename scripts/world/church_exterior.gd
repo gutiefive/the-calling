@@ -131,6 +131,10 @@ func _apply_grounds_look() -> void:
 	if bag != null:
 		bag.visible = NarrativeState.flag_is_true("lot_litter_cleared")
 	_apply_sunday_crowd()
+	var door := get_node_or_null("Props/HallDoor") as Door
+	if door != null:
+		var open_hall := NarrativeState.flag_is_true("hall_repaired") and NarrativeState.flag_is_true("hall_celebrated")
+		door.enabled = open_hall
 	for node in get_tree().get_nodes_in_group("day_world"):
 		if is_ancestor_of(node) and node.has_method("apply_clock"):
 			node.call("apply_clock")
@@ -158,6 +162,18 @@ func _add_fellowship_hall() -> void:
 	hall.name = "FellowshipHall"
 	hall.position = GroundsLayout.POS_HALL
 	props.add_child(hall)
+	if props.get_node_or_null("HallDoor") == null:
+		var door := Door.new()
+		door.name = "HallDoor"
+		door.position = GroundsLayout.POS_HALL_DOOR
+		door.place_name = "Fellowship Hall"
+		door.prompt_text = "Fellowship Hall"
+		door.radius = 26.0
+		door.destination_scene = "res://scenes/world/fellowship_hall.tscn"
+		door.destination_spawn = &"from_grounds"
+		door.enabled = false
+		props.add_child(door)
+	_place_marker("from_hall", GroundsLayout.POS_FROM_HALL, &"down")
 
 
 func _add_home() -> void:
@@ -742,7 +758,7 @@ func _add_wayfinding() -> void:
 		props,
 		"WednesdayPotluck",
 		"wednesday_potluck",
-		Vector2(912, 1120),
+		Vector2(500, 760),
 		PlaceholderArt.crate(),
 		Vector2i(32, 32),
 		1,

@@ -1,0 +1,47 @@
+{
+  "id": "dale",
+  "start": "start",
+  "nodes": {
+    "start": {
+      "router": [
+        {"if": {"potluck_live": true}, "next": "potluck_table"},
+        {"if": {"potluck_can_invite": "dale"}, "next": "invite_offer"},
+        {"if": {"potluck_invited": "dale"}, "next": "invited_wait"},
+        {"next": "quiet"}
+      ]
+    },
+    "quiet": {
+      "speaker": "Dale",
+      "text": "Lane's quiet. That's how I like a Wednesday.",
+      "end": true
+    },
+    "invite_offer": {
+      "speaker": "Dale",
+      "text": "The hall's doing a table. I don't go to church. You still asking?",
+      "choices": [
+        {"text": "Come eat. That's the whole ask.", "next": "invite_yes", "invite": "dale"},
+        {"text": "No need.", "next": "invite_no"}
+      ]
+    },
+    "invite_yes": {
+      "speaker": "Dale",
+      "text": "I'll come for the food. I'm not staying for a hymn.",
+      "end": true
+    },
+    "invite_no": {
+      "speaker": "Dale",
+      "text": "Suits me.",
+      "end": true
+    },
+    "invited_wait": {
+      "speaker": "Dale",
+      "text": "Wednesday. I said I'd come. Don't save me a pew.",
+      "end": true
+    },
+    "potluck_table": {
+      "speaker": "Dale",
+      "text": "The beans are good. I'm not making a speech about it.",
+      "end": true
+    }
+  }
+}

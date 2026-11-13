@@ -60,11 +60,36 @@
     },
     "week_gate": {
       "router": [
+        {"if": {"potluck_live": true}, "next": "potluck_table"},
+        {"if": {"potluck_can_invite": "ostrow"}, "next": "invite_offer"},
         {"if": {"flag": "ostrow_week_said"}, "next": "later_ch1"},
         {"if": {"thread_is": ["ostrow_alliance", "open"]}, "next": "week_warm"},
         {"if": {"thread_is": ["ostrow_alliance", "guarded"]}, "next": "week_wary"},
         {"next": "week_cool"}
       ]
+    },
+    "invite_offer": {
+      "speaker": "Dell Ostrow",
+      "text": "Wednesday in the hall. I don't usually sit those. You asking, or is this a flyer?",
+      "choices": [
+        {"text": "Come eat. That's all.", "next": "invite_yes", "invite": "ostrow"},
+        {"text": "Another time.", "next": "invite_no"}
+      ]
+    },
+    "invite_yes": {
+      "speaker": "Dell Ostrow",
+      "text": "I'll put my head in. I'm not staying for a speech.",
+      "end": true
+    },
+    "invite_no": {
+      "speaker": "Dell Ostrow",
+      "text": "Fine. The walk is enough for today.",
+      "end": true
+    },
+    "potluck_table": {
+      "speaker": "Dell Ostrow",
+      "text": "I said I'd put my head in. The coffee's better than I expected. Don't make a habit of quoting me.",
+      "end": true
     },
     "week_cool": {
       "speaker": "Dell Ostrow",

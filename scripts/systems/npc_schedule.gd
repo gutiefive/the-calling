@@ -52,6 +52,9 @@ static func matches(npc_id: String, day_name: String, hour: int, minute: int) ->
 
 
 static func placement(npc_id: String, day_name: String, hour: int, minute: int) -> Dictionary:
+	var overlay := _event_presence(npc_id)
+	if not overlay.is_empty():
+		return overlay
 	var rows := matches(npc_id, day_name, hour, minute)
 	if rows.is_empty():
 		return {}
@@ -224,6 +227,19 @@ static func _day_matches(days_v: Variant, day_name: String) -> bool:
 		if str(day_v) == day_name:
 			return true
 	return false
+
+
+static func _event_presence(npc_id: String) -> Dictionary:
+	var tree := Engine.get_main_loop() as SceneTree
+	if tree == null:
+		return {}
+	var events := tree.root.get_node_or_null("EventState")
+	if events == null or not events.has_method("presence"):
+		return {}
+	var raw: Variant = events.call("presence", npc_id)
+	if raw is Dictionary:
+		return raw
+	return {}
 
 
 static func _minutes(text: String) -> int:

@@ -7,6 +7,8 @@ const EXPECTED: Array[Dictionary] = [
 	{"scene": "res://scenes/world/church_exterior.tscn", "node": "Props/Door", "dest": "sanctuary.tscn", "spawn": &"from_exterior", "place": "Sanctuary", "scheduled": false},
 	{"scene": "res://scenes/world/church_exterior.tscn", "node": "Props/StreetDoor", "dest": "hardware_street.tscn", "spawn": &"from_church", "place": "Oak Street", "scheduled": false},
 	{"scene": "res://scenes/world/church_exterior.tscn", "node": "Props/HomeDoor", "dest": "parsonage.tscn", "spawn": &"from_grounds", "place": "Parsonage", "scheduled": false},
+	{"scene": "res://scenes/world/church_exterior.tscn", "node": "Props/HallDoor", "dest": "fellowship_hall.tscn", "spawn": &"from_grounds", "place": "Fellowship Hall", "scheduled": false},
+	{"scene": "res://scenes/world/fellowship_hall.tscn", "node": "Props/Door", "dest": "church_exterior.tscn", "spawn": &"from_hall", "place": "Church grounds", "scheduled": false},
 	{"scene": "res://scenes/world/sanctuary.tscn", "node": "Props/Door", "dest": "church_exterior.tscn", "spawn": &"from_sanctuary", "place": "Church grounds", "scheduled": false},
 	{"scene": "res://scenes/world/hardware_street.tscn", "node": "Props/ToChurch", "dest": "church_exterior.tscn", "spawn": &"from_street", "place": "Church grounds", "scheduled": false},
 	{"scene": "res://scenes/world/hardware_street.tscn", "node": "Props/StoreDoor", "dest": "hardware_interior.tscn", "spawn": &"from_street", "place": "Hardware Store", "scheduled": true},
