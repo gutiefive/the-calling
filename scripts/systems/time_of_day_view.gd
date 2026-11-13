@@ -55,6 +55,7 @@ func apply() -> void:
 		sun.color = TimeOfDay.sun_color()
 	_set_group_energy("tod_lamp", TimeOfDay.lamp_energy(interior))
 	_set_group_energy("tod_window", TimeOfDay.window_energy())
+	_set_group_energy("tod_stained", TimeOfDay.stained_energy())
 	_set_clock_text()
 	if _toast <= 0.0:
 		_set_phase_text(TimeOfDay.phase_name())

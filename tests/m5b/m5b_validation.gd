@@ -131,14 +131,14 @@ func _continue_and_week() -> void:
 	DayClock.set_time(12, 9, 20)
 	var player := room.get_node_or_null("Props/Player") as Node2D
 	if player != null:
-		player.global_position = Vector2(496, 500)
+		player.global_position = InteriorLayout.POS_SANCT_SPAWN
 	_check(SaveGame.save_to_disk(get_tree()), "week 2 can be saved")
 	NarrativeState.reset()
 	DayClock.set_time(4, 14, 0)
 	_check(SaveGame.load_from_disk(get_tree()), "week 2 can be loaded")
+	_check(DayClock.weekday == 12 and DayClock.weekday_name() == "Friday" and DayClock.hour == 9 and DayClock.minute == 20, "load restores Friday of the second week (%s %d:%02d)" % [DayClock.weekday_name(), DayClock.hour, DayClock.minute])
 	room = await _wait_scene("Sanctuary")
 	_check(room != null, "the week 2 save returns to the sanctuary")
-	_check(DayClock.weekday == 12 and DayClock.weekday_name() == "Friday" and DayClock.hour == 9 and DayClock.minute == 20, "load restores Friday of the second week (%s %d:%02d)" % [DayClock.weekday_name(), DayClock.hour, DayClock.minute])
 	_check(NarrativeState.flag_is_true("week_continues"), "load keeps the continued week")
 	NarrativeState.set_step("oak_street", "friday")
 	DayClock.set_time(6, 11, 0)

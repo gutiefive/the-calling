@@ -25,23 +25,23 @@ collision_mask = 0
 y_sort_enabled = true
 
 [node name="Window" type="Sprite2D" parent="Props"]
-position = Vector2(480, 168)
+position = Vector2(240, 340)
 
 [node name="Cross" type="Sprite2D" parent="Props"]
-position = Vector2(480, 230)
+position = Vector2(736, 328)
 
 [node name="Altar" type="Sprite2D" parent="Props"]
-position = Vector2(480, 280)
+position = Vector2(736, 360)
 script = ExtResource("4_solid")
-block_size = Vector2(36, 10)
+block_size = Vector2(48, 12)
 
 [node name="Chairs" type="Sprite2D" parent="Props"]
-position = Vector2(110, 230)
+position = Vector2(924, 168)
 script = ExtResource("4_solid")
 block_size = Vector2(18, 10)
 
 [node name="Harold" type="Node2D" parent="Props"]
-position = Vector2(220, 420)
+position = Vector2(280, 520)
 script = ExtResource("7_talk")
 prompt_text = "Speak with Harold"
 radius = 42.0
@@ -57,7 +57,7 @@ npc_id = "harold"
 [node name="Sprite" type="AnimatedSprite2D" parent="Props/Harold"]
 
 [node name="Margaret" type="Node2D" parent="Props"]
-position = Vector2(150, 480)
+position = Vector2(1200, 430)
 script = ExtResource("7_talk")
 prompt_text = "Speak with Margaret"
 radius = 40.0
@@ -73,7 +73,7 @@ npc_id = "margaret"
 [node name="Sprite" type="AnimatedSprite2D" parent="Props/Margaret"]
 
 [node name="KeyRing" type="Node2D" parent="Props"]
-position = Vector2(168, 292)
+position = Vector2(960, 160)
 script = ExtResource("8_keys")
 prompt_text = "Spare key ring"
 radius = 42.0
@@ -85,44 +85,44 @@ data_path = "res://data/interactions/spare_key_ring.json"
 [node name="Sprite" type="AnimatedSprite2D" parent="Props/KeyRing"]
 
 [node name="PewL1" type="Sprite2D" parent="Props"]
-position = Vector2(330, 360)
+position = Vector2(480, 448)
 script = ExtResource("4_solid")
-block_size = Vector2(70, 10)
+block_size = Vector2(200, 12)
 
 [node name="PewR1" type="Sprite2D" parent="Props"]
-position = Vector2(630, 360)
+position = Vector2(992, 448)
 script = ExtResource("4_solid")
-block_size = Vector2(70, 10)
+block_size = Vector2(200, 12)
 
 [node name="PewL2" type="Sprite2D" parent="Props"]
-position = Vector2(330, 440)
+position = Vector2(480, 544)
 script = ExtResource("4_solid")
-block_size = Vector2(70, 10)
+block_size = Vector2(200, 12)
 
 [node name="PewR2" type="Sprite2D" parent="Props"]
-position = Vector2(630, 440)
+position = Vector2(992, 544)
 script = ExtResource("4_solid")
-block_size = Vector2(70, 10)
+block_size = Vector2(200, 12)
 
 [node name="PewL3" type="Sprite2D" parent="Props"]
-position = Vector2(330, 520)
+position = Vector2(480, 640)
 script = ExtResource("4_solid")
-block_size = Vector2(70, 10)
+block_size = Vector2(200, 12)
 
 [node name="PewR3" type="Sprite2D" parent="Props"]
-position = Vector2(630, 520)
+position = Vector2(992, 640)
 script = ExtResource("4_solid")
-block_size = Vector2(70, 10)
+block_size = Vector2(200, 12)
 
 [node name="PewL4" type="Sprite2D" parent="Props"]
-position = Vector2(330, 600)
+position = Vector2(480, 736)
 script = ExtResource("4_solid")
-block_size = Vector2(70, 10)
+block_size = Vector2(200, 12)
 
 [node name="PewR4" type="Sprite2D" parent="Props"]
-position = Vector2(630, 600)
+position = Vector2(992, 736)
 script = ExtResource("4_solid")
-block_size = Vector2(70, 10)
+block_size = Vector2(200, 12)
 
 [node name="Thomas" type="Node2D" parent="Props"]
 position = Vector2(560, 520)
@@ -174,7 +174,7 @@ npc_id = "sarah"
 
 [node name="Ledger" type="Node2D" parent="Props"]
 visible = false
-position = Vector2(160, 400)
+position = Vector2(220, 148)
 script = ExtResource("7_talk")
 prompt_text = "Church ledger"
 radius = 40.0
@@ -188,7 +188,7 @@ dialogue_id = "sunday_ledger"
 [node name="Sprite" type="AnimatedSprite2D" parent="Props/Ledger"]
 
 [node name="Door" type="Area2D" parent="Props"]
-position = Vector2(480, 680)
+position = Vector2(736, 1192)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("5_door")
@@ -199,7 +199,7 @@ destination_scene = "res://scenes/world/church_exterior.tscn"
 destination_spawn = &"from_sanctuary"
 
 [node name="Player" parent="Props" instance=ExtResource("2_player")]
-position = Vector2(496, 500)
+position = Vector2(736, 1088)
 
 [node name="Lighting" type="Node2D" parent="."]
 script = ExtResource("6_time")
@@ -213,21 +213,21 @@ energy = 0.0
 shadow_enabled = false
 
 [node name="SconceL" type="PointLight2D" parent="Lighting" groups=["tod_lamp"]]
-position = Vector2(200, 360)
+position = Vector2(420, 1000)
 color = Color(1, 0.82, 0.55, 1)
 energy = 0.6
 shadow_enabled = false
 texture_scale = 3.2
 
 [node name="SconceR" type="PointLight2D" parent="Lighting" groups=["tod_lamp"]]
-position = Vector2(760, 360)
+position = Vector2(1050, 1000)
 color = Color(1, 0.82, 0.55, 1)
 energy = 0.6
 shadow_enabled = false
 texture_scale = 3.2
 
 [node name="SconceN" type="PointLight2D" parent="Lighting" groups=["tod_lamp"]]
-position = Vector2(480, 240)
+position = Vector2(736, 360)
 color = Color(1, 0.86, 0.62, 1)
 energy = 0.5
 shadow_enabled = false
@@ -236,10 +236,10 @@ texture_scale = 2.6
 [node name="Spawns" type="Node2D" parent="."]
 
 [node name="default" type="Marker2D" parent="Spawns"]
-position = Vector2(496, 500)
+position = Vector2(736, 1088)
 
 [node name="from_exterior" type="Marker2D" parent="Spawns"]
-position = Vector2(496, 500)
+position = Vector2(736, 1088)
 
 [node name="HUD" parent="." instance=ExtResource("3_hud")]
 

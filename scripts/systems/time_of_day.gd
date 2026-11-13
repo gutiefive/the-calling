@@ -63,6 +63,16 @@ static func window_energy() -> float:
 			return 0.9
 
 
+static func stained_energy() -> float:
+	match phase:
+		Phase.DAY:
+			return 0.9
+		Phase.EVENING:
+			return 0.55
+		_:
+			return 0.16
+
+
 static func sun_energy() -> float:
 	match phase:
 		Phase.DAY:

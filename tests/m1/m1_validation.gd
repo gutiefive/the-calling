@@ -239,7 +239,7 @@ func _check_sanctuary() -> void:
 	_check(door.destination_scene.ends_with("church_exterior.tscn"), "exit door targets the grounds")
 	_check(door.destination_spawn == &"from_sanctuary", "exit door uses the outdoor return spawn")
 	var ground := room.get_node("Ground") as TileMapLayer
-	_check(ground.get_cell_atlas_coords(Vector2i(14, 8)) == Vector2i(5, 0), "sanctuary aisle is carpet")
+	_check(ground.get_cell_atlas_coords(InteriorLayout.SANCTUARY_AISLE_CELL) == InteriorLayout.TILE_RUNNER, "sanctuary aisle is carpet")
 	TimeOfDay.set_phase(TimeOfDay.Phase.NIGHT)
 	room.get_node("Lighting").apply()
 	var modulate := room.get_node("Lighting/CanvasModulate") as CanvasModulate

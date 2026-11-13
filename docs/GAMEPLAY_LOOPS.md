@@ -1,6 +1,6 @@
 # Gameplay loops — The Calling
 
-Status: Phase F implemented 2026-11-13. Phases A–E are one connected loop. Next: sanctuary and Fellowship Hall interior redesign.
+Status: Phase F implemented 2026-11-13. M13 sanctuary and Fellowship Hall interiors implemented 2026-11-13. Phases A–E are one connected loop.
 
 ## Baseline (before Phase A)
 
@@ -241,8 +241,12 @@ New Game / Restart call `Inventory.reset()`, `GardenState.reset()`, `RequestStat
 - No energy bar, no durability, no drag-and-drop mouse inventory, no quest markers.
 - Item icons are procedural 16×16 PNGs scaled up in the pack. Crop stages and in-ground soil are procedural PNGs in `assets/garden/`. Repair stages are procedural PNGs in `assets/repairs/`. Potluck props are procedural PNGs in `assets/potluck/`. Dale and Ruth sheets are procedural 192×192 PNGs in `assets/characters/`. No LibreSprite `.ase` sources.
 - Till / water / harvest / repair / pickup feedback is a small toast (about 1.2s, then a short fade), not the dialogue banner.
-- The sanctuary and Fellowship Hall interiors are still the minimum rooms. A later milestone redesigns those interiors. F does not.
+- The sanctuary and Fellowship Hall interiors are redesigned in M13. See `docs/INTERIORS.md`.
+
+## Interiors (M13)
+
+The sanctuary and Fellowship Hall are multi-room interiors the player walks through. Rooms are doorways inside one scene each, same pattern as the parsonage. Sunday seating, the office ledger, Margaret's flowers, the potluck tables, and the grounds doors stay hooked to the old systems. Ambient neighbors idle off the doorways. Flavor lines are short and never name dollars. Save stays v11.
 
 ## Future expansion (do not build)
 
-Greenhouse, larger farm, kitchen, workshop, volunteers, construction, town projects, seasons, weather, resident preferences, Sunday prep, staff scheduling. Next build: sanctuary and Fellowship Hall interior redesign. Phase A’s catalog, wallet, and signals are the hooks.
+Greenhouse, larger farm, workshop, volunteers, construction, town projects, seasons, weather, resident preferences, Sunday prep, staff scheduling. Next build: planning board and Tier 1 unless Nathan sends the work elsewhere. Phase A’s catalog, wallet, and signals are the hooks.

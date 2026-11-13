@@ -1,6 +1,6 @@
 # Roadmap — The Calling
 
-Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md`. This file is the current cut line. M12 (church grounds campus) is implemented. Gameplay A–F (inventory through the connected weekly loop) are implemented. Next: sanctuary and Fellowship Hall interior redesign unless Nathan sends the work elsewhere. Chapter 2 storylines are not started.
+Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md`. This file is the current cut line. M12 (church grounds campus) is implemented. Gameplay A–F (inventory through the connected weekly loop) are implemented. M13 (sanctuary and Fellowship Hall interiors) is implemented. Next: planning board / Tier 1 unless Nathan sends the work elsewhere. Chapter 2 storylines are not started.
 
 | Milestone | Status |
 |---|---|
@@ -29,7 +29,7 @@ Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md
 | Gameplay D Interactive repairs | Implemented. Data-driven worksites, staged garden fence, weeds, litter, flower bed, save v10. GroundsChore flags kept. See `docs/GAMEPLAY_LOOPS.md`. |
 | Gameplay E Weekly potluck | Implemented. Fellowship Hall gathering, optional prep, Sarah's framing, save v11. See `docs/GAMEPLAY_LOOPS.md`. |
 | Gameplay F Integration and polish | Implemented. Full-loop playthrough, DayClock review, balance review, HUD and worksite polish, Dale and Ruth sheets. Save stays v11. See `docs/GAMEPLAY_LOOPS.md`. |
-| Sanctuary + Fellowship Hall interiors | Next. Redesign those two rooms. Do not start until Nathan says go. |
+| Sanctuary + Fellowship Hall interiors | Implemented. Multi-room sanctuary and Fellowship Hall, ambient neighbors, flavor props, stained-glass light. Save stays v11. See `docs/INTERIORS.md`. |
 | Planning board and Tier 1 | Later. Attach the first expansion project to a plot (workshop, greenhouse, or dorms). |
 | Next story | Chapter 2 is not started. Full Chapter 2 storylines build on M9 leanings, threads, and the run seed. |
 | M11 Night layer | Not started. Spirit framework, two Lingerers, prayer-lights, steeple light. |
@@ -191,4 +191,12 @@ A connected daily/weekly loop: inventory, church garden, four asks, four repairs
 
 ## Gameplay F does not include
 
-A sanctuary or Fellowship Hall interior redesign. That is next. No save bump, no new items, no automatic Pull from the loop. Insiders still never say "cult".
+A sanctuary or Fellowship Hall interior redesign. That is M13. No save bump, no new items, no automatic Pull from the loop. Insiders still never say "cult".
+
+## M13 includes
+
+A complete interior redesign of the sanctuary (narthex, worship hall, pastor's office, prayer room, choir, storage, hallway) and the Fellowship Hall (main hall, kitchen, classroom, storage, hallway). Ambient neighbors on short idle loops. Short flavor lines. Warm interior light and stained-glass color in the sanctuary. Sunday seating, the ledger, Margaret's flowers, the potluck, M8, and the Chapter 1 ending stay in place.
+
+## M13 does not include
+
+A save bump, new story flags, automatic Pull / attendance / ChurchFunds, combat, or connecting the two interiors into one map. The buildings still open from the grounds.

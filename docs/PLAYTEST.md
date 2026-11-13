@@ -972,4 +972,39 @@ Walkthrough: Continue in Oakridge. Take the parsonage toolbox and the church-gar
 
 On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `GPF_OK` (119 `CHECK OK`) with zero `CHECK FAIL`. Every existing suite still printed its `_OK` line and exited 0: `M1_OK` (76), `M2_OK` (113), `M3_OK` (109), `M4_OK` (90), `M4_5_OK` (90), `M5A_OK` (103), `M5B_OK` (1491), `M6A_OK` (219), `M6A2_OK` (130), `M7_OK` (93), `M8_OK` (80), `M9_OK` (105), `M9B_OK` (176), `M10_OK` (91), `M11_OK` (210), `M11B_OK` (196), `M11C_OK` (246), `M12_OK` (165), `GPA_OK` (204), `GPB_OK` (125), `GPC_OK` (126), `GPC2_OK` (101), `GPD_OK` (148), `GPD2_OK` (100), `GPE_OK` (131). `--quit-after 120` exited 0. `tests/gpf/capture_gpf.tscn` wrote `garden_growth_toast.png`, `picnic_after.png`, `litter_after.png`, `fence_repaired.png`, `dale_ruth.png`, and `loop_end.png` under `tests/gpf/shots/`. T111–T116 were not played in a window.
 
+# Milestone 13 — Sanctuary and Fellowship Hall interiors
+
+The lists above still apply. These checks cover the multi-room sanctuary and Fellowship Hall, ambient neighbors, flavor props, and the old gameplay hooks.
+
+## Automated
+
+```powershell
+godot --headless --path . --import
+godot --headless --path . res://tests/m13/m13_validation.tscn
+godot --path . res://tests/m13/capture_m13.tscn
+```
+
+`m13_validation.tscn` prints `CHECK OK` / `CHECK FAIL` lines and exits with `M13_OK` or `M13_FAIL`.
+It checks every room is reachable from the entrance, doors and spawns sit outside collision, each flavor prop answers, ambient neighbors stay off doorways, Sunday service still starts, the ledger still appears, Margaret's flowers still appear, the potluck still shows prep differences and Sarah's framing, M8 and the Chapter 1 ending stay in place, and save stays v11.
+
+`capture_m13.tscn` writes PNGs to `tests/m13/shots/` and needs a display. It skips with `CAPTURE_SKIPPED` under `--headless`.
+
+## Manual walkthrough
+
+From the courtyard, walk into the sanctuary. You arrive in the narthex. Read the guest book and the bulletin. Walk north up the aisle into the worship hall: pews, a runner, stained-glass color on the carpet, the cross, the piano. Margaret's flowers sit by the east window after that ask. Take the north hallway into the pastor's office (the ledger is on the desk), the prayer room, the choir (spare keys on the stacked chairs), and storage. The restroom door does not open. Walk back out to the grounds.
+
+After the hall is repaired, walk into the Fellowship Hall. The main room has tables and a coffee station. The kitchen is north, with a serving window into the hall. The classroom has a chalkboard. Storage holds folding tables. On Wednesday 11:00–16:00 the potluck still fills the main hall. Sunday at 10:00 the sanctuary still holds the service.
+
+| ID | Do this | Expect |
+|---|---|---|
+| T117 | Walk the sanctuary from the narthex to the office, prayer room, choir, and storage | Every doorway is readable. Nothing blocks the aisle. |
+| T118 | Read the guest book, bulletin, piano, stained glass, and office sketch | Short lines. No dollars. The sketch is only a drawing of extra wings. |
+| T119 | Sunday 10:00 in the worship hall | The service still runs. People sit in the pews. The ledger is in the office afterward. |
+| T120 | Walk the Fellowship Hall kitchen, classroom, and storage | Wood or tile floors. The potluck tables are in the main hall. |
+| T121 | Wednesday potluck with and without prep | Modest table vs dishes, centerpieces, lights, extra chairs, extra guests. Sarah's two framings still exist. |
+
+## M13 results
+
+On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `M13_OK` (189 `CHECK OK`) with zero `CHECK FAIL`. Every existing suite still printed its `_OK` line and exited 0: `M1_OK` (76), `M2_OK` (113), `M3_OK` (109), `M4_OK` (90), `M4_5_OK` (90), `M5A_OK` (103), `M5B_OK` (1491), `M6A_OK` (219), `M6A2_OK` (130), `M7_OK` (93), `M8_OK` (80), `M9_OK` (105), `M9B_OK` (176), `M10_OK` (91), `M11_OK` (210), `M11B_OK` (196), `M11C_OK` (246), `M12_OK` (165), `GPA_OK` (204), `GPB_OK` (125), `GPC_OK` (126), `GPC2_OK` (101), `GPD_OK` (148), `GPD2_OK` (100), `GPE_OK` (131), `GPF_OK` (119). `--quit-after 120` exited 0. `tests/m13/capture_m13.tscn` wrote `sanctuary_worship.png`, `sanctuary_narthex.png`, `sanctuary_office.png`, `sanctuary_prayer.png`, `sanctuary_overview.png`, `fellowship_main.png`, `fellowship_potluck.png`, `fellowship_kitchen.png`, `fellowship_classroom.png`, and `fellowship_overview.png` under `tests/m13/shots/`. T117–T121 were not played in a window.
+
 

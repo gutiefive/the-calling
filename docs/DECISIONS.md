@@ -393,6 +393,18 @@ Phases A–E are one connected loop. No new systems. Save stays version 11.
 
 **Next.** Sanctuary and Fellowship Hall interior redesign. Not a church tycoon pass.
 
+## D60 — Sanctuary and Fellowship Hall interiors (M13)
+
+Playtest: both interiors were one-room placeholders. The player spends a lot of time in them, so they are now multi-room buildings in the existing interior-scene pattern (one scene per building, doorways between rooms).
+
+**Sanctuary.** Narthex (welcome table, coat rack, guest book, bulletin, bench), worship hall (aisle, pews, runner, platform, altar, pulpit, wooden cross, stained-glass light, piano, hymn board, Margaret's flowers), pastor's office (desk, ledger, bookshelf, filing, lamp, photo, a quiet sketch of extra wings), prayer room (kneeler, candles, bench), choir, storage, a hallway, and a non-enterable restroom door. The ledger moved into the office. Spare keys stay on the stacked chairs in the choir room.
+
+**Fellowship Hall.** Main hall with real wood floor, tables the potluck still uses, a podium, coffee, lost-and-found, bulletin, and a speaker; a kitchen with a serving pass-through; a Sunday-school classroom; storage for folding tables; a connecting hallway. The M8 crate stays on the grounds by the door.
+
+**Alive, not busy.** Named people keep their schedules (Margaret by the flowers, Harold by the hymnals). Unnamed neighbors idle in the prayer room, choir, kitchen, and classroom, off the doorways. Short flavor lines. No dollars. Insiders never say "cult". One quietly ambiguous office sketch. Faith is not the villain. No automatic Pull, attendance, loyalty, or ChurchFunds from the new props.
+
+**Save.** Version 11. No migration. Sunday, the ledger, the potluck, M8, and the Chapter 1 ending keep their flags.
+
 ## Still open
 
 | # | Question | Notes |

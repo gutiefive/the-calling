@@ -110,6 +110,8 @@ func _add_prop_blocks() -> void:
 			continue
 		if bool(node.get_meta("schedule_walking", false)):
 			continue
+		if node is CanvasItem and not (node as CanvasItem).visible:
+			continue
 		var body := node as Node2D
 		var size: Vector2 = body.get("block_size")
 		var block_offset: Vector2 = body.get("block_offset")

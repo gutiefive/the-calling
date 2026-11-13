@@ -3,11 +3,11 @@ extends Node
 ## Named people sit for the service, then stand for follow-up. Twelve unnamed congregants fill the pews.
 
 const SEATS: Dictionary = {
-	"harold": Vector2(300, 356),
-	"margaret": Vector2(600, 356),
-	"sarah": Vector2(300, 436),
-	"thomas": Vector2(600, 436),
-	"frank": Vector2(300, 596),
+	"harold": Vector2(420, 448),
+	"margaret": Vector2(1030, 448),
+	"sarah": Vector2(420, 544),
+	"thomas": Vector2(1030, 544),
+	"frank": Vector2(420, 736),
 }
 const FOLLOWUPS: Dictionary = {
 	"margaret": "margaret_sunday",
@@ -17,12 +17,12 @@ const FOLLOWUPS: Dictionary = {
 	"thomas": "thomas_sunday",
 }
 const CROWD: Array[Vector2] = [
-	Vector2(360, 356), Vector2(660, 356),
-	Vector2(360, 436), Vector2(660, 436),
-	Vector2(300, 516), Vector2(360, 516),
-	Vector2(600, 516), Vector2(660, 516),
-	Vector2(360, 596), Vector2(600, 596),
-	Vector2(660, 596), Vector2(430, 640),
+	Vector2(500, 448), Vector2(1100, 448),
+	Vector2(500, 544), Vector2(1100, 544),
+	Vector2(420, 640), Vector2(500, 640),
+	Vector2(1030, 640), Vector2(1100, 640),
+	Vector2(500, 736), Vector2(1030, 736),
+	Vector2(1100, 736), Vector2(560, 736),
 ]
 
 var _running: bool = false
