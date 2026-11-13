@@ -263,6 +263,16 @@ Shop hours, walk-in doors, Thomas behind the counter, Frank in the bay, and the 
 
 Bright's Diner is named and visible. It is not enterable yet.
 
+## D48 — Oak Street south side and Maple Lane (M11)
+
+Playtest after M10: Oak's south sidewalk was empty grass, and Maple Lane felt boring.
+
+Oak Street keeps the M10 road. A second building line fronts the south sidewalk: Oakridge Credit Union, Pearl's Pharmacy, Second Chance Thrift, a parking strip, Hollis Feed and Seed, Town Hall, a pocket park, and a boarded shop. Doors meet the sidewalk. Walking in (or E) shows a short ordinary line. None of those interiors exist yet. Hanging signs sit at sidewalk height on both sides of the street so names read at the game camera. Two more neighbors walk the sidewalks and the church-end crosswalk during the day.
+
+Maple Lane is a quiet north–south street off the Oak T-junction: two lanes, no center line, sidewalks, six houses with front yards, and the community garden as a fenced lot with a gate on the east sidewalk. House and shop facades are data in `data/world/maple_houses.json` and `data/world/oak_storefronts.json`. Each row has an optional `destination_scene`. Empty means a `BuildingDoor` stays closed with flavor text; a later milestone can set the path to make that building enterable. Dale, Ruth, Margaret, Harold, Mrs. Ellis, and Ned Voss are assigned in data only. Schedules and story flags do not change.
+
+Shop hours, walk-in travel, Thomas at the counter, Frank at the bay, and one-person-one-place stay as they were. A loaded save whose coordinates sit in a collider still snaps to the nearest spawn, on both streets.
+
 ## Still open
 
 | # | Question | Notes |

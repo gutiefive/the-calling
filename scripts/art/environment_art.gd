@@ -21,6 +21,21 @@ const CAR_A := "res://assets/environments/parked_car_a.png"
 const CAR_B := "res://assets/environments/parked_car_b.png"
 const TRASH := "res://assets/environments/trash_can.png"
 const HYDRANT := "res://assets/environments/fire_hydrant.png"
+const CREDIT := "res://assets/environments/credit_union.png"
+const PHARMACY := "res://assets/environments/pharmacy.png"
+const THRIFT := "res://assets/environments/thrift_shop.png"
+const FEED := "res://assets/environments/feed_store.png"
+const TOWN_HALL := "res://assets/environments/town_hall.png"
+const BOARDED := "res://assets/environments/boarded_shop.png"
+const PAPER_BOX := "res://assets/environments/newspaper_box.png"
+const BIKE_RACK := "res://assets/environments/bike_rack.png"
+const FLOWER_BOX := "res://assets/environments/flower_box.png"
+const SWING := "res://assets/environments/swing_set.png"
+const KIDS_BIKE := "res://assets/environments/kids_bike.png"
+const HOSE := "res://assets/environments/garden_hose.png"
+const DOG_HOUSE := "res://assets/environments/dog_house.png"
+const ROCKER := "res://assets/environments/rocking_chair.png"
+const PICKET := "res://assets/environments/picket_fence.png"
 
 
 static func church_front() -> Texture2D:
@@ -89,6 +104,78 @@ static func trash_can() -> Texture2D:
 
 static func hydrant() -> Texture2D:
 	return _load(HYDRANT)
+
+
+static func credit_union() -> Texture2D:
+	return _load(CREDIT)
+
+
+static func pharmacy() -> Texture2D:
+	return _load(PHARMACY)
+
+
+static func thrift() -> Texture2D:
+	return _load(THRIFT)
+
+
+static func feed_store() -> Texture2D:
+	return _load(FEED)
+
+
+static func town_hall() -> Texture2D:
+	return _load(TOWN_HALL)
+
+
+static func boarded_shop() -> Texture2D:
+	return _load(BOARDED)
+
+
+static func newspaper_box() -> Texture2D:
+	return _load(PAPER_BOX)
+
+
+static func bike_rack() -> Texture2D:
+	return _load(BIKE_RACK)
+
+
+static func flower_box() -> Texture2D:
+	return _load(FLOWER_BOX)
+
+
+static func swing_set() -> Texture2D:
+	return _load(SWING)
+
+
+static func kids_bike() -> Texture2D:
+	return _load(KIDS_BIKE)
+
+
+static func garden_hose() -> Texture2D:
+	return _load(HOSE)
+
+
+static func dog_house() -> Texture2D:
+	return _load(DOG_HOUSE)
+
+
+static func rocking_chair() -> Texture2D:
+	return _load(ROCKER)
+
+
+static func picket_fence() -> Texture2D:
+	return _load(PICKET)
+
+
+static func house(variant: int, door_east: bool) -> Texture2D:
+	var side := "east" if door_east else "west"
+	var clamped := clampi(variant, 0, 5)
+	return _load("res://assets/environments/house_%d_%s.png" % [clamped, side])
+
+
+static func hanging_sign(sign_id: String) -> Texture2D:
+	if sign_id.is_empty():
+		return null
+	return _load("res://assets/environments/sign_%s.png" % sign_id)
 
 
 static func _load(path: String) -> Texture2D:

@@ -27,8 +27,12 @@ const POS_DOOR := Vector2(48, Y_ROAD)
 const POS_SPAWN := Vector2(120, Y_ROAD)
 const POS_HYDRANT := Vector2(720, Y_DOOR)
 const POS_TRASH := Vector2(960, Y_SOUTH_WALK)
+const Y_SOUTH_FRONT := 24 * TILE
+const Y_SOUTH_DOOR := Y_SOUTH_FRONT + 24
 const POS_CAR_A := Vector2(544, 18 * TILE)
 const POS_CAR_B := Vector2(1056, 18 * TILE)
+const POS_CAR_C := Vector2(880, 23 * TILE)
+const POS_CAR_D := Vector2(1504, 23 * TILE)
 const POS_MAPLE_DOOR := Vector2(1856, 34 * TILE)
 const POS_MAPLE_SPAWN := Vector2(1856, 32 * TILE)
 const POS_WIN_H := Vector2(780, Y_FRONT - 80)
@@ -151,15 +155,19 @@ func _paint_ground() -> void:
 	layer.set_cell(Vector2i(60, 19), 0, TownTiles.CURB_SW)
 	layer.set_cell(Vector2i(69, 19), 0, TownTiles.CURB_SE)
 	_paint_rect(layer, 0, 12, 70, 14, TownTiles.SIDEWALK)
-	_paint_rect(layer, 0, 20, 56, 22, TownTiles.SIDEWALK)
+	_paint_rect(layer, 0, 20, 56, 25, TownTiles.SIDEWALK)
 	_paint_rect(layer, 60, 20, 70, 22, TownTiles.SIDEWALK)
+	_paint_rect(layer, 4, 25, 52, 26, TownTiles.FOUNDATION)
+	_paint_rect(layer, 26, 22, 30, 25, TownTiles.PARKING)
+	_paint_rect(layer, 45, 25, 50, 30, TownTiles.GRASS_A)
+	_paint_rect(layer, 46, 26, 49, 28, TownTiles.FLOWER_BED)
 	_paint_rect(layer, 4, 11, 50, 12, TownTiles.FOUNDATION)
 	_paint_rect(layer, 44, 13, 48, 15, TownTiles.DRIVEWAY)
 	_paint_rect(layer, 29, 11, 31, 14, TownTiles.ALLEY)
 	var planters_n: Array[int] = [2, 29, 51]
 	for px in planters_n:
 		layer.set_cell(Vector2i(px, 13), 0, TownTiles.PLANTER)
-	var planters_s: Array[int] = [4, 12, 20, 28, 36, 44, 52, 62]
+	var planters_s: Array[int] = [2, 28, 36, 47, 62]
 	for px in planters_s:
 		layer.set_cell(Vector2i(px, 21), 0, TownTiles.PLANTER)
 	_paint_rect(layer, 56, 19, 60, 35, TownTiles.ASPHALT)
@@ -267,6 +275,16 @@ func _add_living_town() -> void:
 	_add_solid_sprite(props, "SouthTree2", PlaceholderArt.tree(1), Vector2(896, Y_SOUTH_WALK), Vector2(14, 8))
 	_add_solid_sprite(props, "SouthTree3", PlaceholderArt.tree(2), Vector2(1344, Y_SOUTH_WALK), Vector2(14, 8))
 	_add_solid_sprite(props, "SouthBench2", PlaceholderArt.bench(), Vector2(1180, Y_SOUTH_WALK), Vector2(36, 10))
+	_add_solid_sprite(props, "CarC", PlaceholderArt.parked_car(0), POS_CAR_C, Vector2(40, 14))
+	_add_solid_sprite(props, "CarD", PlaceholderArt.parked_car(1), POS_CAR_D, Vector2(40, 14))
+	_add_solid_sprite(props, "PaperBox", PlaceholderArt.newspaper_box(), Vector2(300, Y_SOUTH_WALK), Vector2(12, 8))
+	_add_solid_sprite(props, "BikeRack", PlaceholderArt.bike_rack(), Vector2(620, Y_SOUTH_WALK), Vector2(28, 8))
+	_add_solid_sprite(props, "FlowerBoxA", PlaceholderArt.flower_box(), Vector2(500, Y_SOUTH_WALK), Vector2(18, 8))
+	_add_solid_sprite(props, "FlowerBoxB", PlaceholderArt.flower_box(), Vector2(1200, Y_SOUTH_WALK), Vector2(18, 8))
+	_add_solid_sprite(props, "BusStop", PlaceholderArt.bus_stop(), Vector2(900, Y_SOUTH_WALK), Vector2(12, 10))
+	_add_solid_sprite(props, "ParkFence", PlaceholderArt.picket_fence(), Vector2(1488, Y_SOUTH_FRONT), Vector2(48, 10))
+	_add_solid_sprite(props, "ParkTreeS", PlaceholderArt.tree(1), Vector2(1488, Y_SOUTH_FRONT + 48), Vector2(14, 8))
+	_add_solid_sprite(props, "ParkBenchS", PlaceholderArt.bench(), Vector2(1550, Y_SOUTH_FRONT + 20), Vector2(36, 10))
 	_add_park_lamp(props, "ParkLamp", Vector2(2048, 820))
 	_add_park_lamp(props, "StreetLamp2", Vector2(240, Y_SOUTH_WALK))
 	_add_park_lamp(props, "StreetLamp3", Vector2(816, Y_SOUTH_WALK))
@@ -336,9 +354,43 @@ func _add_living_town() -> void:
 		"happening_later_park",
 		"The kids found a kite in the creek grass."
 	)
-	_add_neighbor(props, "NeighborA", "ada", 0, 0, Vector2(360, Y_SOUTH_WALK))
-	_add_neighbor(props, "NeighborB", "ben", 1, 1, Vector2(800, Y_SOUTH_WALK))
-	_add_neighbor(props, "NeighborC", "cleo", 2, 2, Vector2(1240, Y_SOUTH_WALK))
+	_add_neighbor(props, "NeighborA", "ada", 0, 0, Vector2(360, Y_DOOR))
+	_add_neighbor(props, "NeighborB", "ben", 1, 1, Vector2(800, Y_DOOR))
+	_add_neighbor(props, "NeighborC", "cleo", 2, 2, Vector2(1240, Y_DOOR))
+	var cross := Vector2(240, Y_ROAD)
+	_add_neighbor(
+		props,
+		"NeighborD",
+		"don",
+		3,
+		0,
+		Vector2(100, Y_SOUTH_WALK),
+		[
+			Vector2(100, Y_SOUTH_WALK),
+			cross,
+			Vector2(240, Y_DOOR),
+			Vector2(500, Y_DOOR),
+			Vector2(240, Y_DOOR),
+			cross,
+			Vector2(100, Y_SOUTH_WALK),
+		]
+	)
+	_add_neighbor(
+		props,
+		"NeighborE",
+		"eve",
+		4,
+		1,
+		Vector2(860, Y_SOUTH_WALK),
+		[
+			Vector2(860, Y_SOUTH_WALK),
+			Vector2(860, Y_ROAD),
+			Vector2(1500, Y_ROAD),
+			Vector2(1500, Y_SOUTH_WALK),
+		]
+	)
+	_add_south_street(props)
+	_add_facade_details(props)
 
 
 func _add_park_lamp(props: Node, lamp_name: String, pos: Vector2) -> void:
@@ -467,7 +519,15 @@ func _place_marker(id: String, pos: Vector2, facing: StringName) -> void:
 	marker.set_meta("facing", facing)
 
 
-func _add_neighbor(props: Node, node_name: String, person_id: String, index: int, variant: int, pos: Vector2) -> void:
+func _add_neighbor(
+	props: Node,
+	node_name: String,
+	person_id: String,
+	index: int,
+	variant: int,
+	pos: Vector2,
+	route_points: Array = []
+) -> void:
 	if props.get_node_or_null(node_name) != null:
 		return
 	var person := AmbientTownsfolk.new()
@@ -478,7 +538,12 @@ func _add_neighbor(props: Node, node_name: String, person_id: String, index: int
 	person.position = pos
 	person.prompt_text = "Say hello"
 	person.radius = 40.0
-	var route: Array[Vector2] = [pos, pos + Vector2(180, 0), pos + Vector2(180, 24), pos + Vector2(0, 24)]
+	var route: Array[Vector2] = []
+	for point in route_points:
+		if point is Vector2:
+			route.append(point)
+	if route.is_empty():
+		route = [pos, pos + Vector2(180, 0), pos + Vector2(180, 24), pos + Vector2(0, 24)]
 	person.set_route(route)
 	props.add_child(person)
 
@@ -528,3 +593,97 @@ func _add_happening(
 	sprite.name = "Sprite"
 	spot.add_child(sprite)
 	props.add_child(spot)
+
+
+func _add_south_street(props: Node) -> void:
+	for row in TownFacades.oak_storefronts():
+		if str(row.get("side", "")) != "south":
+			continue
+		var node_name := str(row.get("node", ""))
+		var art_id := str(row.get("art", ""))
+		if node_name.is_empty() or art_id.is_empty():
+			continue
+		var texture := PlaceholderArt.facade_art(art_id)
+		if texture == null:
+			continue
+		var pos := Vector2(float(row.get("x", 0)), Y_SOUTH_FRONT)
+		var block := Vector2(texture.get_width() - 8.0, texture.get_height() - 18.0)
+		_add_solid_sprite(props, node_name, texture, pos, block)
+		var sprite := props.get_node_or_null(node_name) as SolidProp
+		if sprite != null:
+			sprite.z_index = -1
+			sprite.block_offset = Vector2(0.0, -18.0 - block.y * 0.5)
+		_add_window("%sWindow" % node_name, Vector2(pos.x, Y_SOUTH_FRONT - 70))
+		_ensure_occluder(node_name)
+
+
+func _add_facade_details(props: Node) -> void:
+	var index := 0
+	for row in TownFacades.oak_storefronts():
+		var node_name := str(row.get("node", ""))
+		var side := str(row.get("side", "north"))
+		var x := float(row.get("x", 0))
+		var door_y := Y_DOOR if side == "north" else Y_SOUTH_DOOR
+		var sign_id := str(row.get("sign_id", ""))
+		var sign_text := str(row.get("sign", ""))
+		if not sign_id.is_empty():
+			var sign_tex := PlaceholderArt.hanging_sign(sign_id, sign_text, index)
+			var sign_y := Y_DOOR - 12.0 if side == "north" else Y_SOUTH_DOOR - 12.0
+			_add_solid_sprite(props, "%sSign" % node_name, sign_tex, Vector2(x, sign_y), Vector2(8, 6))
+			var sign_node := props.get_node_or_null("%sSign" % node_name) as Node2D
+			if sign_node != null:
+				sign_node.add_to_group("shop_sign")
+		var scheduled := str(row.get("scheduled", ""))
+		if not scheduled.is_empty():
+			index += 1
+			continue
+		_add_building_door(
+			props,
+			"%sDoor" % node_name,
+			Vector2(x, door_y),
+			str(row.get("place", node_name)),
+			str(row.get("flavor", "Closed for the day.")),
+			str(row.get("id", "")),
+			str(row.get("destination_scene", "")),
+			StringName(str(row.get("destination_spawn", "from_street")))
+		)
+		index += 1
+
+
+func _add_building_door(
+	props: Node,
+	node_name: String,
+	pos: Vector2,
+	place: String,
+	flavor: String,
+	building_id: String,
+	scene_path: String,
+	spawn: StringName
+) -> void:
+	var existing := props.get_node_or_null(node_name) as Node2D
+	if existing != null:
+		existing.position = pos
+		return
+	var door := BuildingDoor.new()
+	door.name = node_name
+	door.position = pos
+	door.place_name = place
+	door.prompt_text = place
+	door.radius = 26.0
+	door.flavor_line = flavor
+	door.building_id = building_id
+	door.destination_scene = scene_path
+	door.destination_spawn = spawn
+	props.add_child(door)
+
+
+func _ensure_occluder(sprite_name: String) -> void:
+	var lighting := get_node_or_null("Lighting")
+	if lighting == null:
+		return
+	var occ_name := "%sOccluder" % sprite_name
+	if lighting.get_node_or_null(occ_name) == null:
+		var occluder := LightOccluder2D.new()
+		occluder.name = occ_name
+		lighting.add_child(occluder)
+	_occlude("Lighting/%s" % occ_name, "Props/%s" % sprite_name)

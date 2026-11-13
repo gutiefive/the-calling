@@ -57,7 +57,15 @@ Oak Street buildings and street props in `assets/environments/`:
 - `trash_can.png` (16×24)
 - `fire_hydrant.png` (16×24)
 
-Maps and helpers live in `scripts/art/environment_frames.gd` and `scripts/art/pixel_draw.gd`. Atlas coordinates are `scripts/art/town_tiles.gd`. Sanctuary floors, shop interiors, and unnamed townsfolk still use `PlaceholderArt`.
+M11 south-side shops, hanging signs, houses, and street props:
+
+- `credit_union.png` (192×128), `pharmacy.png` (176×128), `thrift_shop.png` (160×128)
+- `feed_store.png` (192×128), `town_hall.png` (208×128), `boarded_shop.png` (160×128)
+- `sign_*.png` hanging signs (128×32)
+- `house_0_east.png` through `house_5_west.png` (144×96)
+- `newspaper_box.png`, `bike_rack.png`, `flower_box.png`, `swing_set.png`, `kids_bike.png`, `garden_hose.png`, `dog_house.png`, `rocking_chair.png`, `picket_fence.png`
+
+Maps and helpers live in `scripts/art/environment_frames.gd`, `scripts/art/street_frames.gd`, and `scripts/art/pixel_draw.gd`. Atlas coordinates are `scripts/art/town_tiles.gd`. Sanctuary floors, shop interiors, and unnamed townsfolk still use `PlaceholderArt`.
 
 ## LibreSprite is the source of truth for an edited PNG
 

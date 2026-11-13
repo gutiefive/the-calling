@@ -35,7 +35,7 @@
       "entries": [
         {"days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], "from": "09:00", "until": "18:00", "scene": "hardware_interior", "position": [300, 250]},
         {"days": ["Saturday"], "from": "09:00", "until": "15:00", "scene": "hardware_interior", "position": [300, 250]},
-        {"days": ["Saturday"], "from": "15:00", "until": "17:00", "scene": "maple_lane", "position": [400, 420]},
+        {"days": ["Saturday"], "from": "15:00", "until": "17:00", "scene": "maple_lane", "position": [640, 500]},
         {"days": ["Sunday"], "from": "10:00", "until": "24:00", "scene": "sanctuary", "position": [560, 520]}
       ]
     },
@@ -51,9 +51,9 @@
       "id": "sarah",
       "entries": [
         {"days": ["Monday", "Tuesday", "Wednesday"], "from": "09:00", "until": "12:00", "scene": "hardware_street", "position": [592, 440]},
-        {"days": ["Monday", "Tuesday", "Wednesday"], "from": "12:00", "until": "17:00", "scene": "maple_lane", "position": [400, 560]},
+        {"days": ["Monday", "Tuesday", "Wednesday"], "from": "12:00", "until": "17:00", "scene": "maple_lane", "position": [832, 720]},
         {"days": ["Friday"], "from": "09:00", "until": "12:00", "scene": "hardware_street", "position": [592, 440]},
-        {"days": ["Friday"], "from": "12:00", "until": "17:00", "scene": "maple_lane", "position": [400, 560]},
+        {"days": ["Friday"], "from": "12:00", "until": "17:00", "scene": "maple_lane", "position": [832, 720]},
         {"days": ["Saturday"], "from": "10:00", "until": "13:00", "scene": "hardware_street", "position": [592, 440]},
         {"days": ["Sunday"], "from": "10:00", "until": "24:00", "scene": "sanctuary", "position": [400, 500]}
       ]
@@ -61,13 +61,13 @@
     {
       "id": "dale",
       "entries": [
-        {"days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "from": "08:00", "until": "17:00", "scene": "maple_lane", "position": [420, 680]}
+        {"days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "from": "08:00", "until": "17:00", "scene": "maple_lane", "position": [640, 360]}
       ]
     },
     {
       "id": "ruth",
       "entries": [
-        {"days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "from": "09:00", "until": "17:00", "scene": "maple_lane", "position": [520, 760]}
+        {"days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "from": "09:00", "until": "17:00", "scene": "maple_lane", "position": [640, 736]}
       ]
     },
     {

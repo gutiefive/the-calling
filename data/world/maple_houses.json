@@ -1,0 +1,76 @@
+{
+  "houses": [
+    {
+      "id": "dale",
+      "node": "HouseDale",
+      "resident": "Dale",
+      "variant": 0,
+      "side": "west",
+      "x": 384,
+      "y": 352,
+      "flavor": "A pair of work boots sits by the mat.",
+      "destination_scene": "",
+      "destination_spawn": "from_street"
+    },
+    {
+      "id": "voss",
+      "node": "HouseVoss",
+      "resident": "Ned Voss",
+      "variant": 2,
+      "side": "west",
+      "x": 384,
+      "y": 736,
+      "flavor": "Nobody seems to be home.",
+      "destination_scene": "",
+      "destination_spawn": "from_street"
+    },
+    {
+      "id": "margaret",
+      "node": "HouseMargaret",
+      "resident": "Margaret",
+      "variant": 4,
+      "side": "west",
+      "x": 384,
+      "y": 1120,
+      "flavor": "The porch light is on. You hear a kettle.",
+      "destination_scene": "",
+      "destination_spawn": "from_street"
+    },
+    {
+      "id": "harold",
+      "node": "HouseHarold",
+      "resident": "Harold",
+      "variant": 1,
+      "side": "east",
+      "x": 1088,
+      "y": 352,
+      "flavor": "You hear a TV inside.",
+      "destination_scene": "",
+      "destination_spawn": "from_street"
+    },
+    {
+      "id": "ellis",
+      "node": "HouseEllis",
+      "resident": "Mrs. Ellis",
+      "variant": 3,
+      "side": "east",
+      "x": 1088,
+      "y": 1120,
+      "flavor": "A cat watches you from the window, then hops down.",
+      "destination_scene": "",
+      "destination_spawn": "from_street"
+    },
+    {
+      "id": "calhoun",
+      "node": "HouseCalhoun",
+      "resident": "the Calhouns",
+      "variant": 5,
+      "side": "east",
+      "x": 1088,
+      "y": 1456,
+      "flavor": "Kids' shoes by the door. Nobody answers.",
+      "destination_scene": "",
+      "destination_spawn": "from_street"
+    }
+  ]
+}

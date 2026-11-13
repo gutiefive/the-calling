@@ -4,6 +4,7 @@ extends SceneTree
 ## C:\Tools\Godot\4.7.2\Godot_v4.7.2-stable_win64_console.exe --headless --path . --script res://tools/art/author_environment.gd
 
 const Frames := preload("res://scripts/art/environment_frames.gd")
+const Street := preload("res://scripts/art/street_frames.gd")
 
 const TILESET_PNG := "res://assets/tilesets/town_tiles.png"
 const TILESET_TRES := "res://assets/tilesets/town_tiles.tres"
@@ -51,6 +52,61 @@ func _init() -> void:
 		failed = true
 	if not _write_image("res://assets/environments/fire_hydrant.png", Frames.build_hydrant(), Vector2i(16, 24)):
 		failed = true
+	if not _write_image("res://assets/environments/credit_union.png", Street.build_credit_union(), Vector2i(192, 128)):
+		failed = true
+	if not _write_image("res://assets/environments/pharmacy.png", Street.build_pharmacy(), Vector2i(176, 128)):
+		failed = true
+	if not _write_image("res://assets/environments/thrift_shop.png", Street.build_thrift(), Vector2i(160, 128)):
+		failed = true
+	if not _write_image("res://assets/environments/feed_store.png", Street.build_feed_store(), Vector2i(192, 128)):
+		failed = true
+	if not _write_image("res://assets/environments/town_hall.png", Street.build_town_hall(), Vector2i(208, 128)):
+		failed = true
+	if not _write_image("res://assets/environments/boarded_shop.png", Street.build_boarded_shop(), Vector2i(160, 128)):
+		failed = true
+	if not _write_image("res://assets/environments/newspaper_box.png", Street.build_newspaper_box(), Vector2i(16, 24)):
+		failed = true
+	if not _write_image("res://assets/environments/bike_rack.png", Street.build_bike_rack(), Vector2i(40, 20)):
+		failed = true
+	if not _write_image("res://assets/environments/flower_box.png", Street.build_flower_box(), Vector2i(24, 16)):
+		failed = true
+	if not _write_image("res://assets/environments/swing_set.png", Street.build_swing_set(), Vector2i(48, 40)):
+		failed = true
+	if not _write_image("res://assets/environments/kids_bike.png", Street.build_kids_bike(), Vector2i(24, 16)):
+		failed = true
+	if not _write_image("res://assets/environments/garden_hose.png", Street.build_hose(), Vector2i(28, 12)):
+		failed = true
+	if not _write_image("res://assets/environments/dog_house.png", Street.build_dog_house(), Vector2i(32, 28)):
+		failed = true
+	if not _write_image("res://assets/environments/rocking_chair.png", Street.build_rocking_chair(), Vector2i(16, 24)):
+		failed = true
+	if not _write_image("res://assets/environments/picket_fence.png", Street.build_picket_fence(), Vector2i(64, 32)):
+		failed = true
+	for variant in range(6):
+		if not _write_image("res://assets/environments/house_%d_east.png" % variant, Street.build_house(variant, true), Vector2i(144, 96)):
+			failed = true
+		if not _write_image("res://assets/environments/house_%d_west.png" % variant, Street.build_house(variant, false), Vector2i(144, 96)):
+			failed = true
+	var signs: Array[Dictionary] = [
+		{"file": "sign_hardware.png", "text": "HARDWARE", "variant": 0},
+		{"file": "sign_miller.png", "text": "MILLER", "variant": 3},
+		{"file": "sign_brights.png", "text": "BRIGHT'S", "variant": 2},
+		{"file": "sign_post.png", "text": "POST", "variant": 1},
+		{"file": "sign_barber.png", "text": "BARBER", "variant": 0},
+		{"file": "sign_lease.png", "text": "LEASE", "variant": 3},
+		{"file": "sign_credit.png", "text": "CREDIT", "variant": 1},
+		{"file": "sign_pearls.png", "text": "PEARL'S", "variant": 2},
+		{"file": "sign_thrift.png", "text": "THRIFT", "variant": 0},
+		{"file": "sign_feed.png", "text": "FEED", "variant": 0},
+		{"file": "sign_hall.png", "text": "HALL", "variant": 1},
+		{"file": "sign_closed.png", "text": "CLOSED", "variant": 3},
+	]
+	for row in signs:
+		var sign_file := str(row.get("file", ""))
+		var sign_text := str(row.get("text", ""))
+		var sign_variant := int(row.get("variant", 0))
+		if not _write_image("res://assets/environments/%s" % sign_file, Street.build_hanging_sign(sign_text, sign_variant), Vector2i(128, 32)):
+			failed = true
 	if not _write_tileset():
 		failed = true
 	quit(1 if failed else 0)

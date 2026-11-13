@@ -280,6 +280,145 @@ static func hydrant() -> Texture2D:
 	return mailbox()
 
 
+static func credit_union() -> Texture2D:
+	var authored := EnvironmentArt.credit_union()
+	if authored != null:
+		return authored
+	return _cached("credit_union", StreetFrames.build_credit_union())
+
+
+static func pharmacy() -> Texture2D:
+	var authored := EnvironmentArt.pharmacy()
+	if authored != null:
+		return authored
+	return _cached("pharmacy", StreetFrames.build_pharmacy())
+
+
+static func thrift_shop() -> Texture2D:
+	var authored := EnvironmentArt.thrift()
+	if authored != null:
+		return authored
+	return _cached("thrift", StreetFrames.build_thrift())
+
+
+static func feed_store() -> Texture2D:
+	var authored := EnvironmentArt.feed_store()
+	if authored != null:
+		return authored
+	return _cached("feed_store", StreetFrames.build_feed_store())
+
+
+static func town_hall() -> Texture2D:
+	var authored := EnvironmentArt.town_hall()
+	if authored != null:
+		return authored
+	return _cached("town_hall", StreetFrames.build_town_hall())
+
+
+static func boarded_shop() -> Texture2D:
+	var authored := EnvironmentArt.boarded_shop()
+	if authored != null:
+		return authored
+	return _cached("boarded_shop", StreetFrames.build_boarded_shop())
+
+
+static func newspaper_box() -> Texture2D:
+	var authored := EnvironmentArt.newspaper_box()
+	if authored != null:
+		return authored
+	return _cached("newspaper_box", StreetFrames.build_newspaper_box())
+
+
+static func bike_rack() -> Texture2D:
+	var authored := EnvironmentArt.bike_rack()
+	if authored != null:
+		return authored
+	return _cached("bike_rack", StreetFrames.build_bike_rack())
+
+
+static func flower_box() -> Texture2D:
+	var authored := EnvironmentArt.flower_box()
+	if authored != null:
+		return authored
+	return _cached("flower_box", StreetFrames.build_flower_box())
+
+
+static func swing_set() -> Texture2D:
+	var authored := EnvironmentArt.swing_set()
+	if authored != null:
+		return authored
+	return _cached("swing_set", StreetFrames.build_swing_set())
+
+
+static func kids_bike() -> Texture2D:
+	var authored := EnvironmentArt.kids_bike()
+	if authored != null:
+		return authored
+	return _cached("kids_bike", StreetFrames.build_kids_bike())
+
+
+static func garden_hose() -> Texture2D:
+	var authored := EnvironmentArt.garden_hose()
+	if authored != null:
+		return authored
+	return _cached("garden_hose", StreetFrames.build_hose())
+
+
+static func dog_house() -> Texture2D:
+	var authored := EnvironmentArt.dog_house()
+	if authored != null:
+		return authored
+	return _cached("dog_house", StreetFrames.build_dog_house())
+
+
+static func rocking_chair() -> Texture2D:
+	var authored := EnvironmentArt.rocking_chair()
+	if authored != null:
+		return authored
+	return _cached("rocking_chair", StreetFrames.build_rocking_chair())
+
+
+static func picket_fence() -> Texture2D:
+	var authored := EnvironmentArt.picket_fence()
+	if authored != null:
+		return authored
+	return _cached("picket_fence", StreetFrames.build_picket_fence())
+
+
+static func house(variant: int, door_east: bool) -> Texture2D:
+	var authored := EnvironmentArt.house(variant, door_east)
+	if authored != null:
+		return authored
+	return _cached("house_%d_%s" % [variant, "e" if door_east else "w"], StreetFrames.build_house(variant, door_east))
+
+
+static func hanging_sign(sign_id: String, text: String = "", variant: int = 0) -> Texture2D:
+	var authored := EnvironmentArt.hanging_sign(sign_id)
+	if authored != null:
+		return authored
+	if text.is_empty():
+		return null
+	return _cached("sign_%s" % sign_id, StreetFrames.build_hanging_sign(text, variant))
+
+
+static func facade_art(art_id: String) -> Texture2D:
+	match art_id:
+		"credit_union":
+			return credit_union()
+		"pharmacy":
+			return pharmacy()
+		"thrift":
+			return thrift_shop()
+		"feed_store":
+			return feed_store()
+		"town_hall":
+			return town_hall()
+		"boarded_shop":
+			return boarded_shop()
+		_:
+			return null
+
+
 static func crate() -> Texture2D:
 	return _cached("crate", _crate())
 

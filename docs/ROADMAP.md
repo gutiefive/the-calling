@@ -1,6 +1,6 @@
 # Roadmap — The Calling
 
-Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md`. This file is the current cut line. M10 (Oak Street redesign) is implemented. Next: more enterable buildings, starting with Bright's Diner. Chapter 2 storylines are not started.
+Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md`. This file is the current cut line. M11 (Oak Street south side and Maple Lane rework) is implemented. Next: more enterable buildings, starting with Bright's Diner and one house. Chapter 2 storylines are not started.
 
 | Milestone | Status |
 |---|---|
@@ -18,7 +18,8 @@ Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md
 | M8 Weekly loop, funds, first project | Implemented. Later Sundays run a short service, ChurchFunds and the ledger screen, save v5, and the Fellowship Hall repair. Chapter 1 still plays identically until Continue. |
 | M9 Branching foundation | Implemented. Hidden Shepherd / Builder / Skeptic leanings, story threads, a per-save run seed, and save v6. Chapter 1 still plays the same default path. A few Chapter 1 and weekly-loop branches prove the model. |
 | M9B Walk-in doors | Implemented. Doors change rooms on contact. E still talks and inspects. |
-| M10 Oak Street redesign | Implemented. Two-lane asphalt, sidewalks, storefronts on a building line, Bright's Diner and filler shops, park and creek at the east end. Next: more enterable buildings, starting with Bright's Diner. |
+| M10 Oak Street redesign | Implemented. Two-lane asphalt, sidewalks, storefronts on a building line, Bright's Diner and filler shops, park and creek at the east end. |
+| M11 Oak south + Maple Lane | Implemented. South-side storefronts and civic buildings, larger hanging signs, Maple Lane as a residential street with six houses and the garden kept. Next: enterable buildings, starting with Bright's Diner and one house. |
 | Planning board and Tier 1 | Not started. More projects, workshop and greenhouse. Dorms later. |
 | Next story | Chapter 2 is not started. Full Chapter 2 storylines build on M9 leanings, threads, and the run seed. |
 | M11 Night layer | Not started. Spirit framework, two Lingerers, prayer-lights, steeple light. |
@@ -104,8 +105,16 @@ Shop and house exteriors, sanctuary furniture, unnamed townsfolk, portraits, or 
 
 ## M10 includes
 
-Rebuild Oak Street as a two-lane asphalt main street with curbs, sidewalks, a crosswalk, and a Maple Lane T-junction. Hardware and Frank's bay stay enterable. Bright's Diner, a post office, a barber, and a for-lease shop fill the block. They are not enterable. Park and creek stay at the east end. Next: more enterable buildings, starting with Bright's Diner.
+Rebuild Oak Street as a two-lane asphalt main street with curbs, sidewalks, a crosswalk, and a Maple Lane T-junction. Hardware and Frank's bay stay enterable. Bright's Diner, a post office, a barber, and a for-lease shop fill the block. They are not enterable. Park and creek stay at the east end.
 
 ## M10 does not include
 
 Diner, post office, barber, or vacant-shop interiors. No new story.
+
+## M11 includes
+
+Fill Oak Street's south sidewalk with a second building line (credit union, pharmacy, thrift, feed store, town hall, boarded shop), intentional gaps, larger hanging signs on both sides, and a few more parked cars and sidewalk props. Rework Maple Lane into a north–south residential street with six houses, front yards, and the community garden as a fenced lot. Facades are data-driven with optional interior scenes. Next: enterable buildings, starting with Bright's Diner and one house.
+
+## M11 does not include
+
+Enterable south shops or house interiors. No new story, no dollar amounts in flavor text, no cult or power content.

@@ -43,6 +43,8 @@ func apply_clock() -> void:
 		shift = int(path.call("crowd_shift"))
 	var rotated := posmod(crowd_index + shift, 3)
 	var out := rotated < keep
+	if crowd_index >= 3:
+		out = phase == "Day"
 	visible = out
 	enabled = out
 

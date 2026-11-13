@@ -185,7 +185,7 @@ func _town_life() -> void:
 	var window := room.get_node_or_null("Lighting/CottageWindow") as PointLight2D
 	_check(window != null, "the cottage has a window light")
 	var day_windows := window.energy if window != null else -1.0
-	_check(_visible_count(room, "ambient_townsfolk") == 3, "three neighbors are out on Oak Street during the day")
+	_check(_visible_count(room, "ambient_townsfolk") == 5, "neighbors are out on Oak Street during the day")
 	var neighbor := room.get_node_or_null("Props/NeighborA") as AmbientTownsfolk
 	var player := room.get_node_or_null("Props/Player") as Player
 	if neighbor != null and player != null:

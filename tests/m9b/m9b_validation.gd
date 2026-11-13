@@ -70,6 +70,9 @@ func _enumerate_doors() -> void:
 		var found_in_room := 0
 		for node in get_tree().get_nodes_in_group("scene_door"):
 			if room.is_ancestor_of(node) and node is Door:
+				var dest := str(node.get("destination_scene"))
+				if dest.is_empty():
+					continue
 				found_in_room += 1
 		var expected_in_room := 0
 		for other in EXPECTED:

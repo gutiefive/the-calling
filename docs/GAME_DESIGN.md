@@ -22,8 +22,14 @@ never say "cult". The previous pastor is Alden Reece.
 - **Oak Street** — the small-town heart near the church. A two-lane asphalt road runs west–east: sidewalks and curbs on
   both sides, a crosswalk at the church end, and Maple Lane branching south before the park. North of the sidewalk, west
   to east: a cottage, the post office, Bright's Diner (Cal Bright; not enterable yet), Thomas's hardware store, an alley,
-  a barber, a for-lease shop, and Frank Miller's bay with a driveway apron. East of the bay are the park, the creek, and
-  the walk to Maple Lane. The west end continues as road and sidewalk back to the church grounds.
+  a barber, a for-lease shop, and Frank Miller's bay with a driveway apron. South of the sidewalk, west to east:
+  Oakridge Credit Union, Pearl's Pharmacy, Second Chance Thrift, a parking strip, Hollis Feed and Seed, Town Hall, a
+  pocket park, and a boarded shop. Those south facades are not enterable yet; doors give a one-line closed message.
+  East of the bay are the park, the creek, and the walk to Maple Lane. The west end continues as road and sidewalk back
+  to the church grounds.
+- **Maple Lane** — a quiet residential street south of Oak Street. A narrower road with no center line, sidewalks on
+  both sides, six houses with front yards, mailboxes, and mixed fences, and the community garden as a fenced lot with a
+  gate onto the east sidewalk. Houses are not enterable yet. Dale and Ruth keep weekday hours on the sidewalks.
 - **Grace Community Church** — once ~200 attendees, now ~17 on Sundays. Tired building, members who feel unheard,
   low leadership trust, a sensitive history around the prior pastor's departure. A financial problem surfaces at the
   end of Chapter 1.

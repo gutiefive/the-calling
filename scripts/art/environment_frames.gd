@@ -665,8 +665,8 @@ static func build_hardware_store() -> Image:
 	_window(image, 28, 66, 36, 28)
 	_window(image, 160, 66, 36, 28)
 	_door(image, 86, 78, 52, 44)
-	_sign_board(image, 70, 28, 84, 16, Draw.pal("cream_d"), Draw.pal("cream"))
-	_stamp_text(image, "HARDWARE", 76, 32, Draw.pal("wood_d"))
+	_sign_board(image, 48, 18, 128, 22, Draw.pal("cream_d"), Draw.pal("cream"))
+	_stamp_text(image, "HARDWARE", 56, 22, Draw.pal("wood_d"), 2)
 	Draw.rect(image, 18, 118, 16, 4, Draw.pal("moss"))
 	Draw.crack(image, 48, 92, 7, Draw.pal("wood_d"))
 	return Draw.outline(image)
@@ -686,8 +686,8 @@ static func build_auto_shop() -> Image:
 	Draw.rect(image, 96, 82, 28, 12, Draw.pal("brick"))
 	_window(image, 186, 54, 44, 26)
 	_door(image, 188, 84, 40, 36)
-	_sign_board(image, 88, 22, 80, 14, Draw.pal("grey_d"), Draw.pal("grey"))
-	_stamp_text(image, "MILLER BAY", 94, 26, Draw.pal("paper"))
+	_sign_board(image, 52, 14, 152, 22, Draw.pal("grey_d"), Draw.pal("grey"))
+	_stamp_text(image, "MILLER BAY", 60, 18, Draw.pal("paper"), 2)
 	Draw.rect(image, 20, 116, 18, 4, Draw.pal("moss"))
 	return Draw.outline(image)
 
@@ -723,8 +723,8 @@ static func build_diner() -> Image:
 	Draw.rect(image, 76, 72, 72, 22, Draw.pal("glass"))
 	Draw.px(image, 84, 76, Draw.pal("glass_h"))
 	_door(image, 96, 86, 32, 34)
-	_sign_board(image, 64, 22, 96, 16, Draw.pal("carpet_d"), Draw.pal("lamp"))
-	_stamp_text(image, "BRIGHT'S", 74, 26, Draw.pal("wood_d"))
+	_sign_board(image, 40, 10, 144, 24, Draw.pal("carpet_d"), Draw.pal("lamp"))
+	_stamp_text(image, "BRIGHT'S", 52, 15, Draw.pal("wood_d"), 2)
 	Draw.rect(image, 18, 116, 14, 4, Draw.pal("moss"))
 	return Draw.outline(image)
 
@@ -741,8 +741,8 @@ static func build_post_office() -> Image:
 	_window(image, 24, 62, 32, 28)
 	_window(image, 136, 62, 32, 28)
 	_door(image, 76, 78, 40, 40)
-	_sign_board(image, 56, 24, 80, 16, Draw.pal("shirt_d"), Draw.pal("shirt"))
-	_stamp_text(image, "POST", 80, 28, Draw.pal("paper"))
+	_sign_board(image, 36, 14, 120, 22, Draw.pal("shirt_d"), Draw.pal("shirt"))
+	_stamp_text(image, "POST", 70, 18, Draw.pal("paper"), 2)
 	Draw.rect(image, 16, 114, 12, 4, Draw.pal("moss"))
 	return Draw.outline(image)
 
@@ -760,8 +760,8 @@ static func build_barber() -> Image:
 	for y in range(72, 104, 6):
 		var band: Color = Draw.pal("carpet") if (y / 6) % 2 == 0 else Draw.pal("paper")
 		Draw.rect(image, 118, y, 8, 3, band)
-	_sign_board(image, 48, 26, 64, 14, Draw.pal("cream_d"), Draw.pal("cream"))
-	_stamp_text(image, "BARBER", 56, 30, Draw.pal("wood_d"))
+	_sign_board(image, 24, 16, 112, 22, Draw.pal("cream_d"), Draw.pal("cream"))
+	_stamp_text(image, "BARBER", 36, 20, Draw.pal("wood_d"), 2)
 	Draw.px(image, 24, 114, Draw.pal("moss"))
 	return Draw.outline(image)
 
@@ -780,8 +780,8 @@ static func build_vacant_shop() -> Image:
 	Draw.rect(image, 148, 62, 16, 24, Draw.pal("wood"))
 	_door(image, 80, 78, 32, 40)
 	Draw.rect(image, 84, 82, 24, 20, Draw.pal("wood"))
-	_sign_board(image, 56, 26, 80, 14, Draw.pal("paper"), Draw.pal("cream"))
-	_stamp_text(image, "FOR LEASE", 62, 30, Draw.pal("wood_d"))
+	_sign_board(image, 28, 16, 136, 22, Draw.pal("paper"), Draw.pal("cream"))
+	_stamp_text(image, "FOR LEASE", 36, 20, Draw.pal("wood_d"), 2)
 	Draw.crack(image, 40, 88, 8, Draw.pal("cream_s"))
 	Draw.rect(image, 18, 114, 16, 4, Draw.pal("moss"))
 	return Draw.outline(image)
@@ -869,24 +869,30 @@ static func _sign_board(image: Image, x: int, y: int, w: int, h: int, back: Colo
 	Draw.rect(image, x + 2, y + 2, w - 4, h - 4, face)
 
 
-static func _stamp_text(image: Image, text: String, x: int, y: int, color: Color) -> void:
+static func _stamp_text(image: Image, text: String, x: int, y: int, color: Color, scale: int = 1) -> void:
+	var step := maxi(1, scale)
 	var cursor := x
 	for i in text.length():
 		var ch := text.substr(i, 1)
 		if ch == " ":
-			cursor += 4
+			cursor += 4 * step
 			continue
-		_stamp_glyph(image, ch, cursor, y, color)
-		cursor += 7
+		_stamp_glyph(image, ch, cursor, y, color, step)
+		cursor += 7 * step
 
 
-static func _stamp_glyph(image: Image, ch: String, x: int, y: int, color: Color) -> void:
+static func _stamp_glyph(image: Image, ch: String, x: int, y: int, color: Color, scale: int = 1) -> void:
+	var step := maxi(1, scale)
 	var rows := _glyph(ch)
 	for gy in rows.size():
 		var row := rows[gy]
 		for gx in row.length():
-			if row.substr(gx, 1) == "#":
+			if row.substr(gx, 1) != "#":
+				continue
+			if step <= 1:
 				Draw.px(image, x + gx, y + gy, color)
+			else:
+				Draw.rect(image, x + gx * step, y + gy * step, step, step, color)
 
 
 static func _glyph(ch: String) -> PackedStringArray:
@@ -909,6 +915,8 @@ static func _glyph(ch: String) -> PackedStringArray:
 			return PackedStringArray(["#.#", "#.#", "###", "#.#", "#.#"])
 		"I":
 			return PackedStringArray(["###", ".#.", ".#.", ".#.", "###"])
+		"J":
+			return PackedStringArray(["###", "..#", "..#", "#.#", ".#."])
 		"K":
 			return PackedStringArray(["#.#", "#.#", "##.", "#.#", "#.#"])
 		"L":
@@ -921,6 +929,8 @@ static func _glyph(ch: String) -> PackedStringArray:
 			return PackedStringArray([".##", "#.#", "#.#", "#.#", "##."])
 		"P":
 			return PackedStringArray(["##.", "#.#", "##.", "#..", "#.."])
+		"Q":
+			return PackedStringArray([".##", "#.#", "#.#", "##.", ".##"])
 		"R":
 			return PackedStringArray(["##.", "#.#", "##.", "#.#", "#.#"])
 		"S":
@@ -933,10 +943,18 @@ static func _glyph(ch: String) -> PackedStringArray:
 			return PackedStringArray(["#.#", "#.#", "#.#", "#.#", ".#."])
 		"W":
 			return PackedStringArray(["#.#", "#.#", "###", "###", "#.#"])
+		"X":
+			return PackedStringArray(["#.#", "#.#", ".#.", "#.#", "#.#"])
 		"Y":
 			return PackedStringArray(["#.#", "#.#", ".#.", ".#.", ".#."])
+		"Z":
+			return PackedStringArray(["###", "..#", ".#.", "#..", "###"])
 		"'":
 			return PackedStringArray([".#.", ".#.", "...", "...", "..."])
+		"-":
+			return PackedStringArray(["...", "...", "###", "...", "..."])
+		"&":
+			return PackedStringArray([".##", "#.#", ".#.", "#.#", ".##"])
 		_:
 			return PackedStringArray([".#.", "#.#", "#.#", "#.#", ".#."])
 
