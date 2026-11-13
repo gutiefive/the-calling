@@ -154,6 +154,14 @@ func _completion_history_and_expiry() -> void:
 	pack.call("add", "wood", 3)
 	pack.call("add", "nails", 2)
 	asks.call("accept", "broken_fence")
+	var early := _result(asks.call("deliver", "broken_fence"))
+	_check(not bool(early.get("ok", true)), "Harold's ask does not complete before the fence is mended")
+	_check(int(pack.call("quantity", "wood")) == 3, "delivering early keeps the wood")
+	_prep_tools()
+	pack.call("add", "wood", 3)
+	pack.call("add", "nails", 2)
+	_mend_fence()
+	_check(NarrativeState.flag_is_true("church_fence_mended"), "mending the fence sets church_fence_mended")
 	asks.call("deliver", "broken_fence")
 	_check(bool(asks.call("is_completed", "broken_fence")), "Harold's ask completes")
 	var history_v: Variant = asks.call("history_rows")
@@ -163,7 +171,7 @@ func _completion_history_and_expiry() -> void:
 			if row_v is Dictionary and str((row_v as Dictionary).get("id", "")) == "broken_fence":
 				found = str((row_v as Dictionary).get("status", "")) == "done"
 	_check(found, "completed asks appear in history")
-	_check(NarrativeState.flag_is_true("church_fence_mended"), "Harold's ask mends the fence")
+	_check(NarrativeState.flag_is_true("church_fence_mended"), "Harold's ask leaves the fence mended")
 	_week_open()
 	pack.call("reset")
 	asks.call("accept", "fresh_for_the_table")
@@ -201,6 +209,10 @@ func _no_pull_or_funds() -> void:
 	asks.call("accept", "sanctuary_flowers")
 	asks.call("deliver", "sanctuary_flowers")
 	asks.call("accept", "broken_fence")
+	_prep_tools()
+	pack.call("add", "wood", 3)
+	pack.call("add", "nails", 2)
+	_mend_fence()
 	asks.call("deliver", "broken_fence")
 	var pull_after := 0
 	var dependents_after := 0
@@ -310,11 +322,11 @@ func _save_and_load() -> void:
 		return
 	player.global_position = Vector2(420, 510)
 	var saved := SaveGame.save_to_disk(get_tree())
-	_check(saved, "a version 9 save writes")
+	_check(saved, "a current-version save writes")
 	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(SaveGame.SAVE_PATH))
 	_check(parsed is Dictionary, "the save file is an object")
 	var row: Dictionary = parsed if parsed is Dictionary else {}
-	_check(int(row.get("version", -1)) == 9, "the save file is version 9")
+	_check(int(row.get("version", -1)) == SaveGame.SAVE_VERSION, "the save file is the current version")
 	_check(row.has("requests"), "the save stores requests")
 	_check(row.has("garden"), "the save stores garden tiles")
 	room.free()
@@ -322,7 +334,7 @@ func _save_and_load() -> void:
 	NarrativeState.reset()
 	_check(not bool(_asks().call("is_active", "fresh_for_the_table")), "reset clears active asks")
 	var loaded := SaveGame.read_file()
-	_check(int(loaded.get("version", 0)) == 9, "read_file keeps version 9")
+	_check(int(loaded.get("version", 0)) == SaveGame.SAVE_VERSION, "read_file keeps the current version")
 	SaveGame.apply_state(loaded)
 	_check(bool(_asks().call("is_active", "fresh_for_the_table")), "load restores an active ask")
 	_check(int(pack.call("quantity", "lettuce")) == 2, "load keeps the vegetables")
@@ -362,7 +374,7 @@ func _old_save_migration() -> void:
 			"growth": {"community_trust": 1, "attendance": 17},
 		},
 	})
-	_check(int(from_v8.get("version", 0)) == 9, "a version 8 file migrates to version 9")
+	_check(int(from_v8.get("version", 0)) == SaveGame.SAVE_VERSION, "a version 8 file migrates to the current save")
 	var asks_v: Variant = from_v8.get("requests", {})
 	var asks_row: Dictionary = asks_v if asks_v is Dictionary else {}
 	var active_v: Variant = asks_row.get("active", null)
@@ -381,7 +393,7 @@ func _old_save_migration() -> void:
 				_check(str((tile_v as Dictionary).get("crop", "")) == "carrots", "v8 bed church_5 maps onto a garden tile")
 				_check(bool((tile_v as Dictionary).get("watered", false)), "v8 watered soil survives the tile move")
 	_check(mapped, "v8 church_5 lands on the matching tile")
-	_check(SaveGame.migrate({"version": 10, "scene": "res://scenes/world/church_exterior.tscn"}).is_empty(), "a newer save is still rejected")
+	_check(SaveGame.migrate({"version": SaveGame.SAVE_VERSION + 1, "scene": "res://scenes/world/church_exterior.tscn"}).is_empty(), "a newer save is still rejected")
 	NarrativeState.reset()
 	SaveGame.apply_state(from_v8)
 	_check(not bool(_asks().call("is_active", "fresh_for_the_table")), "applying a migrated v8 save has no active asks")
@@ -430,6 +442,21 @@ func _prep_tools() -> void:
 	pack.call("add", "watering_can", 1)
 	pack.call("add", "hand_tools", 1)
 	pack.call("equip", "hoe")
+
+
+func _mend_fence() -> void:
+	var repairs := get_node_or_null("/root/RepairState")
+	var pack := _pack()
+	if pack != null and pack.has_method("equip"):
+		pack.call("equip", "hand_tools")
+	if repairs == null or not repairs.has_method("interact"):
+		NarrativeState.set_flag("church_fence_mended", true)
+		if repairs != null and repairs.has_method("reset"):
+			repairs.call("from_dictionary", {"sites": {"church_fence": {"id": "church_fence", "stage": 3, "done": true}}})
+		return
+	repairs.call("interact", "church_fence")
+	repairs.call("interact", "church_fence")
+	repairs.call("interact", "church_fence")
 
 
 func _garden() -> Node:

@@ -345,6 +345,18 @@ A polish pass on Phase C. No new systems and no save bump.
 
 **Garden.** A barrel, wheelbarrow, compost bin, and bench sit along the fence. Reserved tiles keep them off the path and gate.
 
+## D56 — Interactive repairs (Gameplay D)
+
+The first physical repair loop is on the church grounds, not a second chore list. Definitions live in `data/repairs/catalog.json`. Autoload `RepairState`. Four worksites: weeds on the west picnic lawn, litter by the utility shed, a neglected picnic flower bed, and the west garden fence south of the gate. None sit on a path, a door, or a Future Site lot. Maple Lane Chapter 1 weeds stay on `GardenPlot`. The original `GroundsChore` litter and courtyard bed still set `grounds_tidy`.
+
+**Fence.** Four visible stages: damaged, boards off, new wood, finished. 3 Wood then 2 Nails, consumed only on the stage that uses them. Missing stock prints `Missing: 3 Wood`. Basic Hand Tools must be equipped; the hoe and an empty hand change nothing.
+
+**Harold.** His ask still lists the wood and nails. Delivering them to him no longer mends the fence. The player mends it. `church_fence_mended` keeps its meaning. Harold's thank-you still grants one Scrap, once. A version-9 save that already has the flag starts with the finished fence.
+
+**Story.** Repairs do not raise Pull, attendance, dependents, loyalty, or ChurchFunds. A neighbor may remark when the grounds look cared for. Kindness flags stay hidden. No decay.
+
+**Save.** Version 10. A version 9 file gains worksites.
+
 ## Still open
 
 | # | Question | Notes |

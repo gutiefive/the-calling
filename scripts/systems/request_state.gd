@@ -110,6 +110,8 @@ func can_deliver(request_id: String) -> bool:
 	_tick_expiry()
 	if not _active.has(request_id):
 		return false
+	if not Catalog.complete_if(request_id).is_empty():
+		return _completion_flag_met(request_id)
 	if _completion_flag_met(request_id):
 		return true
 	return _has_required(request_id)
@@ -144,14 +146,28 @@ func deliver(request_id: String) -> Dictionary:
 	if not can_deliver(request_id):
 		var missing := missing_line(request_id)
 		if missing.is_empty():
-			missing = "Not yet."
+			if not Catalog.complete_if(request_id).is_empty():
+				missing = "The garden fence still needs work."
+			else:
+				missing = "Not yet."
 		return _result(false, missing)
+	if _completion_flag_met(request_id):
+		return _complete(request_id)
 	if not _consume_required(request_id):
 		return _result(false, missing_line(request_id))
 	return _complete(request_id)
 
 
 func progress_line(request_id: String) -> String:
+	if _completion_flag_met(request_id):
+		var done := str(Catalog.request(request_id).get("progress_done", ""))
+		if not done.is_empty():
+			return done
+	var repairs := get_node_or_null("/root/RepairState")
+	if repairs != null and repairs.has_method("progress_for_request"):
+		var repair_line := str(repairs.call("progress_for_request", request_id))
+		if not repair_line.is_empty():
+			return repair_line
 	var needed := Catalog.required(request_id)
 	if needed.is_empty():
 		if _completion_flag_met(request_id):

@@ -1,0 +1,145 @@
+{
+  "action_minutes": 8,
+  "sites": [
+    {
+      "id": "church_fence",
+      "title": "Garden fence",
+      "kind": "fence",
+      "tool": "hand_tools",
+      "request_id": "broken_fence",
+      "complete_flag": "church_fence_mended",
+      "kindness_flag": "fence_kindness",
+      "hide_when_done": false,
+      "position": [1248, 1264],
+      "prompt_done": "Look at the fence",
+      "stages": [
+        {
+          "id": "damaged",
+          "prompt": "Clear the boards",
+          "line": "The old boards come off.",
+          "art": "fence_damaged",
+          "required": {}
+        },
+        {
+          "id": "cleared",
+          "prompt": "Set new wood",
+          "line": "New boards sit in the gap.",
+          "art": "fence_cleared",
+          "required": {
+            "wood": 3
+          }
+        },
+        {
+          "id": "framed",
+          "prompt": "Nail the boards",
+          "line": "The garden fence is set.",
+          "art": "fence_new_wood",
+          "required": {
+            "nails": 2
+          }
+        },
+        {
+          "id": "finished",
+          "prompt": "Look at the fence",
+          "line": "The garden fence is set.",
+          "art": "fence_finished",
+          "required": {}
+        }
+      ]
+    },
+    {
+      "id": "picnic_weeds",
+      "title": "Picnic weeds",
+      "kind": "weeds",
+      "tool": "hand_tools",
+      "complete_flag": "picnic_weeds_cleared",
+      "kindness_flag": "weeds_kindness",
+      "hide_when_done": false,
+      "position": [688, 1232],
+      "prompt_done": "Look at the grass",
+      "stages": [
+        {
+          "id": "weedy",
+          "prompt": "Clear the weeds",
+          "line": "The weeds pull free. A bit of scrap was tangled in the roots.",
+          "art": "weeds_patch",
+          "required": {},
+          "yield": {
+            "scrap": 1
+          }
+        },
+        {
+          "id": "cleared",
+          "prompt": "Look at the grass",
+          "line": "The picnic grass is clear.",
+          "art": "weeds_cleared",
+          "required": {}
+        }
+      ]
+    },
+    {
+      "id": "lot_litter",
+      "title": "Utility litter",
+      "kind": "litter",
+      "tool": "hand_tools",
+      "complete_flag": "lot_litter_cleared",
+      "kindness_flag": "litter_kindness",
+      "hide_when_done": true,
+      "position": [1744, 368],
+      "prompt_done": "Look around",
+      "stages": [
+        {
+          "id": "litter",
+          "prompt": "Pick up the litter",
+          "line": "Paper and a bottle cap. You pocket a bit of scrap.",
+          "art": "litter_pile",
+          "required": {},
+          "yield": {
+            "scrap": 1
+          }
+        },
+        {
+          "id": "gone",
+          "prompt": "Look around",
+          "line": "The walk is clear.",
+          "art": "litter_gone",
+          "required": {}
+        }
+      ]
+    },
+    {
+      "id": "picnic_bed",
+      "title": "Picnic flower bed",
+      "kind": "flower_bed",
+      "tool": "hand_tools",
+      "complete_flag": "picnic_bed_restored",
+      "kindness_flag": "bed_kindness",
+      "hide_when_done": false,
+      "position": [1104, 1264],
+      "prompt_done": "Look at the flowers",
+      "stages": [
+        {
+          "id": "overgrown",
+          "prompt": "Trim the bed",
+          "line": "The weeds come out. The soil can take a plant.",
+          "art": "bed_overgrown",
+          "required": {}
+        },
+        {
+          "id": "trimmed",
+          "prompt": "Set the flowers",
+          "line": "The picnic bed has flowers again.",
+          "art": "bed_trimmed",
+          "required": {}
+        },
+        {
+          "id": "restored",
+          "prompt": "Look at the flowers",
+          "line": "The picnic bed has flowers again.",
+          "art": "bed_restored",
+          "required": {}
+        }
+      ]
+    }
+  ]
+}

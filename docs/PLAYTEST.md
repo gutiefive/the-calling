@@ -842,3 +842,37 @@ It checks dry vs watered soil, neighbor blending, crop-stage bounding boxes, jou
 
 On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `GPC2_OK` (101 `CHECK OK`) with zero `CHECK FAIL`. Every existing suite still printed its `_OK` line and exited 0: `M1_OK` (76), `M2_OK` (113), `M3_OK` (109), `M4_OK` (90), `M4_5_OK` (90), `M5A_OK` (103), `M5B_OK` (1491), `M6A_OK` (219), `M6A2_OK` (130), `M7_OK` (93), `M8_OK` (80), `M9_OK` (105), `M9B_OK` (156), `M10_OK` (91), `M11_OK` (210), `M11B_OK` (196), `M11C_OK` (246), `M12_OK` (165), `GPA_OK` (204), `GPB_OK` (125), `GPC_OK` (123). `--quit-after 120` exited 0. `tests/gpc2/capture_gpc2.tscn` wrote `garden_patch.png` and `journal_open.png` under `tests/gpc2/shots/`. T91–T94 were not played in a window.
 
+# Gameplay D — Interactive repairs
+
+The lists above still apply. These checks cover worksites on the church grounds, the staged garden fence, Harold's ask, GroundsChore, and save v10.
+
+## Automated
+
+```powershell
+godot --headless --path . --import
+godot --headless --path . res://tests/gpd/gpd_validation.tscn
+godot --path . res://tests/gpd/capture_gpd.tscn
+```
+
+`gpd_validation.tscn` prints `CHECK OK` / `CHECK FAIL` lines and exits with `GPD_OK` or `GPD_FAIL`.
+It checks each repair type, fence stages and materials, the `Missing: 3 Wood` line, wrong-tool no-ops, Harold's ask with no double reward, GroundsChore and the Maple Lane plot, persistence, Pull / attendance / ChurchFunds staying put, and v9→v10 migration.
+
+`capture_gpd.tscn` writes PNGs to `tests/gpd/shots/` and needs a display. It skips with `CAPTURE_SKIPPED` under `--headless`.
+
+## Manual
+
+Walkthrough: Continue in Oakridge (or load a week-continues save). Take the parsonage toolbox if you do not have Basic Hand Tools. Buy 3 Wood and 2 Nails at Thomas's shelves. Talk to Harold and accept The Broken Fence. Walk to the west garden fence, south of the gate. Equip Basic Hand Tools (I, then E). Press E to pull the old boards, E to set the wood, E to nail them. If a stage is short, the line is `Missing: 3 Wood` or `Missing: 2 Nails`. Talk to Harold again for the scrap. Optional: clear picnic weeds, pick up the utility litter, restore the picnic flower bed. Sleep, leave the grounds, save and load: the fence stays finished. J still lists Harold until you talk to him after the job.
+
+| ID | Do this | Expect |
+|---|---|---|
+| T95 | Equip Basic Hand Tools, E on the damaged garden fence with no wood | Boards come off. Next E prints `Missing: 3 Wood`. Pack unchanged. |
+| T96 | Buy 3 Wood and 2 Nails, finish the three fence stages | Damaged, empty posts, new boards, then a finished stretch. Wood then nails leave the pack once. |
+| T97 | Talk to Harold with the wood before mending, then after | He will not take the boards first. After the fence is set he thanks you once and you get one Scrap. |
+| T98 | Hoe the fence, or E with no tool | Nothing is consumed. The fence stays as it was. |
+| T99 | Clear Chapter 1 litter and the courtyard bed without tools | `grounds_tidy` still sets. Maple Lane weeds are still the Chapter 1 plot. |
+| T100 | Sleep, leave, save, load after a finished fence | The finished stretch is still there. Pull, attendance, and the ledger do not move. |
+
+## Gameplay D results
+
+On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `GPD_OK` (145 `CHECK OK`) with zero `CHECK FAIL` (the expected `Save version 11 is not supported` push_error before the newer-save rejection). Every existing suite still printed its `_OK` line and exited 0: `M1_OK`, `M2_OK`, `M3_OK`, `M4_OK`, `M4_5_OK`, `M5A_OK`, `M5B_OK`, `M6A_OK`, `M6A2_OK`, `M7_OK`, `M8_OK`, `M9_OK`, `M9B_OK`, `M10_OK`, `M11_OK`, `M11B_OK`, `M11C_OK`, `M12_OK`, `GPA_OK`, `GPB_OK`, `GPC_OK`, `GPC2_OK`. `--quit-after 120` exited 0. `tests/gpd/capture_gpd.tscn` wrote `fence_damaged.png`, `fence_cleared.png`, `fence_new_wood.png`, `fence_finished.png`, `grounds_before.png`, and `grounds_after.png` under `tests/gpd/shots/`. T95–T100 were not played in a window.
+

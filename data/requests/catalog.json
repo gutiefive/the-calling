@@ -60,17 +60,21 @@
       "title": "The Broken Fence",
       "npc": "harold",
       "npc_name": "Harold",
-      "return_where": "Harold on the church grounds or in the sanctuary",
+      "return_where": "the west garden fence, then Harold",
       "description": "Harold needs wood and nails for a stretch of church fence.",
       "required": {
         "wood": 3,
         "nails": 2
+      },
+      "complete_if": {
+        "flag": "church_fence_mended"
       },
       "available_if": {
         "flag": "week_continues"
       },
       "repeatable": false,
       "kind": "repair_materials",
+      "progress_done": "The garden fence is set.",
       "rewards": {
         "items": {
           "scrap": 1
@@ -78,7 +82,7 @@
         "flags": {
           "church_fence_mended": true
         },
-        "note": "Harold mended the garden fence."
+        "note": "Harold left a bit of scrap by the post."
       }
     },
     {

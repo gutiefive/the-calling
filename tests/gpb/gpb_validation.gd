@@ -256,18 +256,18 @@ func _save_and_scene() -> void:
 		return
 	player.global_position = Vector2(420, 510)
 	var saved := SaveGame.save_to_disk(get_tree())
-	_check(saved, "a version 9 save writes")
+	_check(saved, "a current-version save writes")
 	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(SaveGame.SAVE_PATH))
 	_check(parsed is Dictionary, "the save file is an object")
 	var row: Dictionary = parsed if parsed is Dictionary else {}
-	_check(int(row.get("version", -1)) == 9, "the save file is version 9")
+	_check(int(row.get("version", -1)) == SaveGame.SAVE_VERSION, "the save file is the current version")
 	_check(row.has("garden"), "the save stores garden plots")
 	room.free()
 	await _pump(1)
 	NarrativeState.reset()
 	_check(str(_plot("church_5").get("stage", "")) == "untouched", "reset clears church plots")
 	var loaded := SaveGame.read_file()
-	_check(int(loaded.get("version", 0)) == 9, "read_file keeps version 9")
+	_check(int(loaded.get("version", 0)) == SaveGame.SAVE_VERSION, "read_file keeps the current version")
 	SaveGame.apply_state(loaded)
 	var restored := _plot("church_5")
 	_check(bool(restored.get("planted", false)), "load restores a planted plot")
@@ -314,7 +314,7 @@ func _old_save_migration() -> void:
 			"growth": {"community_trust": 1, "attendance": 17},
 		},
 	})
-	_check(int(from_v7.get("version", 0)) == 9, "a version 7 file migrates to version 9")
+	_check(int(from_v7.get("version", 0)) == SaveGame.SAVE_VERSION, "a version 7 file migrates to the current save")
 	var garden_v: Variant = from_v7.get("garden", {})
 	var garden_row: Dictionary = garden_v if garden_v is Dictionary else {}
 	var plots_v: Variant = garden_row.get("plots", null)
@@ -325,7 +325,7 @@ func _old_save_migration() -> void:
 	var inv: Dictionary = inv_v if inv_v is Dictionary else {}
 	_check(int(inv.get("cash", -1)) == 12, "v7 migration keeps the wallet")
 	_check(int(from_v7.get("run_seed", 0)) == 42, "v7 migration keeps the run seed")
-	_check(SaveGame.migrate({"version": 10, "scene": "res://scenes/world/church_exterior.tscn"}).is_empty(), "a newer save is still rejected")
+	_check(SaveGame.migrate({"version": SaveGame.SAVE_VERSION + 1, "scene": "res://scenes/world/church_exterior.tscn"}).is_empty(), "a newer save is still rejected")
 	var pack := _pack()
 	var funds := _funds()
 	var garden := _garden()

@@ -67,7 +67,7 @@
     },
     "request_fence_ask": {
       "speaker": "Harold",
-      "text": "A stretch of the garden fence is tired. Three boards and two handfuls of nails would set it.",
+      "text": "A stretch of the garden fence is tired. Three boards and two handfuls of nails would set it. If you've got tools, you can see to it.",
       "choices": [
         {"text": "I'll get the wood and nails.", "next": "request_fence_accepted", "accept_request": "broken_fence"},
         {"text": "Not today.", "next": "request_fence_later"}
@@ -75,7 +75,7 @@
     },
     "request_fence_accepted": {
       "speaker": "Harold",
-      "text": "Bring them here. I'll set the boards. Don't make a project of it.",
+      "text": "The west garden fence. Wood, nails, and the kit from the house. Don't make a project of it.",
       "end": true
     },
     "request_fence_later": {
@@ -91,7 +91,7 @@
     },
     "request_fence_wait": {
       "speaker": "Harold",
-      "text": "Wood and nails. Three and two. Hardware has both if the shed doesn't.",
+      "text": "Wood and nails. Three and two. The west garden fence is waiting. Hardware has both if the shed doesn't.",
       "end": true
     },
     "request_fence_deliver": {

@@ -50,11 +50,16 @@ const VEG_PLOT_ORIGIN := Vector2(1344, 1120)
 const VEG_PLOT_STRIDE := 48.0
 const VEG_CRATE := Vector2(1288, 1168)
 const VEG_NOTE := Vector2(1288, 1136)
-const VEG_FENCE_MEND := Vector2(1248, 1120)
+const VEG_FENCE_MEND := Vector2(1248, 1264)
 const VEG_BARREL := Vector2(1296, 1072)
 const VEG_WHEELBARROW := Vector2(1488, 1072)
 const VEG_COMPOST := Vector2(1488, 1264)
 const VEG_GARDEN_BENCH := Vector2(1392, 1264)
+const REPAIR_FENCE := VEG_FENCE_MEND
+const REPAIR_WEEDS := Vector2(688, 1232)
+const REPAIR_LITTER := Vector2(1744, 368)
+const REPAIR_BED := Vector2(1104, 1264)
+const REPAIR_REMARK := Vector2(816, 1264)
 const REVERT_DAYS := 3
 const DRIVE := Rect2i(36, 25, 28, 5)
 

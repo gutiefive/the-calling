@@ -36,6 +36,7 @@ func _build() -> void:
 	_add_expansion_plots()
 	_add_grounds_work()
 	_add_church_garden()
+	_add_repair_sites()
 	_add_sunday_gathering()
 	_paint_ground()
 	_clear_solids()
@@ -126,12 +127,6 @@ func _apply_grounds_look() -> void:
 		var tidy := NarrativeState.flag_is_true("grounds_bed") or NarrativeState.flag_is_true("grounds_tidy")
 		flowers.texture = PlaceholderArt.flowers() if tidy else PlaceholderArt.overgrown_bed()
 		_feet_offset("Props/Flowers")
-	var mend := get_node_or_null("Props/FenceMend") as CanvasItem
-	if mend != null:
-		var fixed := NarrativeState.flag_is_true("church_fence_mended")
-		mend.visible = fixed
-		if "enabled" in mend:
-			mend.set("enabled", fixed)
 	_apply_sunday_crowd()
 	for node in get_tree().get_nodes_in_group("day_world"):
 		if is_ancestor_of(node) and node.has_method("apply_clock"):
@@ -290,7 +285,6 @@ func _add_church_garden() -> void:
 		remark_sprite.name = "Sprite"
 		remark.add_child(remark_sprite)
 		props.add_child(remark)
-	_add_fence_mend(props)
 
 
 func _add_garden_life(props: Node) -> void:
@@ -300,19 +294,44 @@ func _add_garden_life(props: Node) -> void:
 	_add_solid_sprite(props, "VegGardenBench", PlaceholderArt.bench(), GroundsLayout.VEG_GARDEN_BENCH, Vector2(28, 8))
 
 
-func _add_fence_mend(props: Node) -> void:
-	if props.get_node_or_null("FenceMend") != null:
+func _add_repair_sites() -> void:
+	var props := get_node_or_null("Props")
+	if props == null:
 		return
-	var patch := Sprite2D.new()
-	patch.name = "FenceMend"
-	patch.texture = CropFrames.texture("fence_patch")
-	patch.centered = true
-	patch.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	patch.position = GroundsLayout.VEG_FENCE_MEND
-	if patch.texture != null:
-		patch.offset = Vector2(0, -patch.texture.get_height() * 0.5)
-	patch.visible = false
-	props.add_child(patch)
+	_add_repair_site(props, "FenceWork", "church_fence", GroundsLayout.REPAIR_FENCE)
+	_add_repair_site(props, "PicnicWeeds", "picnic_weeds", GroundsLayout.REPAIR_WEEDS)
+	_add_repair_site(props, "LotLitter", "lot_litter", GroundsLayout.REPAIR_LITTER)
+	_add_repair_site(props, "PicnicBed", "picnic_bed", GroundsLayout.REPAIR_BED)
+	if props.get_node_or_null("GroundsRemark") != null:
+		return
+	var remark := GroundsRemark.new()
+	remark.name = "GroundsRemark"
+	remark.position = GroundsLayout.REPAIR_REMARK
+	remark.sheet = PlaceholderArt.townsfolk(2)
+	remark.frame_size = Vector2i(32, 48)
+	remark.frame_count = 2
+	remark.speaker_name = "A neighbor"
+	remark.prompt_text = "Say hello"
+	remark.line = GroundsRemark.QUIET
+	remark.blocks_movement = false
+	remark.block_size = Vector2(12, 8)
+	remark.radius = 36.0
+	var sprite := AnimatedSprite2D.new()
+	sprite.name = "Sprite"
+	remark.add_child(sprite)
+	props.add_child(remark)
+
+
+func _add_repair_site(props: Node, node_name: String, site_id: String, pos: Vector2) -> void:
+	if props.get_node_or_null(node_name) != null:
+		return
+	var site := RepairSite.new()
+	site.name = node_name
+	site.site_id = site_id
+	site.position = pos
+	site.prompt_text = "Repair"
+	site.radius = 52.0
+	props.add_child(site)
 
 
 func _add_chore(props: Node, node_name: String, chore_id: String, pos: Vector2, prompt: String, line: String) -> void:

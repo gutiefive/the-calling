@@ -1,6 +1,6 @@
 # Roadmap — The Calling
 
-Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md`. This file is the current cut line. M12 (church grounds campus) is implemented. Gameplay A (inventory and items), Gameplay B (church garden), and Gameplay C (community requests and in-ground garden) are implemented. Next: Gameplay D (interactive repairs) unless Nathan sends the work elsewhere. Chapter 2 storylines are not started.
+Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md`. This file is the current cut line. M12 (church grounds campus) is implemented. Gameplay A–D (inventory, garden, requests, interactive repairs) are implemented. Next: Gameplay E (weekly potluck) unless Nathan sends the work elsewhere. Chapter 2 storylines are not started.
 
 | Milestone | Status |
 |---|---|
@@ -26,7 +26,7 @@ Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md
 | Gameplay A Inventory and items | Implemented. Data-driven catalog, pack, personal wallet, I-panel, hardware shop, starter tools and seeds, save v7. See `docs/GAMEPLAY_LOOPS.md`. |
 | Gameplay B Gardening | Implemented. Nine church-grounds plots east of the picnic lawn, hoe / seed / water / harvest, morning growth, save v8. Maple Lane Chapter 1 plot unchanged. See `docs/GAMEPLAY_LOOPS.md`. |
 | Gameplay C Community requests | Implemented. Four optional asks, journal tracking, in-ground church garden tiles, save v9. See `docs/GAMEPLAY_LOOPS.md`. |
-| Gameplay D Interactive repairs | Not started. Fence, weeds, litter, flower bed. Keep GroundsChore flags. |
+| Gameplay D Interactive repairs | Implemented. Data-driven worksites, staged garden fence, weeds, litter, flower bed, save v10. GroundsChore flags kept. See `docs/GAMEPLAY_LOOPS.md`. |
 | Gameplay E Weekly potluck | Not started. Extend the M8 happening; do not duplicate Sunday. |
 | Gameplay F Integration and polish | Not started. Full-loop playthrough, balance, regression. |
 | Planning board and Tier 1 | Later. Attach the first expansion project to a plot (workshop, greenhouse, or dorms). |
@@ -167,3 +167,11 @@ A data-driven request catalog with four optional asks: Sarah's vegetables, Marga
 ## Gameplay C does not include
 
 Staged repairs as a player interaction (Harold's ask only delivers materials) or the weekly potluck. Those are D–E. Insiders still never say "cult".
+
+## Gameplay D includes
+
+A data-driven worksite catalog: clearing picnic weeds, picking up utility litter, restoring a picnic flower bed, and a four-stage garden fence (damaged, boards off, new wood, finished) that uses 3 Wood and 2 Nails. Basic Hand Tools, short E presses, `Missing: 3 Wood` when stock is short. Harold's fence ask completes after the player mends the stretch; no double scrap. `GroundsChore` and the Maple Lane Chapter 1 plot stay. Repairs do not raise Pull, attendance, or ChurchFunds. Saves are version 10. A version 9 file loads; an already-mended fence starts finished.
+
+## Gameplay D does not include
+
+The weekly potluck. That is E. Insiders still never say "cult".

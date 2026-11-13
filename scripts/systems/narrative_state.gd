@@ -95,6 +95,9 @@ func reset() -> void:
 	var asks := get_node_or_null("/root/RequestState")
 	if asks != null and asks.has_method("reset"):
 		asks.call("reset")
+	var repairs := get_node_or_null("/root/RepairState")
+	if repairs != null and repairs.has_method("reset"):
+		repairs.call("reset")
 
 
 func set_flag(key: String, value: Variant) -> void:
