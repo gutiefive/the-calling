@@ -179,6 +179,16 @@ The first Sunday service is unchanged. A later Sunday does not start it again, a
 
 The shop, bay, and parsonage south door was a gap in the wall with nothing past it. A lip now stops a walk off the map. E on the door still leaves. Room changes fade for a fraction of a second. The fade does not delay the scene load. The interact prompt names the person when the line does not already. Esc closes the journal, and Esc closes the map, and neither of those opens the pause menu. Neighbors on Monday, Tuesday, and Wednesday use a weekday line instead of falling through to a Thursday sentence. Map regions already matched the interiors. Spawns in those rooms were already on open floor. New weekday posts reuse coordinates that already had a clear walk, and a blocked walk still teleports rather than cutting through a solid.
 
+## D40 — Authored character sheets (M6A part 1)
+
+The player and the five named people use 192×192 PNG sheets at `assets/characters/`. Cells are 32×48. Rows are down, up, left, right. Columns are idle, idle, then four walk frames. Walk plays at 8 fps. The sprite origin stays at the feet. Right-facing frames are a mirror of left, same as D1.
+
+Pixels come from `scripts/art/character_frames.gd`: one body template per silhouette (slim, stocky, skirt), then hair and a small extra (collar, glasses, apron, bag, cap). Colors are only those in `assets/source/palette/the_calling_master.gpl`. The headless writer is `tools/art/author_sprites.gd`. How to regenerate is `tools/art/README.md`.
+
+If a sheet is opened in LibreSprite (`C:\Tools\LibreSprite`) and saved over that PNG, the PNG is the source of truth. Do not re-run the generator for that file unless the hand edits are meant to be discarded.
+
+Tiles, buildings, and unnamed townsfolk still use `PlaceholderArt`. Those are a later art pass.
+
 ## Still open
 
 | # | Question | Notes |

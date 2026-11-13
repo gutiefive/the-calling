@@ -270,3 +270,35 @@ Launch with `godot --path .` from the repo, or press F5 in the editor.
 ## M5B results
 
 On 2026-11-12, `Godot_v4.7.2-stable_win64_console.exe --headless --path . res://tests/m5b/m5b_validation.tscn` printed 1311 `CHECK OK` lines and `M5B_OK`, and exited 0. The same binary then printed `M1_OK` (74), `M2_OK` (113), `M3_OK` (109), `M4_OK` (90), `M4_5_OK` (90), and `M5A_OK` (103), each exiting 0. T47–T50 were not played in a window.
+
+# Milestone 6A part 1 test plan
+
+These checks cover the authored character sheets. The earlier lists still apply.
+
+## Automated
+
+```powershell
+godot --headless --path . --import
+godot --headless --path . res://tests/m1/m1_validation.tscn
+godot --headless --path . res://tests/m2/m2_validation.tscn
+godot --headless --path . res://tests/m3/m3_validation.tscn
+godot --headless --path . res://tests/m4/m4_validation.tscn
+godot --headless --path . res://tests/m4_5/m4_5_validation.tscn
+godot --headless --path . res://tests/m5a/m5a_validation.tscn
+godot --headless --path . res://tests/m5b/m5b_validation.tscn
+godot --headless --path . res://tests/m6a/m6a_validation.tscn
+```
+
+`m6a_validation.tscn` prints `CHECK OK` / `CHECK FAIL` lines and exits with `M6A_OK` or `M6A_FAIL`.
+It checks that each sheet exists, is 192×192, uses only master-palette colors, and that the player and five named people use SpriteFrames with idle and walk in four facings.
+
+## Manual
+
+| ID | Do this | Expect |
+|---|---|---|
+| T51 | Walk the grounds and look at the pastor | A 32×48 sheet, four facings, idle and walk. Origin at the feet. Collision feels the same. |
+| T52 | Look at Margaret, Harold, Thomas, Frank, and Sarah | Each has a distinct silhouette and color block. Walk plays when they move between posts. |
+
+## M6A results
+
+On 2026-11-12, `Godot_v4.7.2-stable_win64_console.exe --headless --path . res://tests/m6a/m6a_validation.tscn` printed 219 `CHECK OK` lines and `M6A_OK`, and exited 0. The same binary printed `M1_OK`, `M2_OK`, `M3_OK`, `M4_OK`, `M4_5_OK`, `M5A_OK`, `M5B_OK`, and `TOOLCHAIN_OK`, each exiting 0. T51–T52 were not played in a window.

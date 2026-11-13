@@ -3,9 +3,9 @@
 A story-driven, top-down pixel-art RPG made in **Godot 4.7**. You play a young pastor who arrives in
 the fictional town of **Oakridge** to lead **Grace Community Church**.
 
-> **Status (2026-11-12):** Milestone 5B is playable. The demo still runs from the title screen through the
-> first Sunday. After the ledger you can stay in Oakridge. The clock then continues into Monday and a repeating week.
-> A suggested path is in `docs/PLAYTEST.md`.
+> **Status (2026-11-12):** Milestone 6A part 1 is playable. The player and the five named people use
+> authored 32×48 sheets. Buildings and tiles are still the old placeholders. After the ledger you can stay
+> in Oakridge. A suggested path is in `docs/PLAYTEST.md`.
 
 ## Play (Windows)
 
@@ -59,10 +59,11 @@ godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m4/m4_va
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m4_5/m4_5_validation.tscn
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m5a/m5a_validation.tscn
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m5b/m5b_validation.tscn
+godot --headless --path C:\Users\natha\Projects\the-calling res://tests/m6a/m6a_validation.tscn
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/toolchain/toolchain_test.tscn --quit-after 5
 ```
 
-The manual list is `docs/PLAYTEST.md`. Placeholder sprites are drawn in code by `scripts/art/placeholder_art.gd` when a room starts.
+The manual list is `docs/PLAYTEST.md`. Named character sheets live in `assets/characters/` and are rebuilt by `tools/art/author_sprites.gd`. Buildings and tiles are still drawn in code by `scripts/art/placeholder_art.gd` when a room starts.
 
 ## Layout
 
@@ -88,8 +89,9 @@ scripts/systems/                     scene router, narrative state, day clock, s
 scripts/services/                    Sunday gathering in the sanctuary
 scripts/world/                       room bootstrap, the church, Oak Street, Maple Lane, and the interiors
 scripts/ui/                          prompt, dialogue box, journal, pause, town map, morning card, title, chapter ending, scene fade
-assets/                              png placeholders and the master palette
-tools/generate_placeholders.py       draws those pngs
+assets/                              character sheets, png placeholders, and the master palette
+tools/art/                           character sheet generator (see tools/art/README.md)
+tools/generate_placeholders.py       draws the older placeholder pngs
 tests/toolchain/                     environment smoke test (leave it)
 tests/m1/                            milestone 1 checks and screenshot capture
 tests/m2/                            milestone 2 checks
@@ -98,6 +100,7 @@ tests/m4/                            milestone 4 checks
 tests/m4_5/                          milestone 4.5 checks
 tests/m5a/                           milestone 5A checks
 tests/m5b/                           milestone 5B checks
+tests/m6a/                           milestone 6A character-sheet checks
 ```
 
 ## Documents
@@ -123,7 +126,7 @@ tests/m5b/                           milestone 5B checks
 
 ## Limitations
 
-- Art is an original blockout drawn in code when the scene starts, not final illustration. There are no `.ase` sources yet. The new rooms, the garden, and the shop props are the same kind of placeholder.
+- The player and the five named people use authored 32×48 sheets. Buildings, tiles, and unnamed townsfolk are still the original blockout drawn in code. There are no `.ase` sources yet.
 - The notice board is still one line. There is no inventory or audio.
 - One save slot, `user://the_calling_save.json`, version 3. A version 1 or version 2 file loads. Esc, then Save or Load. New Game does not delete the slot. Restart on the chapter screen does.
 - The clock enters Sunday and stops at Sunday 11:59 p.m. T is a debug skip. Before 10:00 a.m. on Sunday it stops at 10:00. A single frame never moves the clock more than one minute.

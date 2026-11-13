@@ -120,32 +120,14 @@ func _play(moving: bool) -> void:
 
 func _build_frames() -> void:
 	var sprite := get_node_or_null("AnimatedSprite2D") as AnimatedSprite2D
-	var tex := PlaceholderArt.player_sheet()
-	if sprite == null or tex == null:
+	if sprite == null:
+		push_error("Player sprite missing")
+		return
+	var frames := CharacterSheets.sprite_frames("player")
+	if frames == null:
 		push_error("Player sprite sheet missing")
 		return
-	var frames := SpriteFrames.new()
-	var facings: Array[String] = ["down", "up", "left", "right"]
-	for row in facings.size():
-		var idle_name := facings[row] + "_idle"
-		var walk_name := facings[row] + "_walk"
-		frames.add_animation(idle_name)
-		frames.add_animation(walk_name)
-		frames.set_animation_loop(idle_name, true)
-		frames.set_animation_loop(walk_name, true)
-		frames.set_animation_speed(idle_name, 2.0)
-		frames.set_animation_speed(walk_name, 8.0)
-		frames.add_frame(idle_name, _atlas(tex, 0, row))
-		frames.add_frame(idle_name, _atlas(tex, 1, row))
-		for col in range(2, 6):
-			frames.add_frame(walk_name, _atlas(tex, col, row))
-	if frames.has_animation("default"):
-		frames.remove_animation("default")
 	sprite.sprite_frames = frames
-
-
-func _atlas(tex: Texture2D, column: int, row: int) -> AtlasTexture:
-	var atlas := AtlasTexture.new()
-	atlas.atlas = tex
-	atlas.region = Rect2(column * FRAME_SIZE.x, row * FRAME_SIZE.y, FRAME_SIZE.x, FRAME_SIZE.y)
-	return atlas
+	sprite.centered = true
+	sprite.offset = Vector2(0.0, -float(FRAME_SIZE.y) * 0.5)
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST

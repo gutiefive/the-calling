@@ -12,6 +12,7 @@ Status date: 2026-11-12. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md
 | M4.5 Living town | Implemented. Wayfinding to Oak Street, a wider street, people who move, and one optional moment each on Thursday, Friday, and Saturday. |
 | M5A A town to come home to | Implemented. Parsonage and sleep, Maple Lane, shop interiors, soft church growth, two optional tasks, and the first step of Frank's arc. |
 | M5B Polish | Implemented. One place for each person, a week that continues after Chapter 1, and a quiet later Sunday. |
+| M6A part 1 Character sprites | Implemented. Player plus Margaret, Harold, Thomas, Frank, and Sarah use 32×48 sheets. Tiles and buildings stay placeholder. |
 | Later | Not started. Do not add another chapter, inventory, or audio until Nathan asks. |
 
 ## M1 includes
@@ -69,3 +70,11 @@ A polish pass. Thomas and Frank keep shop hours inside the store and the bay, an
 ## M5B does not include
 
 Another chapter, a second sermon system, inventory, money, or audio.
+
+## M6A part 1 includes
+
+Authored 32×48 character sheets for the player and the five named people. Four facings, two idle frames and four walk frames each. A headless generator under `tools/art/` stamps a shared body plus hair and a small extra. Named people walk with those frames. Tiles, buildings, and unnamed townsfolk stay the old placeholders.
+
+## M6A part 1 does not include
+
+Tilesets, building art, unnamed neighbors, portraits, or a LibreSprite pass. Editing a generated PNG in LibreSprite makes that PNG the source of truth.
