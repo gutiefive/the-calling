@@ -81,6 +81,19 @@ func _body_text() -> String:
 			if not objective.is_empty():
 				lines.append(objective)
 	lines.append("")
+	lines.append("Requests")
+	var ask_lines := PackedStringArray()
+	var asks := get_node_or_null("/root/RequestState")
+	if asks != null and asks.has_method("journal_lines"):
+		var ask_raw: Variant = asks.call("journal_lines")
+		if ask_raw is PackedStringArray:
+			ask_lines = ask_raw
+	if ask_lines.is_empty():
+		lines.append("No open asks.")
+	else:
+		for line in ask_lines:
+			lines.append(line)
+	lines.append("")
 	lines.append("Completed")
 	var done := NarrativeState.completed_quests()
 	if done.is_empty():

@@ -74,6 +74,8 @@ func bark_text() -> String:
 
 func interact(_actor: Node) -> void:
 	super.interact(_actor)
+	if person_id == "ruth" and _open_request_talk():
+		return
 	var text := bark_text()
 	if text.is_empty():
 		return
@@ -83,6 +85,30 @@ func interact(_actor: Node) -> void:
 	var banner := tree.get_first_node_in_group("speech_banner")
 	if banner != null and banner.has_method("show_line"):
 		banner.show_line("Neighbor", text)
+
+
+func _open_request_talk() -> bool:
+	var asks := get_node_or_null("/root/RequestState")
+	if asks == null:
+		return false
+	var open_ask := false
+	if asks.has_method("is_available") and bool(asks.call("is_available", "garden_needs_hands")):
+		open_ask = true
+	if asks.has_method("is_active") and bool(asks.call("is_active", "garden_needs_hands")):
+		open_ask = true
+	if not open_ask:
+		return false
+	var tree := get_tree()
+	if tree == null:
+		return false
+	var box := tree.get_first_node_in_group("dialogue_box")
+	if box == null or not box.has_method("open_conversation"):
+		return false
+	if box.has_method("is_conversation_open") and bool(box.call("is_conversation_open")):
+		return true
+	if box.has_method("closed_this_frame") and bool(box.call("closed_this_frame")):
+		return true
+	return bool(box.call("open_conversation", "ruth", self))
 
 
 func _physics_process(delta: float) -> void:

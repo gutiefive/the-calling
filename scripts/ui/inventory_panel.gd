@@ -161,6 +161,7 @@ func _set_open(is_open: bool) -> void:
 			story.call("set_inventory_open", is_open)
 		else:
 			story.set("inventory_open", is_open)
+	_sync_clock_chrome()
 	if is_open:
 		_close_other_panels()
 		_index = 0
@@ -368,6 +369,12 @@ func _make_label(text: String, size: int, color: Color) -> Label:
 	label.add_theme_font_size_override("font_size", size)
 	label.add_theme_color_override("font_color", color)
 	return label
+
+
+func _sync_clock_chrome() -> void:
+	var clock := get_node_or_null("/root/DayClock")
+	if clock != null and clock.has_method("sync_chrome"):
+		clock.call("sync_chrome")
 
 
 func _pack() -> Node:

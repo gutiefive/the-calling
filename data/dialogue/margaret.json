@@ -153,6 +153,57 @@
         {"next": "after_walk"}
       ]
     },
+    "request_flowers_offer": {
+      "router": [
+        {"if": {"request_slots_full": true}, "next": "request_flowers_busy"},
+        {"next": "request_flowers_ask"}
+      ]
+    },
+    "request_flowers_busy": {
+      "speaker": "Margaret",
+      "text": "You've got enough on your list. The sanctuary can wait a day.",
+      "end": true
+    },
+    "request_flowers_ask": {
+      "speaker": "Margaret",
+      "text": "The window by the east wall looks bare. If the garden has flowers, three stems would do.",
+      "choices": [
+        {"text": "I'll cut some when they're ready.", "next": "request_flowers_accepted", "accept_request": "sanctuary_flowers"},
+        {"text": "Not today.", "next": "request_flowers_later"}
+      ]
+    },
+    "request_flowers_accepted": {
+      "speaker": "Margaret",
+      "text": "Bring them to me. I'll set them where the morning light hits.",
+      "end": true
+    },
+    "request_flowers_later": {
+      "speaker": "Margaret",
+      "text": "The room has waited longer than a week.",
+      "end": true
+    },
+    "request_flowers_progress": {
+      "router": [
+        {"if": {"can_deliver": "sanctuary_flowers"}, "next": "request_flowers_deliver"},
+        {"next": "request_flowers_wait"}
+      ]
+    },
+    "request_flowers_wait": {
+      "speaker": "Margaret",
+      "text": "Whenever the stems are ready. Three is enough.",
+      "end": true
+    },
+    "request_flowers_deliver": {
+      "speaker": "Margaret",
+      "text": "These will do. I'll put them by the window before Sunday.",
+      "deliver_request": "sanctuary_flowers",
+      "end": true
+    },
+    "request_flowers_done": {
+      "speaker": "Margaret",
+      "text": "The east window looks looked-after. People notice that, even if they don't say.",
+      "end": true
+    },
     "later_sunday_gate": {
       "router": [
         {"if": {"flag": "weekly_loop"}, "next": "later_sunday_loop"},
@@ -172,6 +223,19 @@
     "after_walk": {
       "speaker": "Margaret",
       "text": "The first week is behind us. Walk if you want. Nothing new is due today.",
+      "next": "request_flowers_gate"
+    },
+    "request_flowers_gate": {
+      "router": [
+        {"if": {"request_active": "sanctuary_flowers"}, "next": "request_flowers_progress"},
+        {"if": {"request_available": "sanctuary_flowers"}, "next": "request_flowers_offer"},
+        {"if": {"request_completed": "sanctuary_flowers"}, "next": "request_flowers_done"},
+        {"next": "after_walk_hold"}
+      ]
+    },
+    "after_walk_hold": {
+      "speaker": "Margaret",
+      "text": "That's the walk for today.",
       "end": true
     }
   }

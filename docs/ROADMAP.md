@@ -1,6 +1,6 @@
 # Roadmap — The Calling
 
-Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md`. This file is the current cut line. M12 (church grounds campus) is implemented. Gameplay A (inventory and items) and Gameplay B (church garden) are implemented. Next: Gameplay C (community requests) unless Nathan sends the work elsewhere. Chapter 2 storylines are not started.
+Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md`. This file is the current cut line. M12 (church grounds campus) is implemented. Gameplay A (inventory and items), Gameplay B (church garden), and Gameplay C (community requests and in-ground garden) are implemented. Next: Gameplay D (interactive repairs) unless Nathan sends the work elsewhere. Chapter 2 storylines are not started.
 
 | Milestone | Status |
 |---|---|
@@ -25,7 +25,7 @@ Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md
 | M12 Church grounds campus | Implemented. Perimeter and one main gate, courtyard, parking, garden, picnic lawn, and data-driven expansion plots. Fellowship Hall repair unchanged. |
 | Gameplay A Inventory and items | Implemented. Data-driven catalog, pack, personal wallet, I-panel, hardware shop, starter tools and seeds, save v7. See `docs/GAMEPLAY_LOOPS.md`. |
 | Gameplay B Gardening | Implemented. Nine church-grounds plots east of the picnic lawn, hoe / seed / water / harvest, morning growth, save v8. Maple Lane Chapter 1 plot unchanged. See `docs/GAMEPLAY_LOOPS.md`. |
-| Gameplay C Community requests | Not started. Sarah, Margaret, Harold, garden hands. Journal tracking. |
+| Gameplay C Community requests | Implemented. Four optional asks, journal tracking, in-ground church garden tiles, save v9. See `docs/GAMEPLAY_LOOPS.md`. |
 | Gameplay D Interactive repairs | Not started. Fence, weeds, litter, flower bed. Keep GroundsChore flags. |
 | Gameplay E Weekly potluck | Not started. Extend the M8 happening; do not duplicate Sunday. |
 | Gameplay F Integration and polish | Not started. Full-loop playthrough, balance, regression. |
@@ -159,3 +159,11 @@ Nine individually interactable plots in a fenced vegetable garden on the church 
 ## Gameplay B does not include
 
 Community requests, staged repairs, or the potluck. Those are C–E. Harvests are items with no automatic story effect.
+
+## Gameplay C includes
+
+A data-driven request catalog with four optional asks: Sarah's vegetables, Margaret's sanctuary flowers, Harold's fence (3 Wood, 2 Nails), and Ruth's Maple Lane garden. Accept through dialogue. Up to three active. The journal lists required items, progress, where to return, and a short history. Delivering removes the items. Rewards vary (a thank-you, a small personal tip, an item, a remembered flag, a later line, a visible place change). Completing an ask does not raise Pull, attendance, or ChurchFunds. The church garden is in-ground tile farming inside the fence, with a facing-tile marker. Saves are version 9. A version 8 file loads with no active asks; old beds map onto tiles.
+
+## Gameplay C does not include
+
+Staged repairs as a player interaction (Harold's ask only delivers materials) or the weekly potluck. Those are D–E. Insiders still never say "cult".

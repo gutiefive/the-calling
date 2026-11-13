@@ -771,3 +771,44 @@ Exact walkthrough:
 
 On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `GPB_OK` with zero `CHECK FAIL` (the expected `Save version 9 is not supported` push_error before the newer-save rejection). Every existing suite still printed its `_OK` line and exited 0: `M1_OK`, `M2_OK`, `M3_OK`, `M4_OK`, `M4_5_OK`, `M5A_OK`, `M5B_OK`, `M6A_OK`, `M6A2_OK`, `M7_OK`, `M8_OK`, `M9_OK`, `M9B_OK`, `M10_OK`, `M11_OK`, `M11B_OK`, `M11C_OK`, `M12_OK`, `GPA_OK`. `--quit-after 120` exited 0. `tests/gpb/capture_gpb.tscn` wrote `garden_day.png`, `shop_ui.png`, and `inventory_ui.png` under `tests/gpb/shots/`. T82–T85 were not played in a window.
 
+# Gameplay C — Community requests
+
+The lists above still apply. These checks cover optional asks, the journal, in-ground church garden tiles, Maple Lane flags, and save v9.
+
+## Automated
+
+```powershell
+godot --headless --path . --import
+godot --headless --path . res://tests/gpc/gpc_validation.tscn
+godot --path . res://tests/gpc/capture_gpc.tscn
+```
+
+`gpc_validation.tscn` prints `CHECK OK` / `CHECK FAIL` lines and exits with `GPC_OK` or `GPC_FAIL`.
+It checks unlock and accept for each request, the 3-active limit, item tracking and delivery, missing-item failure, no duplicate rewards, completion and history, expiry, no Pull / attendance / ChurchFunds change, Ruth's Maple Lane flags, save/load, version-8 bed-to-tile migration, tilling arbitrary tiles, and rejecting reserved tiles.
+
+`capture_gpc.tscn` writes PNGs to `tests/gpc/shots/` and needs a display. It skips with `CAPTURE_SKIPPED` under `--headless`.
+
+## Manual
+
+Exact walkthrough:
+
+1. Finish Chapter 1 and choose Continue in Oakridge (or load a continued save).
+2. Walk into the parsonage. E on the toolbox. I, highlight the Hoe, E to equip.
+3. Walk south to the picnic lawn, then east into the fenced garden. A corner marker shows the tile you face. E tills grass. I, prepare Lettuce Seeds, E plants. Equip the Watering Can, E waters (the soil darkens). The path, gate, crate, and Ruth's card do not till.
+4. Sleep twice, watering each morning. E harvests into the pack. Grow carrots the same way until you have 2 Lettuce and 2 Carrots.
+5. Find Sarah on Oak Street (morning) or Maple Lane (afternoon). She asks for vegetables. Accept. J shows the ask, the counts, and where to return. Talk to her again to deliver. The pack loses exactly those crops. The wallet may tick up. Church books do not.
+6. Talk to Margaret about flowers, Harold about wood and nails (buy at Thomas's shelves if needed), and Ruth on Maple Lane about the community plot. At most three asks at once. Ruth wants the Maple Lane weeds and the neighbor's seed, not the church garden.
+7. After Harold, look at the garden fence: a patched stretch. After Margaret, the sanctuary east window has flowers. Esc, Save, Load. The asks and tiles are as you left them.
+
+| ID | Do this | Expect |
+|---|---|---|
+| T86 | After Continue, talk to Sarah, accept, J | Journal lists Fresh for the Table, 0/2 Lettuce, where to return. No quest marker in the world. |
+| T87 | Deliver lettuce and carrots to Sarah | Pack loses those crops. Wallet may rise. Pull, attendance, and the ledger do not. |
+| T88 | Hoe a grass tile inside the church garden fence, then the path by the crate | Grass tills. The path refuses. A facing marker shows the cell. |
+| T89 | Accept four asks | The fourth person says you're already busy. |
+| T90 | Maple Lane garden after accepting Ruth's ask | Weeds and the neighbor still set `garden_planted`. Church tiles do not. |
+
+## Gameplay C results
+
+On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `GPC_OK` (123 `CHECK OK`) with zero `CHECK FAIL` (the expected `Save version 10 is not supported` push_error before the newer-save rejection). Every existing suite still printed its `_OK` line and exited 0: `M1_OK` (76), `M2_OK` (113), `M3_OK` (109), `M4_OK` (90), `M4_5_OK` (90), `M5A_OK` (103), `M5B_OK` (1491), `M6A_OK` (219), `M6A2_OK` (130), `M7_OK` (93), `M8_OK` (80), `M9_OK` (105), `M9B_OK` (156), `M10_OK` (91), `M11_OK` (210), `M11B_OK` (196), `M11C_OK` (246), `M12_OK` (165), `GPA_OK` (204), `GPB_OK` (125). `--quit-after 120` exited 0. `tests/gpc/capture_gpc.tscn` wrote `garden_day.png`, `journal_requests.png`, and `request_dialogue.png` under `tests/gpc/shots/`. T86–T90 were not played in a window.
+

@@ -42,8 +42,67 @@
       "end": true
     },
     "after": {
+      "router": [
+        {"if": {"request_active": "broken_fence"}, "next": "request_fence_progress"},
+        {"if": {"request_available": "broken_fence"}, "next": "request_fence_offer"},
+        {"if": {"request_completed": "broken_fence"}, "next": "request_fence_done"},
+        {"next": "after_lock"}
+      ]
+    },
+    "after_lock": {
       "speaker": "Harold",
       "text": "The ring is back with Margaret. Leave the office lock alone until it fails twice, not once.",
+      "end": true
+    },
+    "request_fence_offer": {
+      "router": [
+        {"if": {"request_slots_full": true}, "next": "request_fence_busy"},
+        {"next": "request_fence_ask"}
+      ]
+    },
+    "request_fence_busy": {
+      "speaker": "Harold",
+      "text": "You've got enough jobs. The fence will still be leaning tomorrow.",
+      "end": true
+    },
+    "request_fence_ask": {
+      "speaker": "Harold",
+      "text": "A stretch of the garden fence is tired. Three boards and two handfuls of nails would set it.",
+      "choices": [
+        {"text": "I'll get the wood and nails.", "next": "request_fence_accepted", "accept_request": "broken_fence"},
+        {"text": "Not today.", "next": "request_fence_later"}
+      ]
+    },
+    "request_fence_accepted": {
+      "speaker": "Harold",
+      "text": "Bring them here. I'll set the boards. Don't make a project of it.",
+      "end": true
+    },
+    "request_fence_later": {
+      "speaker": "Harold",
+      "text": "It'll lean until it doesn't.",
+      "end": true
+    },
+    "request_fence_progress": {
+      "router": [
+        {"if": {"can_deliver": "broken_fence"}, "next": "request_fence_deliver"},
+        {"next": "request_fence_wait"}
+      ]
+    },
+    "request_fence_wait": {
+      "speaker": "Harold",
+      "text": "Wood and nails. Three and two. Hardware has both if the shed doesn't.",
+      "end": true
+    },
+    "request_fence_deliver": {
+      "speaker": "Harold",
+      "text": "That'll hold. I left a bit of scrap by the post if you want it.",
+      "deliver_request": "broken_fence",
+      "end": true
+    },
+    "request_fence_done": {
+      "speaker": "Harold",
+      "text": "The garden fence is set. Leave it. A fence that gets fussed over starts expecting it.",
       "end": true
     }
   }

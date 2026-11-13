@@ -325,6 +325,14 @@ The repeatable garden is on the **church grounds**, not Maple Lane. Nine plots s
 
 **Save.** Version 8. A version 7 file gains empty untilled plots and keeps everything else.
 
+## D54 — Community requests and in-ground garden (Gameplay C)
+
+Optional asks, not a quest log with markers. Definitions live in `data/requests/catalog.json`. Accept in dialogue. Cap of three active. History of completed (and expired) asks. Delivering uses `Inventory.remove`. Sarah wants lettuce and carrots for a table; Margaret wants flowers for the sanctuary (they appear by the east window); Harold wants wood and nails and mends a stretch of garden fence; Ruth wants the Maple Lane plot productive and reads `garden_cleared` / `garden_planted`, not the church tiles. Rewards are mixed and personal. No Pull, attendance, dependents, loyalty, or ChurchFunds from finishing an ask. Insiders never say "cult". No dollar amounts in dialogue JSON.
+
+**Garden.** The nine raised wooden beds are gone. Open grass inside `GroundsLayout.VEG_GARDEN` is a tillable grid. Path, gate, Ruth's card, and the seed crate stay clear. The Hoe tills a facing tile; a corner marker shows the cell. Watered soil is darker and dries in the morning. Empty tilled soil reverts after three mornings. Old version-8 beds map onto the matching tiles so in-progress crops survive.
+
+**Save.** Version 9. A version 8 file gains an empty request list and converted tiles.
+
 ## Still open
 
 | # | Question | Notes |

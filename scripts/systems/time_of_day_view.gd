@@ -81,6 +81,8 @@ func _set_clock_text() -> void:
 	for node in tree.get_nodes_in_group("clock_label"):
 		if node is Label:
 			(node as Label).text = text
+	if clock.has_method("sync_chrome"):
+		clock.call("sync_chrome")
 
 
 func _set_phase_text(value: String) -> void:
@@ -90,3 +92,6 @@ func _set_phase_text(value: String) -> void:
 	for node in tree.get_nodes_in_group("phase_label"):
 		if node is Label:
 			(node as Label).text = value
+	var clock := get_node_or_null("/root/DayClock")
+	if clock != null and clock.has_method("sync_chrome"):
+		clock.call("sync_chrome")

@@ -73,6 +73,7 @@ func _place_props() -> void:
 	_place("Props/KeyRing", POS_KEYS)
 	_place("Props/Ledger", POS_LEDGER)
 	_add_quiet_note()
+	_add_sanctuary_flowers()
 	_place("Props/Thomas", Vector2(560, 520))
 	_place("Props/Frank", Vector2(400, 600))
 	_place("Props/Sarah", Vector2(400, 500))
@@ -95,6 +96,35 @@ func _place_props() -> void:
 	_place("Lighting/SconceL", POS_SCONCE_L)
 	_place("Lighting/SconceR", POS_SCONCE_R)
 	_place("Lighting/SconceN", POS_SCONCE_N)
+
+
+func _refresh_living() -> void:
+	super._refresh_living()
+	_apply_sanctuary_flowers()
+
+
+func _add_sanctuary_flowers() -> void:
+	var props := get_node_or_null("Props")
+	if props == null or props.get_node_or_null("SanctuaryFlowers") != null:
+		return
+	var bouquet := Sprite2D.new()
+	bouquet.name = "SanctuaryFlowers"
+	bouquet.texture = PlaceholderArt.flowers()
+	bouquet.centered = true
+	bouquet.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	bouquet.position = Vector2(430, 300)
+	if bouquet.texture != null:
+		bouquet.offset = Vector2(0, -bouquet.texture.get_height() * 0.5)
+	bouquet.visible = false
+	props.add_child(bouquet)
+	_apply_sanctuary_flowers()
+
+
+func _apply_sanctuary_flowers() -> void:
+	var bouquet := get_node_or_null("Props/SanctuaryFlowers") as CanvasItem
+	if bouquet == null:
+		return
+	bouquet.visible = NarrativeState.flag_is_true("sanctuary_flowers_set")
 
 
 func _add_quiet_note() -> void:

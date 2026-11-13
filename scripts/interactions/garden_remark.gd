@@ -2,8 +2,8 @@ class_name GardenRemark
 extends SpeechProp
 ## A light, non-numeric aside. Only sounds pleased when the beds are tended.
 
-const QUIET := "Nine little beds. Quiet, for now."
-const TENDED := "The beds look tended. Someone's been out here."
+const QUIET := "Open ground inside the fence. Quiet, for now."
+const TENDED := "The ground looks tended. Someone's been out here."
 
 
 func _enter_tree() -> void:

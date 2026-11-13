@@ -1,0 +1,114 @@
+{
+  "max_active": 3,
+  "requests": [
+    {
+      "id": "fresh_for_the_table",
+      "title": "Fresh for the Table",
+      "npc": "sarah",
+      "npc_name": "Sarah",
+      "return_where": "Sarah on Oak Street or Maple Lane",
+      "description": "Sarah wants vegetables for a community meal.",
+      "required": {
+        "lettuce": 2,
+        "carrots": 2
+      },
+      "available_if": {
+        "flag": "week_continues"
+      },
+      "deadline_days": 7,
+      "repeatable": true,
+      "cooldown_days": 7,
+      "kind": "delivery",
+      "rewards": {
+        "cash": 4,
+        "flags": {
+          "sarah_table_helped": true,
+          "potluck_vegetables": true
+        },
+        "note": "Sarah has what she needs for the table."
+      }
+    },
+    {
+      "id": "sanctuary_flowers",
+      "title": "Flowers for the Sanctuary",
+      "npc": "margaret",
+      "npc_name": "Margaret",
+      "return_where": "Margaret on the church walk or in the sanctuary",
+      "description": "Margaret wants flowers for the sanctuary.",
+      "required": {
+        "flowers": 3
+      },
+      "available_if": {
+        "flag": "week_continues"
+      },
+      "deadline_days": 7,
+      "repeatable": true,
+      "cooldown_days": 7,
+      "kind": "delivery",
+      "rewards": {
+        "items": {
+          "flower_seeds": 1
+        },
+        "flags": {
+          "sanctuary_flowers_set": true
+        },
+        "note": "Flowers sit by the sanctuary window."
+      }
+    },
+    {
+      "id": "broken_fence",
+      "title": "The Broken Fence",
+      "npc": "harold",
+      "npc_name": "Harold",
+      "return_where": "Harold on the church grounds or in the sanctuary",
+      "description": "Harold needs wood and nails for a stretch of church fence.",
+      "required": {
+        "wood": 3,
+        "nails": 2
+      },
+      "available_if": {
+        "flag": "week_continues"
+      },
+      "repeatable": false,
+      "kind": "repair_materials",
+      "rewards": {
+        "items": {
+          "scrap": 1
+        },
+        "flags": {
+          "church_fence_mended": true
+        },
+        "note": "Harold mended the garden fence."
+      }
+    },
+    {
+      "id": "garden_needs_hands",
+      "title": "The Garden Needs Hands",
+      "npc": "ruth",
+      "npc_name": "Ruth",
+      "return_where": "Ruth on Maple Lane",
+      "description": "Ruth needs help making the Maple Lane garden productive.",
+      "required": {},
+      "complete_if": {
+        "flag": "garden_planted"
+      },
+      "available_if": {
+        "flag": "week_continues"
+      },
+      "repeatable": false,
+      "kind": "story_flag",
+      "rewards": {
+        "items": {
+          "carrot_seeds": 2
+        },
+        "flags": {
+          "garden_hands_helped": true
+        },
+        "relationships": {
+          "ruth": 1
+        },
+        "note": "The Maple Lane garden has a second pair of hands."
+      }
+    }
+  ]
+}

@@ -181,6 +181,17 @@ func _matches(condition: Dictionary) -> bool:
 	if condition.has("influence_stage_at_least"):
 		var inf := _influence()
 		return inf != null and bool(inf.call("influence_stage_at_least", int(condition["influence_stage_at_least"])))
+	if condition.has("request_available"):
+		return _request_flag("is_available", str(condition.get("request_available", "")))
+	if condition.has("request_active"):
+		return _request_flag("is_active", str(condition.get("request_active", "")))
+	if condition.has("request_completed"):
+		return _request_flag("is_completed", str(condition.get("request_completed", "")))
+	if condition.has("can_deliver"):
+		return _request_flag("can_deliver", str(condition.get("can_deliver", "")))
+	if condition.has("request_slots_full"):
+		var asks := _requests()
+		return asks != null and asks.has_method("slots_full") and bool(asks.call("slots_full"))
 	if condition.has("lean_at_least") or condition.has("dominant_is") or condition.has("thread_is") or condition.has("thread_open") or condition.has("thread_missed"):
 		return StoryQuery.holds(condition)
 	return false
@@ -212,6 +223,20 @@ func _threads() -> Node:
 	if tree == null:
 		return null
 	return tree.root.get_node_or_null("StoryThreads")
+
+
+func _requests() -> Node:
+	var tree := Engine.get_main_loop() as SceneTree
+	if tree == null:
+		return null
+	return tree.root.get_node_or_null("RequestState")
+
+
+func _request_flag(method_name: String, request_id: String) -> bool:
+	var asks := _requests()
+	if asks == null or request_id.is_empty() or not asks.has_method(method_name):
+		return false
+	return bool(asks.call(method_name, request_id))
 
 
 func _apply_nudge(nudge_v: Variant) -> void:
@@ -331,6 +356,16 @@ func _apply(data: Dictionary) -> void:
 	var thread_v: Variant = data.get("thread", null)
 	if thread_v is Dictionary:
 		_apply_thread(thread_v)
+	var accept_id := str(data.get("accept_request", ""))
+	if not accept_id.is_empty():
+		var asks := _requests()
+		if asks != null and asks.has_method("accept"):
+			asks.call("accept", accept_id)
+	var deliver_id := str(data.get("deliver_request", ""))
+	if not deliver_id.is_empty():
+		var asks := _requests()
+		if asks != null and asks.has_method("deliver"):
+			asks.call("deliver", deliver_id)
 	var quest_v: Variant = data.get("quest", null)
 	if not quest_v is Dictionary:
 		return

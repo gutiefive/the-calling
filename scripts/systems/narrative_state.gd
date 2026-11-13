@@ -92,6 +92,9 @@ func reset() -> void:
 	var garden := get_node_or_null("/root/GardenState")
 	if garden != null and garden.has_method("reset"):
 		garden.call("reset")
+	var asks := get_node_or_null("/root/RequestState")
+	if asks != null and asks.has_method("reset"):
+		asks.call("reset")
 
 
 func set_flag(key: String, value: Variant) -> void:

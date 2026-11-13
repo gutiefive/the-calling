@@ -42,12 +42,7 @@ func _crop_data() -> void:
 	_check(Catalog.item_is_seed("carrot_seeds") and not Catalog.item_is_seed("hoe"), "seed packets are seeds")
 	var garden := _garden()
 	_check(garden != null, "GardenState autoload exists")
-	var ids := PackedStringArray()
-	if garden != null:
-		var ids_v: Variant = garden.call("plot_ids")
-		if ids_v is PackedStringArray:
-			ids = ids_v
-	_check(ids.size() == 9, "the church garden has 9 plots")
+	_check(garden != null and garden.has_method("is_tillable") and bool(garden.call("is_tillable", GroundsLayout.legacy_bed_cell(0))), "the church garden still farms the old bed cells")
 
 
 func _full_cycle_every_crop() -> void:
@@ -223,13 +218,8 @@ func _chapter1_and_layout() -> void:
 	var crate := grounds.get_node_or_null("Props/SeedCrate") as ItemPickup
 	_check(crate != null, "the church garden has the seed crate")
 	_check(grounds.get_node_or_null("Props/GardenNote") != null, "Ruth left a garden card")
-	var farm_count := 0
-	for i in 9:
-		var node := grounds.get_node_or_null("Props/ChurchPlot%d" % i) as GardenPlot
-		if node != null:
-			farm_count += 1
-			_check(node.plot_id == "church_%d" % i, "church plot %d has its id" % i)
-	_check(farm_count == 9, "nine church garden plots are placed")
+	_check(grounds.get_node_or_null("Props/FarmField") != null, "the church garden is an in-ground field")
+	_check(grounds.get_node_or_null("Props/ChurchPlot0") == null, "raised wooden beds are gone")
 	_garden().call("till", "church_0")
 	_check(not NarrativeState.flag_is_true("garden_cleared"), "tilling a church bed does not set garden_cleared")
 	_check(not NarrativeState.flag_is_true("garden_planted"), "tilling a church bed does not set garden_planted")
@@ -266,18 +256,18 @@ func _save_and_scene() -> void:
 		return
 	player.global_position = Vector2(420, 510)
 	var saved := SaveGame.save_to_disk(get_tree())
-	_check(saved, "a version 8 save writes")
+	_check(saved, "a version 9 save writes")
 	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(SaveGame.SAVE_PATH))
 	_check(parsed is Dictionary, "the save file is an object")
 	var row: Dictionary = parsed if parsed is Dictionary else {}
-	_check(int(row.get("version", -1)) == 8, "the save file is version 8")
+	_check(int(row.get("version", -1)) == 9, "the save file is version 9")
 	_check(row.has("garden"), "the save stores garden plots")
 	room.free()
 	await _pump(1)
 	NarrativeState.reset()
 	_check(str(_plot("church_5").get("stage", "")) == "untouched", "reset clears church plots")
 	var loaded := SaveGame.read_file()
-	_check(int(loaded.get("version", 0)) == 8, "read_file keeps version 8")
+	_check(int(loaded.get("version", 0)) == 9, "read_file keeps version 9")
 	SaveGame.apply_state(loaded)
 	var restored := _plot("church_5")
 	_check(bool(restored.get("planted", false)), "load restores a planted plot")
@@ -290,11 +280,11 @@ func _save_and_scene() -> void:
 	if again == null:
 		return
 	await _pump(2)
-	var bed := again.get_node_or_null("Props/ChurchPlot5") as GardenPlot
-	_check(bed != null, "re-entering the grounds finds the plot")
-	if bed != null:
-		bed.apply_clock()
-		_check(str(_plot("church_5").get("crop", "")) == "carrots", "scene re-entry keeps plot state")
+	var field := again.get_node_or_null("Props/FarmField")
+	_check(field != null, "re-entering the grounds finds the garden field")
+	if field != null and field.has_method("rebuild"):
+		field.call("rebuild")
+	_check(str(_plot("church_5").get("crop", "")) == "carrots", "scene re-entry keeps plot state")
 	again.free()
 	NarrativeState.reset()
 	await _pump(1)
@@ -324,7 +314,7 @@ func _old_save_migration() -> void:
 			"growth": {"community_trust": 1, "attendance": 17},
 		},
 	})
-	_check(int(from_v7.get("version", 0)) == 8, "a version 7 file migrates to version 8")
+	_check(int(from_v7.get("version", 0)) == 9, "a version 7 file migrates to version 9")
 	var garden_v: Variant = from_v7.get("garden", {})
 	var garden_row: Dictionary = garden_v if garden_v is Dictionary else {}
 	var plots_v: Variant = garden_row.get("plots", null)
@@ -335,7 +325,7 @@ func _old_save_migration() -> void:
 	var inv: Dictionary = inv_v if inv_v is Dictionary else {}
 	_check(int(inv.get("cash", -1)) == 12, "v7 migration keeps the wallet")
 	_check(int(from_v7.get("run_seed", 0)) == 42, "v7 migration keeps the run seed")
-	_check(SaveGame.migrate({"version": 9, "scene": "res://scenes/world/church_exterior.tscn"}).is_empty(), "a newer save is still rejected")
+	_check(SaveGame.migrate({"version": 10, "scene": "res://scenes/world/church_exterior.tscn"}).is_empty(), "a newer save is still rejected")
 	var pack := _pack()
 	var funds := _funds()
 	var garden := _garden()

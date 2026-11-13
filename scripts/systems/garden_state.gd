@@ -1,5 +1,5 @@
 extends Node
-## Nine church-grounds plots. Growth ticks once per morning if watered. Never touches Pull or ChurchFunds.
+## Sparse church-garden tiles. Growth ticks once per morning if watered. Never touches Pull or ChurchFunds.
 
 const Crops := preload("res://scripts/systems/crop_catalog.gd")
 const Catalog := preload("res://scripts/systems/item_catalog.gd")
@@ -9,10 +9,10 @@ signal crop_harvested(plot_id: String, item_id: String, quantity: int)
 signal plots_changed
 signal garden_action(kind: String)
 
-const PLOT_COUNT := 9
 const SOIL_UNTOUCHED := "untouched"
 const SOIL_TILLED := "tilled"
 const SOIL_HARVESTED := "harvested"
+const REVERT_DAYS := 3
 
 
 var _plots: Dictionary = {}
@@ -29,34 +29,70 @@ func _ready() -> void:
 
 func reset() -> void:
 	_plots.clear()
-	for i in PLOT_COUNT:
-		var plot_id := plot_id_at(i)
-		_plots[plot_id] = _empty_plot(plot_id)
 	_last_processed_day = _clock_day()
 	plots_changed.emit()
 
 
 func plot_id_at(index: int) -> String:
-	return "church_%d" % index
+	return GroundsLayout.legacy_bed_id(index)
 
 
 func plot_ids() -> PackedStringArray:
 	var ids := PackedStringArray()
-	for i in PLOT_COUNT:
-		ids.append(plot_id_at(i))
+	var keys: Array = _plots.keys()
+	keys.sort()
+	for key in keys:
+		ids.append(str(key))
 	return ids
 
 
 func has_plot(plot_id: String) -> bool:
-	return _plots.has(plot_id)
+	var key := resolve_id(plot_id)
+	if _plots.has(key):
+		return true
+	return GroundsLayout.is_veg_tillable(GroundsLayout.parse_cell_id(key))
+
+
+func is_tillable(cell: Vector2i) -> bool:
+	return GroundsLayout.is_veg_tillable(cell)
+
+
+func is_farmable(cell: Vector2i) -> bool:
+	if GroundsLayout.is_veg_tillable(cell):
+		return true
+	return _plots.has(GroundsLayout.cell_id(cell))
+
+
+func resolve_id(plot_id: String) -> String:
+	if plot_id.begins_with("church_"):
+		var index := int(plot_id.substr(7))
+		if index >= 0 and index < 9:
+			return GroundsLayout.legacy_bed_id(index)
+	return plot_id
+
+
+func neighbor_mask(cell: Vector2i) -> int:
+	var mask := 0
+	if _is_soil_cell(Vector2i(cell.x, cell.y - 1)):
+		mask |= 1
+	if _is_soil_cell(Vector2i(cell.x + 1, cell.y)):
+		mask |= 2
+	if _is_soil_cell(Vector2i(cell.x, cell.y + 1)):
+		mask |= 4
+	if _is_soil_cell(Vector2i(cell.x - 1, cell.y)):
+		mask |= 8
+	return mask
 
 
 func plot_of(plot_id: String) -> Dictionary:
-	if not _plots.has(plot_id):
+	var key := resolve_id(plot_id)
+	if _plots.has(key):
+		var row_v: Variant = _plots[key]
+		if row_v is Dictionary:
+			return (row_v as Dictionary).duplicate(true)
 		return {}
-	var row_v: Variant = _plots[plot_id]
-	if row_v is Dictionary:
-		return (row_v as Dictionary).duplicate(true)
+	if GroundsLayout.is_veg_tillable(GroundsLayout.parse_cell_id(key)):
+		return _empty_plot(key)
 	return {}
 
 
@@ -69,7 +105,8 @@ func looks_tended() -> bool:
 		var row := plot_of(plot_id)
 		if bool(row.get("planted", false)) or bool(row.get("ready", false)):
 			return true
-		if str(row.get("soil", "")) == SOIL_HARVESTED or str(row.get("soil", "")) == SOIL_TILLED:
+		var soil := str(row.get("soil", ""))
+		if soil == SOIL_HARVESTED or soil == SOIL_TILLED:
 			return true
 	return false
 
@@ -87,9 +124,13 @@ func looks_cared_for() -> bool:
 
 
 func prompt_for(plot_id: String) -> String:
-	var row := plot_of(plot_id)
+	var key := resolve_id(plot_id)
+	var cell := GroundsLayout.parse_cell_id(key)
+	if not is_farmable(cell):
+		return ""
+	var row := plot_of(key)
 	if row.is_empty():
-		return "Tend the bed"
+		return "Till"
 	if bool(row.get("ready", false)):
 		return "Harvest"
 	if bool(row.get("planted", false)):
@@ -103,9 +144,13 @@ func prompt_for(plot_id: String) -> String:
 
 
 func interact_plot(plot_id: String) -> Dictionary:
-	var row := plot_of(plot_id)
+	var key := resolve_id(plot_id)
+	var cell := GroundsLayout.parse_cell_id(key)
+	if not is_farmable(cell):
+		return _result(false, "noop", "Leave the path and the gate clear.")
+	var row := plot_of(key)
 	if row.is_empty():
-		return _result(false, "noop", "That bed is not here.")
+		return _result(false, "noop", "Leave the path and the gate clear.")
 	var pack := _pack()
 	var tool := ""
 	var seed := ""
@@ -115,22 +160,22 @@ func interact_plot(plot_id: String) -> Dictionary:
 		if pack.has_method("equipped_seed"):
 			seed = str(pack.call("equipped_seed"))
 	if bool(row.get("ready", false)):
-		return harvest(plot_id)
+		return harvest(key)
 	if bool(row.get("planted", false)):
 		if bool(row.get("watered", false)):
 			return _result(false, "noop", _growing_line(row))
 		if tool == "watering_can":
-			return water(plot_id)
+			return water(key)
 		if tool == "hoe":
 			return _result(false, "noop", "It's planted. A watering can would help.")
 		return _result(false, "noop", "A watering can would help.")
 	var soil := str(row.get("soil", SOIL_UNTOUCHED))
 	if soil == SOIL_UNTOUCHED:
 		if tool == "hoe":
-			return till(plot_id)
+			return till(key)
 		return _result(false, "noop", "A Hoe would turn this soil.")
 	if Catalog.item_is_seed(seed) and pack != null and pack.has_method("has") and bool(pack.call("has", seed, 1)):
-		return plant(plot_id, seed)
+		return plant(key, seed)
 	if tool == "hoe":
 		return _result(false, "noop", "The soil is ready for seed.")
 	if tool == "watering_can":
@@ -141,9 +186,13 @@ func interact_plot(plot_id: String) -> Dictionary:
 
 
 func till(plot_id: String) -> Dictionary:
-	var row := _mutable(plot_id)
+	var key := resolve_id(plot_id)
+	var cell := GroundsLayout.parse_cell_id(key)
+	if not GroundsLayout.is_veg_tillable(cell):
+		return _result(false, "noop", "Leave the path and the gate clear.")
+	var row := _mutable(key)
 	if row.is_empty():
-		return _result(false, "noop", "That bed is not here.")
+		row = _empty_plot(key)
 	if bool(row.get("planted", false)) or bool(row.get("ready", false)):
 		return _result(false, "noop", "Leave the plants. Harvest when they are ready.")
 	if str(row.get("soil", "")) != SOIL_UNTOUCHED:
@@ -151,6 +200,7 @@ func till(plot_id: String) -> Dictionary:
 	row["soil"] = SOIL_TILLED
 	row["stage"] = "tilled"
 	row["watered"] = false
+	row["idle_days"] = 0
 	_store(row)
 	_spend_time()
 	garden_action.emit("till")
@@ -159,11 +209,12 @@ func till(plot_id: String) -> Dictionary:
 
 
 func plant(plot_id: String, seed_id: String) -> Dictionary:
-	var row := _mutable(plot_id)
+	var key := resolve_id(plot_id)
+	var row := _mutable(key)
 	if row.is_empty():
-		return _result(false, "noop", "That bed is not here.")
+		return _result(false, "noop", "A Hoe would turn this soil.")
 	if bool(row.get("planted", false)) or bool(row.get("ready", false)):
-		return _result(false, "noop", "This bed is already planted.")
+		return _result(false, "noop", "This ground is already planted.")
 	var soil := str(row.get("soil", SOIL_UNTOUCHED))
 	if soil == SOIL_UNTOUCHED:
 		return _result(false, "noop", "A Hoe would turn this soil.")
@@ -181,6 +232,7 @@ func plant(plot_id: String, seed_id: String) -> Dictionary:
 	row["growth"] = 0
 	row["ready"] = false
 	row["stage"] = "seeded"
+	row["idle_days"] = 0
 	_store(row)
 	_spend_time()
 	garden_action.emit("plant")
@@ -189,9 +241,10 @@ func plant(plot_id: String, seed_id: String) -> Dictionary:
 
 
 func water(plot_id: String) -> Dictionary:
-	var row := _mutable(plot_id)
+	var key := resolve_id(plot_id)
+	var row := _mutable(key)
 	if row.is_empty():
-		return _result(false, "noop", "That bed is not here.")
+		return _result(false, "noop", "Plant something first.")
 	if not bool(row.get("planted", false)):
 		return _result(false, "noop", "Plant something first.")
 	if bool(row.get("ready", false)):
@@ -202,16 +255,17 @@ func water(plot_id: String) -> Dictionary:
 	_refresh_stage(row)
 	_store(row)
 	_spend_time()
-	crop_watered.emit(plot_id)
+	crop_watered.emit(key)
 	garden_action.emit("water")
 	plots_changed.emit()
-	return _result(true, "water", "Watered the bed.")
+	return _result(true, "water", "Watered the soil.")
 
 
 func harvest(plot_id: String) -> Dictionary:
-	var row := _mutable(plot_id)
+	var key := resolve_id(plot_id)
+	var row := _mutable(key)
 	if row.is_empty():
-		return _result(false, "noop", "That bed is not here.")
+		return _result(false, "noop", "Not ready yet.")
 	if not bool(row.get("ready", false)):
 		return _result(false, "noop", "Not ready yet.")
 	var crop_id := str(row.get("crop", ""))
@@ -232,9 +286,10 @@ func harvest(plot_id: String) -> Dictionary:
 	row["growth"] = 0
 	row["ready"] = false
 	row["stage"] = "harvested"
+	row["idle_days"] = 0
 	_store(row)
 	_spend_time()
-	crop_harvested.emit(plot_id, item_id, amount)
+	crop_harvested.emit(key, item_id, amount)
 	garden_action.emit("harvest")
 	plots_changed.emit()
 	var noun := Catalog.display_name(item_id)
@@ -268,6 +323,7 @@ func to_dictionary() -> Dictionary:
 		rows.append(plot_of(plot_id))
 	return {
 		"last_processed_day": _last_processed_day,
+		"tiles": _tiles_blob(),
 		"plots": rows,
 	}
 
@@ -276,18 +332,7 @@ func from_dictionary(data: Dictionary) -> void:
 	reset()
 	if data.is_empty():
 		return
-	var rows_v: Variant = data.get("plots", [])
-	if rows_v is Array:
-		for row_v in rows_v as Array:
-			if not row_v is Dictionary:
-				continue
-			var incoming: Dictionary = row_v
-			var plot_id := str(incoming.get("id", ""))
-			if not _plots.has(plot_id):
-				continue
-			var row := _empty_plot(plot_id)
-			_apply_row(row, incoming)
-			_plots[plot_id] = row
+	_ingest_tiles(data)
 	if data.has("last_processed_day"):
 		_last_processed_day = int(data.get("last_processed_day", _clock_day()))
 	else:
@@ -295,27 +340,63 @@ func from_dictionary(data: Dictionary) -> void:
 	plots_changed.emit()
 
 
+func ingest_legacy_plots(plots_v: Variant) -> void:
+	if not plots_v is Array:
+		return
+	for row_v in plots_v as Array:
+		if not row_v is Dictionary:
+			continue
+		var incoming: Dictionary = row_v
+		var plot_id := str(incoming.get("id", ""))
+		var key := resolve_id(plot_id)
+		if key.is_empty() or key.find(",") < 0:
+			continue
+		if not GroundsLayout.is_veg_tillable(GroundsLayout.parse_cell_id(key)):
+			continue
+		if not _row_has_work(incoming) and str(incoming.get("soil", SOIL_UNTOUCHED)) == SOIL_UNTOUCHED:
+			continue
+		var row := _empty_plot(key)
+		_apply_row(row, incoming)
+		row["id"] = key
+		_plots[key] = row
+
+
 func _on_time_changed() -> void:
 	process_growth()
 
 
 func _grow_one_morning() -> void:
-	for plot_id in plot_ids():
-		var row := _mutable(plot_id)
+	var keys: Array = _plots.keys()
+	for key_v in keys:
+		var key := str(key_v)
+		var row := _mutable(key)
 		if row.is_empty():
 			continue
-		if not bool(row.get("planted", false)) or bool(row.get("ready", false)):
+		if bool(row.get("planted", false)) and not bool(row.get("ready", false)):
+			if bool(row.get("watered", false)):
+				var crop_id := str(row.get("crop", ""))
+				var needed := Crops.watered_days(crop_id)
+				row["growth"] = int(row.get("growth", 0)) + 1
+				row["watered"] = false
+				if int(row.get("growth", 0)) >= needed:
+					row["ready"] = true
+				_refresh_stage(row)
+				row["idle_days"] = 0
+				_store(row)
 			continue
-		if not bool(row.get("watered", false)):
+		if bool(row.get("planted", false)) or bool(row.get("ready", false)):
+			row["watered"] = false
+			_store(row)
 			continue
-		var crop_id := str(row.get("crop", ""))
-		var needed := Crops.watered_days(crop_id)
-		row["growth"] = int(row.get("growth", 0)) + 1
+		var soil := str(row.get("soil", SOIL_UNTOUCHED))
+		if soil != SOIL_TILLED and soil != SOIL_HARVESTED:
+			continue
 		row["watered"] = false
-		if int(row.get("growth", 0)) >= needed:
-			row["ready"] = true
-		_refresh_stage(row)
-		_store(row)
+		row["idle_days"] = int(row.get("idle_days", 0)) + 1
+		if int(row.get("idle_days", 0)) >= REVERT_DAYS:
+			_plots.erase(key)
+		else:
+			_store(row)
 
 
 func _refresh_stage(row: Dictionary) -> void:
@@ -364,6 +445,7 @@ func _empty_plot(plot_id: String) -> Dictionary:
 		"growth": 0,
 		"stage": "untouched",
 		"ready": false,
+		"idle_days": 0,
 	}
 
 
@@ -374,6 +456,7 @@ func _apply_row(row: Dictionary, incoming: Dictionary) -> void:
 	row["watered"] = bool(incoming.get("watered", false))
 	row["growth"] = maxi(0, int(incoming.get("growth", 0)))
 	row["ready"] = bool(incoming.get("ready", false))
+	row["idle_days"] = maxi(0, int(incoming.get("idle_days", 0)))
 	var stage := str(incoming.get("stage", ""))
 	if stage.is_empty():
 		_refresh_stage(row)
@@ -382,9 +465,12 @@ func _apply_row(row: Dictionary, incoming: Dictionary) -> void:
 
 
 func _mutable(plot_id: String) -> Dictionary:
-	if not _plots.has(plot_id):
+	var key := resolve_id(plot_id)
+	if not _plots.has(key):
+		if GroundsLayout.is_veg_tillable(GroundsLayout.parse_cell_id(key)):
+			return _empty_plot(key)
 		return {}
-	var row_v: Variant = _plots[plot_id]
+	var row_v: Variant = _plots[key]
 	if row_v is Dictionary:
 		return (row_v as Dictionary).duplicate(true)
 	return {}
@@ -439,3 +525,54 @@ func _clock_hour() -> int:
 	if clock == null:
 		return 14
 	return int(clock.get("hour"))
+
+
+func _is_soil_cell(cell: Vector2i) -> bool:
+	var key := GroundsLayout.cell_id(cell)
+	if not _plots.has(key):
+		return false
+	var row_v: Variant = _plots[key]
+	if not row_v is Dictionary:
+		return false
+	var soil := str((row_v as Dictionary).get("soil", SOIL_UNTOUCHED))
+	return soil == SOIL_TILLED or soil == SOIL_HARVESTED or bool((row_v as Dictionary).get("planted", false))
+
+
+func _tiles_blob() -> Dictionary:
+	var blob: Dictionary = {}
+	for plot_id in plot_ids():
+		blob[plot_id] = plot_of(plot_id)
+	return blob
+
+
+func _ingest_tiles(data: Dictionary) -> void:
+	var tiles_v: Variant = data.get("tiles", null)
+	if tiles_v is Dictionary:
+		var tiles: Dictionary = tiles_v
+		for key_v in tiles.keys():
+			var incoming_v: Variant = tiles[key_v]
+			if not incoming_v is Dictionary:
+				continue
+			var incoming: Dictionary = incoming_v
+			var key := resolve_id(str(key_v))
+			if str(incoming.get("id", "")).is_empty():
+				incoming["id"] = key
+			else:
+				key = resolve_id(str(incoming.get("id", key)))
+			if not GroundsLayout.is_veg_tillable(GroundsLayout.parse_cell_id(key)) and not _row_has_work(incoming):
+				continue
+			if not _row_has_work(incoming) and str(incoming.get("soil", SOIL_UNTOUCHED)) == SOIL_UNTOUCHED:
+				continue
+			var row := _empty_plot(key)
+			_apply_row(row, incoming)
+			row["id"] = key
+			_plots[key] = row
+		return
+	ingest_legacy_plots(data.get("plots", []))
+
+
+func _row_has_work(row: Dictionary) -> bool:
+	if bool(row.get("planted", false)) or bool(row.get("ready", false)):
+		return true
+	var soil := str(row.get("soil", SOIL_UNTOUCHED))
+	return soil == SOIL_TILLED or soil == SOIL_HARVESTED

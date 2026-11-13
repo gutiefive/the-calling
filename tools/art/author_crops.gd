@@ -27,6 +27,8 @@ const IDS: PackedStringArray = [
 	"fx_water",
 	"fx_plant",
 	"fx_harvest",
+	"fx_target",
+	"fence_patch",
 ]
 
 

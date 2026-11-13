@@ -94,12 +94,12 @@ visible = false
 offset_left = 8.0
 offset_top = 28.0
 offset_right = 300.0
-offset_bottom = 348.0
+offset_bottom = 420.0
 mouse_filter = 2
 script = ExtResource("4_journal")
 
 [node name="Body" type="Label" parent="Journal"]
-custom_minimum_size = Vector2(276, 300)
+custom_minimum_size = Vector2(276, 380)
 theme_override_colors/font_color = Color(0.93, 0.88, 0.78, 1)
 theme_override_font_sizes/font_size = 14
 autowrap_mode = 3

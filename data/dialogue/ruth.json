@@ -1,0 +1,70 @@
+{
+  "id": "ruth",
+  "start": "start",
+  "nodes": {
+    "start": {
+      "router": [
+        {"if": {"request_active": "garden_needs_hands"}, "next": "progress"},
+        {"if": {"request_available": "garden_needs_hands"}, "next": "offer"},
+        {"if": {"request_completed": "garden_needs_hands"}, "next": "done"},
+        {"next": "quiet"}
+      ]
+    },
+    "quiet": {
+      "speaker": "Ruth",
+      "text": "Pastor Reece used to say the garden was how you learn who'll show up.",
+      "end": true
+    },
+    "offer": {
+      "router": [
+        {"if": {"request_slots_full": true}, "next": "busy"},
+        {"next": "ask"}
+      ]
+    },
+    "busy": {
+      "speaker": "Ruth",
+      "text": "You've got enough people waiting. The plot isn't going anywhere.",
+      "end": true
+    },
+    "ask": {
+      "speaker": "Ruth",
+      "text": "This plot on Maple Lane still wants hands. Clear the weeds if they need it, and plant with the neighbor. The church garden is a different patch.",
+      "choices": [
+        {"text": "I'll help here.", "next": "accepted", "accept_request": "garden_needs_hands"},
+        {"text": "Not today.", "next": "later"}
+      ]
+    },
+    "accepted": {
+      "speaker": "Ruth",
+      "text": "When it's in the ground, come find me. I water if I'm walking by. I don't hover.",
+      "end": true
+    },
+    "later": {
+      "speaker": "Ruth",
+      "text": "Seed keeps. The soil doesn't mind waiting a day.",
+      "end": true
+    },
+    "progress": {
+      "router": [
+        {"if": {"can_deliver": "garden_needs_hands"}, "next": "deliver"},
+        {"next": "wait"}
+      ]
+    },
+    "wait": {
+      "speaker": "Ruth",
+      "text": "The weeds first, then seed with the neighbor. This plot, not the church garden.",
+      "end": true
+    },
+    "deliver": {
+      "speaker": "Ruth",
+      "text": "It's in the ground. That's how you learn who'll show up. I put extra carrot seed in your pack.",
+      "deliver_request": "garden_needs_hands",
+      "end": true
+    },
+    "done": {
+      "speaker": "Ruth",
+      "text": "The garden's started. I'll water if I'm out this way.",
+      "end": true
+    }
+  }
+}

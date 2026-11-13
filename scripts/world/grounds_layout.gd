@@ -50,6 +50,8 @@ const VEG_PLOT_ORIGIN := Vector2(1344, 1120)
 const VEG_PLOT_STRIDE := 48.0
 const VEG_CRATE := Vector2(1288, 1168)
 const VEG_NOTE := Vector2(1288, 1136)
+const VEG_FENCE_MEND := Vector2(1248, 1120)
+const REVERT_DAYS := 3
 const DRIVE := Rect2i(36, 25, 28, 5)
 
 
@@ -109,6 +111,71 @@ static func veg_plot_position(index: int) -> Vector2:
 	var col := index % 3
 	var row := int(index / 3)
 	return VEG_PLOT_ORIGIN + Vector2(float(col) * VEG_PLOT_STRIDE, float(row) * VEG_PLOT_STRIDE)
+
+
+static func veg_interior() -> Rect2i:
+	var garden := VEG_GARDEN
+	return Rect2i(garden.position.x + 1, garden.position.y + 1, garden.size.x - 2, garden.size.y - 2)
+
+
+static func veg_reserved_cells() -> Array[Vector2i]:
+	var cells: Array[Vector2i] = [
+		Vector2i(40, 34),
+		Vector2i(40, 35),
+		Vector2i(40, 36),
+	]
+	return cells
+
+
+static func world_to_cell(pos: Vector2) -> Vector2i:
+	return Vector2i(int(floor(pos.x / float(TILE))), int(floor(pos.y / float(TILE))))
+
+
+static func cell_id(cell: Vector2i) -> String:
+	return "%d,%d" % [cell.x, cell.y]
+
+
+static func parse_cell_id(plot_id: String) -> Vector2i:
+	var parts := plot_id.split(",")
+	if parts.size() < 2:
+		return Vector2i(-1, -1)
+	return Vector2i(int(parts[0]), int(parts[1]))
+
+
+static func facing_cell(pos: Vector2, facing: StringName) -> Vector2i:
+	var cell := world_to_cell(pos)
+	match facing:
+		&"up":
+			cell.y -= 1
+		&"down":
+			cell.y += 1
+		&"left":
+			cell.x -= 1
+		&"right":
+			cell.x += 1
+	return cell
+
+
+static func is_veg_reserved(cell: Vector2i) -> bool:
+	for reserved in veg_reserved_cells():
+		if reserved == cell:
+			return true
+	return false
+
+
+static func is_veg_tillable(cell: Vector2i) -> bool:
+	var interior := veg_interior()
+	if not interior.has_point(cell):
+		return false
+	return not is_veg_reserved(cell)
+
+
+static func legacy_bed_cell(index: int) -> Vector2i:
+	return world_to_cell(veg_plot_position(index))
+
+
+static func legacy_bed_id(index: int) -> String:
+	return cell_id(legacy_bed_cell(index))
 
 
 static func north_border_center() -> Vector2:

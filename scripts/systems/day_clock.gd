@@ -226,3 +226,18 @@ func _refresh_clock_labels() -> void:
 	for node in tree.get_nodes_in_group("clock_label"):
 		if node is Label:
 			(node as Label).text = text
+	sync_chrome()
+
+
+func sync_chrome() -> void:
+	var tree := get_tree()
+	if tree == null:
+		return
+	var hide_clock := false
+	var story := get_node_or_null("/root/NarrativeState")
+	if story != null:
+		hide_clock = bool(story.get("inventory_open")) or bool(story.get("shop_open"))
+	for group_name in ["clock_label", "phase_label"]:
+		for node in tree.get_nodes_in_group(group_name):
+			if node is CanvasItem:
+				(node as CanvasItem).visible = not hide_clock

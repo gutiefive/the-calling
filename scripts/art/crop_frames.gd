@@ -27,6 +27,10 @@ static func build(frame_id: String) -> Image:
 			return _fx_plant()
 		"fx_harvest":
 			return _fx_harvest()
+		"fx_target":
+			return _fx_target()
+		"fence_patch":
+			return _fence_patch()
 		_:
 			if frame_id.ends_with("_sprout") or frame_id.ends_with("_growing") or frame_id.ends_with("_mature"):
 				return _plant(frame_id)
@@ -38,6 +42,15 @@ static func texture(frame_id: String) -> Texture2D:
 	if image == null:
 		return null
 	return ImageTexture.create_from_image(image)
+
+
+static func ground(wet: bool, neighbor_mask: int, stage: String) -> Image:
+	var image := _soil(wet, neighbor_mask)
+	if stage == "seeded":
+		_seed_pips(image, wet)
+	elif stage == "harvested":
+		_stubble(image)
+	return image
 
 
 static func _soil_untouched() -> Image:
@@ -59,40 +72,64 @@ static func _soil_untouched() -> Image:
 	return PixelDraw.outline(image)
 
 
-static func _soil(wet: bool) -> Image:
+static func _soil(wet: bool, neighbor_mask: int = 15) -> Image:
 	var image := PixelDraw.canvas(SIZE.x, SIZE.y)
 	var dirt := PixelDraw.pal("soil")
 	var dirt_d := PixelDraw.pal("trunk_d") if wet else PixelDraw.pal("wood_d")
 	var dirt_l := PixelDraw.pal("path") if not wet else PixelDraw.pal("soil")
-	var rim := PixelDraw.pal("wood_d")
-	PixelDraw.rect(image, 2, 12, 28, 18, rim)
-	PixelDraw.rect(image, 3, 13, 26, 16, dirt)
-	for y in range(15, 27, 3):
-		PixelDraw.rect(image, 4, y, 24, 1, dirt_d)
-		PixelDraw.rect(image, 5, y + 1, 22, 1, dirt_l)
-	PixelDraw.speckle_rect(image, Rect2i(3, 13, 26, 16), 7 if wet else 3, 0, 18, dirt_d)
-	return PixelDraw.outline(image)
+	var grass := PixelDraw.pal("grass")
+	PixelDraw.rect(image, 0, 0, 32, 32, dirt)
+	for y in range(2, 30, 4):
+		PixelDraw.rect(image, 1, y, 30, 1, dirt_d)
+		PixelDraw.rect(image, 2, y + 1, 28, 1, dirt_l)
+	PixelDraw.speckle_rect(image, Rect2i(0, 0, 32, 32), 9 if wet else 4, 0, 18, dirt_d)
+	if wet:
+		PixelDraw.speckle_rect(image, Rect2i(1, 1, 30, 30), 5, 40, 80, PixelDraw.pal("trunk_d"))
+	if neighbor_mask & 1 == 0:
+		PixelDraw.rect(image, 0, 0, 32, 1, grass)
+		PixelDraw.rect(image, 0, 1, 32, 1, dirt_d)
+	if neighbor_mask & 2 == 0:
+		PixelDraw.rect(image, 31, 0, 1, 32, grass)
+		PixelDraw.rect(image, 30, 0, 1, 32, dirt_d)
+	if neighbor_mask & 4 == 0:
+		PixelDraw.rect(image, 0, 31, 32, 1, grass)
+		PixelDraw.rect(image, 0, 30, 32, 1, dirt_d)
+	if neighbor_mask & 8 == 0:
+		PixelDraw.rect(image, 0, 0, 1, 32, grass)
+		PixelDraw.rect(image, 1, 0, 1, 32, dirt_d)
+	return image
 
 
 static func _seeded(wet: bool) -> Image:
-	var image := _soil(wet)
-	var pip := PixelDraw.pal("gold")
-	var pip_d := PixelDraw.pal("wood")
-	for spot in [Vector2i(8, 20), Vector2i(16, 18), Vector2i(24, 21), Vector2i(12, 24), Vector2i(20, 24)]:
-		PixelDraw.px(image, spot.x, spot.y, pip)
-		PixelDraw.px(image, spot.x + 1, spot.y, pip_d)
+	var image := _soil(wet, 15)
+	_seed_pips(image, wet)
 	return image
 
 
 static func _harvested() -> Image:
-	var image := _soil(false)
+	var image := _soil(false, 15)
+	_stubble(image)
+	return image
+
+
+static func _seed_pips(image: Image, wet: bool) -> void:
+	var pip := PixelDraw.pal("gold")
+	var pip_d := PixelDraw.pal("wood")
+	if wet:
+		pip_d = PixelDraw.pal("trunk_d")
+	for spot in [Vector2i(8, 14), Vector2i(16, 12), Vector2i(24, 15), Vector2i(12, 20), Vector2i(20, 22)]:
+		PixelDraw.px(image, spot.x, spot.y, pip)
+		PixelDraw.px(image, spot.x + 1, spot.y, pip_d)
+
+
+static func _stubble(image: Image) -> void:
 	var stubble := PixelDraw.pal("leaf_dry")
 	PixelDraw.px(image, 9, 16, stubble)
 	PixelDraw.px(image, 10, 17, stubble)
 	PixelDraw.px(image, 16, 15, stubble)
 	PixelDraw.px(image, 22, 17, stubble)
 	PixelDraw.px(image, 23, 18, stubble)
-	return image
+	PixelDraw.px(image, 14, 22, stubble)
 
 
 static func _plant(frame_id: String) -> Image:
@@ -260,6 +297,41 @@ static func _fx_plant() -> Image:
 	PixelDraw.px(image, 15, 10, leaf)
 	PixelDraw.px(image, 20, 16, leaf)
 	return image
+
+
+static func _fx_target() -> Image:
+	var image := PixelDraw.canvas(SIZE.x, SIZE.y)
+	var ink := PixelDraw.pal("paper")
+	var gold := PixelDraw.pal("gold")
+	for pair in [
+		Vector2i(1, 1), Vector2i(2, 1), Vector2i(1, 2),
+		Vector2i(29, 1), Vector2i(30, 1), Vector2i(30, 2),
+		Vector2i(1, 29), Vector2i(1, 30), Vector2i(2, 30),
+		Vector2i(30, 29), Vector2i(29, 30), Vector2i(30, 30),
+	]:
+		PixelDraw.px(image, pair.x, pair.y, ink)
+	PixelDraw.px(image, 3, 1, gold)
+	PixelDraw.px(image, 28, 1, gold)
+	PixelDraw.px(image, 1, 3, gold)
+	PixelDraw.px(image, 30, 3, gold)
+	PixelDraw.px(image, 3, 30, gold)
+	PixelDraw.px(image, 28, 30, gold)
+	return image
+
+
+static func _fence_patch() -> Image:
+	var image := PixelDraw.canvas(SIZE.x, SIZE.y)
+	var wood := PixelDraw.pal("wood")
+	var wood_l := PixelDraw.pal("wood_l")
+	var wood_d := PixelDraw.pal("wood_d")
+	PixelDraw.rect(image, 6, 4, 6, 26, wood)
+	PixelDraw.rect(image, 14, 2, 6, 28, wood_l)
+	PixelDraw.rect(image, 22, 5, 6, 25, wood)
+	PixelDraw.rect(image, 4, 12, 24, 3, wood_d)
+	PixelDraw.rect(image, 4, 20, 24, 3, wood_d)
+	PixelDraw.px(image, 16, 6, wood_d)
+	PixelDraw.px(image, 8, 10, wood_l)
+	return PixelDraw.outline(image)
 
 
 static func _fx_harvest() -> Image:

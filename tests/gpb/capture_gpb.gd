@@ -36,7 +36,7 @@ func _ready() -> void:
 	if camera != null:
 		camera.zoom = Vector2.ONE
 	if player != null:
-		player.global_position = GroundsLayout.veg_plot_position(4) + Vector2(0, 48)
+		player.global_position = GroundsLayout.tile_center(GroundsLayout.legacy_bed_cell(4)) + Vector2(0, 48)
 	await _shot("garden_day")
 	room.free()
 	await get_tree().process_frame

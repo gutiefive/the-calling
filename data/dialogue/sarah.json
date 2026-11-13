@@ -84,14 +84,78 @@
         {"next": "after_week_note"}
       ]
     },
+    "request_fresh_offer": {
+      "router": [
+        {"if": {"request_slots_full": true}, "next": "request_fresh_busy"},
+        {"next": "request_fresh_ask"}
+      ]
+    },
+    "request_fresh_busy": {
+      "speaker": "Sarah",
+      "text": "You've already got enough people waiting on you. Catch me when one of those is done.",
+      "end": true
+    },
+    "request_fresh_ask": {
+      "speaker": "Sarah",
+      "text": "I'm putting a meal together. If the church garden has lettuce and carrots to spare, I can use them.",
+      "choices": [
+        {"text": "I'll bring what I can.", "next": "request_fresh_accepted", "accept_request": "fresh_for_the_table"},
+        {"text": "Not this week.", "next": "request_fresh_later"}
+      ]
+    },
+    "request_fresh_accepted": {
+      "speaker": "Sarah",
+      "text": "Two heads of lettuce and two bunches of carrots. Find me here when you've got them. No rush, but the table fills up.",
+      "end": true
+    },
+    "request_fresh_later": {
+      "speaker": "Sarah",
+      "text": "That's fine. The kids eat either way.",
+      "end": true
+    },
+    "request_fresh_progress": {
+      "router": [
+        {"if": {"can_deliver": "fresh_for_the_table"}, "next": "request_fresh_deliver"},
+        {"next": "request_fresh_wait"}
+      ]
+    },
+    "request_fresh_wait": {
+      "speaker": "Sarah",
+      "text": "Whenever the garden's ready. Lettuce and carrots. I can wait.",
+      "end": true
+    },
+    "request_fresh_deliver": {
+      "speaker": "Sarah",
+      "text": "That's everything. I'll set it with the rest. Come by if you want a plate later.",
+      "deliver_request": "fresh_for_the_table",
+      "end": true
+    },
+    "request_fresh_done": {
+      "speaker": "Sarah",
+      "text": "The table was easier this week. The kids noticed.",
+      "end": true
+    },
     "after_week_belong": {
       "speaker": "Sarah",
       "text": "The kids asked if the nursery smells any better. I told them I'd look. That's new.",
-      "end": true
+      "next": "request_fresh_gate"
     },
     "after_week_note": {
       "speaker": "Sarah",
       "text": "The kids still know where the church is. I'm not making a new promise this week.",
+      "next": "request_fresh_gate"
+    },
+    "request_fresh_gate": {
+      "router": [
+        {"if": {"request_active": "fresh_for_the_table"}, "next": "request_fresh_progress"},
+        {"if": {"request_available": "fresh_for_the_table"}, "next": "request_fresh_offer"},
+        {"if": {"request_completed": "fresh_for_the_table"}, "next": "request_fresh_done"},
+        {"next": "after_week_hold"}
+      ]
+    },
+    "after_week_hold": {
+      "speaker": "Sarah",
+      "text": "That's all I've got today.",
       "end": true
     }
   }

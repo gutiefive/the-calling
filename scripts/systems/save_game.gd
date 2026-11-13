@@ -4,7 +4,7 @@ extends RefCounted
 
 const Catalog := preload("res://scripts/systems/item_catalog.gd")
 
-const SAVE_VERSION := 8
+const SAVE_VERSION := 9
 const SAVE_PATH := "user://the_calling_save.json"
 
 
@@ -103,6 +103,12 @@ static func capture(tree: SceneTree) -> Dictionary:
 		var garden_raw: Variant = garden.call("to_dictionary")
 		if garden_raw is Dictionary:
 			garden_data = garden_raw
+	var request_data: Dictionary = {}
+	var asks := tree.root.get_node_or_null("RequestState")
+	if asks != null and asks.has_method("to_dictionary"):
+		var ask_raw: Variant = asks.call("to_dictionary")
+		if ask_raw is Dictionary:
+			request_data = ask_raw
 	return {
 		"version": SAVE_VERSION,
 		"narrative": NarrativeState.to_dictionary(),
@@ -118,6 +124,7 @@ static func capture(tree: SceneTree) -> Dictionary:
 		"run_seed": run_seed,
 		"inventory": inventory_data,
 		"garden": garden_data,
+		"requests": request_data,
 	}
 
 
@@ -172,6 +179,11 @@ static func apply_state(data: Dictionary) -> bool:
 		var garden_v: Variant = data.get("garden", {})
 		var garden_data: Dictionary = garden_v if garden_v is Dictionary else {}
 		garden.call("from_dictionary", garden_data)
+	var asks := tree.root.get_node_or_null("RequestState") if tree != null else null
+	if asks != null and asks.has_method("from_dictionary"):
+		var ask_v: Variant = data.get("requests", {})
+		var ask_data: Dictionary = ask_v if ask_v is Dictionary else {}
+		asks.call("from_dictionary", ask_data)
 	var clock_v: Variant = data.get("clock", {})
 	if tree != null and clock_v is Dictionary:
 		var clock := tree.root.get_node_or_null("DayClock")
@@ -220,6 +232,9 @@ static func begin_new_game(tree: SceneTree) -> void:
 		var garden := tree.root.get_node_or_null("GardenState")
 		if garden != null and garden.has_method("reset"):
 			garden.call("reset")
+		var asks := tree.root.get_node_or_null("RequestState")
+		if asks != null and asks.has_method("reset"):
+			asks.call("reset")
 	DayClock.held = false
 	if tree != null and tree.paused:
 		tree.paused = false
@@ -235,6 +250,8 @@ static func delete_save() -> void:
 
 
 static func _migrate_step(data: Dictionary, from_version: int) -> Dictionary:
+	if from_version == 8:
+		return _migrate_requests(data)
 	if from_version == 7:
 		return _migrate_garden(data)
 	if from_version == 6:
@@ -439,6 +456,59 @@ static func _migrate_garden(data: Dictionary) -> Dictionary:
 			garden["plots"] = existing.get("plots", [])
 	data["garden"] = garden
 	return data
+
+
+static func _migrate_requests(data: Dictionary) -> Dictionary:
+	# Version 9 adds community requests and maps old church beds onto garden tiles.
+	var asks: Dictionary = {
+		"active": {},
+		"history": [],
+		"completed": {},
+		"last_completed_day": {},
+		"rewarded": {},
+	}
+	var ask_v: Variant = data.get("requests", {})
+	if ask_v is Dictionary:
+		var existing: Dictionary = ask_v
+		if existing.has("active"):
+			asks["active"] = existing.get("active", {})
+		if existing.has("history"):
+			asks["history"] = existing.get("history", [])
+		if existing.has("completed"):
+			asks["completed"] = existing.get("completed", {})
+		if existing.has("last_completed_day"):
+			asks["last_completed_day"] = existing.get("last_completed_day", {})
+		if existing.has("rewarded"):
+			asks["rewarded"] = existing.get("rewarded", {})
+	data["requests"] = asks
+	var garden_v: Variant = data.get("garden", {})
+	if garden_v is Dictionary:
+		data["garden"] = _migrate_garden_tiles(garden_v)
+	return data
+
+
+static func _migrate_garden_tiles(garden: Dictionary) -> Dictionary:
+	if garden.has("tiles") and garden.get("tiles") is Dictionary:
+		return garden
+	var tiles: Dictionary = {}
+	var plots_v: Variant = garden.get("plots", [])
+	if plots_v is Array:
+		for row_v in plots_v as Array:
+			if not row_v is Dictionary:
+				continue
+			var row: Dictionary = (row_v as Dictionary).duplicate(true)
+			var plot_id := str(row.get("id", ""))
+			var key := plot_id
+			if plot_id.begins_with("church_"):
+				var index := int(plot_id.substr(7))
+				if index >= 0 and index < 9:
+					key = GroundsLayout.legacy_bed_id(index)
+			if key.is_empty() or key.find(",") < 0:
+				continue
+			row["id"] = key
+			tiles[key] = row
+	garden["tiles"] = tiles
+	return garden
 
 
 static func _room_of(player: Node) -> Node:

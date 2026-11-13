@@ -8,19 +8,51 @@ static var _cache: Dictionary = {}
 
 
 static func plot_texture(row: Dictionary) -> Texture2D:
+	return tile_texture(row, 0)
+
+
+static func tile_texture(row: Dictionary, neighbor_mask: int = 0) -> Texture2D:
 	var stage := str(row.get("stage", "untouched"))
 	var crop_id := str(row.get("crop", ""))
 	var watered := bool(row.get("watered", false))
-	var key := "%s|%s|%s" % [stage, crop_id, "w" if watered else "d"]
+	var key := "%s|%s|%s|%d" % [stage, crop_id, "w" if watered else "d", neighbor_mask]
 	if _cache.has(key):
 		var cached: Variant = _cache[key]
 		if cached is Texture2D:
 			return cached
-	var image := _compose(row)
+	var image := _compose(row, neighbor_mask)
 	if image == null:
 		return null
 	var tex := ImageTexture.create_from_image(image)
 	_cache[key] = tex
+	return tex
+
+
+static func crop_texture(crop_id: String, stage: String) -> Texture2D:
+	if crop_id.is_empty() or stage.is_empty():
+		return null
+	var key := "crop|%s|%s" % [crop_id, stage]
+	if _cache.has(key):
+		var cached: Variant = _cache[key]
+		if cached is Texture2D:
+			return cached
+	var image := _image("%s_%s" % [crop_id, stage])
+	if image == null:
+		return null
+	var tex := ImageTexture.create_from_image(image)
+	_cache[key] = tex
+	return tex
+
+
+static func target_texture() -> Texture2D:
+	var key := "fx|target"
+	if _cache.has(key):
+		var cached: Variant = _cache[key]
+		if cached is Texture2D:
+			return cached
+	var tex := _load_or_build("fx_target")
+	if tex != null:
+		_cache[key] = tex
 	return tex
 
 
@@ -37,32 +69,13 @@ static func fx_texture(kind: String) -> Texture2D:
 	return tex
 
 
-static func _compose(row: Dictionary) -> Image:
+static func _compose(row: Dictionary, neighbor_mask: int = 0) -> Image:
 	var stage := str(row.get("stage", "untouched"))
 	var watered := bool(row.get("watered", false))
-	var soil_id := "soil_untouched"
-	match stage:
-		"tilled":
-			soil_id = "soil_tilled_wet" if watered else "soil_tilled"
-		"harvested":
-			soil_id = "soil_harvested"
-		"seeded":
-			soil_id = "soil_seeded_wet" if watered else "soil_seeded"
-		"sprout", "growing", "mature":
-			soil_id = "soil_tilled_wet" if watered else "soil_tilled"
-		_:
-			soil_id = "soil_untouched"
-	var soil := _image(soil_id)
+	var soil := CropFrames.ground(watered, neighbor_mask, stage)
 	if soil == null:
 		return null
-	var composed := soil.duplicate()
-	if stage == "sprout" or stage == "growing" or stage == "mature":
-		var crop_id := str(row.get("crop", ""))
-		if not crop_id.is_empty():
-			var plant := _image("%s_%s" % [crop_id, stage])
-			if plant != null:
-				PixelDraw.blit(composed, plant, 0, 0)
-	return composed
+	return soil.duplicate()
 
 
 static func _load_or_build(frame_id: String) -> Texture2D:

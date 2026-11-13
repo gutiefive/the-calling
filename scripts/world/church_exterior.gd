@@ -126,6 +126,12 @@ func _apply_grounds_look() -> void:
 		var tidy := NarrativeState.flag_is_true("grounds_bed") or NarrativeState.flag_is_true("grounds_tidy")
 		flowers.texture = PlaceholderArt.flowers() if tidy else PlaceholderArt.overgrown_bed()
 		_feet_offset("Props/Flowers")
+	var mend := get_node_or_null("Props/FenceMend") as CanvasItem
+	if mend != null:
+		var fixed := NarrativeState.flag_is_true("church_fence_mended")
+		mend.visible = fixed
+		if "enabled" in mend:
+			mend.set("enabled", fixed)
 	_apply_sunday_crowd()
 	for node in get_tree().get_nodes_in_group("day_world"):
 		if is_ancestor_of(node) and node.has_method("apply_clock"):
@@ -220,30 +226,24 @@ func _add_church_garden() -> void:
 	var props := get_node_or_null("Props")
 	if props == null:
 		return
-	for i in 9:
-		var plot_name := "ChurchPlot%d" % i
-		if props.get_node_or_null(plot_name) != null:
-			continue
-		var plot := GardenPlot.new()
-		plot.name = plot_name
-		plot.plot_id = "church_%d" % i
-		plot.position = GroundsLayout.veg_plot_position(i)
-		plot.prompt_text = "Till"
-		plot.radius = 28.0
-		plot.blocks_movement = true
-		plot.block_size = Vector2(24, 10)
-		var sprite := Sprite2D.new()
-		sprite.name = "Sprite"
-		sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-		plot.add_child(sprite)
-		props.add_child(plot)
+	if get_node_or_null("FarmSoil") == null:
+		var soil_root := Node2D.new()
+		soil_root.name = "FarmSoil"
+		soil_root.z_index = -9
+		add_child(soil_root)
+		move_child(soil_root, 1)
+	if props.get_node_or_null("FarmField") == null:
+		var field := FarmField.new()
+		field.name = "FarmField"
+		field.soil_root = get_node_or_null("FarmSoil") as Node2D
+		props.add_child(field)
 	if props.get_node_or_null("SeedCrate") == null:
 		var crate := ItemPickup.new()
 		crate.name = "SeedCrate"
 		crate.position = GroundsLayout.VEG_CRATE
 		crate.starter_id = "seeds"
 		crate.speaker_name = "Seed crate"
-		crate.take_line = "Paper packets: lettuce, carrot, tomato, and flower. Enough to start the beds."
+		crate.take_line = "Paper packets: lettuce, carrot, tomato, and flower. Enough to start the garden."
 		crate.empty_line = "The crate holds a little dirt and nothing else."
 		crate.sheet = PlaceholderArt.crate()
 		crate.frame_size = Vector2i(32, 32)
@@ -264,7 +264,7 @@ func _add_church_garden() -> void:
 		note.frame_count = 1
 		note.speaker_name = "Ruth"
 		note.prompt_text = "Read the card"
-		note.line = "Ruth left a card. Till with the hoe. Plant a seed packet. Water. Come back after a morning. Then pick."
+		note.line = "Ruth left a card. Till the ground with the hoe. Plant a seed packet. Water. Come back after a morning. Then pick."
 		note.blocks_movement = true
 		note.block_size = Vector2(14, 8)
 		note.radius = 36.0
@@ -289,6 +289,22 @@ func _add_church_garden() -> void:
 		remark_sprite.name = "Sprite"
 		remark.add_child(remark_sprite)
 		props.add_child(remark)
+	_add_fence_mend(props)
+
+
+func _add_fence_mend(props: Node) -> void:
+	if props.get_node_or_null("FenceMend") != null:
+		return
+	var patch := Sprite2D.new()
+	patch.name = "FenceMend"
+	patch.texture = CropFrames.texture("fence_patch")
+	patch.centered = true
+	patch.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	patch.position = GroundsLayout.VEG_FENCE_MEND
+	if patch.texture != null:
+		patch.offset = Vector2(0, -patch.texture.get_height() * 0.5)
+	patch.visible = false
+	props.add_child(patch)
 
 
 func _add_chore(props: Node, node_name: String, chore_id: String, pos: Vector2, prompt: String, line: String) -> void:
