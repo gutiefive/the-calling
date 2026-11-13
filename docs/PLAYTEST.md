@@ -938,3 +938,38 @@ It checks unlock timing, each prep category, skip and recurrence, no-prep vs ful
 
 On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `GPE_OK` (131 `CHECK OK`) with zero `CHECK FAIL` (the expected `Save version 12 is not supported` push_error before the newer-save rejection). Every existing suite still printed its `_OK` line and exited 0: `M1_OK` (76), `M2_OK` (113), `M3_OK` (109), `M4_OK` (90), `M4_5_OK` (90), `M5A_OK` (103), `M5B_OK` (1491), `M6A_OK` (219), `M6A2_OK` (130), `M7_OK` (93), `M8_OK` (80), `M9_OK` (105), `M9B_OK`, `M10_OK` (91), `M11_OK` (210), `M11B_OK` (196), `M11C_OK` (246), `M12_OK` (165), `GPA_OK` (204), `GPB_OK` (125), `GPC_OK` (126), `GPC2_OK` (101), `GPD_OK` (148), `GPD2_OK` (100). `--quit-after 120` exited 0. `tests/gpe/capture_gpe.tscn` wrote `toast_till.png`, `potluck_none.png`, `potluck_full.png`, and `sarah_choice.png` under `tests/gpe/shots/`. T105–T110 were not played in a window.
 
+# Gameplay F — Integration, polish, and the full loop
+
+The lists above still apply. These checks cover the connected A–E loop, DayClock budget, balance review, HUD and worksite polish, Dale and Ruth, and save v11. No sanctuary or Fellowship Hall interior redesign.
+
+## Automated
+
+```powershell
+godot --headless --path . --import
+godot --headless --path . res://tests/gpf/gpf_validation.tscn
+godot --path . res://tests/gpf/capture_gpf.tscn
+```
+
+`gpf_validation.tscn` prints `CHECK OK` / `CHECK FAIL` lines and exits with `GPF_OK` or `GPF_FAIL`.
+It walks the full loop (inventory, seeds, till, plant, water, sleep, growth, harvest, a request, shop materials, repair, potluck prep and attendance, save, load, continue), the DayClock walking budget, toast vs prompt overlap, no automatic Pull / attendance / ChurchFunds, no duplicate rewards, Ruth's Maple Lane ask vs the church garden, and Dale / Ruth sheets.
+
+`capture_gpf.tscn` writes PNGs to `tests/gpf/shots/` and needs a display. It skips with `CAPTURE_SKIPPED` under `--headless`.
+
+## Manual
+
+Walkthrough: Continue in Oakridge. Take the parsonage toolbox and the church-garden seed crate. Equip the Hoe, till, plant, water. Sleep two or three mornings. Harvest. Talk to Sarah and deliver vegetables. Buy 3 Wood and 2 Nails. Mend the west garden fence. Optional: picnic weeds, utility litter, picnic bed. On Wednesday 11:00–16:00 walk into the Fellowship Hall. Save, quit, load, keep walking. The toast stays in the bottom-left gutter and does not cover `E  …`. Dale and Ruth should not look like the generic sidewalk neighbors.
+
+| ID | Do this | Expect |
+|---|---|---|
+| T111 | Till with the prompt showing | The toast is bottom-left. It never covers `E  Till`. It fades in about a second. |
+| T112 | Clear picnic weeds and look from the path | Cut stubble on the lawn, not a light-green rectangle on the pavement. |
+| T113 | Pick up utility litter | Trash sits on the ground with no green mat. A bag is by the bin after. |
+| T114 | Restore the picnic bed, then step back | Blooms read from a distance. Several colors. |
+| T115 | Look at Dale and Ruth on Maple Lane | Distinct from each other and from unnamed townsfolk. |
+| T116 | Plant the church garden, then talk to Ruth about her ask | Her ask still wants the Maple Lane plot, not the church tiles. |
+
+## Gameplay F results
+
+On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `GPF_OK` (119 `CHECK OK`) with zero `CHECK FAIL`. Every existing suite still printed its `_OK` line and exited 0: `M1_OK` (76), `M2_OK` (113), `M3_OK` (109), `M4_OK` (90), `M4_5_OK` (90), `M5A_OK` (103), `M5B_OK` (1491), `M6A_OK` (219), `M6A2_OK` (130), `M7_OK` (93), `M8_OK` (80), `M9_OK` (105), `M9B_OK` (176), `M10_OK` (91), `M11_OK` (210), `M11B_OK` (196), `M11C_OK` (246), `M12_OK` (165), `GPA_OK` (204), `GPB_OK` (125), `GPC_OK` (126), `GPC2_OK` (101), `GPD_OK` (148), `GPD2_OK` (100), `GPE_OK` (131). `--quit-after 120` exited 0. `tests/gpf/capture_gpf.tscn` wrote `garden_growth_toast.png`, `picnic_after.png`, `litter_after.png`, `fence_repaired.png`, `dale_ruth.png`, and `loop_end.png` under `tests/gpf/shots/`. T111–T116 were not played in a window.
+
+

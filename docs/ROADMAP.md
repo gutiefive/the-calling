@@ -1,6 +1,6 @@
 # Roadmap — The Calling
 
-Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md`. This file is the current cut line. M12 (church grounds campus) is implemented. Gameplay A–E (inventory, garden, requests, interactive repairs, weekly potluck) are implemented. Next: Gameplay F (integration and polish) unless Nathan sends the work elsewhere. Chapter 2 storylines are not started.
+Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md`. This file is the current cut line. M12 (church grounds campus) is implemented. Gameplay A–F (inventory through the connected weekly loop) are implemented. Next: sanctuary and Fellowship Hall interior redesign unless Nathan sends the work elsewhere. Chapter 2 storylines are not started.
 
 | Milestone | Status |
 |---|---|
@@ -28,7 +28,8 @@ Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md
 | Gameplay C Community requests | Implemented. Four optional asks, journal tracking, in-ground church garden tiles, save v9. See `docs/GAMEPLAY_LOOPS.md`. |
 | Gameplay D Interactive repairs | Implemented. Data-driven worksites, staged garden fence, weeds, litter, flower bed, save v10. GroundsChore flags kept. See `docs/GAMEPLAY_LOOPS.md`. |
 | Gameplay E Weekly potluck | Implemented. Fellowship Hall gathering, optional prep, Sarah's framing, save v11. See `docs/GAMEPLAY_LOOPS.md`. |
-| Gameplay F Integration and polish | Not started. Full-loop playthrough, balance, regression. |
+| Gameplay F Integration and polish | Implemented. Full-loop playthrough, DayClock review, balance review, HUD and worksite polish, Dale and Ruth sheets. Save stays v11. See `docs/GAMEPLAY_LOOPS.md`. |
+| Sanctuary + Fellowship Hall interiors | Next. Redesign those two rooms. Do not start until Nathan says go. |
 | Planning board and Tier 1 | Later. Attach the first expansion project to a plot (workshop, greenhouse, or dorms). |
 | Next story | Chapter 2 is not started. Full Chapter 2 storylines build on M9 leanings, threads, and the run seed. |
 | M11 Night layer | Not started. Spirit framework, two Lingerers, prayer-lights, steeple light. |
@@ -183,3 +184,11 @@ The M8 Wednesday happening, extended into a walk-in Fellowship Hall interior aft
 ## Gameplay E does not include
 
 A second Sunday, a Chapter 1 rewrite, a morality meter, or Phase F's full-loop balance pass. Insiders still never say "cult".
+
+## Gameplay F includes
+
+A connected daily/weekly loop: inventory, church garden, four asks, four repairs, potluck prep and attendance, save/load. DayClock stays at 4 in-game minutes per real second after a scripted walking budget (a packed morning is about four in-game hours). Catalog prices and crop times stay. Toasts no longer overlap the prompt. Picnic weeds, utility litter, picnic blooms, and fence debris were cleaned up. Dale and Ruth have named sheets. Ruth's Maple Lane ask still does not complete from the church garden. Saves stay version 11.
+
+## Gameplay F does not include
+
+A sanctuary or Fellowship Hall interior redesign. That is next. No save bump, no new items, no automatic Pull from the loop. Insiders still never say "cult".

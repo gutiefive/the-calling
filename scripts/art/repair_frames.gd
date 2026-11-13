@@ -84,15 +84,14 @@ static func _fence_damaged() -> Image:
 	PixelDraw.px(image, 32 + 12, 32 + 19, wood)
 	PixelDraw.px(image, 32 + 13, 32 + 20, wood_d)
 	PixelDraw.rect(image, 32 + 20, 64 + 10, 8, 3, wood)
-	# Splinters on the picnic grass beside the posts.
-	for pair in [
-		Vector2i(8, 28), Vector2i(12, 30), Vector2i(18, 44),
-		Vector2i(10, 58), Vector2i(16, 72), Vector2i(6, 80),
-		Vector2i(20, 88), Vector2i(14, 90), Vector2i(22, 50),
-	]:
-		PixelDraw.px(image, pair.x, pair.y, wood_d if pair.x % 2 == 0 else wood)
-	PixelDraw.px(image, 24, 86, wood_l)
-	PixelDraw.px(image, 11, 59, ink)
+	# A small tidy pile of old boards by the posts, not a scatter of chips.
+	PixelDraw.rect(image, 8, 78, 18, 3, wood_d)
+	PixelDraw.rect(image, 9, 79, 16, 1, wood)
+	PixelDraw.rect(image, 10, 82, 16, 3, wood)
+	PixelDraw.rect(image, 11, 83, 14, 1, wood_l)
+	PixelDraw.px(image, 12, 76, wood_d)
+	PixelDraw.px(image, 22, 85, wood)
+	PixelDraw.px(image, 11, 86, ink)
 	return PixelDraw.outline(image)
 
 
@@ -192,18 +191,13 @@ static func _stamp_fence_post(image: Image, ox: int, oy: int, local_x: int) -> v
 
 static func _weeds_patch() -> Image:
 	var image := PixelDraw.canvas(WEEDS_SIZE.x, WEEDS_SIZE.y)
-	var grass := PixelDraw.pal("grass")
-	var grass_d := PixelDraw.pal("grass_d")
-	var grass_l := PixelDraw.pal("grass_l")
 	var leaf := PixelDraw.pal("leaf")
 	var leaf_d := PixelDraw.pal("leaf_d")
 	var leaf_l := PixelDraw.pal("leaf_l")
 	var moss := PixelDraw.pal("moss")
 	var dry := PixelDraw.pal("leaf_dry")
 	var flower := PixelDraw.pal("flower")
-	PixelDraw.rect(image, 2, 28, 92, 18, grass)
-	PixelDraw.speckle_rect(image, Rect2i(2, 28, 92, 18), 21, 200, 255, grass_l)
-	PixelDraw.speckle_rect(image, Rect2i(2, 30, 92, 16), 22, 0, 24, grass_d)
+	var soil := PixelDraw.pal("soil")
 	var stems: Array[Vector2i] = [
 		Vector2i(10, 18), Vector2i(18, 10), Vector2i(26, 16), Vector2i(34, 8),
 		Vector2i(42, 14), Vector2i(50, 6), Vector2i(58, 12), Vector2i(66, 8),
@@ -217,6 +211,7 @@ static func _weeds_patch() -> Image:
 		PixelDraw.px(image, stem.x + 1, stem.y + 2, leaf_l)
 		PixelDraw.px(image, stem.x - 1, stem.y + 3, leaf)
 		PixelDraw.px(image, stem.x + 2, stem.y + 4, moss)
+		PixelDraw.px(image, stem.x, stem.y + h, soil)
 		if stem.x % 3 == 0:
 			PixelDraw.px(image, stem.x, stem.y - 1, dry)
 			PixelDraw.px(image, stem.x + 1, stem.y - 1, flower)
@@ -232,20 +227,17 @@ static func _weeds_patch() -> Image:
 
 static func _weeds_cleared() -> Image:
 	var image := PixelDraw.canvas(WEEDS_SIZE.x, WEEDS_SIZE.y)
-	var grass := PixelDraw.pal("grass")
-	var grass_l := PixelDraw.pal("grass_l")
 	var grass_d := PixelDraw.pal("grass_d")
 	var grass_h := PixelDraw.pal("grass_h")
 	var dry := PixelDraw.pal("leaf_dry")
 	var leaf_d := PixelDraw.pal("leaf_d")
 	var soil := PixelDraw.pal("soil")
-	# Cut grass without a boxed outline so it does not read as an empty bed.
-	PixelDraw.rect(image, 2, 18, 92, 28, grass)
-	PixelDraw.speckle_rect(image, Rect2i(2, 18, 92, 28), 41, 210, 255, grass_l)
-	PixelDraw.speckle_rect(image, Rect2i(2, 20, 92, 24), 42, 0, 18, grass_d)
-	for x in range(4, 92, 3):
-		PixelDraw.px(image, x, 22 + (x % 5), grass_h)
-	# Small pulled-weed pile on the cut grass.
+	# Sparse cut stubble only. No filled pad, so the lawn tiles show through.
+	for x in range(8, 88, 4):
+		var y := 30 + (x % 5)
+		PixelDraw.px(image, x, y, grass_h)
+		PixelDraw.px(image, x + 1, y + 1, grass_d)
+	# Small pulled-weed pile on the lawn.
 	var pile := PixelDraw.canvas(WEEDS_SIZE.x, WEEDS_SIZE.y)
 	PixelDraw.rect(pile, 70, 34, 16, 8, leaf_d)
 	PixelDraw.rect(pile, 72, 32, 12, 6, dry)
@@ -258,8 +250,6 @@ static func _weeds_cleared() -> Image:
 
 static func _litter_pile() -> Image:
 	var image := PixelDraw.canvas(LITTER_SIZE.x, LITTER_SIZE.y)
-	var grass := PixelDraw.pal("grass")
-	var grass_l := PixelDraw.pal("grass_l")
 	var paper := PixelDraw.pal("paper")
 	var cream := PixelDraw.pal("cream")
 	var grey := PixelDraw.pal("grey")
@@ -270,8 +260,6 @@ static func _litter_pile() -> Image:
 	var bun := PixelDraw.pal("bun")
 	var gold := PixelDraw.pal("gold")
 	var ink := PixelDraw.pal("outline")
-	PixelDraw.rect(image, 4, 30, 88, 16, grass)
-	PixelDraw.speckle_rect(image, Rect2i(4, 32, 88, 14), 51, 220, 255, grass_l)
 	# Crushed can.
 	PixelDraw.rect(image, 10, 28, 10, 8, grey)
 	PixelDraw.rect(image, 11, 29, 8, 6, grey_d)
@@ -392,22 +380,29 @@ static func _bed_restored() -> Image:
 	PixelDraw.rect(image, 4, 18, 3, 26, wood)
 	PixelDraw.rect(image, 57, 18, 3, 26, wood)
 	PixelDraw.px(image, 6, 19, wood_l)
-	_bloom(image, 14, 22, flower, leaf, leaf_l, cream)
-	_bloom(image, 24, 18, flower2, leaf, leaf_l, cream)
-	_bloom(image, 34, 20, gold, leaf, leaf_l, cream)
-	_bloom(image, 44, 16, cream, leaf, leaf_l, gold)
-	_bloom(image, 52, 22, flower, leaf, leaf_l, cream)
-	_bloom(image, 18, 28, gold, leaf, leaf_l, cream)
-	_bloom(image, 40, 26, flower, leaf, leaf_l, flower2)
+	_bloom(image, 12, 6, flower, leaf, leaf_l, cream)
+	_bloom(image, 22, 2, flower2, leaf, leaf_l, cream)
+	_bloom(image, 32, 4, gold, leaf, leaf_l, cream)
+	_bloom(image, 42, 1, cream, leaf, leaf_l, gold)
+	_bloom(image, 52, 5, flower, leaf, leaf_l, cream)
+	_bloom(image, 18, 14, gold, leaf, leaf_l, cream)
+	_bloom(image, 38, 12, flower, leaf, leaf_l, flower2)
+	_bloom(image, 48, 16, flower2, leaf, leaf_l, cream)
+	_bloom(image, 28, 16, cream, leaf, leaf_l, gold)
 	return PixelDraw.outline(image)
 
 
 static func _bloom(image: Image, x: int, y: int, petal: Color, leaf: Color, leaf_l: Color, center: Color) -> void:
-	PixelDraw.rect(image, x, y + 6, 2, 8, leaf)
-	PixelDraw.px(image, x + 1, y + 5, leaf_l)
-	PixelDraw.rect(image, x - 1, y + 2, 4, 4, petal)
-	PixelDraw.px(image, x, y + 1, petal)
+	PixelDraw.rect(image, x, y + 8, 2, 12, leaf)
+	PixelDraw.px(image, x + 1, y + 7, leaf_l)
+	PixelDraw.px(image, x - 1, y + 10, leaf)
+	PixelDraw.rect(image, x - 2, y + 1, 6, 6, petal)
+	PixelDraw.px(image, x, y, petal)
+	PixelDraw.px(image, x + 3, y, petal)
+	PixelDraw.px(image, x - 1, y + 2, petal)
+	PixelDraw.px(image, x + 4, y + 3, petal)
 	PixelDraw.px(image, x + 1, y + 3, center)
+	PixelDraw.px(image, x + 2, y + 4, center)
 
 
 static func _fx_repair() -> Image:

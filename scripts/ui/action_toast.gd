@@ -6,6 +6,11 @@ extends PanelContainer
 const HOLD_SECONDS := 1.2
 const FADE_SECONDS := 0.25
 const FONT_SIZE := 11
+## Left gutter, above the hotbar and fully left of the centered prompt bar.
+const SLOT_LEFT := 8.0
+const SLOT_RIGHT := 164.0
+const SLOT_TOP := -62.0
+const SLOT_BOTTOM := -40.0
 
 var _left: float = 0.0
 var _label: Label
@@ -22,10 +27,7 @@ func _ready() -> void:
 	anchor_bottom = 1.0
 	anchor_left = 0.0
 	anchor_right = 0.0
-	offset_left = 8.0
-	offset_right = 250.0
-	offset_top = -58.0
-	offset_bottom = -36.0
+	_apply_slot()
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color(0.14, 0.11, 0.16, 0.82)
 	style.border_color = Color(0.45, 0.36, 0.28, 1.0)
@@ -82,6 +84,19 @@ func remaining() -> float:
 
 func captures_input() -> bool:
 	return mouse_filter != Control.MOUSE_FILTER_IGNORE
+
+
+func overlaps_control(other: Control) -> bool:
+	if other == null or not visible or not other.visible:
+		return false
+	return get_global_rect().intersects(other.get_global_rect())
+
+
+func _apply_slot() -> void:
+	offset_left = SLOT_LEFT
+	offset_right = SLOT_RIGHT
+	offset_top = SLOT_TOP
+	offset_bottom = SLOT_BOTTOM
 
 
 static func say(tree: SceneTree, text: String) -> void:

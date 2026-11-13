@@ -278,7 +278,7 @@ func _add_church_garden() -> void:
 		note.frame_count = 1
 		note.speaker_name = "Ruth"
 		note.prompt_text = "Read the card"
-		note.line = "Ruth left a card. Till the ground with the hoe. Plant a seed packet. Water. Come back after a morning. Then pick."
+		note.line = "Till. Plant. Water. Come back after a morning. Then pick. —Ruth"
 		note.blocks_movement = true
 		note.block_size = Vector2(14, 8)
 		note.radius = 36.0

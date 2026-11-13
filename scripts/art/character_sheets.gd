@@ -9,7 +9,7 @@ const WALK_FPS := 8.0
 const IDLE_FPS := 2.0
 const FACINGS: PackedStringArray = ["down", "up", "left", "right"]
 const NAMED: PackedStringArray = [
-	"player", "margaret", "harold", "thomas", "frank", "sarah", "ostrow"
+	"player", "margaret", "harold", "thomas", "frank", "sarah", "ostrow", "dale", "ruth"
 ]
 
 

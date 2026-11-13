@@ -55,7 +55,7 @@
       "complete_flag": "picnic_weeds_cleared",
       "kindness_flag": "weeds_kindness",
       "hide_when_done": false,
-      "position": [688, 1232],
+      "position": [688, 1200],
       "prompt_done": "Look at the grass",
       "stages": [
         {

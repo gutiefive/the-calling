@@ -63,7 +63,9 @@ const VEG_COMPOST := Vector2(1488, 1264)
 const VEG_GARDEN_BENCH := Vector2(1392, 1264)
 const REPAIR_FENCE := VEG_FENCE_MEND
 const REPAIR_LITTER_BAG := Vector2(1776, 292)
-const REPAIR_WEEDS := Vector2(688, 1232)
+# West picnic grass, north of the parsonage walk (y 38–39) so the sprite
+# does not sit on pavement. Feet at the south edge of tile 37.
+const REPAIR_WEEDS := Vector2(688, 1200)
 const REPAIR_LITTER := Vector2(1744, 368)
 const REPAIR_BED := Vector2(1104, 1264)
 const REPAIR_REMARK := Vector2(816, 1264)

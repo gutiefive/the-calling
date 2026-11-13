@@ -16,7 +16,7 @@ func _ready() -> void:
 	anchor_bottom = 1.0
 	offset_left = 8.0
 	offset_top = -34.0
-	offset_right = 280.0
+	offset_right = 164.0
 	offset_bottom = -8.0
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color(0.14, 0.11, 0.16, 0.86)
@@ -42,6 +42,8 @@ func _ready() -> void:
 	_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_label.add_theme_font_size_override("font_size", 13)
 	_label.add_theme_color_override("font_color", Color(0.93, 0.88, 0.78))
+	_label.clip_text = true
+	_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(_label)
 	var pack := get_node_or_null("/root/Inventory")
 	if pack != null and pack.has_signal("equipped_changed"):

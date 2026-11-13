@@ -3,7 +3,7 @@
 A story-driven, top-down pixel-art RPG made in **Godot 4.7**. You play a young pastor who arrives in
 the fictional town of **Oakridge** to lead **Grace Community Church**.
 
-> **Status (2026-11-13):** Milestone 12 is playable, plus Gameplay A–E (inventory, garden, requests, repairs, weekly potluck). Chapter 1 still plays
+> **Status (2026-11-13):** Milestone 12 is playable, plus Gameplay A–F (inventory through the connected weekly loop). Chapter 1 still plays
 > start to finish. Choices leave hidden leanings and story threads, and a per-save seed varies small town texture.
 > After Chapter 1 you can Continue in Oakridge and keep a weekly loop. A suggested path, including two contrasting
 > runs, is in `docs/PLAYTEST.md`. Inventory and shop notes are in `docs/GAMEPLAY_LOOPS.md`.
@@ -83,6 +83,7 @@ godot --headless --path C:\Users\natha\Projects\the-calling res://tests/gpc2/gpc
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/gpd/gpd_validation.tscn
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/gpd2/gpd2_validation.tscn
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/gpe/gpe_validation.tscn
+godot --headless --path C:\Users\natha\Projects\the-calling res://tests/gpf/gpf_validation.tscn
 godot --headless --path C:\Users\natha\Projects\the-calling res://tests/toolchain/toolchain_test.tscn --quit-after 5
 ```
 
@@ -139,6 +140,7 @@ tests/gpc2/                          Gameplay C2 in-ground garden art
 tests/gpd/                           Gameplay D interactive repairs and save v10
 tests/gpd2/                          Gameplay D2 worksite art
 tests/gpe/                           Gameplay E weekly potluck, action toasts, and save v11
+tests/gpf/                           Gameplay F full-loop integration, polish, and DayClock budget
 ```
 
 ## Documents

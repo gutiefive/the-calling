@@ -14,7 +14,7 @@ const MAP_Y := 7
 
 const FACINGS: PackedStringArray = ["down", "up", "left", "right"]
 const NAMES: PackedStringArray = [
-	"player", "margaret", "harold", "thomas", "frank", "sarah", "ostrow"
+	"player", "margaret", "harold", "thomas", "frank", "sarah", "ostrow", "dale", "ruth"
 ]
 
 
@@ -87,6 +87,10 @@ static func _kit(who: String) -> Dictionary:
 			return _colors("skirt", "hair", "hair_l", "flower", "flower2", "brick_d", "skirt", "skirt_d", "wood", "cream")
 		"ostrow":
 			return _colors("slim", "hair", "hair_l", "grey_d", "grey", "pants", "pants", "pants_d", "grey", "cream")
+		"dale":
+			return _colors("stocky", "wood", "wood_l", "leaf", "moss", "leaf_d", "pants", "pants_d", "cream", "paper")
+		"ruth":
+			return _colors("skirt", "hair", "hair_l", "moss", "leaf", "leaf_d", "wood", "wood_d", "paper", "cream")
 		_:
 			return _colors("slim", "hair", "hair_l", "shirt", "shirt_l", "shirt_d", "pants", "pants_d", "paper", "gold")
 
@@ -154,6 +158,10 @@ static func _hair(who: String, facing: String) -> PackedStringArray:
 			return _HAIR_SARAH_SIDE if facing == "left" else (_HAIR_SARAH_UP if facing == "up" else _HAIR_SARAH_DOWN)
 		"ostrow":
 			return _HAIR_OSTROW_SIDE if facing == "left" else (_HAIR_OSTROW_UP if facing == "up" else _HAIR_OSTROW_DOWN)
+		"dale":
+			return _HAIR_DALE_SIDE if facing == "left" else (_HAIR_DALE_UP if facing == "up" else _HAIR_DALE_DOWN)
+		"ruth":
+			return _HAIR_MARGARET_SIDE if facing == "left" else (_HAIR_MARGARET_UP if facing == "up" else _HAIR_MARGARET_DOWN)
 		_:
 			return _HAIR_PLAYER_SIDE if facing == "left" else (_HAIR_PLAYER_UP if facing == "up" else _HAIR_PLAYER_DOWN)
 
@@ -174,6 +182,10 @@ static func _extra(who: String, facing: String) -> PackedStringArray:
 			return _EXTRA_BAG_SIDE if facing == "left" else (_EMPTY if facing == "up" else _EXTRA_BAG_DOWN)
 		"ostrow":
 			return _EXTRA_OSTROW_SIDE if facing == "left" else (_EMPTY if facing == "up" else _EXTRA_OSTROW_DOWN)
+		"dale":
+			return _EMPTY
+		"ruth":
+			return _EXTRA_APRON_SIDE if facing == "left" else (_EXTRA_APRON_UP if facing == "up" else _EXTRA_APRON_DOWN)
 		_:
 			return _EMPTY
 
@@ -1120,4 +1132,49 @@ const _EXTRA_OSTROW_SIDE: PackedStringArray = [
 	"......y.........",
 	"......z.........",
 	"......z.........",
+]
+
+const _HAIR_DALE_DOWN: PackedStringArray = [
+	"................",
+	"....xxxxxxxx....",
+	"...xhhhhhhhhx...",
+	"...xhHHHHHHhx...",
+	"....hssssssh....",
+	"................",
+	"................",
+	"................",
+	"................",
+	"................",
+	"................",
+	"................",
+]
+
+const _HAIR_DALE_UP: PackedStringArray = [
+	"................",
+	"....xxxxxxxx....",
+	"...xxxxxxxxxx...",
+	"...xhhhhhhhhx...",
+	"...xhHHHHHHhx...",
+	"...xhhhhhhhhx...",
+	"....xxxxxxxx....",
+	"................",
+	"................",
+	"................",
+	"................",
+	"................",
+]
+
+const _HAIR_DALE_SIDE: PackedStringArray = [
+	"................",
+	".....xxxxxxx....",
+	"....xhhhhhhhx...",
+	"....xhHHHHhhx...",
+	".....h....xxx...",
+	"..........xx....",
+	"................",
+	"................",
+	"................",
+	"................",
+	"................",
+	"................",
 ]

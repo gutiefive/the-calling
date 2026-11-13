@@ -149,7 +149,11 @@ func _build_sprite() -> void:
 		sprite = Sprite2D.new()
 		sprite.name = "Sprite"
 		add_child(sprite)
-	var sheet := PlaceholderArt.townsfolk(art_variant)
+	var sheet: Texture2D = null
+	if CharacterSheets.is_named(person_id):
+		sheet = CharacterSheets.texture(person_id)
+	else:
+		sheet = PlaceholderArt.townsfolk(art_variant)
 	if sheet == null:
 		return
 	var atlas := AtlasTexture.new()

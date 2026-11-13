@@ -381,6 +381,18 @@ The M8 Wednesday happening stays. The gathering itself is a walk-in Fellowship H
 
 **Toasts.** Farming, repair, chore, and pickup lines use a small bottom-left toast (about 1.2s, then fade). Dialogue boxes are unchanged.
 
+## D59 — Integration, clock, and polish (Gameplay F)
+
+Phases A–E are one connected loop. No new systems. Save stays version 11.
+
+**Clock.** `MINUTES_PER_REAL_SECOND` stays 4.0 (15 real seconds per in-game hour). A packed morning of garden, shop, and home is about four in-game hours; a waking day is fourteen. Sunday 10:00, the M8 Wednesday crate, the potluck window (11:00–16:00), and the Chapter 1 ending still trigger.
+
+**Balance.** Catalog numbers stay. Starting `$20` covers one fence shop visit (`$18`). Starter seeds cover the first planting. First harvest is 2–3 mornings. Gardening, asks, repairs, and a successful gathering still do not raise Pull, attendance, or ChurchFunds. Only Sarah's framing may nudge a leaning and Pull.
+
+**Polish.** Toast and hotbar stay in the left gutter so they never cover the `E  …` prompt. Picnic weeds sit on lawn, not the parsonage walk. Litter has no grass mat. Restored picnic blooms read from a distance. Fence debris is a small pile. Dale and Ruth have named sheets. Ruth's church-garden card is one short line. The Maple Lane plot and `garden_planted` stay separate from the church tiles.
+
+**Next.** Sanctuary and Fellowship Hall interior redesign. Not a church tycoon pass.
+
 ## Still open
 
 | # | Question | Notes |

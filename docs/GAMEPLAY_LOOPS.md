@@ -1,6 +1,6 @@
 # Gameplay loops — The Calling
 
-Status: Phase E implemented 2026-11-13. Gameplay D2 (worksite art polish) implemented 2026-11-13. Phases A–E remain. Phase F (integration and polish) is next.
+Status: Phase F implemented 2026-11-13. Phases A–E are one connected loop. Next: sanctuary and Fellowship Hall interior redesign.
 
 ## Baseline (before Phase A)
 
@@ -21,7 +21,7 @@ These existing systems stay in place. Phase A hooks them; it does not replace th
 | `DayClock` | autoload | Inventory and shop set `NarrativeState` locks so the clock holds still, same as the journal and ledger. | B: `GardenState` ticks growth on `time_changed` when the weekday advances past 6:00 a.m., guarded by `last_processed_day`. |
 | `NarrativeState` | autoload | New UI flags `inventory_open` / `shop_open` join `movement_locked()`. Starter grants use new flags only (`starter_tools_taken`, `starter_seeds_taken`). Existing story flags, quests, leanings, and threads are untouched. | C: request accept/complete flags. D: repair flags mapped from `grounds_tidy` / `garden_*` when safe. |
 | `ChurchFunds` | autoload | Never spent on personal items. Personal cash is `Inventory` wallet. Dollar amounts stay out of dialogue JSON. | E: potluck prep does not siphon the plate. |
-| `SaveGame` | `scripts/systems/save_game.gd` | Version 11. Migration from 10 adds the gathering blob. Versions 6–9 still gain pack, garden, requests, and worksites on the way through. | F: no further blob unless a later loop needs one. |
+| `SaveGame` | `scripts/systems/save_game.gd` | Version 11. Migration from 10 adds the gathering blob. Versions 6–9 still gain pack, garden, requests, and worksites on the way through. | F: no save bump. Version 11 stays. |
 | Dialogue | `data/dialogue/`, `DialogueRunner` | Thomas, Margaret, garden_help, and Chapter 1 lines are unchanged. No `$` or dollar words in JSON. Shop is a separate UI, not a dialogue tree. | C: request accept nodes added beside existing routers, existing first choices kept. |
 | Maple Lane garden | `GardenPlot`, `garden_help.json` | Unchanged Chapter 1 clear/plant beat. Weeds, `garden_cleared`, `garden_planted`, and `garden_growth` stay on this plot. The Phase A seed crate moved to the church garden. | C: garden-needs-hands request can read the same flags. |
 | Hardware store | `building_interior.gd` HardwareInterior | Thomas still talks. A shelf interactable opens the shop UI (seeds, Wood, Nails). | D: same shop sells repair stock. |
@@ -37,13 +37,51 @@ Signals: `item_added`, `item_consumed` (A), `crop_watered`, `crop_harvested`, `g
 
 ## Daily and weekly loops
 
-**Daily (existing, unchanged by A):** wake in the parsonage → optional exploration, talk, chores → sleep. The clock advances while walking and holds during dialogue, journal, map, ledger, pause, the morning card, inventory, and shop.
+**Daily (as built through F):** wake in the parsonage → optional: tend the church garden, walk to Thomas for seed or wood, take a community ask, talk, mend a stretch of fence or tidy a picnic spot → home and sleep. None of it is required. The clock advances while walking and holds during dialogue, journal, map, ledger, pause, the morning card, inventory, shop, and the Fellowship Hall gathering.
 
-**Weekly (existing, unchanged by A):** after Chapter 1, Continue in Oakridge. Later Sundays run a short service, then the ledger. Attendance and the plate stay on `ChurchFunds`. Inventory work is optional and never required for Sunday.
+A packed morning (parsonage → garden tend → Oak Street Hardware → home) is about **four in-game hours** of walking and actions at the current clock. A waking day from 6:00 to 20:00 is fourteen hours. Sunday service, the M8 Wednesday crate, the potluck window (Wednesday 11:00–16:00), and the Chapter 1 ending still key off weekday and hour, not the real-time rate.
 
-**Target feeling once C–E land:** “one more day, the crops are almost ready, Sarah needs vegetables, I want to finish that fence.” Phase B adds the church garden. Harvests stay items until later phases give them somewhere to go.
+**Weekly:** after Chapter 1, Continue in Oakridge. Later Sundays run a short service, then the ledger. Attendance and the plate stay on `ChurchFunds`. Wednesday 11:00–16:00 is the Fellowship Hall potluck once the hall is repaired. Inventory, garden, asks, and repairs are optional and never required for Sunday.
 
-Sunday stays special. Nothing in A forces a daily checklist.
+**Target feeling:** “one more day, the crops are almost ready, Sarah needs vegetables, I want to finish that fence.”
+
+Sunday stays special. Nothing forces a daily checklist.
+
+## DayClock (F)
+
+`DayClock.MINUTES_PER_REAL_SECOND` stays **4.0**. One real second of walking is four in-game minutes. One in-game hour is **15 real seconds**.
+
+Measured straight-line walks at player speed 100 px/s:
+
+| Leg | In-game minutes (approx.) |
+|---|---|
+| Parsonage → church garden | 46 |
+| Garden → Oak Street Hardware (grounds + street) | 56 |
+| Hardware / street door → parsonage | 73 |
+| Nine garden actions (till/plant/water × 3 plots) | 72 |
+
+Packed total ≈ 4 hours. The rate was already comfortable, so F does not change it. Sunday 10:00, Wednesday 11:00–16:00, the M8 happening, and the Chapter 1 ending were rechecked against that rate.
+
+The clock still pauses in menus, dialogue, and the live gathering.
+
+## Balance (F)
+
+Reviewed against spec section 10. **No catalog numbers changed.** A tiny garden cannot make the player wealthy. Personal wallet stays off `ChurchFunds`.
+
+| Item | Value | Why it stays |
+|---|---|---|
+| Starting wallet | `$20` | Covers one fence shop visit (`$18`) with `$2` left. |
+| Lettuce / carrot seeds | `$2` | Starter crate already covers the first planting. |
+| Tomato / flower seeds | `$3` | Optional restock. |
+| Wood / nails | `$4` / `$3` | Fence is 3 Wood + 2 Nails = `$18`, one shop trip. |
+| Lettuce | 2 mornings, yield 1 | First harvest after 2–3 mornings. |
+| Carrots | 3 mornings, yield 2 | Sarah's ask (2 lettuce + 2 carrots) is one week's garden. |
+| Tomatoes / flowers | 4 / 3 mornings | Slower, for meals and the sanctuary. |
+| Tilled soil revert | 3 mornings | Empty beds go back to grass. |
+| Sarah's tip | `$4` | Personal, not the plate. |
+| Fence materials | 3 Wood, 2 Nails | Unchanged. |
+
+Gardening, asks, repairs, and a successful potluck still do not raise Pull, attendance, dependents, loyalty, or ChurchFunds. Only Sarah's once-only framing may nudge a leaning and Pull, as built in E.
 
 ---
 
@@ -113,7 +151,7 @@ Configurable in `data/crops/catalog.json`. Unwatered crops pause and never die. 
 
 **Cycle.** Equip the Hoe, face a grass tile, E to till. Equip a seed packet in the pack (I, then E), E to plant (consumes one). Equip the Watering Can, E to water (darker soil). Growth advances once per morning if the tile was watered, through sleep and DayClock, never a frame timer. `last_processed_day` prevents double-counting across skips, sleep, save/load, and leaving the room. Harvest yields the catalog crop and leaves plantable harvested soil. Empty tilled soil reverts to grass after three mornings. No energy bar. Wrong tool, reserved tiles, or missing seed does nothing and says why.
 
-**Onboarding.** Ruth is still the Maple Lane walker (M5B one-place). She left a skippable card at the church garden: till, plant, water, come back after a morning, harvest. The facing marker and prompts name the next action. A neighbor by the gate comments lightly when the ground looks tended, with no numbers.
+**Onboarding.** Ruth is still the Maple Lane walker (M5B one-place). She left a skippable card at the church garden: "Till. Plant. Water. Come back after a morning. Then pick. —Ruth". The facing marker and prompts name the next action. A neighbor by the gate comments lightly when the ground looks tended, with no numbers.
 
 **Story.** Growing food is neutral. Gardening does not raise Pull, attendance, dependents, loyalty, or ChurchFunds. Harvests are items for requests and the later potluck.
 
@@ -177,24 +215,34 @@ Journal lines stay short, like "Sarah has everything she needs for Sunday." Prep
 
 **Save.** Version **11**. `capture()` writes `event`. A version 10 file gains an empty gathering blob and copies `potluck_vegetables` / framing flags if they already exist. Week and day ids guard attendance, skips, and the one attendance note. A version 12 file is rejected.
 
+## Polish (F)
+
+- Action toasts sit in the bottom-left gutter (about 1.2s, then fade), fully left of and above the `E  …` prompt. The equipped-tool strip stays in that same gutter so it does not cover the prompt.
+- Picnic weeds sit on lawn north of the parsonage walk. Cleared weeds are sparse stubble and a small pile, not a light-green rectangle on the path.
+- Utility litter is scattered trash with no grass mat. The tied bag still sits by the bin when the pile is gone.
+- Restored picnic blooms are larger and taller so the "after" reads from a distance.
+- Fence debris is a small board pile, not a scatter of chips.
+- Dale and Ruth use named 32×48 sheets (cap and green work shirt; brown bun, moss gardening clothes, apron) so they are not generic townsfolk. Unnamed neighbors still use `PlaceholderArt.townsfolk`.
+
 ## Story integration
 
 Growing food is neutral. Giving food, repairing public space, and how those things are offered are what may later touch relationships or Pull. Faith is not the villain. Insiders never say "cult". No dollar amounts in dialogue. Phase C adds no Pull, no attendance bump, and no ChurchFunds change for finishing an ask. Ruth can gain a hidden relationship point; the others do not.
 
 ## Save changes
 
-Version **11**. `capture()` writes `inventory`, `garden`, `requests`, `repairs: { sites }`, and `event`. Migration from 10 starts with an empty gathering and copies `potluck_vegetables` / framing flags if they are already set. Migration from 9 still fills worksites (and an already-mended fence) on the way through 10. Church funds, narrative, clock, influence, pastor path, and threads pass through. A version 12 file is rejected until a later bump.
+Version **11**. F does not bump the save. `capture()` writes `inventory`, `garden`, `requests`, `repairs: { sites }`, and `event`. Migration from 10 starts with an empty gathering and copies `potluck_vegetables` / framing flags if they are already set. Migration from 9 still fills worksites (and an already-mended fence) on the way through 10. Church funds, narrative, clock, influence, pastor path, and threads pass through. A version 12 file is rejected until a later bump.
 
 New Game / Restart call `Inventory.reset()`, `GardenState.reset()`, `RequestState.reset()`, `RepairState.reset()`, and `EventState.reset()` from `NarrativeState.reset()`.
 
-## Limitations (Phase E)
+## Limitations (Phase F)
 
 - Scrap comes from Harold's thank-you and from the weed and litter worksites. The shop does not sell it.
 - The shop does not sell tools (you already have them) or crops.
 - No energy bar, no durability, no drag-and-drop mouse inventory, no quest markers.
-- Item icons are procedural 16×16 PNGs scaled up in the pack. Crop stages and in-ground soil are procedural PNGs in `assets/garden/`. Repair stages are procedural PNGs in `assets/repairs/`. Potluck props are procedural PNGs in `assets/potluck/`. No LibreSprite `.ase` sources.
+- Item icons are procedural 16×16 PNGs scaled up in the pack. Crop stages and in-ground soil are procedural PNGs in `assets/garden/`. Repair stages are procedural PNGs in `assets/repairs/`. Potluck props are procedural PNGs in `assets/potluck/`. Dale and Ruth sheets are procedural 192×192 PNGs in `assets/characters/`. No LibreSprite `.ase` sources.
 - Till / water / harvest / repair / pickup feedback is a small toast (about 1.2s, then a short fade), not the dialogue banner.
+- The sanctuary and Fellowship Hall interiors are still the minimum rooms. A later milestone redesigns those interiors. F does not.
 
 ## Future expansion (do not build)
 
-Greenhouse, larger farm, kitchen, workshop, volunteers, construction, town projects, seasons, weather, resident preferences, Sunday prep, staff scheduling. Phase A’s catalog, wallet, and signals are the hooks.
+Greenhouse, larger farm, kitchen, workshop, volunteers, construction, town projects, seasons, weather, resident preferences, Sunday prep, staff scheduling. Next build: sanctuary and Fellowship Hall interior redesign. Phase A’s catalog, wallet, and signals are the hooks.
