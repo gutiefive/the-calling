@@ -33,14 +33,18 @@ func refresh() -> void:
 	_choices = PackedStringArray(["New Game"])
 	if FileAccess.file_exists(SaveGame.SAVE_PATH):
 		_choices.append("Continue")
+	_choices.append("Watch Intro")
 	_choices.append("Quit")
 	_index = mini(_index, _choices.size() - 1)
 	_rebuild_labels()
 
 
 func start_new_game() -> void:
-	DayClock.held = false
 	SaveGame.begin_new_game(get_tree())
+
+
+func watch_intro() -> void:
+	SaveGame.begin_intro_replay(get_tree())
 
 
 func continue_game() -> void:
@@ -134,6 +138,8 @@ func _confirm() -> void:
 			start_new_game()
 		"Continue":
 			continue_game()
+		"Watch Intro":
+			watch_intro()
 		"Quit":
 			var tree := get_tree()
 			if tree != null:

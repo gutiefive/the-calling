@@ -1,6 +1,6 @@
 # Roadmap — The Calling
 
-Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md`. This file is the current cut line. M12 (church grounds campus) is implemented. Gameplay A–F (inventory through the connected weekly loop) are implemented. M13 (sanctuary and Fellowship Hall interiors) is implemented. M13B (furniture and clutter density) is implemented. Next: planning board / Tier 1 unless Nathan sends the work elsewhere. Chapter 2 storylines are not started.
+Status date: 2026-11-14. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md`. This file is the current cut line. M12 (church grounds campus) is implemented. Gameplay A–F (inventory through the connected weekly loop) are implemented. M13 interiors through M13F are implemented. M14 (opening intro) is implemented. Next: planning board / Tier 1 unless Nathan sends the work elsewhere. Chapter 2 storylines are not started.
 
 | Milestone | Status |
 |---|---|
@@ -31,6 +31,7 @@ Status date: 2026-11-13. The long milestone list is `docs/DEVELOPMENT_ROADMAP.md
 | Gameplay F Integration and polish | Implemented. Full-loop playthrough, DayClock review, balance review, HUD and worksite polish, Dale and Ruth sheets. Save stays v11. See `docs/GAMEPLAY_LOOPS.md`. |
 | Sanctuary + Fellowship Hall interiors | Implemented. Multi-room sanctuary and Fellowship Hall, ambient neighbors, flavor props, stained-glass light. Save stays v11. See `docs/INTERIORS.md`. |
 | M13B Furniture and clutter | Implemented. Denser rooms, a slightly shorter Fellowship main hall, aisle stained-glass pools, extra pews and tables. Save stays v11. See `docs/INTERIORS.md`. |
+| M14 A better intro | Implemented. Skippable opening cutscene after New Game, then a goals card and controls primer on Thursday 2:00 p.m. Save stays v11. See `docs/INTRO.md`. |
 | Planning board and Tier 1 | Later. Attach the first expansion project to a plot (workshop, greenhouse, or dorms). |
 | Next story | Chapter 2 is not started. Full Chapter 2 storylines build on M9 leanings, threads, and the run seed. |
 | M11 Night layer | Not started. Spirit framework, two Lingerers, prayer-lights, steeple light. |

@@ -96,8 +96,8 @@ foundation rather than inventing a second flag system.
    in dialogue.
 
 ## Story outline
-1. **The Arrival / The First Sunday** — Thursday arrival, locked door, meet Margaret; walk to the hardware store, meet
-   Frank; inspect building, practical task, sermon theme, first Sunday; Margaret reveals financial trouble.
+1. **The Arrival / The First Sunday** — New Game plays a short skippable opening (letter, the drive into Oakridge, the tired church, glimpses of the people who keep it going, a quiet hope). Gameplay then starts Thursday afternoon at 2:00 p.m.: locked door, meet Margaret; walk to the hardware store, meet
+   Frank; inspect building, practical task, sermon theme, first Sunday; Margaret reveals financial trouble. The intro never names the ledger, the money trouble, or later ambition. Editing the lines: `docs/INTRO.md`.
 2. **New Beginnings** — follow up with residents, why trust eroded; a young family may return; skeptic may befriend you.
 3. **Growing Pains** — pressure on facilities, volunteers, unresolved relationships; a public leadership dilemma.
 4. **The Crossroads** — a donation/property opportunity with conditions and social consequences.

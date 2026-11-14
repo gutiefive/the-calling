@@ -14,8 +14,8 @@ the fictional town of **Oakridge** to lead **Grace Community Church**.
 godot --path C:\Users\natha\Projects\the-calling
 ```
 
-That opens the title screen: `scenes/main.tscn`. New Game starts on the church grounds, Thursday at 2:00 p.m.
-Continue appears when `user://the_calling_save.json` exists. In the editor, open the project and press F5.
+That opens the title screen: `scenes/main.tscn`. New Game plays a short opening, then starts on the church grounds, Thursday at 2:00 p.m. Hold Esc to skip the opening. Continue appears when `user://the_calling_save.json` exists and does not replay it.
+In the editor, open the project and press F5.
 
 `godot` is `C:\Tools\Godot\4.7.2\godot.cmd` (console build, on the user PATH).
 
@@ -92,7 +92,9 @@ The manual list is `docs/PLAYTEST.md`. Named character sheets live in `assets/ch
 ## Layout
 
 ```
-scenes/main.tscn                     title screen (New Game / Continue / Quit)
+scenes/main.tscn                     title screen (New Game / Continue / Watch Intro / Quit)
+scenes/intro/intro_cutscene.tscn     opening after New Game
+data/intro.json                      intro lines, panels, goals, and the controls primer
 scenes/world/church_exterior.tscn    grounds, with the walk to Oak Street
 scenes/world/sanctuary.tscn          interior, Sunday service, ledger
 scenes/world/fellowship_hall.tscn    walk-in hall after repair; Wednesday potluck

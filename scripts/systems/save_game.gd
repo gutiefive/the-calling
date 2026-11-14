@@ -6,6 +6,15 @@ const Catalog := preload("res://scripts/systems/item_catalog.gd")
 
 const SAVE_VERSION := 11
 const SAVE_PATH := "user://the_calling_save.json"
+const INTRO_SCENE := "res://scenes/intro/intro_cutscene.tscn"
+const GROUNDS_SCENE := "res://scenes/world/church_exterior.tscn"
+const TITLE_SCENE := "res://scenes/main.tscn"
+## Tests that still expect New Game to land on the church grounds set this true.
+static var bypass_intro: bool = false
+## Set after the opening cutscene so the grounds can show the goals/primer once.
+static var pending_opening_handoff: bool = false
+## Title "Watch Intro" returns to the title instead of starting Thursday.
+static var intro_replay: bool = false
 
 
 static func save_to_disk(tree: SceneTree) -> bool:
@@ -23,6 +32,8 @@ static func save_to_disk(tree: SceneTree) -> bool:
 static func load_from_disk(tree: SceneTree) -> bool:
 	if tree == null:
 		return false
+	pending_opening_handoff = false
+	intro_replay = false
 	var data := read_file()
 	if data.is_empty():
 		return false
@@ -233,42 +244,77 @@ static func migrate(data: Dictionary) -> Dictionary:
 
 
 static func begin_new_game(tree: SceneTree) -> void:
-	NarrativeState.reset()
-	DayClock.reset()
-	if tree != null:
-		var inf := tree.root.get_node_or_null("InfluenceState")
-		if inf != null and inf.has_method("reset"):
-			inf.call("reset")
-		var funds := tree.root.get_node_or_null("ChurchFunds")
-		if funds != null and funds.has_method("reset"):
-			funds.call("reset")
-		var pastor := tree.root.get_node_or_null("PastorPath")
-		if pastor != null and pastor.has_method("reset"):
-			pastor.call("reset")
-		if pastor != null and pastor.has_method("roll_seed"):
-			pastor.call("roll_seed")
-		var threads := tree.root.get_node_or_null("StoryThreads")
-		if threads != null and threads.has_method("reset"):
-			threads.call("reset")
-		var pack := tree.root.get_node_or_null("Inventory")
-		if pack != null and pack.has_method("reset"):
-			pack.call("reset")
-		var garden := tree.root.get_node_or_null("GardenState")
-		if garden != null and garden.has_method("reset"):
-			garden.call("reset")
-		var asks := tree.root.get_node_or_null("RequestState")
-		if asks != null and asks.has_method("reset"):
-			asks.call("reset")
-		var repairs := tree.root.get_node_or_null("RepairState")
-		if repairs != null and repairs.has_method("reset"):
-			repairs.call("reset")
-		var events := tree.root.get_node_or_null("EventState")
-		if events != null and events.has_method("reset"):
-			events.call("reset")
-	DayClock.held = false
+	reset_run(tree)
+	intro_replay = false
 	if tree != null and tree.paused:
 		tree.paused = false
-	SceneRouter.travel(tree, "res://scenes/world/church_exterior.tscn", &"default")
+	if bypass_intro:
+		pending_opening_handoff = false
+		DayClock.held = false
+		SceneRouter.travel(tree, GROUNDS_SCENE, &"default")
+		return
+	pending_opening_handoff = true
+	DayClock.held = true
+	SceneRouter.travel(tree, INTRO_SCENE, &"default")
+
+
+static func reset_run(tree: SceneTree) -> void:
+	NarrativeState.reset()
+	DayClock.reset()
+	if tree == null:
+		return
+	var inf := tree.root.get_node_or_null("InfluenceState")
+	if inf != null and inf.has_method("reset"):
+		inf.call("reset")
+	var funds := tree.root.get_node_or_null("ChurchFunds")
+	if funds != null and funds.has_method("reset"):
+		funds.call("reset")
+	var pastor := tree.root.get_node_or_null("PastorPath")
+	if pastor != null and pastor.has_method("reset"):
+		pastor.call("reset")
+	if pastor != null and pastor.has_method("roll_seed"):
+		pastor.call("roll_seed")
+	var threads := tree.root.get_node_or_null("StoryThreads")
+	if threads != null and threads.has_method("reset"):
+		threads.call("reset")
+	var pack := tree.root.get_node_or_null("Inventory")
+	if pack != null and pack.has_method("reset"):
+		pack.call("reset")
+	var garden := tree.root.get_node_or_null("GardenState")
+	if garden != null and garden.has_method("reset"):
+		garden.call("reset")
+	var asks := tree.root.get_node_or_null("RequestState")
+	if asks != null and asks.has_method("reset"):
+		asks.call("reset")
+	var repairs := tree.root.get_node_or_null("RepairState")
+	if repairs != null and repairs.has_method("reset"):
+		repairs.call("reset")
+	var events := tree.root.get_node_or_null("EventState")
+	if events != null and events.has_method("reset"):
+		events.call("reset")
+
+
+static func begin_intro_replay(tree: SceneTree) -> void:
+	intro_replay = true
+	pending_opening_handoff = false
+	DayClock.held = true
+	if tree != null and tree.paused:
+		tree.paused = false
+	SceneRouter.travel(tree, INTRO_SCENE, &"default")
+
+
+static func finish_intro(tree: SceneTree) -> void:
+	if intro_replay:
+		intro_replay = false
+		pending_opening_handoff = false
+		DayClock.held = true
+		SceneRouter.travel(tree, TITLE_SCENE, &"default")
+		return
+	NarrativeState.set_flag("intro_seen", true)
+	pending_opening_handoff = true
+	DayClock.set_time(DayClock.START_WEEKDAY, DayClock.START_HOUR, DayClock.START_MINUTE)
+	DayClock.held = true
+	SceneRouter.travel(tree, GROUNDS_SCENE, &"default")
 
 
 static func delete_save() -> void:

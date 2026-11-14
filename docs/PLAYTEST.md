@@ -1168,4 +1168,36 @@ Walk the sanctuary aisle at day. Colored light should tint the runner without tu
 
 On 2026-11-14, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `M13F_OK` (459 `CHECK OK`) with zero `CHECK FAIL`. Every existing suite still printed its `_OK` line and exited 0: `M1_OK` (76), `M2_OK` (113), `M3_OK` (109), `M4_OK` (90), `M4_5_OK` (90), `M5A_OK` (103), `M5B_OK` (1491), `M6A_OK` (219), `M6A2_OK` (130), `M7_OK` (93), `M8_OK` (80), `M9_OK` (105), `M9B_OK` (176), `M10_OK` (91), `M11_OK` (210), `M11B_OK` (196), `M11C_OK` (246), `M12_OK` (165), `M13_OK` (223), `M13B_OK` (384), `M13C_OK` (182), `M13D_OK` (181), `M13E_OK` (207), `GPA_OK` (204), `GPB_OK` (125), `GPC_OK` (126), `GPC2_OK` (101), `GPD_OK` (148), `GPD2_OK` (100), `GPE_OK` (131), `GPF_OK` (119). `--quit-after 120` exited 0 with no `CHECK FAIL`, `SCRIPT ERROR`, or `Parse Error`. `tests/m13f/capture_m13f.tscn` wrote `worship_close.png`, `worship_overview.png`, `fellowship_main.png`, `fellowship_kids.png`, and `potluck_full.png` under `tests/m13f/shots/`. T139–T142 were not played in a window.
 
+# Milestone 14 — A better intro
+
+The lists above still apply. These checks cover the opening cutscene, skip, Continue, the goals card, and the controls primer.
+
+## Automated
+
+```powershell
+godot --headless --path . --import
+godot --headless --path . res://tests/m14/m14_validation.tscn
+godot --path . res://tests/m14/capture_m14.tscn
+```
+
+`m14_validation.tscn` prints `CHECK OK` / `CHECK FAIL` lines and exits with `M14_OK` or `M14_FAIL`.
+It loads `data/intro.json`, checks every beat against a real panel, keeps the box count and wording inside the limits, confirms skip lands on Thursday 2:00 p.m. with the usual starting state, holds `DayClock` during the intro, proves Continue does not replay it, and proves the primer shows once. Save stays v11. `SaveGame.bypass_intro` is the hook older New Game tests use; `tests/m4/m4_validation.gd` is the suite that sets it.
+
+`capture_m14.tscn` writes PNGs to `tests/m14/shots/` and needs a display. It skips with `CAPTURE_SKIPPED` under `--headless`. Shots: letter, drive, church reveal, town vignette, closing, goals handoff, controls primer.
+
+## Manual walkthrough
+
+Launch. Choose New Game. Watch the letterboxed opening, or hold Esc to skip. You should arrive on the church grounds at Thursday 2:00 p.m. with a short goals card, then a small controls list. Continue from a save should never replay either.
+
+| ID | Do this | Expect |
+|---|---|---|
+| T143 | New Game. Watch the intro in a window | Letter, drive into Oakridge, church, people, a quiet closing. E advances. Hold Esc skips. |
+| T144 | New Game. Hold Esc through the intro | Church grounds, Thursday 2:00 p.m. Goals card, then the controls primer, then you can walk. |
+| T145 | Dismiss the primer. Save. Continue | No intro. No goals card. No primer. You are where you saved. |
+| T146 | Title: Watch Intro | The opening plays. It returns to the title. It does not start Thursday. |
+
+## M14 results
+
+On 2026-11-14, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `M14_OK` (119 `CHECK OK`) with zero `CHECK FAIL`. Every existing suite still printed its `_OK` line and exited 0: `M1_OK`, `M2_OK`, `M3_OK`, `M4_OK`, `M4_5_OK`, `M5A_OK`, `M5B_OK`, `M6A_OK`, `M6A2_OK`, `M7_OK`, `M8_OK`, `M9_OK`, `M9B_OK`, `M10_OK`, `M11_OK`, `M11B_OK`, `M11C_OK`, `M12_OK`, `M13_OK`, `M13B_OK`, `M13C_OK`, `M13D_OK`, `M13E_OK`, `M13F_OK`, `GPA_OK`, `GPB_OK`, `GPC_OK`, `GPC2_OK`, `GPD_OK`, `GPD2_OK`, `GPE_OK`, `GPF_OK`. `--quit-after 120` exited 0 with no `CHECK FAIL`, `SCRIPT ERROR`, or `Parse Error`. `tests/m14/capture_m14.tscn` wrote `letter.png`, `drive.png`, `church_reveal.png`, `town_vignette.png`, `closing.png`, `goals_handoff.png`, and `controls_primer.png` under `tests/m14/shots/`. T143–T146 were not played in a window. The only older-suite edit is `tests/m4/m4_validation.gd`, which sets `SaveGame.bypass_intro` for title New Game and chapter Restart.
+
 

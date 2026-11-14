@@ -140,8 +140,11 @@ func _service_themes() -> void:
 	var summary := str(ending.call("body_text"))
 	_check(summary.contains("oil") and summary.contains("hope"), "the ending summarizes the sermon and the money (%s)" % _snippet(summary))
 	_check(NarrativeState.movement_locked(), "the ending holds the player")
+	# M14: Restart plays the intro. This suite still checks Thursday on the grounds.
+	SaveGame.bypass_intro = true
 	await _tap("dialogue_down")
 	await _tap("interact")
+	SaveGame.bypass_intro = false
 	room = await _wait_scene("ChurchExterior")
 	_check(room != null, "restart returns to the church grounds")
 	_check(DayClock.weekday_name() == "Thursday" and DayClock.hour == 14, "restart restores Thursday afternoon")
@@ -199,7 +202,11 @@ func _title_and_save() -> void:
 	NarrativeState.set_relationship("frank", 4)
 	DayClock.set_time(0, 15, 0)
 	SceneRouter.suppress_change = true
+	# M14: New Game plays an intro first. This suite still checks the Thursday
+	# landing, so it uses the documented bypass hook.
+	SaveGame.bypass_intro = true
 	await _tap("interact")
+	SaveGame.bypass_intro = false
 	_check(SceneRouter.last_path.ends_with("church_exterior.tscn"), "New Game targets the church grounds")
 	_check(not NarrativeState.flag_is_true("service_complete") and NarrativeState.relationship("frank") == 0, "New Game clears narrative state")
 	_check(DayClock.weekday_name() == "Thursday" and DayClock.hour == 14, "New Game starts Thursday at 2 p.m.")

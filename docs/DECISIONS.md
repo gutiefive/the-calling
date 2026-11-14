@@ -111,7 +111,7 @@ The file version was 2. A version 1 file is copied forward: its flags, quests, r
 
 ## D24 — The title screen is the launch scene
 
-`scenes/main.tscn` is the title. New Game loads the church grounds at Thursday 2:00 p.m. Continue calls the same load as the pause menu. The title holds `DayClock` until a room starts. No new input actions were added. Up and Down choose. E, Space, or Enter confirms.
+`scenes/main.tscn` is the title. New Game used to load the church grounds at Thursday 2:00 p.m. D66 inserts a skippable intro before that landing. Continue calls the same load as the pause menu. The title holds `DayClock` until a room starts. No new input actions were added. Up and Down choose. E, Space, or Enter confirms.
 
 ## D25 — Finding Oak Street (M4.5)
 
@@ -442,6 +442,10 @@ The Fellowship Hall runner is a muted warm carpet with a gold border. Coffee mov
 Playtest after M13E: the worship-aisle stained glass read as bright patches in the close camera, the kids' corner sat north of the Fellowship door out of the entry view, and wall strips overlapped trim.
 
 Aisle color now uses a lower-alpha pool with gentler tints and a softer PointLight falloff, still visible in the overview. The kids' corner moved east of the south door, inside the starting close camera, with its play rug, table, chairs, toy bin, books, and wall drawings kept off the coffee station, door, walkways, and potluck posts. Wall drawings, banners, photos, and the alphabet strip sit on a wall layer at the wall-foot so they do not overlap each other or the trim. Save stays v11. No story, Pull, attendance, or ChurchFunds changes.
+
+## D66 — A better intro (M14)
+
+New Game no longer drops straight onto the church lot. It plays `scenes/intro/intro_cutscene.tscn`, a letterboxed sequence drawn from procedural panels in `scripts/art/intro_frames.gd` and lines in `data/intro.json`. E, Space, or Enter advances a typewriter box. Hold Esc skips. The clock stays on Thursday 2:00 p.m. the whole time. After the last line (or a skip), the grounds load with the same starting flags, quests, pack, and relationships as before, plus `intro_seen`. A short goals card, then a small controls primer, appear once. `primer_seen` is a narrative flag inside the existing v11 blob, so old files still load. Continue and Load never play the intro or the primer. Restart from the chapter ending plays the intro again. The title adds **Watch Intro** after Continue (or after New Game when there is no save), so Down from New Game still lands on Continue when a slot exists. Tests that still expect New Game to open the grounds set `SaveGame.bypass_intro = true`. How to edit the lines: `docs/INTRO.md`. Save stays v11. No story, Pull, attendance, or ChurchFunds changes.
 
 ## Still open
 

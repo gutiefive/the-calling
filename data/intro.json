@@ -1,0 +1,156 @@
+{
+	"skip_hint": "Hold Esc to skip",
+	"skip_hold_seconds": 0.85,
+	"goals": {
+		"title": "Your first days",
+		"lines": [
+			"Thursday afternoon. You are the new pastor.",
+			"Get into the church and meet the people who keep it going.",
+			"Prepare for your first Sunday.",
+			"Get to know Oakridge.",
+			"You can explore freely. People keep their own hours. Days turn. What you choose, and how you treat people, shapes how things go.",
+			"None of it is a score. Walk when you are ready."
+		],
+		"dismiss": "E  continue"
+	},
+	"primer": {
+		"title": "A few keys",
+		"lines": [
+			"WASD or arrows  walk",
+			"E  talk and use things",
+			"J  journal",
+			"I  pack",
+			"T  skip the clock",
+			"Esc  pause"
+		],
+		"dismiss": "E  continue"
+	},
+	"beats": [
+		{
+			"id": "letter_call",
+			"panel": "letter",
+			"motion": "fade",
+			"voice": "narration",
+			"text": "The letter came on a Tuesday. Grace Community Church in Oakridge needed a pastor."
+		},
+		{
+			"id": "letter_left",
+			"panel": "letter",
+			"motion": "fade",
+			"voice": "narration",
+			"text": "The last one left in a hurry. Nobody in town likes to talk about it."
+		},
+		{
+			"id": "letter_yes",
+			"panel": "letter",
+			"motion": "fade",
+			"voice": "narration",
+			"text": "You packed a bag and said yes. Thursday, you drove."
+		},
+		{
+			"id": "drive_road",
+			"panel": "drive",
+			"motion": "drive",
+			"voice": "narration",
+			"text": "A two-lane road, late light on the fields. The kind of country that still has a water tower."
+		},
+		{
+			"id": "town_sign",
+			"panel": "town_sign",
+			"motion": "pan_right",
+			"voice": "narration",
+			"text": "Oakridge is small enough to learn on foot, and you passed the painted sign without turning around."
+		},
+		{
+			"id": "oak_street",
+			"panel": "oak_street",
+			"motion": "pan_right",
+			"voice": "narration",
+			"text": "Oak Street slid by the window: diner steam, a hardware awning, a bay with its door rolled up."
+		},
+		{
+			"id": "church_reveal",
+			"panel": "church_reveal",
+			"motion": "pan_up",
+			"voice": "narration",
+			"text": "Then the church: tired paint, a garden gone a little wild, and still beautiful if you look."
+		},
+		{
+			"id": "church_pews",
+			"panel": "church_reveal",
+			"motion": "pan_up",
+			"voice": "narration",
+			"text": "They say it used to fill on a Sunday. These days the pews wait for a much smaller room."
+		},
+		{
+			"id": "garden_door",
+			"panel": "overgrown_garden",
+			"motion": "leaves",
+			"voice": "narration",
+			"text": "Weeds crowd the fence, a porch light has not given up, and the front door is locked."
+		},
+		{
+			"id": "locked_door",
+			"panel": "locked_door",
+			"motion": "fade",
+			"voice": "narration",
+			"text": "That is all right. You were not expecting a parade."
+		},
+		{
+			"id": "vignette_margaret",
+			"panel": "vignette_margaret",
+			"motion": "fade",
+			"voice": "narration",
+			"text": "Margaret keeps the office with dry humor, and she will be the first person you meet."
+		},
+		{
+			"id": "vignette_harold",
+			"panel": "vignette_harold",
+			"motion": "fade",
+			"voice": "narration",
+			"text": "Harold has watched this building longer than anyone. He is careful with it, and with you."
+		},
+		{
+			"id": "vignette_thomas",
+			"panel": "vignette_thomas",
+			"motion": "fade",
+			"voice": "narration",
+			"text": "Thomas knows everyone from the hardware counter. If the town has news, it stops there first."
+		},
+		{
+			"id": "vignette_frank",
+			"panel": "vignette_frank",
+			"motion": "fade",
+			"voice": "narration",
+			"text": "Frank Miller works the bay, helpful, and not sure the church has earned another chance."
+		},
+		{
+			"id": "vignette_sarah",
+			"panel": "vignette_sarah",
+			"motion": "fade",
+			"voice": "narration",
+			"text": "Sarah has a family and a full week. She has not decided if Sunday is still for her."
+		},
+		{
+			"id": "town_trust",
+			"panel": "porch_close",
+			"motion": "flicker",
+			"voice": "narration",
+			"text": "Everyone here has a story. Some of that trust will have to be earned."
+		},
+		{
+			"id": "closing_work",
+			"panel": "closing",
+			"motion": "birds",
+			"voice": "narration",
+			"text": "You came because the work is honest, and because a small church still matters."
+		},
+		{
+			"id": "closing_hope",
+			"panel": "closing",
+			"motion": "birds",
+			"voice": "inner",
+			"text": "You hope you can be of use here. That is enough, for a Thursday afternoon."
+		}
+	]
+}

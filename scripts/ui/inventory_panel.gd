@@ -173,7 +173,7 @@ func _can_toggle() -> bool:
 	var story := get_node_or_null("/root/NarrativeState")
 	if story == null:
 		return true
-	if bool(story.get("ending_open")) or bool(story.get("day_card_open")) or bool(story.get("dialogue_open")):
+	if bool(story.get("ending_open")) or bool(story.get("day_card_open")) or bool(story.get("dialogue_open")) or bool(story.get("primer_open")):
 		return false
 	if bool(story.get("journal_open")) or bool(story.get("map_open")) or bool(story.get("ledger_open")):
 		return false

@@ -6,7 +6,7 @@ signal story_changed
 
 const SAVE_VERSION := 1
 
-const OAK_HINT := "The lane east of the church grounds leads to Oak Street."
+const OAK_HINT := "The lane east of the church grounds leads to Oak Street. Walk it when you want to meet the town."
 
 var dialogue_open: bool = false
 var journal_open: bool = false
@@ -16,6 +16,7 @@ var day_card_open: bool = false
 var ledger_open: bool = false
 var inventory_open: bool = false
 var shop_open: bool = false
+var primer_open: bool = false
 
 var _flags: Dictionary = {}
 var _quests: Dictionary = {}
@@ -37,7 +38,7 @@ func _ready() -> void:
 
 
 func movement_locked() -> bool:
-	return dialogue_open or journal_open or ending_open or map_open or day_card_open or ledger_open or inventory_open or shop_open
+	return dialogue_open or journal_open or ending_open or map_open or day_card_open or ledger_open or inventory_open or shop_open or primer_open
 
 
 func set_dialogue_open(is_open: bool) -> void:
@@ -74,6 +75,7 @@ func reset() -> void:
 	ledger_open = false
 	inventory_open = false
 	shop_open = false
+	primer_open = false
 	var inf := get_node_or_null("/root/InfluenceState")
 	if inf != null and inf.has_method("reset"):
 		inf.call("reset")
@@ -361,6 +363,7 @@ func from_dictionary(data: Dictionary) -> void:
 	ledger_open = false
 	inventory_open = false
 	shop_open = false
+	primer_open = false
 	var flags_v: Variant = data.get("flags", {})
 	_flags = (flags_v as Dictionary).duplicate(true) if flags_v is Dictionary else {}
 	_quests.clear()

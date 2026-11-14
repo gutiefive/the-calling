@@ -68,7 +68,7 @@ func _physics_process(_delta: float) -> void:
 
 
 func _handle_pause() -> void:
-	if NarrativeState.ending_open:
+	if NarrativeState.ending_open or NarrativeState.primer_open:
 		return
 	var tree := get_tree()
 	if tree == null:
