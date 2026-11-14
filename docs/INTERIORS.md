@@ -1,6 +1,6 @@
-# Interiors — Sanctuary and Fellowship Hall (M13 / M13B / M13C / M13D)
+# Interiors — Sanctuary and Fellowship Hall (M13 / M13B / M13C / M13D / M13E)
 
-Status: M13 implemented 2026-11-13. M13B furniture and clutter density pass implemented 2026-11-13. M13C Fellowship Hall tables and main-hall fill implemented 2026-11-13. M13D Fellowship Hall final polish implemented 2026-11-13. One scene per building. Doorways, not separate rooms. Save stays v11.
+Status: M13 implemented 2026-11-13. M13B furniture and clutter density pass implemented 2026-11-13. M13C Fellowship Hall tables and main-hall fill implemented 2026-11-13. M13D Fellowship Hall final polish implemented 2026-11-13. M13E sanctuary finish and Fellowship Hall gameplay polish implemented 2026-11-13. One scene per building. Doorways, not separate rooms. Save stays v11. The north sanctuary rooms are seven tiles tall.
 
 ## Sanctuary (`scenes/world/sanctuary.tscn`)
 
@@ -8,12 +8,12 @@ Walk in from the courtyard. South door returns to the grounds.
 
 | Room | What's in it |
 |---|---|
-| Narthex | Doormat, rug, welcome table, coat rack and wall hooks with coats, umbrella stand, plants, a tract rack, a donation box (no dollar text), framed photos, a lost umbrella, a side table with a lamp, guest book, community bulletin, a bench |
-| Worship hall | Center aisle and carpet runner with stained-glass color on the floor, five pew rows with hymnals, side-aisle rugs, plants and flower stands, wall sconces, a baptism font, a sound desk at the back, banners, a projector screen, candle stands, piano and bench with sheet music, chairs on the platform, pulpit, altar, wooden cross, Margaret's flowers when that ask is done |
-| Pastor's office | Rug, desk, chair, visitor armchair, two bookshelves, filing cabinet, **the church ledger**, lamp, mug and papers, a coat on a hook, wall calendar, radiator, plant, window, framed picnic photo, a pencil sketch of extra wings |
-| Prayer room | Rug, kneeler, candles, a quiet bench, prayer request board with pinned notes, a small table with an open book, a plant. Someone may be praying. Not frightening. |
-| Choir | Piano, chairs in rows, music stands, a robe rack, a shelf of folders, the spare key ring |
-| Storage | Shelves, boxes, folding tables, a vacuum, Christmas decoration bins, a mop and bucket |
+| Narthex | Doormat, rug with border and fringe, welcome table with bulletins, coat rack and wall hooks with coats, umbrella stand, plants, a tract rack, a donation box (no dollar text), a prayer-request box, framed photos of church history, a lost umbrella, a side table with a lamp, guest book, community bulletin, benches |
+| Worship hall | Center aisle and carpet runner with stained-glass color on the floor, five pew rows with end caps and hymnal racks, side-aisle rugs, plants and flower stands, wall sconces, pendant lights, a baptism font and baptistry, flags, a sound desk at the back, banners, a projector screen, candle stands, piano and bench with sheet music, chairs on the platform, pulpit, altar with cloth, candles and flowers, wooden cross, offering plates, hymn board, Margaret's flowers when that ask is done |
+| Pastor's office | Rug, desk with lamp, papers, Bible, mug and phone, chair, two guest armchairs, three bookshelves with mixed spines, filing cabinet, **the church ledger**, a coat on a hook, wall calendar, diploma, radiator, plant, window, framed picnic photo, a pencil sketch of extra wings |
+| Prayer room | Rug, kneeler, candles, a quiet bench, prayer request board with pinned notes, a small table with an open book, a small cross, cushions, a journal on a stand, a plant. Someone may be praying. Not frightening. |
+| Choir | Piano, chairs in rows on a riser, music stands, a robe rack, a shelf of folders, a practice-schedule board, the spare key ring |
+| Storage | Shelves, boxes, labeled bins, folding tables, stacked chairs, a vacuum, Christmas decoration bins, a mop and bucket, a ladder |
 | Hallway | Framed photos, a coat rack, a fire extinguisher, a plant, a water fountain. A restroom door that does not open |
 
 Sunday still seats the named people and twelve congregants in the pews. After the service they stand in the south of the worship hall, off the aisle door. Harold's weekday post is the west side of the pews (tidying hymnals). Margaret's is the east window (the flowers).
@@ -24,7 +24,7 @@ Walk in from the west-wing door after the hall is repaired and celebrated. South
 
 | Room | What's in it |
 |---|---|
-| Main hall | Wood floor with a center aisle runner, a stage rug, and a sitting-corner rug (no floating rectangles). Two rows of larger round and long tables: cloth folds and hem, a runner on Table B, chair backs on the far side and seats on the near side, and clutter that changes by table. Zones keep 2-tile walkways: a couch corner, a welcome table and coat rack by the south door, a coffee and snack station, a kids' corner by the classroom door, a stage with curtain, podium, mic, and speakers, a piano with bench, a trophy and photo wall, stacked chair carts and a folded-table rack, plants, window light pools, and banners. Wednesday still dresses Table A/B with dishes, centerpieces, spanning string lights, a banner, extra chairs, and invited guests standing at those tables |
+| Main hall | Wood floor with a muted warm center aisle runner (subtle gold border), a stage rug, and a sitting-corner rug (no floating rectangles). Two rows of larger round and long tables: cloth folds and hem, a runner on Table B, chair backs on the far side and seats on the near side, and clutter that changes by table. The south row sits far enough north to read in the close camera. Zones keep 2-tile walkways: a couch corner, a welcome table and coat rack by the south door, a coffee and snack station by the entrance in the close view, a kids' corner with a play rug, small table, chairs, toy bin, books, and wall drawings, a stage with curtain, podium, mic, and speakers, a piano with bench, a trophy and photo wall, stacked chair carts and a folded-table rack, plants, window light pools, and banners. Wednesday still dresses Table A/B with dishes, centerpieces, spanning string lights, a banner, extra chairs, and invited guests standing at those tables |
 | Kitchen | Counters with a tile backsplash, hanging utensils, a window over the sink, upper cabinets, stove with pots, fridge, dish rack, microwave, mixer, an island, pantry, cooler, mop, a meal-train board, serving table at the pass-through |
 | Classroom | Small tables, kids' chairs, chalkboard, crayons, cubbies, a patterned reading rug, beanbags, a toy bin, a globe, a teacher's desk, an alphabet strip, wall art, a bookshelf |
 | Storage | Shelves, boxes, labeled bins, folding tables, a vacuum, Christmas bins, a supply crate (the M8 happening crate stays outside by the hall door) |
@@ -45,7 +45,7 @@ They use the existing unnamed-townsfolk art and a small idle loop. They do not b
 
 ## Flavor lines
 
-Bulletin, guest book, piano, stained glass, hymn board, office sketch, office photo, restroom door, hall bulletin, coffee, lost-and-found, speaker, chalkboard, crayons. Short. No dollar amounts. Insiders never say "cult". The office sketch is the only quietly ambiguous beat.
+Bulletin, guest book, piano, stained glass, hymn board, office sketch, office photo, restroom door, prayer-request box, prayer journal, choir schedule, offering plates, hall bulletin, coffee, lost-and-found, speaker, chalkboard, crayons. Short. No dollar amounts. Insiders never say "cult". The office sketch is the only quietly ambiguous beat.
 
 ## Lighting
 

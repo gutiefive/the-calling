@@ -4,30 +4,30 @@
       "id": "margaret",
       "entries": [
         {"days": ["Monday", "Tuesday", "Wednesday"], "from": "08:00", "until": "12:00", "scene": "church_exterior", "position": [1040, 640]},
-        {"days": ["Monday", "Tuesday", "Wednesday"], "from": "12:00", "until": "17:00", "scene": "sanctuary", "position": [1200, 430]},
+        {"days": ["Monday", "Tuesday", "Wednesday"], "from": "12:00", "until": "17:00", "scene": "sanctuary", "position": [1200, 494]},
         {"days": ["Monday", "Tuesday", "Wednesday"], "from": "17:00", "until": "20:00", "scene": "church_exterior", "position": [1040, 880]},
         {"days": ["Thursday"], "from": "00:00", "until": "17:00", "scene": "church_exterior", "position": [1040, 640]},
         {"days": ["Thursday"], "from": "17:00", "until": "20:00", "scene": "church_exterior", "position": [1040, 880]},
         {"days": ["Friday"], "from": "08:00", "until": "12:00", "scene": "church_exterior", "position": [1040, 640]},
-        {"days": ["Friday"], "from": "12:00", "until": "17:00", "scene": "sanctuary", "position": [1200, 430]},
-        {"days": ["Saturday"], "from": "09:00", "until": "17:00", "scene": "sanctuary", "position": [1200, 430]},
+        {"days": ["Friday"], "from": "12:00", "until": "17:00", "scene": "sanctuary", "position": [1200, 494]},
+        {"days": ["Saturday"], "from": "09:00", "until": "17:00", "scene": "sanctuary", "position": [1200, 494]},
         {"days": ["Saturday"], "from": "17:00", "until": "21:00", "scene": "church_exterior", "position": [1040, 640]},
         {"days": ["Sunday"], "from": "06:00", "until": "10:00", "scene": "church_exterior", "position": [1040, 640]},
-        {"days": ["Sunday"], "from": "10:00", "until": "24:00", "scene": "sanctuary", "position": [800, 820]}
+        {"days": ["Sunday"], "from": "10:00", "until": "24:00", "scene": "sanctuary", "position": [800, 884]}
       ]
     },
     {
       "id": "harold",
       "entries": [
         {"days": ["Monday", "Tuesday", "Wednesday"], "from": "09:00", "until": "12:00", "scene": "church_exterior", "position": [848, 704]},
-        {"days": ["Monday", "Tuesday", "Wednesday"], "from": "12:00", "until": "18:00", "scene": "sanctuary", "position": [280, 520]},
-        {"days": ["Thursday"], "from": "00:00", "until": "24:00", "scene": "sanctuary", "position": [280, 520]},
+        {"days": ["Monday", "Tuesday", "Wednesday"], "from": "12:00", "until": "18:00", "scene": "sanctuary", "position": [280, 584]},
+        {"days": ["Thursday"], "from": "00:00", "until": "24:00", "scene": "sanctuary", "position": [280, 584]},
         {"days": ["Friday"], "from": "09:00", "until": "12:00", "scene": "church_exterior", "position": [848, 704]},
-        {"days": ["Friday"], "from": "12:00", "until": "18:00", "scene": "sanctuary", "position": [280, 520]},
-        {"days": ["Saturday"], "from": "09:00", "until": "17:00", "scene": "sanctuary", "position": [280, 520]},
+        {"days": ["Friday"], "from": "12:00", "until": "18:00", "scene": "sanctuary", "position": [280, 584]},
+        {"days": ["Saturday"], "from": "09:00", "until": "17:00", "scene": "sanctuary", "position": [280, 584]},
         {"days": ["Saturday"], "from": "17:00", "until": "21:00", "scene": "church_exterior", "position": [848, 704]},
-        {"days": ["Sunday"], "from": "06:00", "until": "10:00", "scene": "sanctuary", "position": [280, 520]},
-        {"days": ["Sunday"], "from": "10:00", "until": "24:00", "scene": "sanctuary", "position": [640, 820]}
+        {"days": ["Sunday"], "from": "06:00", "until": "10:00", "scene": "sanctuary", "position": [280, 584]},
+        {"days": ["Sunday"], "from": "10:00", "until": "24:00", "scene": "sanctuary", "position": [640, 884]}
       ]
     },
     {
@@ -36,7 +36,7 @@
         {"days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], "from": "09:00", "until": "18:00", "scene": "hardware_interior", "position": [300, 250]},
         {"days": ["Saturday"], "from": "09:00", "until": "15:00", "scene": "hardware_interior", "position": [300, 250]},
         {"days": ["Saturday"], "from": "15:00", "until": "17:00", "scene": "maple_lane", "position": [640, 500]},
-        {"days": ["Sunday"], "from": "10:00", "until": "24:00", "scene": "sanctuary", "position": [1000, 780]}
+        {"days": ["Sunday"], "from": "10:00", "until": "24:00", "scene": "sanctuary", "position": [1000, 844]}
       ]
     },
     {
@@ -44,7 +44,7 @@
       "entries": [
         {"days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], "from": "08:00", "until": "17:00", "scene": "bay_interior", "position": [360, 280]},
         {"days": ["Saturday"], "from": "09:00", "until": "14:00", "scene": "bay_interior", "position": [360, 280]},
-        {"days": ["Sunday"], "from": "10:00", "until": "24:00", "scene": "sanctuary", "position": [500, 780]}
+        {"days": ["Sunday"], "from": "10:00", "until": "24:00", "scene": "sanctuary", "position": [500, 844]}
       ]
     },
     {
@@ -55,7 +55,7 @@
         {"days": ["Friday"], "from": "09:00", "until": "12:00", "scene": "hardware_street", "position": [592, 440]},
         {"days": ["Friday"], "from": "12:00", "until": "17:00", "scene": "maple_lane", "position": [832, 720]},
         {"days": ["Saturday"], "from": "10:00", "until": "13:00", "scene": "hardware_street", "position": [592, 440]},
-        {"days": ["Sunday"], "from": "10:00", "until": "24:00", "scene": "sanctuary", "position": [680, 840]}
+        {"days": ["Sunday"], "from": "10:00", "until": "24:00", "scene": "sanctuary", "position": [680, 904]}
       ]
     },
     {

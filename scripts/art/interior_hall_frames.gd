@@ -132,19 +132,22 @@ static func _chair_front() -> Image:
 
 static func _aisle_runner() -> Image:
 	var image := Draw.canvas(56, 360)
-	Draw.rect(image, 6, 8, 44, 344, Draw.pal("shirt_d"))
-	Draw.rect(image, 10, 12, 36, 336, Draw.pal("shirt"))
+	Draw.rect(image, 6, 8, 44, 344, Draw.pal("carpet_d"))
+	Draw.rect(image, 10, 12, 36, 336, Draw.pal("carpet"))
 	for y in range(12, 348, 16):
-		Draw.rect(image, 10, y, 36, 2, Draw.pal("shirt_d"))
+		Draw.rect(image, 10, y, 36, 2, Draw.pal("carpet_d"))
 		Draw.px(image, 12, y + 4, Draw.pal("gold"))
 		Draw.px(image, 42, y + 4, Draw.pal("gold"))
 	Draw.rect(image, 6, 8, 44, 4, Draw.pal("gold"))
 	Draw.rect(image, 6, 348, 44, 4, Draw.pal("gold"))
+	Draw.rect(image, 6, 8, 3, 344, Draw.pal("gold"))
+	Draw.rect(image, 47, 8, 3, 344, Draw.pal("gold"))
 	for x in range(8, 48, 3):
 		Draw.px(image, x, 4, Draw.pal("gold"))
 		Draw.px(image, x, 5, Draw.pal("cream_d"))
 		Draw.px(image, x, 354, Draw.pal("gold"))
 		Draw.px(image, x, 355, Draw.pal("cream_d"))
+	Draw.speckle(image, 17, 210, 255, Draw.pal("carpet_l"))
 	return Draw.outline(image)
 
 

@@ -1104,4 +1104,36 @@ After Continue, walk the Fellowship Hall on a Monday. The close camera should sh
 
 On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `M13D_OK` (181 `CHECK OK`) with zero `CHECK FAIL`. Every existing suite still printed its `_OK` line and exited 0: `M1_OK` (76), `M2_OK` (113), `M3_OK` (109), `M4_OK` (90), `M4_5_OK` (90), `M5A_OK` (103), `M5B_OK` (1491), `M6A_OK` (219), `M6A2_OK` (130), `M7_OK` (93), `M8_OK` (80), `M9_OK` (105), `M9B_OK` (176), `M10_OK` (91), `M11_OK` (210), `M11B_OK` (196), `M11C_OK` (246), `M12_OK` (165), `M13_OK` (203), `M13B_OK` (360), `M13C_OK` (182), `GPA_OK` (204), `GPB_OK` (125), `GPC_OK` (126), `GPC2_OK` (101), `GPD_OK` (148), `GPD2_OK` (100), `GPE_OK` (131), `GPF_OK` (119). `--quit-after 120` exited 0. `tests/m13d/capture_m13d.tscn` wrote `fellowship_main.png`, `fellowship_overview.png`, `potluck_full.png`, `potluck_none.png`, `kitchen.png`, `classroom.png`, `sitting_corner.png`, `stage_area.png`, and `hallway.png` under `tests/m13d/shots/`. T131–T134 were not played in a window.
 
+# Milestone 13E — Church interiors gameplay polish
+
+The lists above still apply. These checks cover a finished sanctuary (taller north rooms, pews, altar, stained-glass light) and Fellowship Hall fixes (muted runner, larger kids' corner, coffee in the close camera, south tables readable).
+
+## Automated
+
+```powershell
+godot --headless --path . --import
+godot --headless --path . res://tests/m13e/m13e_validation.tscn
+godot --path . res://tests/m13e/capture_m13e.tscn
+```
+
+`m13e_validation.tscn` prints `CHECK OK` / `CHECK FAIL` lines and exits with `M13E_OK` or `M13E_FAIL`.
+It checks north-room heights, worship pews/altar/pulpit/stained-glass light, a muted warm aisle runner, kids' corner size, coffee inside the starting close camera, 2-tile walkways, door and interactable reachability, spawn/NPC/Sunday/potluck spots off collision, the office ledger, and save stays v11.
+
+`capture_m13e.tscn` writes PNGs to `tests/m13e/shots/` and needs a display. It skips with `CAPTURE_SKIPPED` under `--headless`. Shots: worship close, worship overview, narthex, office, prayer room, choir room, storage, fellowship main close, fellowship kids corner, potluck full-prep.
+
+## Manual walkthrough
+
+After Continue, walk the sanctuary on a weekday. The north rooms should feel like rooms, not a strip. Pews should show end caps. Color from the windows should fall on the aisle. In the Fellowship Hall, the runner should be a quiet warm strip, coffee should be visible from the door, and the kids' corner should look like a place to sit.
+
+| ID | Do this | Expect |
+|---|---|---|
+| T135 | Walk the sanctuary narthex, worship hall, office, prayer room, choir, and storage | North rooms are deep enough to turn around in. The altar has cloth. Pews have ends and hymnals. The ledger still opens in the office. |
+| T136 | Stand in the worship aisle at day | Stained-glass color pools on the runner. Pendant lights and sconces keep the hall from going flat. |
+| T137 | Enter the Fellowship Hall and stand at the south door | Coffee is in the close view. The runner is muted and warm. The south tables are fully on screen. |
+| T138 | Walk the kids' corner, then Wednesday with full prep | Play rug, small table, chairs, toys, and drawings. Potluck guests still stand at tables A/B in the close camera. |
+
+## M13E results
+
+On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `M13E_OK` (207 `CHECK OK`) with zero `CHECK FAIL`. Every existing suite still printed its `_OK` line and exited 0: `M1_OK` (76), `M2_OK` (113), `M3_OK` (109), `M4_OK` (90), `M4_5_OK` (90), `M5A_OK` (103), `M5B_OK` (1491), `M6A_OK` (219), `M6A2_OK` (130), `M7_OK` (93), `M8_OK` (80), `M9_OK` (105), `M9B_OK` (176), `M10_OK` (91), `M11_OK` (210), `M11B_OK` (196), `M11C_OK` (246), `M12_OK` (165), `M13_OK` (223), `M13B_OK` (384), `M13C_OK` (182), `M13D_OK` (181), `GPA_OK` (204), `GPB_OK` (125), `GPC_OK` (126), `GPC2_OK` (101), `GPD_OK` (148), `GPD2_OK` (100), `GPE_OK` (131), `GPF_OK` (119). `--quit-after 120` exited 0 with no `CHECK FAIL`, `SCRIPT ERROR`, or `Parse Error`. `tests/m13e/capture_m13e.tscn` wrote `worship_close.png`, `worship_overview.png`, `narthex.png`, `office.png`, `prayer_room.png`, `choir_room.png`, `storage.png`, `fellowship_main.png`, `fellowship_kids.png`, and `potluck_full.png` under `tests/m13e/shots/`. T135–T138 were not played in a window.
+
 

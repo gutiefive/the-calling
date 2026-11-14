@@ -10,7 +10,7 @@ static func build(frame_id: String) -> Image:
 		"doormat":
 			return _doormat()
 		"rug_narthex":
-			return _rug(96, 56, "carpet_d", "carpet", "gold")
+			return _narthex_rug()
 		"coat_hooks":
 			return _coat_hooks()
 		"umbrella_stand":
@@ -161,6 +161,16 @@ static func build(frame_id: String) -> Image:
 			return _table_shadow(false)
 		_:
 			return null
+
+
+static func _narthex_rug() -> Image:
+	var image := _rug(104, 60, "carpet_d", "carpet", "gold")
+	for x in range(6, 98, 4):
+		Draw.px(image, x, 1, Draw.pal("gold"))
+		Draw.px(image, x, 2, Draw.pal("cream_d"))
+		Draw.px(image, x, 57, Draw.pal("gold"))
+		Draw.px(image, x, 58, Draw.pal("cream_d"))
+	return image
 
 
 static func _rug(w: int, h: int, field: String, inner: String, edge: String) -> Image:

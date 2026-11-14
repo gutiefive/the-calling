@@ -111,6 +111,9 @@ static func build(frame_id: String) -> Image:
 			var hall: Image = InteriorHallFrames.build(frame_id)
 			if hall != null:
 				return hall
+			var sanctuary: Image = InteriorSanctuaryFrames.build(frame_id)
+			if sanctuary != null:
+				return sanctuary
 			var clutter: Image = InteriorClutterFrames.build(frame_id)
 			if clutter != null:
 				return clutter
@@ -203,38 +206,60 @@ static func _stain() -> Image:
 
 
 static func _pew() -> Image:
-	var image := Draw.canvas(288, 32)
-	Draw.rect(image, 6, 18, 276, 10, Draw.pal("wood"))
-	Draw.rect(image, 6, 18, 276, 3, Draw.pal("wood_l"))
-	Draw.rect(image, 8, 8, 272, 8, Draw.pal("wood_d"))
-	Draw.rect(image, 8, 8, 272, 2, Draw.pal("wood_l"))
-	Draw.rect(image, 10, 10, 4, 16, Draw.pal("wood_d"))
-	Draw.rect(image, 274, 10, 4, 16, Draw.pal("wood_d"))
-	Draw.rect(image, 40, 12, 10, 5, Draw.pal("paper"))
-	Draw.rect(image, 88, 12, 10, 5, Draw.pal("brick"))
-	Draw.rect(image, 188, 12, 10, 5, Draw.pal("paper"))
-	Draw.rect(image, 240, 12, 10, 5, Draw.pal("carpet_d"))
+	var image := Draw.canvas(288, 36)
+	Draw.rect(image, 4, 22, 280, 10, Draw.pal("wood"))
+	Draw.rect(image, 4, 22, 280, 3, Draw.pal("wood_l"))
+	Draw.rect(image, 8, 10, 272, 12, Draw.pal("wood_d"))
+	Draw.rect(image, 8, 10, 272, 3, Draw.pal("wood_l"))
+	Draw.rect(image, 2, 8, 10, 26, Draw.pal("wood_d"))
+	Draw.rect(image, 4, 10, 6, 20, Draw.pal("wood"))
+	Draw.rect(image, 276, 8, 10, 26, Draw.pal("wood_d"))
+	Draw.rect(image, 278, 10, 6, 20, Draw.pal("wood"))
+	Draw.rect(image, 14, 14, 18, 6, Draw.pal("path_c"))
+	Draw.rect(image, 256, 14, 18, 6, Draw.pal("path_c"))
+	Draw.rect(image, 16, 12, 6, 5, Draw.pal("paper"))
+	Draw.rect(image, 24, 12, 6, 5, Draw.pal("brick"))
+	Draw.rect(image, 258, 12, 6, 5, Draw.pal("carpet_d"))
+	Draw.rect(image, 266, 12, 6, 5, Draw.pal("paper"))
+	Draw.rect(image, 72, 14, 10, 5, Draw.pal("paper"))
+	Draw.rect(image, 128, 14, 10, 5, Draw.pal("brick"))
+	Draw.rect(image, 184, 14, 10, 5, Draw.pal("paper"))
+	Draw.rect(image, 220, 14, 10, 5, Draw.pal("carpet_d"))
 	return Draw.outline(image)
 
 
 static func _altar() -> Image:
-	var image := Draw.canvas(64, 40)
-	Draw.rect(image, 8, 24, 8, 12, Draw.pal("wood_d"))
-	Draw.rect(image, 48, 24, 8, 12, Draw.pal("wood_d"))
-	Draw.rect(image, 4, 16, 56, 12, Draw.pal("wood"))
-	Draw.rect(image, 4, 16, 56, 3, Draw.pal("wood_l"))
-	Draw.rect(image, 10, 12, 44, 6, Draw.pal("paper"))
-	Draw.rect(image, 28, 6, 8, 10, Draw.pal("gold"))
-	Draw.rect(image, 30, 4, 4, 4, Draw.pal("gold"))
+	var image := Draw.canvas(72, 48)
+	Draw.rect(image, 10, 30, 8, 14, Draw.pal("wood_d"))
+	Draw.rect(image, 54, 30, 8, 14, Draw.pal("wood_d"))
+	Draw.rect(image, 6, 22, 60, 12, Draw.pal("wood"))
+	Draw.rect(image, 6, 22, 60, 3, Draw.pal("wood_l"))
+	Draw.rect(image, 8, 14, 56, 12, Draw.pal("paper"))
+	Draw.rect(image, 8, 24, 56, 4, Draw.pal("cream"))
+	Draw.rect(image, 10, 26, 4, 8, Draw.pal("paper"))
+	Draw.rect(image, 58, 26, 4, 8, Draw.pal("paper"))
+	Draw.rect(image, 20, 8, 3, 8, Draw.pal("cream"))
+	Draw.px(image, 21, 6, Draw.pal("gold"))
+	Draw.rect(image, 48, 8, 3, 8, Draw.pal("cream"))
+	Draw.px(image, 49, 6, Draw.pal("gold"))
+	Draw.rect(image, 32, 4, 8, 12, Draw.pal("gold"))
+	Draw.rect(image, 34, 2, 4, 4, Draw.pal("gold"))
+	Draw.rect(image, 12, 10, 6, 6, Draw.pal("flower"))
+	Draw.rect(image, 54, 10, 6, 6, Draw.pal("flower2"))
+	Draw.px(image, 14, 8, Draw.pal("leaf"))
+	Draw.px(image, 57, 8, Draw.pal("leaf"))
 	return Draw.outline(image)
 
 
 static func _pulpit() -> Image:
-	var image := Draw.canvas(40, 44)
-	Draw.rect(image, 10, 22, 20, 18, Draw.pal("wood_d"))
-	Draw.rect(image, 4, 14, 32, 10, Draw.pal("wood"))
-	Draw.rect(image, 6, 12, 28, 4, Draw.pal("wood_l"))
-	Draw.rect(image, 12, 8, 16, 6, Draw.pal("paper"))
+	var image := Draw.canvas(44, 48)
+	Draw.rect(image, 12, 24, 20, 20, Draw.pal("wood_d"))
+	Draw.rect(image, 14, 26, 16, 16, Draw.pal("wood"))
+	Draw.rect(image, 4, 16, 36, 10, Draw.pal("wood"))
+	Draw.rect(image, 6, 14, 32, 4, Draw.pal("wood_l"))
+	Draw.rect(image, 8, 18, 28, 2, Draw.pal("gold"))
+	Draw.rect(image, 14, 8, 16, 8, Draw.pal("paper"))
+	Draw.rect(image, 16, 10, 12, 1, Draw.pal("path_c"))
 	return Draw.outline(image)
 
 
@@ -381,11 +406,18 @@ static func _office_chair() -> Image:
 static func _bookshelf() -> Image:
 	var image := Draw.canvas(40, 56)
 	Draw.rect(image, 2, 2, 36, 52, Draw.pal("wood_d"))
+	var spine: PackedStringArray = PackedStringArray([
+		"brick", "shirt", "cardigan", "gold", "carpet_d", "pants", "flower2", "wood_l",
+	])
+	var i := 0
 	for y in [8, 22, 36]:
 		Draw.rect(image, 4, y, 32, 10, Draw.pal("wood"))
-		Draw.rect(image, 6, y + 2, 6, 8, Draw.pal("brick"))
-		Draw.rect(image, 14, y + 2, 6, 8, Draw.pal("shirt"))
-		Draw.rect(image, 22, y + 2, 8, 8, Draw.pal("cardigan"))
+		var x := 6
+		while x < 34:
+			var w := 4 if (i % 3) == 0 else 5
+			Draw.rect(image, x, y + 2, w, 8, Draw.pal(spine[i % spine.size()]))
+			x += w + 1
+			i += 1
 	return Draw.outline(image)
 
 

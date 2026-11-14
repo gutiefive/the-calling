@@ -13,18 +13,19 @@ const TILE_STONE := Vector2i(5, 0)
 const TILE_LINO := Vector2i(6, 0)
 const TILE_STAIN := Vector2i(7, 0)
 
-const SANCTUARY_SIZE := Vector2i(46, 38)
+const SANCTUARY_SIZE := Vector2i(46, 40)
 const HALL_SIZE := Vector2i(42, 29)
+const SANCT_NORTH_MIN_H := 7
 
-const SANCTUARY_AISLE_CELL := Vector2i(22, 18)
+const SANCTUARY_AISLE_CELL := Vector2i(22, 20)
 
-const SANCT_OFFICE := Rect2i(1, 1, 10, 5)
-const SANCT_PRAYER := Rect2i(12, 1, 9, 5)
-const SANCT_CHOIR := Rect2i(22, 1, 10, 5)
-const SANCT_STORAGE := Rect2i(34, 1, 10, 5)
-const SANCT_HALLWAY := Rect2i(1, 7, 44, 2)
-const SANCT_WORSHIP := Rect2i(6, 10, 34, 17)
-const SANCT_NARTHEX := Rect2i(10, 28, 26, 9)
+const SANCT_OFFICE := Rect2i(1, 1, 10, 7)
+const SANCT_PRAYER := Rect2i(12, 1, 9, 7)
+const SANCT_CHOIR := Rect2i(22, 1, 10, 7)
+const SANCT_STORAGE := Rect2i(34, 1, 10, 7)
+const SANCT_HALLWAY := Rect2i(1, 9, 44, 2)
+const SANCT_WORSHIP := Rect2i(6, 12, 34, 17)
+const SANCT_NARTHEX := Rect2i(10, 30, 26, 9)
 
 const HALL_KITCHEN := Rect2i(1, 1, 12, 7)
 const HALL_STORAGE := Rect2i(14, 1, 10, 7)
@@ -32,22 +33,24 @@ const HALL_CLASS := Rect2i(26, 1, 14, 7)
 const HALL_HALLWAY := Rect2i(1, 9, 40, 2)
 const HALL_MAIN := Rect2i(4, 12, 34, 16)
 
-const POS_SANCT_DOOR := Vector2(736, 1192)
-const POS_SANCT_SPAWN := Vector2(736, 1088)
-const POS_SANCT_ALTAR := Vector2(736, 360)
-const POS_SANCT_CROSS := Vector2(736, 328)
-const POS_SANCT_PULPIT := Vector2(640, 380)
-const POS_SANCT_PIANO := Vector2(1080, 380)
-const POS_SANCT_FLOWERS := Vector2(1200, 400)
+const POS_SANCT_DOOR := Vector2(736, 1256)
+const POS_SANCT_SPAWN := Vector2(736, 1152)
+const POS_SANCT_ALTAR := Vector2(736, 424)
+const POS_SANCT_CROSS := Vector2(736, 392)
+const POS_SANCT_PULPIT := Vector2(640, 444)
+const POS_SANCT_PIANO := Vector2(1080, 444)
+const POS_SANCT_FLOWERS := Vector2(1200, 464)
 const POS_SANCT_LEDGER := Vector2(220, 148)
 const POS_SANCT_KEYS := Vector2(960, 160)
-const POS_SANCT_HAROLD := Vector2(280, 520)
-const POS_SANCT_MARGARET := Vector2(1200, 430)
-const POS_SANCT_THOMAS := Vector2(1000, 780)
-const POS_SANCT_FRANK := Vector2(500, 780)
-const POS_SANCT_SARAH := Vector2(680, 840)
-const POS_SANCT_MARGARET_SUN := Vector2(800, 820)
-const POS_SANCT_HAROLD_SUN := Vector2(640, 820)
+const POS_SANCT_HAROLD := Vector2(280, 584)
+const POS_SANCT_MARGARET := Vector2(1200, 494)
+const POS_SANCT_THOMAS := Vector2(1000, 844)
+const POS_SANCT_FRANK := Vector2(500, 844)
+const POS_SANCT_SARAH := Vector2(680, 904)
+const POS_SANCT_MARGARET_SUN := Vector2(800, 884)
+const POS_SANCT_HAROLD_SUN := Vector2(640, 884)
+const POS_HALL_COFFEE := Vector2(580, 780)
+const POS_HALL_KIDS := Vector2(860, 424)
 
 const POS_HALL_DOOR := Vector2(672, 912)
 const POS_HALL_SPAWN := Vector2(672, 784)
@@ -56,10 +59,10 @@ const POS_HALL_TABLE_B := Vector2(832, 544)
 const POS_HALL_SERVING := Vector2(224, 400)
 const POS_HALL_ROUND_NW := Vector2(328, 544)
 const POS_HALL_ROUND_NE := Vector2(1056, 544)
-const POS_HALL_ROUND_SW := Vector2(328, 728)
-const POS_HALL_ROUND_SE := Vector2(1056, 728)
-const POS_HALL_PUZZLE := Vector2(512, 728)
-const POS_HALL_CRAFT := Vector2(832, 728)
+const POS_HALL_ROUND_SW := Vector2(328, 696)
+const POS_HALL_ROUND_SE := Vector2(1056, 696)
+const POS_HALL_PUZZLE := Vector2(512, 696)
+const POS_HALL_CRAFT := Vector2(832, 696)
 const POS_HALL_STAGE := Vector2(1040, 410)
 const POS_HALL_OSTROW := Vector2(470, 600)
 const POS_HALL_RUTH := Vector2(890, 600)
@@ -129,13 +132,13 @@ static func hall_rooms() -> Dictionary:
 
 static func sanctuary_doorways() -> Array[Vector2i]:
 	var cells: Array[Vector2i] = [
-		Vector2i(5, 6), Vector2i(6, 6),
-		Vector2i(15, 6), Vector2i(16, 6),
-		Vector2i(26, 6), Vector2i(27, 6),
-		Vector2i(38, 6), Vector2i(39, 6),
-		Vector2i(22, 9), Vector2i(23, 9),
-		Vector2i(22, 27), Vector2i(23, 27),
-		Vector2i(22, 37), Vector2i(23, 37),
+		Vector2i(5, 8), Vector2i(6, 8),
+		Vector2i(15, 8), Vector2i(16, 8),
+		Vector2i(26, 8), Vector2i(27, 8),
+		Vector2i(38, 8), Vector2i(39, 8),
+		Vector2i(22, 11), Vector2i(23, 11),
+		Vector2i(22, 29), Vector2i(23, 29),
+		Vector2i(22, 39), Vector2i(23, 39),
 	]
 	return cells
 
@@ -172,46 +175,46 @@ static func is_listed(cell: Vector2i, cells: Array[Vector2i]) -> bool:
 
 
 static func pew_rows() -> Array[float]:
-	var rows: Array[float] = [400.0, 448.0, 544.0, 640.0, 736.0]
+	var rows: Array[float] = [464.0, 512.0, 608.0, 704.0, 800.0]
 	return rows
 
 
 static func sunday_pew_rows() -> Array[float]:
-	var rows: Array[float] = [448.0, 544.0, 640.0, 736.0]
+	var rows: Array[float] = [512.0, 608.0, 704.0, 800.0]
 	return rows
 
 
 static func sunday_seats() -> Dictionary:
 	return {
-		"harold": Vector2(420, 448),
-		"margaret": Vector2(1030, 448),
-		"sarah": Vector2(420, 544),
-		"thomas": Vector2(1030, 544),
-		"frank": Vector2(420, 736),
+		"harold": Vector2(420, 512),
+		"margaret": Vector2(1030, 512),
+		"sarah": Vector2(420, 608),
+		"thomas": Vector2(1030, 608),
+		"frank": Vector2(420, 800),
 	}
 
 
 static func sunday_crowd() -> Array[Vector2]:
 	var seats: Array[Vector2] = [
-		Vector2(500, 448), Vector2(1100, 448),
-		Vector2(500, 544), Vector2(1100, 544),
-		Vector2(420, 640), Vector2(500, 640),
-		Vector2(1030, 640), Vector2(1100, 640),
-		Vector2(500, 736), Vector2(1030, 736),
-		Vector2(1100, 736), Vector2(560, 736),
+		Vector2(500, 512), Vector2(1100, 512),
+		Vector2(500, 608), Vector2(1100, 608),
+		Vector2(420, 704), Vector2(500, 704),
+		Vector2(1030, 704), Vector2(1100, 704),
+		Vector2(500, 800), Vector2(1030, 800),
+		Vector2(1100, 800), Vector2(560, 800),
 	]
 	return seats
 
 
 static func sanctuary_probes() -> Dictionary:
 	return {
-		"narthex": Vector2(736, 1024),
-		"worship": Vector2(736, 600),
-		"office": Vector2(240, 110),
-		"prayer": Vector2(560, 110),
-		"choir": Vector2(860, 110),
-		"storage": Vector2(1240, 110),
-		"hallway": Vector2(736, 256),
+		"narthex": Vector2(736, 1088),
+		"worship": Vector2(736, 664),
+		"office": Vector2(240, 120),
+		"prayer": Vector2(560, 200),
+		"choir": Vector2(860, 160),
+		"storage": Vector2(1240, 175),
+		"hallway": Vector2(736, 320),
 	}
 
 
@@ -235,6 +238,7 @@ static func sanctuary_interactables() -> PackedStringArray:
 	return PackedStringArray([
 		"BulletinBoard", "GuestBook", "SanctuaryPiano", "StainedGlassLook",
 		"HymnBoardLook", "VisionSketch", "OfficePhoto", "RestroomLook",
+		"PrayerBoxLook", "PrayerJournal", "ChoirSchedule", "OfferingLook",
 	])
 
 
@@ -247,13 +251,13 @@ static func hall_interactables() -> PackedStringArray:
 
 static func min_prop_counts() -> Dictionary:
 	return {
-		"narthex": 12,
-		"worship": 22,
-		"office": 12,
-		"prayer": 9,
-		"choir": 9,
-		"storage": 8,
-		"hallway": 5,
+		"narthex": 16,
+		"worship": 30,
+		"office": 16,
+		"prayer": 12,
+		"choir": 12,
+		"storage": 11,
+		"hallway": 6,
 		"main": 28,
 		"kitchen": 16,
 		"classroom": 16,
@@ -472,7 +476,7 @@ static func hall_zone_min_props() -> Dictionary:
 		"sitting": 5,
 		"welcome": 2,
 		"coffee": 3,
-		"kids": 3,
+		"kids": 6,
 		"stage": 4,
 		"piano": 2,
 		"trophy": 2,
@@ -485,7 +489,10 @@ static func hall_zone_prop_names() -> Dictionary:
 		"sitting": PackedStringArray(["SittingCouch", "SittingChair", "SittingTable", "SittingLamp", "SittingShelf"]),
 		"welcome": PackedStringArray(["WelcomeTable", "DoorCoatRack"]),
 		"coffee": PackedStringArray(["CoffeeStation", "DonutBox", "CupStack"]),
-		"kids": PackedStringArray(["KidsEasel", "KidsBlocks", "KidsCornerBin"]),
+		"kids": PackedStringArray([
+			"KidsEasel", "KidsBlocks", "KidsCornerBin", "KidsPlayRug",
+			"KidsSmallTable", "KidsCornerChair", "KidsBookBin", "KidsWallArt",
+		]),
 		"stage": PackedStringArray(["Stage", "Podium", "StageCurtain", "MicStand"]),
 		"piano": PackedStringArray(["HallPiano", "HallPianoBench"]),
 		"trophy": PackedStringArray(["TrophyShelf", "PhotoWall"]),
@@ -502,7 +509,38 @@ static func hall_shot_points() -> Dictionary:
 		"hallway": probes["hallway"],
 		"sitting": probes["sitting"],
 		"stage": probes["stage_front"],
+		"kids": POS_HALL_KIDS,
 	}
+
+
+static func sanctuary_shot_points() -> Dictionary:
+	var probes: Dictionary = sanctuary_probes()
+	return {
+		"worship": probes["worship"],
+		"narthex": probes["narthex"],
+		"office": probes["office"],
+		"prayer": probes["prayer"],
+		"choir": probes["choir"],
+		"storage": probes["storage"],
+	}
+
+
+static func sanctuary_stain_rows() -> PackedInt32Array:
+	var start := SANCT_WORSHIP.position.y + 2
+	return PackedInt32Array([start, start + 4, start + 8, start + 12])
+
+
+static func sanctuary_walkway_rects() -> Array[Rect2i]:
+	var rects: Array[Rect2i] = [
+		Rect2i(22, SANCT_WORSHIP.position.y + 3, 2, SANCT_WORSHIP.size.y - 4),
+		Rect2i(22, SANCT_NARTHEX.position.y, 2, SANCT_NARTHEX.size.y),
+		Rect2i(22, SANCT_HALLWAY.position.y, 2, SANCT_HALLWAY.size.y),
+	]
+	return rects
+
+
+static func hall_kids_rect() -> Rect2:
+	return Rect2(780, 384, 200, 96)
 
 
 static func hall_named_chair(table_id: String, index: int) -> String:
@@ -539,4 +577,8 @@ static func clutter_frame_ids() -> PackedStringArray:
 		"pa_speaker", "trophy_shelf", "photo_wall", "folded_table_rack", "alphabet_strip",
 		"hanging_utensils", "backsplash", "kitchen_window", "meal_train", "labeled_bin",
 		"window_pool", "kids_easel", "toy_blocks", "snack_counter",
+		"offering_plates", "pendant_light", "church_flag", "prayer_box",
+		"diploma", "desk_phone", "prayer_cross", "prayer_cushion",
+		"journal_stand", "choir_riser", "practice_board", "storage_ladder",
+		"baptistry", "kids_play_rug", "kids_book_bin", "kids_wall_drawing",
 	])

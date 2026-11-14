@@ -38,7 +38,7 @@ func _art_and_layout() -> void:
 		_check(image != null and image.get_width() >= 16 and image.get_height() >= 16, "interior art %s is drawn" % frame_id)
 	_check(InteriorLayout.sanctuary_rooms().size() >= 7, "sanctuary lists every room")
 	_check(InteriorLayout.hall_rooms().size() >= 5, "fellowship hall lists every room")
-	_check(InteriorLayout.SANCTUARY_AISLE_CELL == Vector2i(22, 18), "the aisle cell is in the worship runner")
+	_check(InteriorLayout.contains_cell(InteriorLayout.SANCT_WORSHIP, InteriorLayout.SANCTUARY_AISLE_CELL), "the aisle cell is in the worship hall")
 
 
 func _sanctuary_rooms() -> void:

@@ -429,6 +429,14 @@ Playtest after M13C: tables still read small at the close camera, the blue rugs 
 
 Tables are now about four tiles long with cloth folds, a hanging hem, a runner on Table B, and chair backs vs seats. Rugs are purposeful: an aisle runner from the door toward the stage, a rug under the stage, a cozy rug in the southwest sitting corner. The hall is zoned (sitting, welcome, coffee, kids, stage, piano, trophy wall, chair carts) with 2-tile walks kept. Kitchen, classroom, storage, and hallway get a matching finishing pass. Invited guests and extra chairs stand at tables A/B in the close camera. String lights span the hall. Save stays v11. No story, Pull, attendance, or ChurchFunds changes.
 
+## D64 — Church interiors gameplay polish (M13E)
+
+Playtest after M13D: the sanctuary still felt thinner than the finished Fellowship Hall, the north rooms were only five tiles tall, the hall runner was a loud blue, the kids' corner was a handful of toys, and coffee sat outside the close camera.
+
+The north sanctuary rooms are now seven tiles tall. Worship, narthex, hallway, and the south door shifted down two tiles so the exterior door still sits on the narthex south wall. Pews got end caps and hymnal racks. The altar has cloth, candles, and flowers. Stained-glass pools, pendant lights, flags, offering plates, a baptistry, and a few one-line flavor props (prayer box, prayer journal, choir schedule, offering plates) fill the rooms the player lives in. The office ledger and the quiet extra-wings sketch stay put.
+
+The Fellowship Hall runner is a muted warm carpet with a gold border. Coffee moved next to the entrance, inside the close camera. The kids' corner grew a play rug, table, chairs, books, and wall drawings. The south tables moved north so they read while walking. Save stays v11. No story, Pull, attendance, or ChurchFunds changes.
+
 ## Still open
 
 | # | Question | Notes |

@@ -37,7 +37,7 @@ func _art_and_layout() -> void:
 		_check(image != null and image.get_width() >= 8 and image.get_height() >= 8, "listed clutter %s is drawn" % frame_id)
 	_check(InteriorLayout.pew_rows().size() >= 5, "worship has extra pew rows")
 	_check(InteriorLayout.HALL_MAIN.size.y <= 16, "the fellowship main hall is right-sized")
-	_check(InteriorLayout.SANCTUARY_AISLE_CELL == Vector2i(22, 18), "the aisle cell is unchanged")
+	_check(InteriorLayout.contains_cell(InteriorLayout.SANCT_WORSHIP, InteriorLayout.SANCTUARY_AISLE_CELL), "the aisle cell is in the worship hall")
 
 
 func _sanctuary_density() -> void:
