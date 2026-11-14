@@ -1136,4 +1136,36 @@ After Continue, walk the sanctuary on a weekday. The north rooms should feel lik
 
 On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `M13E_OK` (207 `CHECK OK`) with zero `CHECK FAIL`. Every existing suite still printed its `_OK` line and exited 0: `M1_OK` (76), `M2_OK` (113), `M3_OK` (109), `M4_OK` (90), `M4_5_OK` (90), `M5A_OK` (103), `M5B_OK` (1491), `M6A_OK` (219), `M6A2_OK` (130), `M7_OK` (93), `M8_OK` (80), `M9_OK` (105), `M9B_OK` (176), `M10_OK` (91), `M11_OK` (210), `M11B_OK` (196), `M11C_OK` (246), `M12_OK` (165), `M13_OK` (223), `M13B_OK` (384), `M13C_OK` (182), `M13D_OK` (181), `GPA_OK` (204), `GPB_OK` (125), `GPC_OK` (126), `GPC2_OK` (101), `GPD_OK` (148), `GPD2_OK` (100), `GPE_OK` (131), `GPF_OK` (119). `--quit-after 120` exited 0 with no `CHECK FAIL`, `SCRIPT ERROR`, or `Parse Error`. `tests/m13e/capture_m13e.tscn` wrote `worship_close.png`, `worship_overview.png`, `narthex.png`, `office.png`, `prayer_room.png`, `choir_room.png`, `storage.png`, `fellowship_main.png`, `fellowship_kids.png`, and `potluck_full.png` under `tests/m13e/shots/`. T135–T138 were not played in a window.
 
+# Milestone 13F — Interior rough-spot patch
+
+The lists above still apply. These checks cover softer aisle stained-glass light, a kids' corner visible on Fellowship Hall entry, and wall-decor layering.
+
+## Automated
+
+```powershell
+godot --headless --path . --import
+godot --headless --path . res://tests/m13f/m13f_validation.tscn
+godot --path . res://tests/m13f/capture_m13f.tscn
+```
+
+`m13f_validation.tscn` prints `CHECK OK` / `CHECK FAIL` lines and exits with `M13F_OK` or `M13F_FAIL`.
+It checks aisle stain-pool alpha and aisle light energy under a soft threshold, the kids' corner inside the starting close camera on entry, wall-decor rects that do not overlap each other or sit on the wrong layer, 2-tile walkways, reachability, spawn/NPC/Sunday/potluck spots off collision, and save stays v11.
+
+`capture_m13f.tscn` writes PNGs to `tests/m13f/shots/` and needs a display. It skips with `CAPTURE_SKIPPED` under `--headless`. Shots: worship close, worship overview, fellowship main (starting view), fellowship kids corner, potluck full-prep.
+
+## Manual walkthrough
+
+Walk the sanctuary aisle at day. Colored light should tint the runner without turning into bright blobs. Enter the Fellowship Hall from the grounds: the kids' corner should already be on screen, east of the door, with drawings on the south wall.
+
+| ID | Do this | Expect |
+|---|---|---|
+| T139 | Stand in the worship aisle at day, close camera then overview | Soft stained-glass color on the runner. Still readable from the overview. Not bright patches. |
+| T140 | Enter the Fellowship Hall and stand at the south door | The kids' corner (rug, table, chairs, toys, books, wall drawings) is in the close view. Coffee, the door, and walkways stay clear. |
+| T141 | Look at kids' corner wall drawings, the north trophy wall, and the classroom alphabet strip | Wall decor sits on the wall. No overlapping trim or stacked strips. |
+| T142 | Wednesday with full prep | Potluck guests still stand at tables A/B in the close camera. Walkways stay two tiles. |
+
+## M13F results
+
+On 2026-11-14, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `M13F_OK` (459 `CHECK OK`) with zero `CHECK FAIL`. Every existing suite still printed its `_OK` line and exited 0: `M1_OK` (76), `M2_OK` (113), `M3_OK` (109), `M4_OK` (90), `M4_5_OK` (90), `M5A_OK` (103), `M5B_OK` (1491), `M6A_OK` (219), `M6A2_OK` (130), `M7_OK` (93), `M8_OK` (80), `M9_OK` (105), `M9B_OK` (176), `M10_OK` (91), `M11_OK` (210), `M11B_OK` (196), `M11C_OK` (246), `M12_OK` (165), `M13_OK` (223), `M13B_OK` (384), `M13C_OK` (182), `M13D_OK` (181), `M13E_OK` (207), `GPA_OK` (204), `GPB_OK` (125), `GPC_OK` (126), `GPC2_OK` (101), `GPD_OK` (148), `GPD2_OK` (100), `GPE_OK` (131), `GPF_OK` (119). `--quit-after 120` exited 0 with no `CHECK FAIL`, `SCRIPT ERROR`, or `Parse Error`. `tests/m13f/capture_m13f.tscn` wrote `worship_close.png`, `worship_overview.png`, `fellowship_main.png`, `fellowship_kids.png`, and `potluck_full.png` under `tests/m13f/shots/`. T139–T142 were not played in a window.
+
 

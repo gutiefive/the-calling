@@ -50,7 +50,12 @@ const POS_SANCT_SARAH := Vector2(680, 904)
 const POS_SANCT_MARGARET_SUN := Vector2(800, 884)
 const POS_SANCT_HAROLD_SUN := Vector2(640, 884)
 const POS_HALL_COFFEE := Vector2(580, 780)
-const POS_HALL_KIDS := Vector2(860, 424)
+const POS_HALL_KIDS := Vector2(920, 820)
+const AISLE_STAIN_MAX_ALPHA := 0.22
+const AISLE_STAIN_LIGHT_MAX_ENERGY := 0.40
+const AISLE_STAIN_LIGHT_SCALE := 3.2
+const AISLE_STAIN_ENERGY_SCALE := 0.34
+const WALL_DECO_Z := -1
 
 const POS_HALL_DOOR := Vector2(672, 912)
 const POS_HALL_SPAWN := Vector2(672, 784)
@@ -456,6 +461,11 @@ static func hall_close_view() -> Rect2:
 	return Rect2(center.x - 320.0, center.y - 180.0, 640.0, 360.0)
 
 
+static func hall_entry_view() -> Rect2:
+	var center: Vector2 = POS_HALL_SPAWN
+	return Rect2(center.x - 320.0, center.y - 180.0, 640.0, 360.0)
+
+
 static func hall_rug_zone_rects() -> Array[Rect2]:
 	var rects: Array[Rect2] = [
 		Rect2(632, 400, 80, 500),
@@ -492,6 +502,7 @@ static func hall_zone_prop_names() -> Dictionary:
 		"kids": PackedStringArray([
 			"KidsEasel", "KidsBlocks", "KidsCornerBin", "KidsPlayRug",
 			"KidsSmallTable", "KidsCornerChair", "KidsBookBin", "KidsWallArt",
+			"KidsWallArt2", "KidsAlphabet",
 		]),
 		"stage": PackedStringArray(["Stage", "Podium", "StageCurtain", "MicStand"]),
 		"piano": PackedStringArray(["HallPiano", "HallPianoBench"]),
@@ -540,7 +551,76 @@ static func sanctuary_walkway_rects() -> Array[Rect2i]:
 
 
 static func hall_kids_rect() -> Rect2:
-	return Rect2(780, 384, 200, 96)
+	return Rect2(820, 760, 230, 176)
+
+
+static func hall_wall_foot_y() -> float:
+	return float(HALL_MAIN.position.y * TILE)
+
+
+static func hall_south_wall_foot_y() -> float:
+	return float(HALL_MAIN.end.y * TILE) - 8.0
+
+
+static func hall_class_wall_foot_y() -> float:
+	return float(HALL_CLASS.position.y * TILE)
+
+
+static func hall_hallway_wall_foot_y() -> float:
+	return float(HALL_HALLWAY.position.y * TILE)
+
+
+static func sanct_north_wall_foot_y() -> float:
+	return float(SANCT_OFFICE.position.y * TILE)
+
+
+static func sanct_hallway_wall_foot_y() -> float:
+	return float(SANCT_HALLWAY.position.y * TILE)
+
+
+static func sanct_narthex_wall_foot_y() -> float:
+	return float(SANCT_NARTHEX.position.y * TILE)
+
+
+static func aisle_stain_color(index: int) -> Color:
+	match index:
+		0:
+			return Color(0.80, 0.56, 0.54)
+		1:
+			return Color(0.58, 0.64, 0.82)
+		2:
+			return Color(0.86, 0.76, 0.54)
+		_:
+			return Color(0.80, 0.56, 0.54)
+
+
+static func sprite_foot_rect(node: Node) -> Rect2:
+	var sprite := node as Sprite2D
+	if sprite == null or sprite.texture == null:
+		if node is Node2D:
+			return Rect2((node as Node2D).global_position, Vector2.ZERO)
+		return Rect2()
+	var w := float(sprite.texture.get_width())
+	var h := float(sprite.texture.get_height())
+	return Rect2(sprite.global_position.x - w * 0.5, sprite.global_position.y - h, w, h)
+
+
+static func hall_wall_deco_names() -> PackedStringArray:
+	return PackedStringArray([
+		"KidsWallArt", "KidsWallArt2", "KidsAlphabet",
+		"PhotoWall", "TrophyShelf", "WallBannerA", "WallBannerB",
+		"KidsArtA", "KidsArtB",
+		"AlphabetStrip", "ClassArtA", "ClassArtB", "ClassArtC",
+		"HallwayPhotoA", "HallwayPhotoB", "HallwayPhotoC", "HallwayPhotoD",
+	])
+
+
+static func sanct_wall_deco_names() -> PackedStringArray:
+	return PackedStringArray([
+		"NarthexPhotoA", "NarthexPhotoB", "NarthexPhotoC",
+		"OfficeCalendar", "OfficeDiploma",
+		"HallPhotoA", "HallPhotoB", "HallPhotoC",
+	])
 
 
 static func hall_named_chair(table_id: String, index: int) -> String:

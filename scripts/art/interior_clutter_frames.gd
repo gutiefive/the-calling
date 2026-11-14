@@ -804,9 +804,11 @@ static func _table_shadow(round: bool) -> Image:
 
 
 static func _stain_pool_aisle() -> Image:
-	var image := Draw.canvas(64, 40)
+	var image := Draw.canvas(80, 52)
 	image.fill(Color(0, 0, 0, 0))
-	Draw.ellipse(image, 22, 20, 18, 12, Color(176.0 / 255.0, 96.0 / 255.0, 92.0 / 255.0, 0.42))
-	Draw.ellipse(image, 40, 18, 16, 11, Color(78.0 / 255.0, 110.0 / 255.0, 136.0 / 255.0, 0.40))
-	Draw.ellipse(image, 32, 22, 12, 8, Color(196.0 / 255.0, 156.0 / 255.0, 78.0 / 255.0, 0.36))
+	# Outer wash first so the pool falls off instead of reading as a hard patch.
+	Draw.ellipse(image, 40, 26, 32, 20, Color(168.0 / 255.0, 118.0 / 255.0, 112.0 / 255.0, 0.07))
+	Draw.ellipse(image, 34, 26, 22, 14, Color(168.0 / 255.0, 118.0 / 255.0, 112.0 / 255.0, 0.12))
+	Draw.ellipse(image, 50, 24, 18, 12, Color(118.0 / 255.0, 136.0 / 255.0, 152.0 / 255.0, 0.11))
+	Draw.ellipse(image, 42, 28, 14, 9, Color(186.0 / 255.0, 160.0 / 255.0, 112.0 / 255.0, 0.10))
 	return image

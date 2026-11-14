@@ -189,9 +189,11 @@ func _add_main_hall(props: Node) -> void:
 	_add_solid(props, "KidsSmallTable", InteriorArt.texture("kids_table"), InteriorLayout.POS_HALL_KIDS + Vector2(-8, -8), Vector2(28, 8))
 	_add_solid(props, "KidsCornerChair", InteriorArt.texture("kids_chair"), InteriorLayout.POS_HALL_KIDS + Vector2(-36, 12), Vector2(10, 8))
 	_add_deco(props, "KidsBookBin", "kids_book_bin", InteriorLayout.POS_HALL_KIDS + Vector2(40, -10), 0)
-	_add_deco(props, "KidsWallArt", "kids_wall_drawing", InteriorLayout.POS_HALL_KIDS + Vector2(-10, -28), 0)
-	_add_deco(props, "TrophyShelf", "trophy_shelf", Vector2(780, 396), 0)
-	_add_deco(props, "PhotoWall", "photo_wall", Vector2(600, 396), 0)
+	_add_wall_deco(props, "KidsWallArt", "kids_wall_drawing", Vector2(848, InteriorLayout.hall_south_wall_foot_y()))
+	_add_wall_deco(props, "KidsWallArt2", "kids_art", Vector2(888, InteriorLayout.hall_south_wall_foot_y()))
+	_add_wall_deco(props, "KidsAlphabet", "alphabet_strip", Vector2(980, InteriorLayout.hall_south_wall_foot_y()))
+	_add_wall_deco(props, "TrophyShelf", "trophy_shelf", Vector2(700, InteriorLayout.hall_wall_foot_y()))
+	_add_wall_deco(props, "PhotoWall", "photo_wall", Vector2(560, InteriorLayout.hall_wall_foot_y()))
 	_add_solid(props, "WaterCooler", InteriorArt.texture("water_cooler"), Vector2(180, 600), Vector2(14, 12))
 	_add_solid(props, "TrashCan", InteriorArt.texture("trash_can"), Vector2(1188, 700), Vector2(12, 10))
 	_add_solid(props, "RecyclingBin", InteriorArt.texture("recycling_bin"), Vector2(1204, 700), Vector2(12, 10))
@@ -199,10 +201,10 @@ func _add_main_hall(props: Node) -> void:
 	_add_solid(props, "HallPlantB", InteriorArt.texture("plant"), Vector2(1190, 760), Vector2(12, 10))
 	_add_solid(props, "HallPlantC", InteriorArt.texture("plant"), Vector2(400, 400), Vector2(12, 10))
 	_add_solid(props, "HallPlantD", InteriorArt.texture("plant_tall"), Vector2(940, 400), Vector2(12, 10))
-	_add_deco(props, "KidsArtA", "kids_art", Vector2(360, 400), 0)
-	_add_deco(props, "KidsArtB", "kids_art", Vector2(520, 400), 0)
-	_add_deco(props, "WallBannerA", "wall_banner", Vector2(860, 396), 0)
-	_add_deco(props, "WallBannerB", "sanctuary_banner", Vector2(460, 396), 0)
+	_add_wall_deco(props, "KidsArtA", "kids_art", Vector2(280, InteriorLayout.hall_wall_foot_y()))
+	_add_wall_deco(props, "KidsArtB", "kids_art", Vector2(430, InteriorLayout.hall_wall_foot_y()))
+	_add_wall_deco(props, "WallBannerA", "wall_banner", Vector2(820, InteriorLayout.hall_wall_foot_y()))
+	_add_wall_deco(props, "WallBannerB", "wall_banner", Vector2(340, InteriorLayout.hall_wall_foot_y()))
 	_add_deco(props, "WindowPoolW", "window_pool", Vector2(180, 520), -2)
 	_add_deco(props, "WindowPoolE", "window_pool", Vector2(1180, 520), -2)
 	_add_deco(props, "WindowPoolW2", "window_pool", Vector2(180, 660), -2)
@@ -229,10 +231,10 @@ func _add_classroom(props: Node) -> void:
 	_add_deco(props, "BeanbagA", "beanbag", Vector2(1000, 200), 0)
 	_add_deco(props, "BeanbagB", "beanbag", Vector2(1040, 210), 0)
 	_add_rug(props, "ReadingRug", "reading_rug", Vector2(1080, 200))
-	_add_deco(props, "AlphabetStrip", "alphabet_strip", Vector2(1056, 48), 0)
-	_add_deco(props, "ClassArtA", "kids_art", Vector2(980, 55), 0)
-	_add_deco(props, "ClassArtB", "kids_art", Vector2(1140, 55), 0)
-	_add_deco(props, "ClassArtC", "kids_art", Vector2(1220, 55), 0)
+	_add_wall_deco(props, "AlphabetStrip", "alphabet_strip", Vector2(1056, InteriorLayout.hall_class_wall_foot_y()))
+	_add_wall_deco(props, "ClassArtA", "kids_art", Vector2(880, InteriorLayout.hall_class_wall_foot_y()))
+	_add_wall_deco(props, "ClassArtB", "kids_art", Vector2(1160, InteriorLayout.hall_class_wall_foot_y()))
+	_add_wall_deco(props, "ClassArtC", "kids_art", Vector2(1240, InteriorLayout.hall_class_wall_foot_y()))
 
 
 func _add_hall_storage(props: Node) -> void:
@@ -250,10 +252,10 @@ func _add_hall_storage(props: Node) -> void:
 
 func _add_hall_hallway(props: Node) -> void:
 	_add_rug(props, "HallwayRunner", "rug_hallway", Vector2(672, 320))
-	_add_deco(props, "HallwayPhotoA", "photo", Vector2(300, 300), 0)
-	_add_deco(props, "HallwayPhotoB", "photo", Vector2(900, 300), 0)
-	_add_deco(props, "HallwayPhotoC", "photo", Vector2(500, 300), 0)
-	_add_deco(props, "HallwayPhotoD", "photo", Vector2(1100, 300), 0)
+	_add_wall_deco(props, "HallwayPhotoA", "photo", Vector2(300, InteriorLayout.hall_hallway_wall_foot_y()))
+	_add_wall_deco(props, "HallwayPhotoB", "photo", Vector2(900, InteriorLayout.hall_hallway_wall_foot_y()))
+	_add_wall_deco(props, "HallwayPhotoC", "photo", Vector2(500, InteriorLayout.hall_hallway_wall_foot_y()))
+	_add_wall_deco(props, "HallwayPhotoD", "photo", Vector2(1100, InteriorLayout.hall_hallway_wall_foot_y()))
 	_add_deco(props, "HallwayCoat", "coat_rack", Vector2(1180, 320), 0)
 	_add_deco(props, "HallwayExt", "fire_extinguisher", Vector2(200, 300), 0)
 	_add_deco(props, "HallwayPlant", "plant", Vector2(760, 320), 0)
@@ -519,6 +521,25 @@ func _add_deco(props: Node, node_name: String, frame_id: String, pos: Vector2, z
 	if z < 0:
 		sprite.z_as_relative = false
 	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_mark_prop(sprite)
+	props.add_child(sprite)
+
+
+func _add_wall_deco(props: Node, node_name: String, frame_id: String, pos: Vector2) -> void:
+	if props.get_node_or_null(node_name) != null:
+		return
+	var sprite := Sprite2D.new()
+	sprite.name = node_name
+	sprite.texture = InteriorArt.texture(frame_id)
+	sprite.centered = true
+	if sprite.texture != null:
+		sprite.offset = Vector2(0, -sprite.texture.get_height() * 0.5)
+	sprite.position = pos
+	sprite.z_index = InteriorLayout.WALL_DECO_Z
+	sprite.z_as_relative = false
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	if not sprite.is_in_group("interior_wall_deco"):
+		sprite.add_to_group("interior_wall_deco")
 	_mark_prop(sprite)
 	props.add_child(sprite)
 

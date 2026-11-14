@@ -437,6 +437,12 @@ The north sanctuary rooms are now seven tiles tall. Worship, narthex, hallway, a
 
 The Fellowship Hall runner is a muted warm carpet with a gold border. Coffee moved next to the entrance, inside the close camera. The kids' corner grew a play rug, table, chairs, books, and wall drawings. The south tables moved north so they read while walking. Save stays v11. No story, Pull, attendance, or ChurchFunds changes.
 
+## D65 — Interior rough-spot patch (M13F)
+
+Playtest after M13E: the worship-aisle stained glass read as bright patches in the close camera, the kids' corner sat north of the Fellowship door out of the entry view, and wall strips overlapped trim.
+
+Aisle color now uses a lower-alpha pool with gentler tints and a softer PointLight falloff, still visible in the overview. The kids' corner moved east of the south door, inside the starting close camera, with its play rug, table, chairs, toy bin, books, and wall drawings kept off the coffee station, door, walkways, and potluck posts. Wall drawings, banners, photos, and the alphabet strip sit on a wall layer at the wall-foot so they do not overlap each other or the trim. Save stays v11. No story, Pull, attendance, or ChurchFunds changes.
+
 ## Still open
 
 | # | Question | Notes |

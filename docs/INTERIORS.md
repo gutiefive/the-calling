@@ -1,6 +1,6 @@
-# Interiors — Sanctuary and Fellowship Hall (M13 / M13B / M13C / M13D / M13E)
+# Interiors — Sanctuary and Fellowship Hall (M13 / M13B / M13C / M13D / M13E / M13F)
 
-Status: M13 implemented 2026-11-13. M13B furniture and clutter density pass implemented 2026-11-13. M13C Fellowship Hall tables and main-hall fill implemented 2026-11-13. M13D Fellowship Hall final polish implemented 2026-11-13. M13E sanctuary finish and Fellowship Hall gameplay polish implemented 2026-11-13. One scene per building. Doorways, not separate rooms. Save stays v11. The north sanctuary rooms are seven tiles tall.
+Status: M13 implemented 2026-11-13. M13B furniture and clutter density pass implemented 2026-11-13. M13C Fellowship Hall tables and main-hall fill implemented 2026-11-13. M13D Fellowship Hall final polish implemented 2026-11-13. M13E sanctuary finish and Fellowship Hall gameplay polish implemented 2026-11-13. M13F interior rough-spot patch implemented 2026-11-14. One scene per building. Doorways, not separate rooms. Save stays v11. The north sanctuary rooms are seven tiles tall.
 
 ## Sanctuary (`scenes/world/sanctuary.tscn`)
 
@@ -24,7 +24,7 @@ Walk in from the west-wing door after the hall is repaired and celebrated. South
 
 | Room | What's in it |
 |---|---|
-| Main hall | Wood floor with a muted warm center aisle runner (subtle gold border), a stage rug, and a sitting-corner rug (no floating rectangles). Two rows of larger round and long tables: cloth folds and hem, a runner on Table B, chair backs on the far side and seats on the near side, and clutter that changes by table. The south row sits far enough north to read in the close camera. Zones keep 2-tile walkways: a couch corner, a welcome table and coat rack by the south door, a coffee and snack station by the entrance in the close view, a kids' corner with a play rug, small table, chairs, toy bin, books, and wall drawings, a stage with curtain, podium, mic, and speakers, a piano with bench, a trophy and photo wall, stacked chair carts and a folded-table rack, plants, window light pools, and banners. Wednesday still dresses Table A/B with dishes, centerpieces, spanning string lights, a banner, extra chairs, and invited guests standing at those tables |
+| Main hall | Wood floor with a muted warm center aisle runner (subtle gold border), a stage rug, and a sitting-corner rug (no floating rectangles). Two rows of larger round and long tables: cloth folds and hem, a runner on Table B, chair backs on the far side and seats on the near side, and clutter that changes by table. The south row sits far enough north to read in the close camera. Zones keep 2-tile walkways: a couch corner, a welcome table and coat rack by the south door, a coffee and snack station by the entrance in the close view, a kids' corner east of the door (play rug, small table, chairs, toy bin, books, and wall drawings) visible in the starting close camera, a stage with curtain, podium, mic, and speakers, a piano with bench, a trophy and photo wall, stacked chair carts and a folded-table rack, plants, window light pools, and banners. Wall drawings, banners, and the alphabet strip sit on the wall layer so they do not overlap trim. Wednesday still dresses Table A/B with dishes, centerpieces, spanning string lights, a banner, extra chairs, and invited guests standing at those tables |
 | Kitchen | Counters with a tile backsplash, hanging utensils, a window over the sink, upper cabinets, stove with pots, fridge, dish rack, microwave, mixer, an island, pantry, cooler, mop, a meal-train board, serving table at the pass-through |
 | Classroom | Small tables, kids' chairs, chalkboard, crayons, cubbies, a patterned reading rug, beanbags, a toy bin, a globe, a teacher's desk, an alphabet strip, wall art, a bookshelf |
 | Storage | Shelves, boxes, labeled bins, folding tables, a vacuum, Christmas bins, a supply crate (the M8 happening crate stays outside by the hall door) |
@@ -49,4 +49,4 @@ Bulletin, guest book, piano, stained glass, hymn board, office sketch, office ph
 
 ## Lighting
 
-Warm interior `CanvasModulate` already followed the clock. Sconces and lamps still brighten at night. Stained-glass lights are brighter in the day and dim at night, and they tint the worship floor including the center aisle.
+Warm interior `CanvasModulate` already followed the clock. Sconces and lamps still brighten at night. Stained-glass lights are brighter in the day and dim at night. Window color still reaches the pews; the center aisle uses a softer, lower-alpha wash so the close camera reads as gentle colored light, not bright patches.

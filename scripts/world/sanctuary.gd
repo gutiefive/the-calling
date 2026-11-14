@@ -191,9 +191,9 @@ func _add_narthex(props: Node) -> void:
 	_add_solid(props, "NarthexPlantS", "plant", Vector2(1120, 1084), Vector2(12, 10))
 	_add_deco(props, "NarthexDoormat", "doormat", Vector2(736, 1220), -2)
 	_add_deco(props, "LostUmbrella", "lost_umbrella", Vector2(1060, 1172), 0)
-	_add_deco(props, "NarthexPhotoA", "photo", Vector2(480, 984), 0)
-	_add_deco(props, "NarthexPhotoB", "photo", Vector2(980, 984), 0)
-	_add_deco(props, "NarthexPhotoC", "photo", Vector2(860, 984), 0)
+	_add_wall_deco(props, "NarthexPhotoA", "photo", Vector2(480, InteriorLayout.sanct_narthex_wall_foot_y()))
+	_add_wall_deco(props, "NarthexPhotoB", "photo", Vector2(980, InteriorLayout.sanct_narthex_wall_foot_y()))
+	_add_wall_deco(props, "NarthexPhotoC", "photo", Vector2(860, InteriorLayout.sanct_narthex_wall_foot_y()))
 	_add_deco(props, "NarthexBulletins", "paper_stack", Vector2(548, 1032), 1)
 	_add_lamp_light("NarthexGlow", Vector2(736, 1104), Color(1, 0.86, 0.62), 0.55)
 	_add_lamp_light("NarthexLampGlow", Vector2(1080, 1032), Color(1, 0.86, 0.62), 0.45)
@@ -262,8 +262,8 @@ func _add_office_room(props: Node) -> void:
 	_add_deco(props, "OfficeBible", "bible", Vector2(200, 122), 1)
 	_add_deco(props, "OfficePhone", "desk_phone", Vector2(230, 122), 1)
 	_add_deco(props, "OfficeCoat", "coat_hook", Vector2(40, 70), 0)
-	_add_deco(props, "OfficeCalendar", "calendar", Vector2(250, 48), 0)
-	_add_deco(props, "OfficeDiploma", "diploma", Vector2(120, 48), 0)
+	_add_wall_deco(props, "OfficeCalendar", "calendar", Vector2(250, InteriorLayout.sanct_north_wall_foot_y()))
+	_add_wall_deco(props, "OfficeDiploma", "diploma", Vector2(120, InteriorLayout.sanct_north_wall_foot_y()))
 	_add_rug(props, "OfficeRug", "rug_office", Vector2(192, 150))
 
 
@@ -319,9 +319,9 @@ func _add_storage_room(props: Node) -> void:
 
 
 func _add_hallway_clutter(props: Node) -> void:
-	_add_deco(props, "HallPhotoA", "photo", Vector2(200, 292), 0)
-	_add_deco(props, "HallPhotoB", "photo", Vector2(400, 292), 0)
-	_add_deco(props, "HallPhotoC", "photo", Vector2(1000, 292), 0)
+	_add_wall_deco(props, "HallPhotoA", "photo", Vector2(200, InteriorLayout.sanct_hallway_wall_foot_y()))
+	_add_wall_deco(props, "HallPhotoB", "photo", Vector2(400, InteriorLayout.sanct_hallway_wall_foot_y()))
+	_add_wall_deco(props, "HallPhotoC", "photo", Vector2(1000, InteriorLayout.sanct_hallway_wall_foot_y()))
 	_add_deco(props, "HallCoatRack", "coat_rack", Vector2(1320, 312), 0)
 	_add_deco(props, "HallExtinguisher", "fire_extinguisher", Vector2(1280, 292), 0)
 	_add_deco(props, "HallPlant", "plant", Vector2(960, 312), 0)
@@ -334,10 +334,10 @@ func _add_aisle_color(props: Node) -> void:
 	_add_stain_pool(props, "AisleStain2", Vector2(736, 594), "stain_pool_aisle")
 	_add_stain_pool(props, "AisleStain3", Vector2(736, 704), "stain_pool_aisle")
 	_add_stain_pool(props, "AisleStain4", Vector2(736, 804), "stain_pool_aisle")
-	_add_stained_light("AisleStain1Light", Vector2(736, 494), Color(0.86, 0.38, 0.42))
-	_add_stained_light("AisleStain2Light", Vector2(736, 594), Color(0.42, 0.52, 0.92))
-	_add_stained_light("AisleStain3Light", Vector2(736, 704), Color(0.95, 0.74, 0.36))
-	_add_stained_light("AisleStain4Light", Vector2(736, 804), Color(0.86, 0.38, 0.42))
+	_add_stained_light("AisleStain1Light", Vector2(736, 494), InteriorLayout.aisle_stain_color(0), true)
+	_add_stained_light("AisleStain2Light", Vector2(736, 594), InteriorLayout.aisle_stain_color(1), true)
+	_add_stained_light("AisleStain3Light", Vector2(736, 704), InteriorLayout.aisle_stain_color(2), true)
+	_add_stained_light("AisleStain4Light", Vector2(736, 804), InteriorLayout.aisle_stain_color(0), true)
 
 
 func _add_flavor_props() -> void:
@@ -506,6 +506,25 @@ func _add_deco(props: Node, node_name: String, frame_id: String, pos: Vector2, z
 	props.add_child(sprite)
 
 
+func _add_wall_deco(props: Node, node_name: String, frame_id: String, pos: Vector2) -> void:
+	if props.get_node_or_null(node_name) != null:
+		return
+	var sprite := Sprite2D.new()
+	sprite.name = node_name
+	sprite.texture = InteriorArt.texture(frame_id)
+	sprite.centered = true
+	if sprite.texture != null:
+		sprite.offset = Vector2(0, -sprite.texture.get_height() * 0.5)
+	sprite.position = pos
+	sprite.z_index = InteriorLayout.WALL_DECO_Z
+	sprite.z_as_relative = false
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	if not sprite.is_in_group("interior_wall_deco"):
+		sprite.add_to_group("interior_wall_deco")
+	_mark_prop(sprite)
+	props.add_child(sprite)
+
+
 func _add_rug(props: Node, node_name: String, frame_id: String, pos: Vector2) -> void:
 	if props.get_node_or_null(node_name) != null:
 		return
@@ -648,7 +667,7 @@ func _add_ambient(
 	props.add_child(person)
 
 
-func _add_stained_light(light_name: String, pos: Vector2, color: Color) -> void:
+func _add_stained_light(light_name: String, pos: Vector2, color: Color, aisle: bool = false) -> void:
 	var lighting := get_node_or_null("Lighting")
 	if lighting == null or lighting.get_node_or_null(light_name) != null:
 		return
@@ -656,11 +675,11 @@ func _add_stained_light(light_name: String, pos: Vector2, color: Color) -> void:
 	lamp.name = light_name
 	lamp.position = pos
 	lamp.color = color
-	lamp.energy = 0.7
+	lamp.energy = TimeOfDay.stained_aisle_energy() if aisle else 0.7
 	lamp.texture = PlaceholderArt.glow()
-	lamp.texture_scale = 2.8
+	lamp.texture_scale = InteriorLayout.AISLE_STAIN_LIGHT_SCALE if aisle else 2.8
 	lamp.shadow_enabled = false
-	lamp.add_to_group("tod_stained")
+	lamp.add_to_group("tod_stained_aisle" if aisle else "tod_stained")
 	lighting.add_child(lamp)
 
 

@@ -73,6 +73,10 @@ static func stained_energy() -> float:
 			return 0.16
 
 
+static func stained_aisle_energy() -> float:
+	return stained_energy() * InteriorLayout.AISLE_STAIN_ENERGY_SCALE
+
+
 static func sun_energy() -> float:
 	match phase:
 		Phase.DAY:
