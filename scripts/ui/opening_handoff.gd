@@ -22,7 +22,7 @@ func _ready() -> void:
 	add_child(_dim)
 	_panel = PanelContainer.new()
 	_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_panel.position = Vector2(70, 54)
+	_panel.position = Vector2(70, 34)
 	_panel.custom_minimum_size = Vector2(500, 220)
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color(0.14, 0.11, 0.16, 0.94)
@@ -33,7 +33,7 @@ func _ready() -> void:
 	_label = Label.new()
 	_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_label.custom_minimum_size = Vector2(476, 196)
-	_label.add_theme_font_size_override("font_size", 15)
+	_label.add_theme_font_size_override("font_size", 14)
 	_label.add_theme_color_override("font_color", Color(0.93, 0.88, 0.78))
 	_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_panel.add_child(_label)
@@ -110,14 +110,14 @@ func _set_phase(phase: String) -> void:
 	if _panel != null:
 		_panel.visible = phase != ""
 	if phase == "primer":
-		_panel.position = Vector2(340, 96)
+		_panel.position = Vector2(352, 40)
 		_panel.custom_minimum_size = Vector2(280, 232)
 		if _label != null:
 			_label.custom_minimum_size = Vector2(256, 208)
 		if _dim != null:
 			_dim.color = Color(0.05, 0.04, 0.07, 0.12)
 	elif phase == "goals":
-		_panel.position = Vector2(70, 54)
+		_panel.position = Vector2(70, 34)
 		_panel.custom_minimum_size = Vector2(500, 220)
 		if _label != null:
 			_label.custom_minimum_size = Vector2(476, 196)
@@ -125,6 +125,8 @@ func _set_phase(phase: String) -> void:
 			_dim.color = Color(0.05, 0.04, 0.07, 0.35)
 	if _label != null:
 		_label.text = _body_for(phase)
+	if _panel != null:
+		_panel.size = Vector2.ZERO
 	_sync_held()
 
 
