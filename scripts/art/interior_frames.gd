@@ -492,10 +492,18 @@ static func _cooler() -> Image:
 
 
 static func _round_table() -> Image:
-	var image := Draw.canvas(64, 40)
-	Draw.ellipse(image, 32, 22, 26, 12, Draw.pal("wood_d"))
-	Draw.ellipse(image, 32, 18, 24, 11, Draw.pal("wood"))
-	Draw.ellipse(image, 32, 16, 20, 8, Draw.pal("wood_l"))
+	var image := Draw.canvas(80, 58)
+	Draw.ellipse(image, 40, 48, 30, 9, Draw.pal("path_c"))
+	Draw.rect(image, 18, 34, 6, 16, Draw.pal("wood_d"))
+	Draw.rect(image, 56, 34, 6, 16, Draw.pal("wood_d"))
+	Draw.rect(image, 24, 38, 5, 14, Draw.pal("wood_d"))
+	Draw.rect(image, 51, 38, 5, 14, Draw.pal("wood_d"))
+	Draw.ellipse(image, 40, 32, 33, 16, Draw.pal("wood_d"))
+	Draw.ellipse(image, 40, 26, 32, 16, Draw.pal("wood"))
+	Draw.ellipse(image, 40, 24, 30, 14, Draw.pal("paper"))
+	Draw.ellipse(image, 40, 22, 26, 11, Draw.pal("cream"))
+	Draw.ellipse(image, 32, 18, 10, 5, Draw.pal("paper"))
+	Draw.rect(image, 16, 30, 48, 3, Draw.pal("wood_d"))
 	return Draw.outline(image)
 
 

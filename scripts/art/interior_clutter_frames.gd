@@ -110,7 +110,7 @@ static func build(frame_id: String) -> Image:
 		"recycling_bin":
 			return _bin("leaf_l", "glass")
 		"rug_hall":
-			return _rug(88, 52, "carpet", "carpet_d", "wood_l")
+			return _rug(76, 40, "shirt_d", "shirt", "cream_d")
 		"upper_cabinet":
 			return _upper_cabinet()
 		"dish_rack":
@@ -145,6 +145,18 @@ static func build(frame_id: String) -> Image:
 			return _hall_chair()
 		"stain_pool_aisle":
 			return _stain_pool_aisle()
+		"napkin_holder":
+			return _napkin_holder()
+		"salt_pepper":
+			return _salt_pepper()
+		"board_game":
+			return _board_game()
+		"table_bulletin":
+			return _table_bulletin()
+		"table_shadow_round":
+			return _table_shadow(true)
+		"table_shadow_long":
+			return _table_shadow(false)
 		_:
 			return null
 
@@ -542,25 +554,24 @@ static func _kids_art() -> Image:
 
 
 static func _craft_table() -> Image:
-	var image := Draw.canvas(64, 32)
-	Draw.rect(image, 6, 18, 6, 10, Draw.pal("wood_d"))
-	Draw.rect(image, 52, 18, 6, 10, Draw.pal("wood_d"))
-	Draw.rect(image, 4, 12, 56, 10, Draw.pal("wood_l"))
-	Draw.rect(image, 10, 6, 10, 8, Draw.pal("paper"))
-	Draw.rect(image, 24, 8, 8, 6, Draw.pal("flower"))
-	Draw.rect(image, 40, 6, 10, 8, Draw.pal("shirt"))
-	return Draw.outline(image)
+	var image := _long_table()
+	Draw.rect(image, 18, 10, 12, 8, Draw.pal("paper"))
+	Draw.rect(image, 36, 12, 8, 6, Draw.pal("flower"))
+	Draw.rect(image, 52, 10, 10, 8, Draw.pal("shirt"))
+	Draw.rect(image, 70, 12, 8, 6, Draw.pal("gold"))
+	Draw.px(image, 22, 12, Draw.pal("flower"))
+	Draw.px(image, 40, 14, Draw.pal("leaf_l"))
+	return image
 
 
 static func _puzzle_table() -> Image:
-	var image := Draw.canvas(56, 32)
-	Draw.rect(image, 6, 18, 6, 10, Draw.pal("wood_d"))
-	Draw.rect(image, 44, 18, 6, 10, Draw.pal("wood_d"))
-	Draw.rect(image, 4, 12, 48, 10, Draw.pal("wood"))
-	Draw.rect(image, 12, 6, 32, 10, Draw.pal("paper"))
-	Draw.rect(image, 16, 8, 8, 6, Draw.pal("shirt"))
-	Draw.rect(image, 28, 8, 8, 6, Draw.pal("flower2"))
-	return Draw.outline(image)
+	var image := _long_table()
+	Draw.rect(image, 24, 10, 64, 10, Draw.pal("paper"))
+	Draw.rect(image, 28, 12, 10, 6, Draw.pal("shirt"))
+	Draw.rect(image, 42, 12, 10, 6, Draw.pal("flower2"))
+	Draw.rect(image, 56, 12, 10, 6, Draw.pal("leaf_l"))
+	Draw.rect(image, 70, 12, 10, 6, Draw.pal("gold"))
+	return image
 
 
 static func _water_cooler() -> Image:
@@ -700,21 +711,77 @@ static func _water_fountain() -> Image:
 
 
 static func _long_table() -> Image:
-	var image := Draw.canvas(96, 32)
-	Draw.rect(image, 8, 18, 8, 10, Draw.pal("wood_d"))
-	Draw.rect(image, 80, 18, 8, 10, Draw.pal("wood_d"))
-	Draw.rect(image, 4, 12, 88, 10, Draw.pal("wood"))
-	Draw.rect(image, 4, 12, 88, 3, Draw.pal("wood_l"))
+	var image := Draw.canvas(112, 50)
+	Draw.rect(image, 10, 42, 92, 6, Draw.pal("path_c"))
+	Draw.rect(image, 14, 30, 7, 16, Draw.pal("wood_d"))
+	Draw.rect(image, 91, 30, 7, 16, Draw.pal("wood_d"))
+	Draw.rect(image, 30, 32, 6, 14, Draw.pal("wood_d"))
+	Draw.rect(image, 76, 32, 6, 14, Draw.pal("wood_d"))
+	Draw.rect(image, 6, 22, 100, 12, Draw.pal("wood_d"))
+	Draw.rect(image, 6, 18, 100, 8, Draw.pal("wood"))
+	Draw.rect(image, 8, 10, 96, 14, Draw.pal("paper"))
+	Draw.rect(image, 8, 10, 96, 3, Draw.pal("cream"))
+	Draw.rect(image, 8, 22, 96, 2, Draw.pal("cream_d"))
+	Draw.rect(image, 8, 26, 96, 3, Draw.pal("wood"))
 	return Draw.outline(image)
 
 
 static func _hall_chair() -> Image:
-	var image := Draw.canvas(16, 20)
-	Draw.rect(image, 4, 4, 8, 6, Draw.pal("wood"))
-	Draw.rect(image, 3, 10, 10, 4, Draw.pal("wood_l"))
-	Draw.rect(image, 4, 14, 3, 6, Draw.pal("wood_d"))
-	Draw.rect(image, 9, 14, 3, 6, Draw.pal("wood_d"))
+	var image := Draw.canvas(18, 24)
+	Draw.rect(image, 5, 2, 8, 8, Draw.pal("wood"))
+	Draw.rect(image, 6, 3, 6, 6, Draw.pal("wood_l"))
+	Draw.rect(image, 3, 10, 12, 5, Draw.pal("wood_l"))
+	Draw.rect(image, 4, 15, 4, 8, Draw.pal("wood_d"))
+	Draw.rect(image, 10, 15, 4, 8, Draw.pal("wood_d"))
+	Draw.rect(image, 3, 21, 5, 2, Draw.pal("path_c"))
+	Draw.rect(image, 10, 21, 5, 2, Draw.pal("path_c"))
 	return Draw.outline(image)
+
+
+static func _napkin_holder() -> Image:
+	var image := Draw.canvas(14, 12)
+	Draw.rect(image, 2, 6, 10, 4, Draw.pal("wood"))
+	Draw.rect(image, 3, 2, 8, 8, Draw.pal("paper"))
+	Draw.rect(image, 4, 3, 6, 2, Draw.pal("cream"))
+	return Draw.outline(image)
+
+
+static func _salt_pepper() -> Image:
+	var image := Draw.canvas(16, 12)
+	Draw.rect(image, 2, 4, 5, 6, Draw.pal("paper"))
+	Draw.rect(image, 9, 4, 5, 6, Draw.pal("pants_d"))
+	Draw.px(image, 4, 5, Draw.pal("grey"))
+	Draw.px(image, 11, 5, Draw.pal("grey"))
+	return Draw.outline(image)
+
+
+static func _board_game() -> Image:
+	var image := Draw.canvas(20, 14)
+	Draw.rect(image, 2, 2, 16, 10, Draw.pal("shirt"))
+	Draw.rect(image, 4, 4, 12, 6, Draw.pal("paper"))
+	Draw.rect(image, 6, 5, 3, 3, Draw.pal("flower"))
+	Draw.rect(image, 11, 6, 3, 3, Draw.pal("gold"))
+	return Draw.outline(image)
+
+
+static func _table_bulletin() -> Image:
+	var image := Draw.canvas(16, 12)
+	Draw.rect(image, 2, 3, 12, 7, Draw.pal("paper"))
+	Draw.rect(image, 3, 2, 10, 7, Draw.pal("cream"))
+	Draw.rect(image, 5, 4, 6, 1, Draw.pal("path_c"))
+	Draw.rect(image, 5, 7, 5, 1, Draw.pal("path_c"))
+	return Draw.outline(image)
+
+
+static func _table_shadow(round: bool) -> Image:
+	var image: Image
+	if round:
+		image = Draw.canvas(72, 24)
+		Draw.ellipse(image, 36, 12, 30, 9, Draw.pal("path_c"))
+	else:
+		image = Draw.canvas(100, 16)
+		Draw.rect(image, 4, 4, 92, 8, Draw.pal("path_c"))
+	return image
 
 
 static func _stain_pool_aisle() -> Image:

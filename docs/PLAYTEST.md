@@ -1040,4 +1040,36 @@ Walk the sanctuary. The narthex and north rooms should feel furnished, not empty
 
 On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `M13B_OK` (310 `CHECK OK`) with zero `CHECK FAIL`. Every existing suite still printed its `_OK` line and exited 0: `M1_OK`, `M2_OK`, `M3_OK`, `M4_OK`, `M4_5_OK`, `M5A_OK`, `M5B_OK`, `M6A_OK`, `M6A2_OK`, `M7_OK`, `M8_OK`, `M9_OK`, `M9B_OK`, `M10_OK`, `M11_OK`, `M11B_OK`, `M11C_OK`, `M12_OK`, `M13_OK`, `GPA_OK`, `GPB_OK`, `GPC_OK`, `GPC2_OK`, `GPD_OK`, `GPD2_OK`, `GPE_OK`, `GPF_OK`. `--quit-after 120` exited 0. `tests/m13b/capture_m13b.tscn` wrote `sanctuary_worship.png`, `sanctuary_narthex.png`, `sanctuary_office.png`, `sanctuary_prayer.png`, `sanctuary_choir.png`, `sanctuary_storage.png`, `sanctuary_overview.png`, `fellowship_main.png`, `fellowship_potluck.png`, `fellowship_kitchen.png`, `fellowship_classroom.png`, and `fellowship_overview.png` under `tests/m13b/shots/`. T122–T126 were not played in a window.
 
+# Milestone 13C — Fellowship Hall tables and main-hall fill
+
+The lists above still apply. These checks cover readable banquet and round tables, chairs, walkways, and the potluck still dressing Table A/B.
+
+## Automated
+
+```powershell
+godot --headless --path . --import
+godot --headless --path . res://tests/m13c/m13c_validation.tscn
+godot --path . res://tests/m13c/capture_m13c.tscn
+```
+
+`m13c_validation.tscn` prints `CHECK OK` / `CHECK FAIL` lines and exits with `M13C_OK` or `M13C_FAIL`.
+It checks table and chair counts, that table sprites are not rugs and have a shadow/legs layer, rugs do not swallow table footprints, 2-tile walkways from the door to the stage / kitchen / hallway / interactables, spawn and NPC posts stay clear, potluck dishes sit on table tops with and without prep, and save stays v11.
+
+`capture_m13c.tscn` writes PNGs to `tests/m13c/shots/` and needs a display. It skips with `CAPTURE_SKIPPED` under `--headless`. Shots: fellowship main (normal day, close), fellowship overview, potluck no-prep, potluck full-prep.
+
+## Manual walkthrough
+
+After Continue, walk the Fellowship Hall on a Monday. Tables should read as furniture, not rugs. Walk the center aisle to the hallway, then to the stage and the kitchen pass-through. On Wednesday, a modest table is already a gathering; full prep puts dishes on the tops.
+
+| ID | Do this | Expect |
+|---|---|---|
+| T127 | Stand in the Fellowship main hall on a weekday | Round tables look round. Long tables have cloth, a lip, legs, and a shadow. Chairs sit at every table. |
+| T128 | Walk from the south door to the stage, kitchen window, and hallway | Paths stay at least two tiles wide. Nothing blocks a door or an interactable. |
+| T129 | Look at the floor | Rugs are a cooler color than the tables and are not stacked under every table. |
+| T130 | Wednesday potluck with no prep, then with full prep | Food sits on the banquet tables. Modest stays modest. Full prep still adds dishes, flowers, lights, extra chairs, and guests. |
+
+## M13C results
+
+On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `M13C_OK` (177 `CHECK OK`) with zero `CHECK FAIL`. Every existing suite still printed its `_OK` line and exited 0: `M1_OK` (76), `M2_OK` (113), `M3_OK` (109), `M4_OK` (90), `M4_5_OK` (90), `M5A_OK` (103), `M5B_OK` (1491), `M6A_OK` (219), `M6A2_OK` (130), `M7_OK` (93), `M8_OK` (80), `M9_OK` (105), `M9B_OK` (176), `M10_OK` (91), `M11_OK` (210), `M11B_OK` (196), `M11C_OK` (246), `M12_OK` (165), `M13_OK` (189), `M13B_OK` (318), `GPA_OK` (204), `GPB_OK` (125), `GPC_OK` (126), `GPC2_OK` (101), `GPD_OK` (148), `GPD2_OK` (100), `GPE_OK` (131), `GPF_OK` (119). `--quit-after 120` exited 0. `tests/m13c/capture_m13c.tscn` wrote `fellowship_main.png`, `fellowship_overview.png`, `potluck_none.png`, and `potluck_full.png` under `tests/m13c/shots/`. T127–T130 were not played in a window.
+
 

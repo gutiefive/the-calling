@@ -415,6 +415,14 @@ The M13 rooms read clearly but felt tidy and empty. This pass fills them and sli
 
 **Collision.** Big furniture blocks; small clutter does not. Doorways, the aisle, potluck table access, the ledger, and the spare keys stay clear. NPC idle posts stay off furniture. Save stays v11. No story, Pull, attendance, or ChurchFunds changes.
 
+## D62 — Fellowship Hall tables (M13C)
+
+Playtest after M13B: round and long tables read as dark-red rugs, and the middle of the hall was empty.
+
+Tables are now raised furniture: light cloth or wood tops, a highlight, a front lip, legs, and a drop shadow. Round tables have six chairs; long tables have four, a few pulled slightly askew. Everyday clutter (napkins, salt and pepper, a mug, a bible, a board game, craft paper) sits on some of them. Rugs are fewer, cooler blue, flat, and not parked under the tables.
+
+The normal-day layout is two rows with a 2-tile center aisle from the south door to the hallway, plus walks to the stage, kitchen pass-through, and interactables. Wednesday still dresses Table A and Table B: modest vs full cloth, dishes on the tops, centerpieces, lights, extra chairs, extra guests. Save stays v11. No story, Pull, attendance, or ChurchFunds changes.
+
 ## Still open
 
 | # | Question | Notes |

@@ -1,6 +1,6 @@
-# Interiors — Sanctuary and Fellowship Hall (M13 / M13B)
+# Interiors — Sanctuary and Fellowship Hall (M13 / M13B / M13C)
 
-Status: M13 implemented 2026-11-13. M13B furniture and clutter density pass implemented 2026-11-13. One scene per building. Doorways, not separate rooms. Save stays v11.
+Status: M13 implemented 2026-11-13. M13B furniture and clutter density pass implemented 2026-11-13. M13C Fellowship Hall tables and main-hall fill implemented 2026-11-13. One scene per building. Doorways, not separate rooms. Save stays v11.
 
 ## Sanctuary (`scenes/world/sanctuary.tscn`)
 
@@ -24,7 +24,7 @@ Walk in from the west-wing door after the hall is repaired and celebrated. South
 
 | Room | What's in it |
 |---|---|
-| Main hall | Wood floor with rugs, round and long tables with chairs (normal-day layout that the potluck dresses up), stacked chair carts, a small stage with a curtain, podium, piano, bulletin, coffee station, lost-and-found, speaker, craft table, puzzle table, water cooler, trash and recycling, plants, windows, kids' art and banners. Potluck dishes, centerpieces, lights, banner, and extra chairs still swap with prep |
+| Main hall | Wood floor with a few cool-blue rugs (not under the tables). Two rows of round and long tables with chairs and light clutter, plus 2-tile walkways from the south door to the stage, kitchen pass-through, hallway, and interactables. Stacked chair carts, a small stage with a curtain, podium, piano, bulletin, coffee station, lost-and-found, speaker, craft table, puzzle table, water cooler, trash and recycling, plants, windows, kids' art and banners. Potluck dishes, centerpieces, lights, banner, and extra chairs still swap with prep and sit on the banquet tables |
 | Kitchen | Counters, upper cabinets, stove with pots, fridge, sink with a dish rack, microwave, mixer, an island, pantry, cooler, mop, serving table at the pass-through |
 | Classroom | Small tables, kids' chairs, chalkboard, crayons, cubbies, a reading rug, beanbags, a toy bin, a globe, a teacher's desk, wall art, a bookshelf |
 | Storage | Shelves, boxes, folding tables, a vacuum, Christmas bins, a supply crate (the M8 happening crate stays outside by the hall door) |

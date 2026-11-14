@@ -51,9 +51,22 @@ const POS_SANCT_HAROLD_SUN := Vector2(640, 820)
 
 const POS_HALL_DOOR := Vector2(672, 912)
 const POS_HALL_SPAWN := Vector2(672, 784)
-const POS_HALL_TABLE_A := Vector2(480, 560)
-const POS_HALL_TABLE_B := Vector2(864, 560)
+const POS_HALL_TABLE_A := Vector2(512, 544)
+const POS_HALL_TABLE_B := Vector2(832, 544)
 const POS_HALL_SERVING := Vector2(224, 400)
+const POS_HALL_ROUND_NW := Vector2(328, 544)
+const POS_HALL_ROUND_NE := Vector2(1056, 544)
+const POS_HALL_ROUND_SW := Vector2(328, 728)
+const POS_HALL_ROUND_SE := Vector2(1056, 728)
+const POS_HALL_PUZZLE := Vector2(512, 728)
+const POS_HALL_CRAFT := Vector2(832, 728)
+const POS_HALL_STAGE := Vector2(1000, 410)
+const HALL_ROUND_CHAIR_COUNT := 6
+const HALL_LONG_CHAIR_COUNT := 4
+const HALL_RUG_OVERLAP_MAX := 0.22
+const HALL_DISH_OFFSET_A := Vector2(28, 2)
+const HALL_DISH_OFFSET_B := Vector2(-28, 2)
+const HALL_CENTER_OFFSET := Vector2(0, 1)
 
 const PEW_LEFT_X := 440.0
 const PEW_RIGHT_X := 1032.0
@@ -279,18 +292,140 @@ static func sanctuary_clear_spots() -> Array[Vector2]:
 static func hall_clear_spots() -> Array[Vector2]:
 	var spots: Array[Vector2] = [
 		POS_HALL_SPAWN,
-		POS_HALL_TABLE_A + Vector2(0, 40),
-		POS_HALL_TABLE_B + Vector2(0, 40),
+		POS_HALL_TABLE_A + Vector2(0, 88),
+		POS_HALL_TABLE_B + Vector2(0, 88),
 		Vector2(280, 420),
-		Vector2(520, 620),
-		Vector2(820, 520),
-		Vector2(400, 780),
-		Vector2(960, 740),
+		Vector2(512, 640),
+		Vector2(832, 640),
+		Vector2(400, 784),
+		Vector2(960, 784),
 		Vector2(560, 820),
 		Vector2(200, 170),
 		Vector2(1056, 180),
+		POS_HALL_SERVING + Vector2(40, 36),
+		POS_HALL_STAGE + Vector2(-80, 48),
 	]
 	return spots
+
+
+static func hall_tables() -> Array:
+	var rows: Array = [
+		_hall_table("RoundTableC", "round", POS_HALL_ROUND_NW),
+		_hall_table("TableA", "long", POS_HALL_TABLE_A),
+		_hall_table("TableB", "long", POS_HALL_TABLE_B),
+		_hall_table("RoundTableD", "round", POS_HALL_ROUND_NE),
+		_hall_table("RoundTable", "round", POS_HALL_ROUND_SW),
+		_hall_table("PuzzleTable", "long", POS_HALL_PUZZLE),
+		_hall_table("CraftTable", "long", POS_HALL_CRAFT),
+		_hall_table("RoundTableB", "round", POS_HALL_ROUND_SE),
+	]
+	return rows
+
+
+static func _hall_table(table_id: String, kind: String, pos: Vector2) -> Dictionary:
+	var row: Dictionary = {
+		"id": table_id,
+		"kind": kind,
+		"pos": pos,
+	}
+	return row
+
+
+static func hall_table_count() -> int:
+	return hall_tables().size()
+
+
+static func hall_chair_count_for(kind: String) -> int:
+	if kind == "round":
+		return HALL_ROUND_CHAIR_COUNT
+	return HALL_LONG_CHAIR_COUNT
+
+
+static func hall_chair_offsets(kind: String) -> Array[Vector2]:
+	var offsets: Array[Vector2] = []
+	if kind == "round":
+		offsets.append(Vector2(0, -30))
+		offsets.append(Vector2(26, -14))
+		offsets.append(Vector2(28, 14))
+		offsets.append(Vector2(4, 32))
+		offsets.append(Vector2(-24, 18))
+		offsets.append(Vector2(-30, -8))
+	else:
+		offsets.append(Vector2(-30, -26))
+		offsets.append(Vector2(28, -24))
+		offsets.append(Vector2(-28, 26))
+		offsets.append(Vector2(32, 28))
+	return offsets
+
+
+static func hall_table_frame(table_id: String, kind: String) -> String:
+	if table_id == "CraftTable":
+		return "craft_table"
+	if table_id == "PuzzleTable":
+		return "puzzle_table"
+	if kind == "round":
+		return "round_table"
+	return "long_table"
+
+
+static func hall_table_clutter(table_id: String) -> PackedStringArray:
+	match table_id:
+		"RoundTableC":
+			return PackedStringArray(["napkin_holder", "coffee_mug"])
+		"TableA":
+			return PackedStringArray(["salt_pepper", "bible"])
+		"TableB":
+			return PackedStringArray(["napkin_holder", "table_bulletin"])
+		"RoundTableD":
+			return PackedStringArray(["coffee_mug"])
+		"PuzzleTable":
+			return PackedStringArray(["board_game"])
+		"CraftTable":
+			return PackedStringArray(["paper_stack", "crayons"])
+		"RoundTable":
+			return PackedStringArray(["bible"])
+		_:
+			return PackedStringArray()
+
+
+static func hall_walkway_rects() -> Array[Rect2i]:
+	var rects: Array[Rect2i] = [
+		Rect2i(20, 12, 2, 16),
+		Rect2i(5, 13, 15, 2),
+		Rect2i(22, 14, 8, 2),
+		Rect2i(8, 19, 12, 2),
+		Rect2i(22, 19, 12, 2),
+		Rect2i(19, 24, 4, 4),
+		Rect2i(7, 16, 2, 8),
+		Rect2i(35, 17, 2, 6),
+	]
+	return rects
+
+
+static func hall_rug_spots() -> Array[Vector2]:
+	var spots: Array[Vector2] = [
+		Vector2(672, 470),
+		Vector2(672, 640),
+		Vector2(672, 820),
+		Vector2(900, 470),
+		Vector2(240, 680),
+		Vector2(1088, 640),
+		Vector2(480, 820),
+		Vector2(860, 820),
+	]
+	return spots
+
+
+static func hall_named_chair(table_id: String, index: int) -> String:
+	if table_id == "TableA" and index == 2:
+		return "ChairA"
+	if table_id == "TableA" and index == 3:
+		return "ChairB"
+	if table_id == "TableB" and index == 2:
+		return "ChairC"
+	if table_id == "TableB" and index == 3:
+		return "ChairD"
+	return "%sChair%d" % [table_id, index]
 
 
 static func clutter_frame_ids() -> PackedStringArray:
@@ -307,5 +442,6 @@ static func clutter_frame_ids() -> PackedStringArray:
 		"recycling_bin", "rug_hall", "upper_cabinet", "dish_rack", "microwave", "mixer",
 		"island", "pantry", "cubbies", "reading_rug", "beanbag", "toy_bin", "globe",
 		"teacher_desk", "fire_extinguisher", "water_fountain", "long_table", "hall_chair",
-		"stain_pool_aisle",
+		"stain_pool_aisle", "napkin_holder", "salt_pepper", "board_game", "table_bulletin",
+		"table_shadow_round", "table_shadow_long",
 	])
