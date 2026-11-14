@@ -108,6 +108,9 @@ static func build(frame_id: String) -> Image:
 		"stain_pool":
 			return _stain_pool()
 		_:
+			var hall: Image = InteriorHallFrames.build(frame_id)
+			if hall != null:
+				return hall
 			var clutter: Image = InteriorClutterFrames.build(frame_id)
 			if clutter != null:
 				return clutter
@@ -492,18 +495,19 @@ static func _cooler() -> Image:
 
 
 static func _round_table() -> Image:
-	var image := Draw.canvas(80, 58)
-	Draw.ellipse(image, 40, 48, 30, 9, Draw.pal("path_c"))
-	Draw.rect(image, 18, 34, 6, 16, Draw.pal("wood_d"))
-	Draw.rect(image, 56, 34, 6, 16, Draw.pal("wood_d"))
-	Draw.rect(image, 24, 38, 5, 14, Draw.pal("wood_d"))
-	Draw.rect(image, 51, 38, 5, 14, Draw.pal("wood_d"))
-	Draw.ellipse(image, 40, 32, 33, 16, Draw.pal("wood_d"))
-	Draw.ellipse(image, 40, 26, 32, 16, Draw.pal("wood"))
-	Draw.ellipse(image, 40, 24, 30, 14, Draw.pal("paper"))
-	Draw.ellipse(image, 40, 22, 26, 11, Draw.pal("cream"))
-	Draw.ellipse(image, 32, 18, 10, 5, Draw.pal("paper"))
-	Draw.rect(image, 16, 30, 48, 3, Draw.pal("wood_d"))
+	var image := Draw.canvas(96, 70)
+	Draw.ellipse(image, 48, 60, 36, 9, Draw.pal("path_c"))
+	Draw.rect(image, 22, 42, 7, 18, Draw.pal("wood_d"))
+	Draw.rect(image, 67, 42, 7, 18, Draw.pal("wood_d"))
+	Draw.rect(image, 30, 46, 6, 16, Draw.pal("wood_d"))
+	Draw.rect(image, 60, 46, 6, 16, Draw.pal("wood_d"))
+	Draw.ellipse(image, 48, 40, 40, 18, Draw.pal("wood_d"))
+	Draw.ellipse(image, 48, 34, 38, 18, Draw.pal("wood"))
+	Draw.ellipse(image, 48, 32, 36, 16, Draw.pal("cream_d"))
+	Draw.ellipse(image, 48, 30, 34, 14, Draw.pal("paper"))
+	Draw.ellipse(image, 48, 28, 26, 10, Draw.pal("cream"))
+	Draw.ellipse(image, 40, 24, 10, 5, Draw.pal("paper"))
+	Draw.rect(image, 18, 36, 60, 3, Draw.pal("wood_d"))
 	return Draw.outline(image)
 
 

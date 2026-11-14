@@ -1072,4 +1072,36 @@ After Continue, walk the Fellowship Hall on a Monday. Tables should read as furn
 
 On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `M13C_OK` (177 `CHECK OK`) with zero `CHECK FAIL`. Every existing suite still printed its `_OK` line and exited 0: `M1_OK` (76), `M2_OK` (113), `M3_OK` (109), `M4_OK` (90), `M4_5_OK` (90), `M5A_OK` (103), `M5B_OK` (1491), `M6A_OK` (219), `M6A2_OK` (130), `M7_OK` (93), `M8_OK` (80), `M9_OK` (105), `M9B_OK` (176), `M10_OK` (91), `M11_OK` (210), `M11B_OK` (196), `M11C_OK` (246), `M12_OK` (165), `M13_OK` (189), `M13B_OK` (318), `GPA_OK` (204), `GPB_OK` (125), `GPC_OK` (126), `GPC2_OK` (101), `GPD_OK` (148), `GPD2_OK` (100), `GPE_OK` (131), `GPF_OK` (119). `--quit-after 120` exited 0. `tests/m13c/capture_m13c.tscn` wrote `fellowship_main.png`, `fellowship_overview.png`, `potluck_none.png`, and `potluck_full.png` under `tests/m13c/shots/`. T127–T130 were not played in a window.
 
+# Milestone 13D — Fellowship Hall final polish
+
+The lists above still apply. These checks cover larger tables, purposeful rugs, room zones, potluck guests in the close camera, and a finishing pass on the kitchen, classroom, storage, and hallway.
+
+## Automated
+
+```powershell
+godot --headless --path . --import
+godot --headless --path . res://tests/m13d/m13d_validation.tscn
+godot --path . res://tests/m13d/capture_m13d.tscn
+```
+
+`m13d_validation.tscn` prints `CHECK OK` / `CHECK FAIL` lines and exits with `M13D_OK` or `M13D_FAIL`.
+It checks zone prop minimums, table size and chair counts, a center aisle runner with no floating rugs, 2-tile walkways, door and interactable reachability, spawn/NPC/potluck posts off collision, invited guests and extra chairs inside the close camera around tables A/B on full prep, dishes on tabletops, and save stays v11.
+
+`capture_m13d.tscn` writes PNGs to `tests/m13d/shots/` and needs a display. It skips with `CAPTURE_SKIPPED` under `--headless`. Shots: fellowship main (normal day, close), fellowship overview, potluck full-prep, potluck no-prep, kitchen, classroom, sitting corner, stage area, hallway.
+
+## Manual walkthrough
+
+After Continue, walk the Fellowship Hall on a Monday. The close camera should show banquet tables with cloth and chairs, a runner down the aisle, and furnished corners rather than empty floor. On Wednesday with full prep, invited neighbors and extra chairs should be visible at tables A and B without walking south.
+
+| ID | Do this | Expect |
+|---|---|---|
+| T131 | Stand in the Fellowship main hall on a weekday | Long tables look four tiles long. Chair backs face north, seats face south. The aisle has a runner, not scattered blue rectangles. |
+| T132 | Walk the sitting corner, coffee station, kids' corner, stage, and piano | Each zone has its furniture. Walkways stay two tiles. Every door still opens. |
+| T133 | Walk the kitchen, classroom, storage, and hallway | Backsplash and a window over the sink. Alphabet strip and a patterned rug. Labeled bins. Hallway photos, a runner, and the lost-and-found. |
+| T134 | Wednesday potluck with no prep, then with full prep | Guests and extra chairs are in the close view at tables A/B. Food sits on the tops. Lights span the hall. Modest stays modest. |
+
+## M13D results
+
+On 2026-11-13, `Godot_v4.7.2-stable_win64_console.exe --headless --path . --import` exited 0. The same binary then printed `M13D_OK` (181 `CHECK OK`) with zero `CHECK FAIL`. Every existing suite still printed its `_OK` line and exited 0: `M1_OK` (76), `M2_OK` (113), `M3_OK` (109), `M4_OK` (90), `M4_5_OK` (90), `M5A_OK` (103), `M5B_OK` (1491), `M6A_OK` (219), `M6A2_OK` (130), `M7_OK` (93), `M8_OK` (80), `M9_OK` (105), `M9B_OK` (176), `M10_OK` (91), `M11_OK` (210), `M11B_OK` (196), `M11C_OK` (246), `M12_OK` (165), `M13_OK` (203), `M13B_OK` (360), `M13C_OK` (182), `GPA_OK` (204), `GPB_OK` (125), `GPC_OK` (126), `GPC2_OK` (101), `GPD_OK` (148), `GPD2_OK` (100), `GPE_OK` (131), `GPF_OK` (119). `--quit-after 120` exited 0. `tests/m13d/capture_m13d.tscn` wrote `fellowship_main.png`, `fellowship_overview.png`, `potluck_full.png`, `potluck_none.png`, `kitchen.png`, `classroom.png`, `sitting_corner.png`, `stage_area.png`, and `hallway.png` under `tests/m13d/shots/`. T131–T134 were not played in a window.
+
 

@@ -60,12 +60,19 @@ const POS_HALL_ROUND_SW := Vector2(328, 728)
 const POS_HALL_ROUND_SE := Vector2(1056, 728)
 const POS_HALL_PUZZLE := Vector2(512, 728)
 const POS_HALL_CRAFT := Vector2(832, 728)
-const POS_HALL_STAGE := Vector2(1000, 410)
+const POS_HALL_STAGE := Vector2(1040, 410)
+const POS_HALL_OSTROW := Vector2(470, 600)
+const POS_HALL_RUTH := Vector2(890, 600)
+const POS_HALL_DALE := Vector2(750, 580)
+const POS_HALL_EXTRA_CHAIRS := Vector2(580, 500)
+const POS_HALL_LIGHTS := Vector2(672, 456)
+const POS_HALL_BANNER := Vector2(672, 444)
 const HALL_ROUND_CHAIR_COUNT := 6
 const HALL_LONG_CHAIR_COUNT := 4
 const HALL_RUG_OVERLAP_MAX := 0.22
-const HALL_DISH_OFFSET_A := Vector2(28, 2)
-const HALL_DISH_OFFSET_B := Vector2(-28, 2)
+const HALL_LONG_TABLE_MIN_W := 96
+const HALL_DISH_OFFSET_A := Vector2(32, 2)
+const HALL_DISH_OFFSET_B := Vector2(-32, 2)
 const HALL_CENTER_OFFSET := Vector2(0, 1)
 
 const PEW_LEFT_X := 440.0
@@ -215,6 +222,8 @@ static func hall_probes() -> Dictionary:
 		"classroom": Vector2(1056, 180),
 		"storage": Vector2(608, 160),
 		"hallway": Vector2(672, 320),
+		"sitting": Vector2(260, 800),
+		"stage_front": Vector2(960, 458),
 	}
 
 
@@ -232,7 +241,7 @@ static func sanctuary_interactables() -> PackedStringArray:
 static func hall_interactables() -> PackedStringArray:
 	return PackedStringArray([
 		"HallBulletin", "CoffeeStation", "LostAndFound", "HallSpeaker",
-		"Chalkboard", "CrayonBox",
+		"Chalkboard", "CrayonBox", "MealTrain", "WelcomeTable",
 	])
 
 
@@ -245,11 +254,11 @@ static func min_prop_counts() -> Dictionary:
 		"choir": 9,
 		"storage": 8,
 		"hallway": 5,
-		"main": 22,
-		"kitchen": 12,
-		"classroom": 12,
-		"hall_storage": 6,
-		"hall_hallway": 4,
+		"main": 28,
+		"kitchen": 16,
+		"classroom": 16,
+		"hall_storage": 8,
+		"hall_hallway": 6,
 	}
 
 
@@ -297,13 +306,14 @@ static func hall_clear_spots() -> Array[Vector2]:
 		Vector2(280, 420),
 		Vector2(512, 640),
 		Vector2(832, 640),
-		Vector2(400, 784),
-		Vector2(960, 784),
-		Vector2(560, 820),
+		POS_HALL_OSTROW,
+		POS_HALL_RUTH,
+		POS_HALL_DALE,
 		Vector2(200, 170),
 		Vector2(1056, 180),
 		POS_HALL_SERVING + Vector2(40, 36),
 		POS_HALL_STAGE + Vector2(-80, 48),
+		Vector2(260, 800),
 	]
 	return spots
 
@@ -344,18 +354,32 @@ static func hall_chair_count_for(kind: String) -> int:
 static func hall_chair_offsets(kind: String) -> Array[Vector2]:
 	var offsets: Array[Vector2] = []
 	if kind == "round":
-		offsets.append(Vector2(0, -30))
-		offsets.append(Vector2(26, -14))
-		offsets.append(Vector2(28, 14))
-		offsets.append(Vector2(4, 32))
-		offsets.append(Vector2(-24, 18))
-		offsets.append(Vector2(-30, -8))
+		offsets.append(Vector2(0, -38))
+		offsets.append(Vector2(34, -20))
+		offsets.append(Vector2(38, 18))
+		offsets.append(Vector2(6, 40))
+		offsets.append(Vector2(-32, 24))
+		offsets.append(Vector2(-38, -14))
 	else:
-		offsets.append(Vector2(-30, -26))
-		offsets.append(Vector2(28, -24))
-		offsets.append(Vector2(-28, 26))
-		offsets.append(Vector2(32, 28))
+		offsets.append(Vector2(-44, -32))
+		offsets.append(Vector2(42, -30))
+		offsets.append(Vector2(-42, 30))
+		offsets.append(Vector2(44, 32))
 	return offsets
+
+
+static func hall_chair_frame(offset: Vector2) -> String:
+	if offset.y < -16.0:
+		return "hall_chair_back"
+	if offset.y > 16.0:
+		return "hall_chair_front"
+	return "hall_chair"
+
+
+static func hall_table_block(kind: String) -> Vector2:
+	if kind == "round":
+		return Vector2(56, 18)
+	return Vector2(100, 16)
 
 
 static func hall_table_frame(table_id: String, kind: String) -> String:
@@ -363,6 +387,8 @@ static func hall_table_frame(table_id: String, kind: String) -> String:
 		return "craft_table"
 	if table_id == "PuzzleTable":
 		return "puzzle_table"
+	if table_id == "TableB":
+		return "long_table_runner"
 	if kind == "round":
 		return "round_table"
 	return "long_table"
@@ -371,21 +397,31 @@ static func hall_table_frame(table_id: String, kind: String) -> String:
 static func hall_table_clutter(table_id: String) -> PackedStringArray:
 	match table_id:
 		"RoundTableC":
-			return PackedStringArray(["napkin_holder", "coffee_mug"])
+			return PackedStringArray(["napkin_holder", "coffee_mug", "flower_vase"])
 		"TableA":
-			return PackedStringArray(["salt_pepper", "bible"])
+			return PackedStringArray(["salt_pepper", "hymnal_stack", "coffee_mug"])
 		"TableB":
-			return PackedStringArray(["napkin_holder", "table_bulletin"])
+			return PackedStringArray(["napkin_holder", "clipboard", "laptop"])
 		"RoundTableD":
-			return PackedStringArray(["coffee_mug"])
+			return PackedStringArray(["coffee_mug", "flower_vase"])
 		"PuzzleTable":
-			return PackedStringArray(["board_game"])
+			return PackedStringArray(["card_game", "board_game"])
 		"CraftTable":
 			return PackedStringArray(["paper_stack", "crayons"])
 		"RoundTable":
-			return PackedStringArray(["bible"])
+			return PackedStringArray(["bible", "coffee_mug"])
+		"RoundTableB":
+			return PackedStringArray(["flower_vase"])
 		_:
 			return PackedStringArray()
+
+
+static func hall_clutter_offset(index: int, count: int) -> Vector2:
+	var span := 72.0
+	var ox := 0.0
+	if count > 1:
+		ox = -span * 0.5 + span * float(index) / float(count - 1)
+	return Vector2(ox, -14.0)
 
 
 static func hall_walkway_rects() -> Array[Rect2i]:
@@ -404,16 +440,69 @@ static func hall_walkway_rects() -> Array[Rect2i]:
 
 static func hall_rug_spots() -> Array[Vector2]:
 	var spots: Array[Vector2] = [
-		Vector2(672, 470),
 		Vector2(672, 640),
-		Vector2(672, 820),
-		Vector2(900, 470),
-		Vector2(240, 680),
-		Vector2(1088, 640),
-		Vector2(480, 820),
-		Vector2(860, 820),
+		Vector2(1040, 430),
+		Vector2(210, 810),
 	]
 	return spots
+
+
+static func hall_close_view() -> Rect2:
+	var center: Vector2 = Vector2(672, 620)
+	return Rect2(center.x - 320.0, center.y - 180.0, 640.0, 360.0)
+
+
+static func hall_rug_zone_rects() -> Array[Rect2]:
+	var rects: Array[Rect2] = [
+		Rect2(632, 400, 80, 500),
+		Rect2(960, 384, 200, 80),
+		Rect2(128, 752, 200, 144),
+	]
+	return rects
+
+
+static func hall_zone_names() -> PackedStringArray:
+	return PackedStringArray([
+		"sitting", "welcome", "coffee", "kids", "stage", "piano", "trophy", "storage_wall",
+	])
+
+
+static func hall_zone_min_props() -> Dictionary:
+	return {
+		"sitting": 5,
+		"welcome": 2,
+		"coffee": 3,
+		"kids": 3,
+		"stage": 4,
+		"piano": 2,
+		"trophy": 2,
+		"storage_wall": 3,
+	}
+
+
+static func hall_zone_prop_names() -> Dictionary:
+	return {
+		"sitting": PackedStringArray(["SittingCouch", "SittingChair", "SittingTable", "SittingLamp", "SittingShelf"]),
+		"welcome": PackedStringArray(["WelcomeTable", "DoorCoatRack"]),
+		"coffee": PackedStringArray(["CoffeeStation", "DonutBox", "CupStack"]),
+		"kids": PackedStringArray(["KidsEasel", "KidsBlocks", "KidsCornerBin"]),
+		"stage": PackedStringArray(["Stage", "Podium", "StageCurtain", "MicStand"]),
+		"piano": PackedStringArray(["HallPiano", "HallPianoBench"]),
+		"trophy": PackedStringArray(["TrophyShelf", "PhotoWall"]),
+		"storage_wall": PackedStringArray(["StackedHallChairs", "ChairCart", "FoldedTableRack"]),
+	}
+
+
+static func hall_shot_points() -> Dictionary:
+	var probes: Dictionary = hall_probes()
+	return {
+		"main": probes["main"],
+		"kitchen": probes["kitchen"],
+		"classroom": probes["classroom"],
+		"hallway": probes["hallway"],
+		"sitting": probes["sitting"],
+		"stage": probes["stage_front"],
+	}
 
 
 static func hall_named_chair(table_id: String, index: int) -> String:
@@ -443,5 +532,11 @@ static func clutter_frame_ids() -> PackedStringArray:
 		"island", "pantry", "cubbies", "reading_rug", "beanbag", "toy_bin", "globe",
 		"teacher_desk", "fire_extinguisher", "water_fountain", "long_table", "hall_chair",
 		"stain_pool_aisle", "napkin_holder", "salt_pepper", "board_game", "table_bulletin",
-		"table_shadow_round", "table_shadow_long",
+		"table_shadow_round", "table_shadow_long", "long_table_runner", "hall_chair_back",
+		"hall_chair_front", "rug_aisle_runner", "rug_stage", "rug_sitting", "rug_class_pattern",
+		"rug_hallway", "flower_vase", "hymnal_stack", "card_game", "clipboard", "laptop",
+		"donut_box", "cup_stack", "coffee_urn", "couch", "floor_lamp", "mic_stand",
+		"pa_speaker", "trophy_shelf", "photo_wall", "folded_table_rack", "alphabet_strip",
+		"hanging_utensils", "backsplash", "kitchen_window", "meal_train", "labeled_bin",
+		"window_pool", "kids_easel", "toy_blocks", "snack_counter",
 	])

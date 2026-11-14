@@ -97,8 +97,18 @@ func _place_room() -> void:
 	_add_lamp(Vector2(320, 700))
 	_add_lamp(Vector2(1050, 700))
 	_add_lamp(Vector2(608, 140))
+	_add_lamp(Vector2(210, 790))
+	_add_lamp(Vector2(1040, 420))
+	_add_lamp(Vector2(180, 520))
+	_add_lamp(Vector2(260, 70))
+	_add_lamp(Vector2(672, 320))
+	_add_window_light(Vector2(180, 500))
+	_add_window_light(Vector2(1180, 500))
+	_add_window_light(Vector2(180, 640))
+	_add_window_light(Vector2(1180, 640))
 	_add_furniture(props)
 	_add_flavor_props(props)
+	_mark_zone_props(props)
 	_add_ambients(props)
 	_add_guest(props, "Margaret", "margaret", "margaret", Catalog.post("margaret"))
 	_add_guest(props, "Harold", "harold", "harold", Catalog.post("harold"))
@@ -131,6 +141,9 @@ func _add_kitchen(props: Node) -> void:
 	_add_deco(props, "PotsOnStove", "pots", Vector2(80, 148), 1)
 	_add_solid(props, "Cooler", InteriorArt.texture("cooler"), Vector2(340, 200), Vector2(22, 10))
 	_add_deco(props, "UpperCabinetA", "upper_cabinet", Vector2(180, 48), 0)
+	_add_deco(props, "Backsplash", "backsplash", Vector2(180, 58), 0)
+	_add_deco(props, "HangingUtensils", "hanging_utensils", Vector2(210, 44), 1)
+	_add_deco(props, "KitchenWindow", "kitchen_window", Vector2(260, 44), 0)
 	_add_deco(props, "DishRack", "dish_rack", Vector2(260, 68), 1)
 	_add_deco(props, "Microwave", "microwave", Vector2(140, 68), 1)
 	_add_deco(props, "Mixer", "mixer", Vector2(200, 68), 1)
@@ -138,15 +151,41 @@ func _add_kitchen(props: Node) -> void:
 	_add_solid(props, "Pantry", InteriorArt.texture("pantry"), Vector2(380, 140), Vector2(16, 14))
 	_add_solid(props, "KitchenMop", InteriorArt.texture("mop_bucket"), Vector2(70, 210), Vector2(12, 10))
 	_add_deco(props, "KitchenPlant", "plant", Vector2(40, 90), 0)
+	_add_flavor(props, "MealTrain", "meal_train", Vector2(320, 90), Vector2i(28, 32), "Board", "Read", "A meal-train sheet. Names and a casserole, no dollar signs.")
 
 
 func _add_main_hall(props: Node) -> void:
-	_add_solid(props, "Podium", InteriorArt.texture("podium"), Vector2(960, 400), Vector2(22, 12))
+	_add_rug(props, "HallAisleRunner", "rug_aisle_runner", Vector2(672, 640), true)
+	_add_rug(props, "HallStageRug", "rug_stage", Vector2(1040, 430), true)
+	_add_rug(props, "HallSittingRug", "rug_sitting", Vector2(210, 810), true)
+	_add_solid(props, "Podium", InteriorArt.texture("podium"), Vector2(1000, 400), Vector2(22, 12))
 	_add_solid(props, "StackedHallChairs", InteriorArt.texture("stacked_chairs"), Vector2(1180, 820), Vector2(18, 12))
 	_add_solid(props, "ChairCart", InteriorArt.texture("chair_cart"), Vector2(1140, 820), Vector2(16, 12))
+	_add_solid(props, "FoldedTableRack", InteriorArt.texture("folded_table_rack"), Vector2(1188, 780), Vector2(18, 12))
 	_add_solid(props, "Stage", InteriorArt.texture("stage"), InteriorLayout.POS_HALL_STAGE, Vector2(96, 12))
-	_add_deco(props, "StageCurtain", "stage_curtain", Vector2(1000, 392), 0)
-	_add_solid(props, "HallPiano", InteriorArt.texture("piano"), Vector2(1180, 500), Vector2(56, 14))
+	_add_deco(props, "StageCurtain", "stage_curtain", Vector2(1040, 392), 0)
+	_add_deco(props, "MicStand", "mic_stand", Vector2(1008, 404), 1)
+	_add_solid(props, "StageSpeakerL", InteriorArt.texture("pa_speaker"), Vector2(960, 420), Vector2(12, 10))
+	_add_solid(props, "StageSpeakerR", InteriorArt.texture("pa_speaker"), Vector2(1120, 420), Vector2(12, 10))
+	_add_solid(props, "HallPiano", InteriorArt.texture("piano"), Vector2(1188, 490), Vector2(56, 14))
+	_add_deco(props, "HallPianoBench", "piano_bench", Vector2(1188, 512), 0)
+	_add_deco(props, "PianoSheet", "sheet_music", Vector2(1188, 478), 1)
+	_add_solid(props, "SittingCouch", InteriorArt.texture("couch"), Vector2(200, 800), Vector2(40, 12))
+	_add_solid(props, "SittingChair", InteriorArt.texture("armchair"), Vector2(260, 828), Vector2(18, 10))
+	_add_deco(props, "SittingTable", "side_table", Vector2(230, 780), 0)
+	_add_solid(props, "SittingLamp", InteriorArt.texture("floor_lamp"), Vector2(168, 770), Vector2(10, 8))
+	_add_solid(props, "SittingShelf", InteriorArt.texture("bookshelf"), Vector2(155, 740), Vector2(20, 12))
+	_add_flavor(props, "WelcomeTable", "welcome_table", Vector2(560, 840), Vector2i(80, 36), "Table", "Look", "A clipboard for dishes and rides. Half the names are in Harold's hand.", Vector2(36, 10))
+	_add_deco(props, "WelcomeClipboard", "clipboard", Vector2(560, 828), 1)
+	_add_solid(props, "DoorCoatRack", InteriorArt.texture("coat_rack"), Vector2(780, 840), Vector2(16, 12))
+	_add_deco(props, "DonutBox", "donut_box", Vector2(188, 508), 1)
+	_add_deco(props, "CupStack", "cup_stack", Vector2(216, 508), 1)
+	_add_deco(props, "CoffeeUrn", "coffee_urn", Vector2(168, 508), 1)
+	_add_deco(props, "KidsEasel", "kids_easel", Vector2(880, 418), 0)
+	_add_deco(props, "KidsBlocks", "toy_blocks", Vector2(900, 430), 1)
+	_add_solid(props, "KidsCornerBin", InteriorArt.texture("toy_bin"), Vector2(918, 424), Vector2(14, 8))
+	_add_deco(props, "TrophyShelf", "trophy_shelf", Vector2(780, 396), 0)
+	_add_deco(props, "PhotoWall", "photo_wall", Vector2(600, 396), 0)
 	_add_solid(props, "WaterCooler", InteriorArt.texture("water_cooler"), Vector2(180, 600), Vector2(14, 12))
 	_add_solid(props, "TrashCan", InteriorArt.texture("trash_can"), Vector2(1188, 700), Vector2(12, 10))
 	_add_solid(props, "RecyclingBin", InteriorArt.texture("recycling_bin"), Vector2(1204, 700), Vector2(12, 10))
@@ -154,15 +193,14 @@ func _add_main_hall(props: Node) -> void:
 	_add_solid(props, "HallPlantB", InteriorArt.texture("plant"), Vector2(1190, 760), Vector2(12, 10))
 	_add_solid(props, "HallPlantC", InteriorArt.texture("plant"), Vector2(400, 400), Vector2(12, 10))
 	_add_solid(props, "HallPlantD", InteriorArt.texture("plant_tall"), Vector2(940, 400), Vector2(12, 10))
-	_add_deco(props, "HallSideTable", "side_table", Vector2(180, 800), 0)
-	_add_deco(props, "SpeakerTableBible", "bible", Vector2(188, 792), 1)
 	_add_deco(props, "KidsArtA", "kids_art", Vector2(360, 400), 0)
 	_add_deco(props, "KidsArtB", "kids_art", Vector2(520, 400), 0)
-	_add_deco(props, "WallBannerA", "wall_banner", Vector2(780, 400), 0)
-	_add_deco(props, "WallBannerB", "sanctuary_banner", Vector2(860, 400), 0)
-	var rug_spots: Array[Vector2] = InteriorLayout.hall_rug_spots()
-	for i in rug_spots.size():
-		_add_rug(props, "HallRug%d" % i, "rug_hall", rug_spots[i])
+	_add_deco(props, "WallBannerA", "wall_banner", Vector2(860, 396), 0)
+	_add_deco(props, "WallBannerB", "sanctuary_banner", Vector2(460, 396), 0)
+	_add_deco(props, "WindowPoolW", "window_pool", Vector2(180, 520), -2)
+	_add_deco(props, "WindowPoolE", "window_pool", Vector2(1180, 520), -2)
+	_add_deco(props, "WindowPoolW2", "window_pool", Vector2(180, 660), -2)
+	_add_deco(props, "WindowPoolE2", "window_pool", Vector2(1180, 660), -2)
 	for row_v in InteriorLayout.hall_tables():
 		if not row_v is Dictionary:
 			continue
@@ -185,8 +223,10 @@ func _add_classroom(props: Node) -> void:
 	_add_deco(props, "BeanbagA", "beanbag", Vector2(1000, 200), 0)
 	_add_deco(props, "BeanbagB", "beanbag", Vector2(1040, 210), 0)
 	_add_rug(props, "ReadingRug", "reading_rug", Vector2(1080, 200))
+	_add_deco(props, "AlphabetStrip", "alphabet_strip", Vector2(1056, 48), 0)
 	_add_deco(props, "ClassArtA", "kids_art", Vector2(980, 55), 0)
 	_add_deco(props, "ClassArtB", "kids_art", Vector2(1140, 55), 0)
+	_add_deco(props, "ClassArtC", "kids_art", Vector2(1220, 55), 0)
 
 
 func _add_hall_storage(props: Node) -> void:
@@ -196,16 +236,21 @@ func _add_hall_storage(props: Node) -> void:
 	_add_solid(props, "HallShelfB", InteriorArt.texture("storage_shelf"), Vector2(720, 80), Vector2(28, 14))
 	_add_solid(props, "HallBoxA", InteriorArt.texture("cardboard_box"), Vector2(500, 160), Vector2(16, 10))
 	_add_solid(props, "HallBoxB", InteriorArt.texture("cardboard_box"), Vector2(540, 170), Vector2(16, 10))
+	_add_solid(props, "LabeledBinA", InteriorArt.texture("labeled_bin"), Vector2(500, 190), Vector2(16, 10))
+	_add_solid(props, "LabeledBinB", InteriorArt.texture("labeled_bin"), Vector2(620, 190), Vector2(16, 10))
 	_add_solid(props, "HallVacuum", InteriorArt.texture("vacuum"), Vector2(700, 160), Vector2(14, 10))
 	_add_solid(props, "HallXmas", InteriorArt.texture("decoration_bin"), Vector2(740, 170), Vector2(18, 10))
 
 
 func _add_hall_hallway(props: Node) -> void:
+	_add_rug(props, "HallwayRunner", "rug_hallway", Vector2(672, 320))
 	_add_deco(props, "HallwayPhotoA", "photo", Vector2(300, 300), 0)
 	_add_deco(props, "HallwayPhotoB", "photo", Vector2(900, 300), 0)
-	_add_deco(props, "HallwayCoat", "coat_rack", Vector2(1100, 320), 0)
+	_add_deco(props, "HallwayPhotoC", "photo", Vector2(500, 300), 0)
+	_add_deco(props, "HallwayPhotoD", "photo", Vector2(1100, 300), 0)
+	_add_deco(props, "HallwayCoat", "coat_rack", Vector2(1180, 320), 0)
 	_add_deco(props, "HallwayExt", "fire_extinguisher", Vector2(200, 300), 0)
-	_add_deco(props, "HallwayPlant", "plant", Vector2(500, 320), 0)
+	_add_deco(props, "HallwayPlant", "plant", Vector2(760, 320), 0)
 	_add_deco(props, "HallwayFountain", "water_fountain", Vector2(80, 320), 0)
 
 
@@ -219,7 +264,7 @@ func _place_hall_table(props: Node, row: Dictionary) -> void:
 	if table_id.is_empty():
 		return
 	var frame_id := InteriorLayout.hall_table_frame(table_id, kind)
-	var block := Vector2(44, 16) if kind == "round" else Vector2(80, 14)
+	var block := InteriorLayout.hall_table_block(kind)
 	_add_solid(props, table_id, InteriorArt.texture(frame_id), pos, block)
 	var table := props.get_node_or_null(table_id)
 	if table != null:
@@ -249,7 +294,8 @@ func _add_table_chairs(props: Node, table_id: String, kind: String, table_pos: V
 	var offsets: Array[Vector2] = InteriorLayout.hall_chair_offsets(kind)
 	for i in offsets.size():
 		var chair_name := InteriorLayout.hall_named_chair(table_id, i)
-		_add_solid(props, chair_name, InteriorArt.texture("hall_chair"), table_pos + offsets[i], Vector2(10, 8))
+		var frame_id := InteriorLayout.hall_chair_frame(offsets[i])
+		_add_solid(props, chair_name, InteriorArt.texture(frame_id), table_pos + offsets[i], Vector2(10, 8))
 		var chair := props.get_node_or_null(chair_name)
 		if chair != null:
 			if not chair.is_in_group("hall_chair"):
@@ -261,15 +307,14 @@ func _add_table_clutter(props: Node, table_id: String, table_pos: Vector2) -> vo
 	var items: PackedStringArray = InteriorLayout.hall_table_clutter(table_id)
 	for i in items.size():
 		var item_id := items[i]
-		var ox := float(i) * 14.0 - 10.0
-		_add_deco(props, "%sClutter%d" % [table_id, i], item_id, table_pos + Vector2(ox, -12), 1)
+		_add_deco(props, "%sClutter%d" % [table_id, i], item_id, table_pos + InteriorLayout.hall_clutter_offset(i, items.size()), 1)
 
 
 func _add_flavor_props(props: Node) -> void:
 	_add_flavor(props, "HallBulletin", "bulletin", Vector2(1100, 420), Vector2i(40, 48), "Board", "Read", "A signup sheet for dishes and a note about extra chairs.")
 	_add_flavor(props, "CoffeeStation", "coffee", Vector2(200, 520), Vector2i(48, 32), "Coffee", "Look", "The urn is warm. Someone left extra cups.", Vector2(36, 12))
-	_add_flavor(props, "LostAndFound", "lost_box", Vector2(1160, 540), Vector2i(32, 24), "Box", "Look", "A knit scarf and a single mitten. Harold will know whose.")
-	_add_flavor(props, "HallSpeaker", "speaker", Vector2(200, 740), Vector2i(24, 32), "Speaker", "Look", "A hymn from last week is still in the tray.")
+	_add_flavor(props, "LostAndFound", "lost_box", Vector2(400, 330), Vector2i(32, 24), "Box", "Look", "A knit scarf and a single mitten. Harold will know whose.")
+	_add_flavor(props, "HallSpeaker", "speaker", Vector2(1088, 448), Vector2i(24, 32), "Speaker", "Look", "A hymn from last week is still in the tray.")
 	_add_flavor(props, "Chalkboard", "chalkboard", Vector2(1056, 80), Vector2i(56, 40), "Board", "Look", "A lopsided ark and a list of names in colored chalk.", Vector2(40, 12))
 	_add_flavor(props, "CrayonBox", "crayons", Vector2(1080, 150), Vector2i(20, 16), "Crayons", "Look", "Half the reds are gone. The ark still got finished.")
 
@@ -314,9 +359,9 @@ func _ensure_gathering(props: Node) -> void:
 	_sprite_prop(props, "CenterB", "centerpiece", InteriorLayout.POS_HALL_TABLE_B + InteriorLayout.HALL_CENTER_OFFSET, Vector2(10, 8))
 	_sprite_prop(props, "DishesA", "dishes_simple", InteriorLayout.POS_HALL_TABLE_A + InteriorLayout.HALL_DISH_OFFSET_A, Vector2(20, 8))
 	_sprite_prop(props, "DishesB", "dishes_simple", InteriorLayout.POS_HALL_TABLE_B + InteriorLayout.HALL_DISH_OFFSET_B, Vector2(20, 8))
-	_sprite_prop(props, "Lights", "string_lights", Vector2(400, 430), Vector2(80, 8))
-	_sprite_prop(props, "Banner", "banner", Vector2(400, 410), Vector2(36, 8))
-	_sprite_prop(props, "ExtraChairs", "chairs_extra", Vector2(900, 800), Vector2(24, 8))
+	_sprite_prop(props, "Lights", "string_lights", InteriorLayout.POS_HALL_LIGHTS, Vector2(12, 8))
+	_sprite_prop(props, "Banner", "banner", InteriorLayout.POS_HALL_BANNER, Vector2(12, 8))
+	_sprite_prop(props, "ExtraChairs", "chairs_extra", InteriorLayout.POS_HALL_EXTRA_CHAIRS, Vector2(24, 8))
 	for node_name in PackedStringArray(["DishesA", "DishesB", "CenterA", "CenterB"]):
 		var item := props.get_node_or_null(node_name) as CanvasItem
 		if item != null:
@@ -356,7 +401,8 @@ func _set_table(node_name: String, full: bool) -> void:
 		var frame_id := "table_full" if full else "table_modest"
 		sprite.texture = PotluckArt.texture(frame_id)
 	else:
-		sprite.texture = InteriorArt.texture("long_table")
+		var idle_id := "long_table_runner" if node_name == "TableB" else "long_table"
+		sprite.texture = InteriorArt.texture(idle_id)
 	if sprite.texture != null:
 		sprite.offset = Vector2(0, -sprite.texture.get_height() * 0.5)
 
@@ -464,12 +510,14 @@ func _add_deco(props: Node, node_name: String, frame_id: String, pos: Vector2, z
 		sprite.offset = Vector2(0, -sprite.texture.get_height() * 0.5)
 	sprite.position = pos
 	sprite.z_index = z
+	if z < 0:
+		sprite.z_as_relative = false
 	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	_mark_prop(sprite)
 	props.add_child(sprite)
 
 
-func _add_rug(props: Node, node_name: String, frame_id: String, pos: Vector2) -> void:
+func _add_rug(props: Node, node_name: String, frame_id: String, pos: Vector2, grouped: bool = false) -> void:
 	if props.get_node_or_null(node_name) != null:
 		return
 	var sprite := Sprite2D.new()
@@ -480,7 +528,7 @@ func _add_rug(props: Node, node_name: String, frame_id: String, pos: Vector2) ->
 	sprite.position = pos
 	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	_mark_prop(sprite)
-	if node_name.begins_with("HallRug") and not sprite.is_in_group("hall_rug"):
+	if grouped and not sprite.is_in_group("hall_rug"):
 		sprite.add_to_group("hall_rug")
 	props.add_child(sprite)
 
@@ -580,6 +628,14 @@ func _add_ambient(
 
 
 func _add_lamp(pos: Vector2) -> void:
+	_add_point_light(pos, Color(1, 0.86, 0.62), 0.9, 3.2)
+
+
+func _add_window_light(pos: Vector2) -> void:
+	_add_point_light(pos, Color(1, 0.92, 0.72), 0.7, 2.6)
+
+
+func _add_point_light(pos: Vector2, color: Color, energy: float, texture_scale: float) -> void:
 	var lighting := get_node_or_null("Lighting")
 	if lighting == null:
 		return
@@ -589,13 +645,30 @@ func _add_lamp(pos: Vector2) -> void:
 	var lamp := PointLight2D.new()
 	lamp.name = lamp_name
 	lamp.position = pos
-	lamp.color = Color(1, 0.86, 0.62)
-	lamp.energy = 0.9
+	lamp.color = color
+	lamp.energy = energy
 	lamp.texture = PlaceholderArt.glow()
-	lamp.texture_scale = 3.2
+	lamp.texture_scale = texture_scale
 	lamp.shadow_enabled = false
 	lamp.add_to_group("tod_lamp")
 	lighting.add_child(lamp)
+
+
+func _mark_zone_props(props: Node) -> void:
+	var zones: Dictionary = InteriorLayout.hall_zone_prop_names()
+	for zone_id in zones.keys():
+		var names_v: Variant = zones[zone_id]
+		if not names_v is PackedStringArray:
+			continue
+		var names: PackedStringArray = names_v
+		for node_name in names:
+			var node := props.get_node_or_null(node_name)
+			if node == null:
+				continue
+			node.set_meta("hall_zone", str(zone_id))
+			var group_name := "hall_zone_%s" % str(zone_id)
+			if not node.is_in_group(group_name):
+				node.add_to_group(group_name)
 
 
 func _place_marker(id: String, pos: Vector2, facing: StringName) -> void:

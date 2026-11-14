@@ -1,6 +1,6 @@
-# Interiors — Sanctuary and Fellowship Hall (M13 / M13B / M13C)
+# Interiors — Sanctuary and Fellowship Hall (M13 / M13B / M13C / M13D)
 
-Status: M13 implemented 2026-11-13. M13B furniture and clutter density pass implemented 2026-11-13. M13C Fellowship Hall tables and main-hall fill implemented 2026-11-13. One scene per building. Doorways, not separate rooms. Save stays v11.
+Status: M13 implemented 2026-11-13. M13B furniture and clutter density pass implemented 2026-11-13. M13C Fellowship Hall tables and main-hall fill implemented 2026-11-13. M13D Fellowship Hall final polish implemented 2026-11-13. One scene per building. Doorways, not separate rooms. Save stays v11.
 
 ## Sanctuary (`scenes/world/sanctuary.tscn`)
 
@@ -24,13 +24,13 @@ Walk in from the west-wing door after the hall is repaired and celebrated. South
 
 | Room | What's in it |
 |---|---|
-| Main hall | Wood floor with a few cool-blue rugs (not under the tables). Two rows of round and long tables with chairs and light clutter, plus 2-tile walkways from the south door to the stage, kitchen pass-through, hallway, and interactables. Stacked chair carts, a small stage with a curtain, podium, piano, bulletin, coffee station, lost-and-found, speaker, craft table, puzzle table, water cooler, trash and recycling, plants, windows, kids' art and banners. Potluck dishes, centerpieces, lights, banner, and extra chairs still swap with prep and sit on the banquet tables |
-| Kitchen | Counters, upper cabinets, stove with pots, fridge, sink with a dish rack, microwave, mixer, an island, pantry, cooler, mop, serving table at the pass-through |
-| Classroom | Small tables, kids' chairs, chalkboard, crayons, cubbies, a reading rug, beanbags, a toy bin, a globe, a teacher's desk, wall art, a bookshelf |
-| Storage | Shelves, boxes, folding tables, a vacuum, Christmas bins, a supply crate (the M8 happening crate stays outside by the hall door) |
-| Hallway | Photos, a coat rack, a fire extinguisher, a plant, a water fountain |
+| Main hall | Wood floor with a center aisle runner, a stage rug, and a sitting-corner rug (no floating rectangles). Two rows of larger round and long tables: cloth folds and hem, a runner on Table B, chair backs on the far side and seats on the near side, and clutter that changes by table. Zones keep 2-tile walkways: a couch corner, a welcome table and coat rack by the south door, a coffee and snack station, a kids' corner by the classroom door, a stage with curtain, podium, mic, and speakers, a piano with bench, a trophy and photo wall, stacked chair carts and a folded-table rack, plants, window light pools, and banners. Wednesday still dresses Table A/B with dishes, centerpieces, spanning string lights, a banner, extra chairs, and invited guests standing at those tables |
+| Kitchen | Counters with a tile backsplash, hanging utensils, a window over the sink, upper cabinets, stove with pots, fridge, dish rack, microwave, mixer, an island, pantry, cooler, mop, a meal-train board, serving table at the pass-through |
+| Classroom | Small tables, kids' chairs, chalkboard, crayons, cubbies, a patterned reading rug, beanbags, a toy bin, a globe, a teacher's desk, an alphabet strip, wall art, a bookshelf |
+| Storage | Shelves, boxes, labeled bins, folding tables, a vacuum, Christmas bins, a supply crate (the M8 happening crate stays outside by the hall door) |
+| Hallway | A runner rug, framed photos, a coat rack, a fire extinguisher, a plant, a water fountain, the lost-and-found box |
 
-Wednesday 11:00–16:00 still holds the potluck. Margaret, Harold, and Sarah stand in the main hall near the serving table. Invited neighbors join them.
+Wednesday 11:00–16:00 still holds the potluck. Margaret stays near the serving window. Harold and Sarah stand south of tables A and B. Invited neighbors stand at those same tables, inside the close camera. Extra chairs sit just north of Table A.
 
 ## Ambient neighbors
 

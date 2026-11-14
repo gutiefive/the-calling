@@ -423,6 +423,12 @@ Tables are now raised furniture: light cloth or wood tops, a highlight, a front 
 
 The normal-day layout is two rows with a 2-tile center aisle from the south door to the hallway, plus walks to the stage, kitchen pass-through, and interactables. Wednesday still dresses Table A and Table B: modest vs full cloth, dishes on the tops, centerpieces, lights, extra chairs, extra guests. Save stays v11. No story, Pull, attendance, or ChurchFunds changes.
 
+## D63 — Fellowship Hall final polish (M13D)
+
+Playtest after M13C: tables still read small at the close camera, the blue rugs looked scattered, and potluck guests plus extra chairs stood south of the view.
+
+Tables are now about four tiles long with cloth folds, a hanging hem, a runner on Table B, and chair backs vs seats. Rugs are purposeful: an aisle runner from the door toward the stage, a rug under the stage, a cozy rug in the southwest sitting corner. The hall is zoned (sitting, welcome, coffee, kids, stage, piano, trophy wall, chair carts) with 2-tile walks kept. Kitchen, classroom, storage, and hallway get a matching finishing pass. Invited guests and extra chairs stand at tables A/B in the close camera. String lights span the hall. Save stays v11. No story, Pull, attendance, or ChurchFunds changes.
+
 ## Still open
 
 | # | Question | Notes |
